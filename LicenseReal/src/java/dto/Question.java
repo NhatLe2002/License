@@ -13,34 +13,18 @@ import java.util.ArrayList;
  */
 public class Question {
     private int id;
-    private String question;
+    private String question_text;
     private String image;
-    private ArrayList<Answer> answer;
-    private boolean questionType;
-    private int topicID;
+    private boolean question_type;
 
     public Question() {
     }
 
-    public Question(int id, String question, String image, boolean questionType, ArrayList<Answer> answer) {
+    public Question(int id, String question_text, String image, boolean question_type) {
         this.id = id;
-        this.question = question;
+        this.question_text = question_text;
         this.image = image;
-        this.answer = answer;
-        this.questionType = questionType;
-    }
-
-    public Question(int id, String question, String image, ArrayList<Answer> answer, boolean questionType, int topicID) {
-        this.id = id;
-        this.question = question;
-        this.image = image;
-        this.answer = answer;
-        this.questionType = questionType;
-        this.topicID = topicID;
-    }
-
-    public Question(int topicID) {
-        this.topicID = topicID;
+        this.question_type = question_type;
     }
 
     public int getId() {
@@ -51,12 +35,12 @@ public class Question {
         this.id = id;
     }
 
-    public String getQuestion() {
-        return question;
+    public String getQuestion_text() {
+        return question_text;
     }
 
-    public void setQuestion(String question) {
-        this.question = question;
+    public void setQuestion_text(String question_text) {
+        this.question_text = question_text;
     }
 
     public String getImage() {
@@ -67,35 +51,12 @@ public class Question {
         this.image = image;
     }
 
-    public ArrayList<Answer> getAnswer() {
-        return answer;
+    public boolean isQuestion_type() {
+        return question_type;
     }
 
-    public void setAnswer(ArrayList<Answer> answer) {
-        this.answer = answer;
+    public void setQuestion_type(boolean question_type) {
+        this.question_type = question_type;
     }
-
-
-    public boolean isQuestionType() {
-        return questionType;
-    }
-
-    public void setQuestionType(boolean questionType) {
-        this.questionType = questionType;
-    }
-
-    public int getTopicID() {
-        return topicID;
-    }
-
-    public void setTopicID(int topicID) {
-        this.topicID = topicID;
-    }
-
-    @Override
-    public String toString() {
-        return "Question{" + "id=" + id + ", question=" + question + ", image=" + image + ", answer=" + answer + ", questionType=" + questionType + ", topicID=" + topicID + '}';
-    }
-
-
+ 
 }
