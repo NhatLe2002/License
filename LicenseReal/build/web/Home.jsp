@@ -186,6 +186,7 @@
                         <a class="menu_items " to="/#">Home</a>
                         <a class="menu_items" to="/#">Hỗ trợ</a>
                         <a class="menu_items" to="/#">Thông tin lý thuyết</a>
+                        <a class="menu_items" href="MainController?action=schedule" >Đăng kí lịch dạy</a>
                         <a class="menu_items" to="/#">Lịch thi</a>
                         <a class="menu_items" href="test-exam.jsp">Thi thử trắc nghiệm</a>
                         <c:choose>

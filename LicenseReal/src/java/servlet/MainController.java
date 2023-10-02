@@ -44,7 +44,10 @@ public class MainController extends HttpServlet {
                 url = "AccountController";
             } else if (action.equals("register")) {
                 url = "AccountController";
+            }else if (action.equals("schedule")) {
+                url = "ScheduleServlet";
             }
+            
             request.setAttribute("action", action);
             request.getRequestDispatcher(url).forward(request, response);
 
