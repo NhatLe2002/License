@@ -13,8 +13,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import dto.Question;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import utils.DBUtils;
 
 /**
@@ -52,21 +50,25 @@ public class QuestionDAO {
                 }
             }
         } catch (Exception e) {
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
         }
         return list;
     }
 
     //Ham dung de kiem tra ket qua lay duoc tu DB
-    public static void main(String[] args) {
-        try {
-            QuestionDAO dao = new QuestionDAO();
-            ArrayList<Question> list = dao.getRandomQuestionAndAnswer();
-            for (Question question : list) {
-                System.out.println(question);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(QuestionDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public static void main(String[] args) throws SQLException {
+        QuestionDAO dao = new QuestionDAO();
+        int result = dao.getQuestionID("Tuyền nè");
+        System.out.println(result);
     }
 
     //Ham lay bo cau hoi theo ma de
@@ -89,7 +91,7 @@ public class QuestionDAO {
                     answer.add(new Answer(rs.getInt("QuestionID"), rs.getString("Options").trim(), rs.getString("Answer"), rs.getBoolean("isCorrect")));
                     //Gan dap an lay duoc vaof entity Answer
                     list.add(new Question(rs.getInt("QuestionID"), rs.getString("Questions"), rs.getString("Image"),
-                    answer, rs.getBoolean("QuestionType"), rs.getInt("TopicID")));
+                            answer, rs.getBoolean("QuestionType"), rs.getInt("TopicID")));
                     //Gan tat ca cau hoi va dap an cua ma de duoc yeu cau vao Entity Question
                 }
             }
@@ -97,9 +99,9 @@ public class QuestionDAO {
         }
         return list;
     }
-    
+
     //Ham lay cac topic khong trung nhau trong DB
-    public List<Question> getTopicID() throws SQLException{
+    public List<Question> getTopicID() throws SQLException {
         List<Question> list = new ArrayList<>();
         try {
             conn = DBUtils.getConnection();
@@ -107,12 +109,100 @@ public class QuestionDAO {
                 String sql = "SELECT DISTINCT topicID FROM Topic";
                 ptm = conn.prepareStatement(sql);
                 rs = ptm.executeQuery();
-                while (rs.next()) {                    
+                while (rs.next()) {
                     list.add(new Question(rs.getInt("topicID")));
                 }
             }
         } catch (Exception e) {
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
         }
         return list;
+    }
+
+    public String concatenatedString(String answerA, String answerB, String answerC, String answerD, String answerE, String answerF) {
+        String result = "";
+        try {
+            StringBuilder concatenated = new StringBuilder();
+            if (!answerA.isEmpty()) {
+                concatenated.append(answerA).append("\n");
+            }
+            if (!answerB.isEmpty()) {
+                concatenated.append(answerB).append("\n");
+            }
+            if (!answerC.isEmpty()) {
+                concatenated.append(answerC).append("\n");
+            }
+            if (!answerD.isEmpty()) {
+                concatenated.append(answerD).append("\n");
+            }
+            if (!answerE.isEmpty()) {
+                concatenated.append(answerE).append("\n");
+            }
+            if (!answerF.isEmpty()) {
+                concatenated.append(answerF).append("\n");
+            }
+            result = concatenated.toString();
+        } catch (Exception e) {
+        }
+        return result;
+    }
+
+    public boolean insertQuestions(String question, String image, String question_type) throws SQLException {
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = "INSERT INTO Question (question_text, image, question_type) VALUES (N'" + question + "','" + image + "','" + question_type + "')";
+                ptm = conn.prepareStatement(sql);
+                int row = ptm.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return false;
+    }
+
+    public int getQuestionID(String question) throws SQLException {
+        int questionID = 0;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = "SELECT id FROM Question WHERE question_text = N'" + question + "'";
+                ptm = conn.prepareStatement(sql);
+                rs = ptm.executeQuery();
+                if (rs.next()) {
+                    questionID = rs.getInt("id");
+                }
+            }
+        } catch (Exception e) {
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return questionID;
     }
 }
