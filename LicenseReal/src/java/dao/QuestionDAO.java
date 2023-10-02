@@ -60,7 +60,7 @@ public class QuestionDAO {
     public static void main(String[] args) {
         try {
             QuestionDAO dao = new QuestionDAO();
-            List<Question> list = dao.getTopicID();
+            ArrayList<Question> list = dao.getRandomQuestionAndAnswer();
             for (Question question : list) {
                 System.out.println(question);
             }
