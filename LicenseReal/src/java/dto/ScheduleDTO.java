@@ -5,24 +5,25 @@
  */
 package dto;
 
+import java.sql.Date;
 import java.sql.Time;
 
 /**
  *
  * @author Admin
  */
-public class Schedule {
+public class ScheduleDTO {
     private int id;
     private int type;
-    private String day;
-    private Time time;
+    private Date day;
+    private int time;
     private int memberID;
     private int mentorID;
 
-    public Schedule() {
+    public ScheduleDTO() {
     }
 
-    public Schedule(int id, int type, String day, Time time, int memberID, int mentorID) {
+    public ScheduleDTO(int id, int type, Date day, int time, int memberID, int mentorID) {
         this.id = id;
         this.type = type;
         this.day = day;
@@ -47,19 +48,19 @@ public class Schedule {
         this.type = type;
     }
 
-    public String getDay() {
+    public Date getDay() {
         return day;
     }
 
-    public void setDay(String day) {
+    public void setDay(Date day) {
         this.day = day;
     }
 
-    public Time getTime() {
+    public int getTime() {
         return time;
     }
 
-    public void setTime(Time time) {
+    public void setTime(int time) {
         this.time = time;
     }
 
@@ -78,5 +79,6 @@ public class Schedule {
     public void setMentorID(int mentorID) {
         this.mentorID = mentorID;
     }
+
     
 }

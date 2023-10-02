@@ -44,7 +44,9 @@ public class MainController extends HttpServlet {
                 url = "AccountController";
             } else if (action.equals("register")) {
                 url = "AccountController";
-            } else if (action.equals("QuestionController")){
+            }else if (action.equals("schedule")) {
+                url = "ScheduleServlet";
+            }else if (action.equals("QuestionController")){
                 url = "QuestionController";
             } else if (action.equals("insertQ&A")){
                 url = "addQuestion.jsp";

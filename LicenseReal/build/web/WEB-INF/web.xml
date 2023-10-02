@@ -8,6 +8,10 @@
         <servlet-name>AccountController</servlet-name>
         <servlet-class>servlet.AccountController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ScheduleServlet</servlet-name>
+        <servlet-class>servlet.Schedule.ScheduleServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
         <url-pattern>/MainController</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>AccountController</servlet-name>
         <url-pattern>/AccountController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ScheduleServlet</servlet-name>
+        <url-pattern>/ScheduleServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
