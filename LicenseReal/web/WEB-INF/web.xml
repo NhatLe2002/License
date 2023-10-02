@@ -9,8 +9,8 @@
         <servlet-class>servlet.AccountController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ScheduleServlet</servlet-name>
-        <servlet-class>servlet.Schedule.ScheduleServlet</servlet-class>
+        <servlet-name>RegistScheduleServlet</servlet-name>
+        <servlet-class>servlet.Schedule.RegistScheduleServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
@@ -21,8 +21,8 @@
         <url-pattern>/AccountController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ScheduleServlet</servlet-name>
-        <url-pattern>/ScheduleServlet</url-pattern>
+        <servlet-name>RegistScheduleServlet</servlet-name>
+        <url-pattern>/RegistScheduleServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

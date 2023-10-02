@@ -5,8 +5,11 @@
  */
 package servlet.Schedule;
 
+import dao.ScheduleDAO;
+import dto.ScheduleDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -21,7 +24,16 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-public class ScheduleServlet extends HttpServlet {
+public class RegistScheduleServlet extends HttpServlet {
+
+     //convert list LocalDate to Date
+     public static List<Date> convertLocalDateToDate(List<LocalDate> localDateList) {
+        List<Date> dateList = new ArrayList<>();
+        for (LocalDate localDate : localDateList) {
+            dateList.add(java.sql.Date.valueOf(localDate));
+        }
+        return dateList;
+    }
 
     public ArrayList<LocalDate> getAllMonday() {
         int year = 2023; // Năm bạn muốn lấy các ngày đầu tiên và cuối cùng của tuần
@@ -65,16 +77,6 @@ public class ScheduleServlet extends HttpServlet {
         LocalDate mondayOfWeek = date.minusDays(daysToSubtract);
         return mondayOfWeek;
     }
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -90,13 +92,18 @@ public class ScheduleServlet extends HttpServlet {
             ArrayList<LocalDate> mondays = getAllMonday();
             LocalDate mondayOfWeek = getMondayOfWeek(currentDate);
             ArrayList<LocalDate> week = getWeek(mondayOfWeek);
-            
-            
+            ArrayList<ScheduleDTO> mentorSchedule = ScheduleDAO.getScheduleByMentorID(1);
+
+            //Schedule of mentor check by action
+            //request.setAttribute("message", request.getParameter("action"));
+            request.setAttribute("scheduleOfMentor", mentorSchedule);
+
             //Dung de check Date cua currentdate
             request.setAttribute("currentMonday", mondayOfWeek);
-            request.setAttribute("week", week);
+            request.setAttribute("week", convertLocalDateToDate(week));
             request.setAttribute("mondays", mondays);
             request.getRequestDispatcher("mentor/regisScheduleOfMentor.jsp").forward(request, response);
+        
         }
     }
 
