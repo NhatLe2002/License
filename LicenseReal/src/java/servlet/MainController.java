@@ -46,8 +46,13 @@ public class MainController extends HttpServlet {
                 url = "AccountController";
             }else if (action.equals("schedule")) {
                 url = "ScheduleServlet";
-            }
-            
+            }else if (action.equals("QuestionController")){
+                url = "QuestionController";
+            } else if (action.equals("insertQ&A")){
+                url = "addQuestion.jsp";
+            } 
+            String message = (String) request.getAttribute("message");
+            request.setAttribute("message", message);
             request.setAttribute("action", action);
             request.getRequestDispatcher(url).forward(request, response);
 
