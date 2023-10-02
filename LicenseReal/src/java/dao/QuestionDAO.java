@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import dto.Question;
+import java.util.Arrays;
 import java.util.List;
 import utils.DBUtils;
 
@@ -32,20 +33,20 @@ public class QuestionDAO {
             conn = null;
             conn = DBUtils.getConnection();
             if (conn != null) {
-                String sql = "SELECT * FROM (SELECT TOP(30) * FROM Question WHERE questionType = 1 ORDER BY RAND()) AS qus\n"
+                String sql = "SELECT * FROM (SELECT TOP(30) * FROM Question WHERE question_type = 'B2' ORDER BY RAND()) AS qus\n"
                         + "JOIN Answer AS ans ON ans.questionID = qus.id\n"
                         + "UNION ALL\n"
-                        + "SELECT * FROM (SELECT TOP(5) * FROM Question WHERE questionType = 0 ORDER BY RAND()) AS kqus\n"
+                        + "SELECT * FROM (SELECT TOP(5) * FROM Question WHERE question_type = 'B2' ORDER BY RAND()) AS kqus\n"
                         + "JOIN Answer AS kans ON kans.questionID = kqus.id";
                 //cau sql lay ngau nhien 30 cau hoi binh thuong + 5 cau hoi liet
                 ptm = conn.prepareStatement(sql);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
                     ArrayList<Answer> answer = new ArrayList<>();
-                    answer.add(new Answer(rs.getInt(5), rs.getInt(6), rs.getString(7).trim(), rs.getBoolean(8)));
+                    answer.add(new Answer(rs.getInt("questionID"), rs.getInt("answer_options"), rs.getString("answer_text").trim(), rs.getString("isCorrect")));
                     //luu dap an vao entity answer, muc dich la de lay dap an cung luc voi cau hoi cho tien viec truy van
-                    list.add(new Question(rs.getInt(1), rs.getString(2), rs.getString(3),
-                            rs.getBoolean(4), answer));
+                    list.add(new Question(rs.getInt("questionID"), rs.getString("question_text"), rs.getString("image"),
+                            rs.getString("question_type"), answer));
                     //luu cau hoi + dap an vao entity question
                 }
             }
@@ -67,9 +68,46 @@ public class QuestionDAO {
     //Ham dung de kiem tra ket qua lay duoc tu DB
     public static void main(String[] args) throws SQLException {
         QuestionDAO dao = new QuestionDAO();
-        int result = dao.getQuestionID("Tuyền nè");
-        System.out.println(result);
-    }
+        ArrayList<Question> list = dao.getRandomQuestionAndAnswer();
+        for (Question question : list) {
+            ArrayList<Answer> answers = question.getAnswer();
+            for (Answer answer : answers) {
+                String result = Arrays.toString(answer.getAnswer().split("\n"));
+                System.out.println(result);
+
+                String[] resultArray = result.substring(1, result.length() - 1).split(", ");
+
+                int answerCount = resultArray.length;
+
+                if (answerCount >= 2) {
+                    String answer1 = resultArray[0].trim();
+                    String answer2 = resultArray[1].trim();
+                    System.out.println("answer1: " + answer1);
+                    System.out.println("answer2: " + answer2);
+                }
+
+                if (answerCount >= 3) {
+                    String answer3 = resultArray[2].trim();
+                    System.out.println("answer3: " + answer3);
+                }
+
+                if (answerCount >= 4) {
+                    String answer4 = resultArray[3].trim();
+                    System.out.println("answer4: " + answer4);
+                }
+
+                if (answerCount >= 5) {
+                    String answer5 = resultArray[4].trim();
+                    System.out.println("answer5: " + answer5);
+                }
+
+                if (answerCount >= 6) {
+                    String answer6 = resultArray[5].trim();
+                    System.out.println("answer6: " + answer6);
+                }
+            }
+        }
+    } 
 
     //Ham lay bo cau hoi theo ma de
     public ArrayList<Question> getTopic(String topic) throws SQLException {
@@ -87,12 +125,12 @@ public class QuestionDAO {
                 ptm = conn.prepareStatement(sql);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
-                    ArrayList<Answer> answer = new ArrayList<>();
-                    answer.add(new Answer(rs.getInt("QuestionID"), rs.getString("Options").trim(), rs.getString("Answer"), rs.getBoolean("isCorrect")));
-                    //Gan dap an lay duoc vaof entity Answer
-                    list.add(new Question(rs.getInt("QuestionID"), rs.getString("Questions"), rs.getString("Image"),
-                            answer, rs.getBoolean("QuestionType"), rs.getInt("TopicID")));
-                    //Gan tat ca cau hoi va dap an cua ma de duoc yeu cau vao Entity Question
+//                    ArrayList<Answer> answer = new ArrayList<>();
+//                    answer.add(new Answer(rs.getInt("QuestionID"), rs.getInt("Options").trim(), rs.getString("Answer"), rs.getString("isCorrect")));
+//                    //Gan dap an lay duoc vaof entity Answer
+//                    list.add(new Question(rs.getInt("QuestionID"), rs.getString("Questions"), rs.getString("Image"),
+//                            answer, rs.getBoolean("QuestionType"), rs.getInt("TopicID")));
+//                    //Gan tat ca cau hoi va dap an cua ma de duoc yeu cau vao Entity Question
                 }
             }
         } catch (Exception e) {
@@ -132,22 +170,22 @@ public class QuestionDAO {
         String result = "";
         try {
             StringBuilder concatenated = new StringBuilder();
-            if (!answerA.isEmpty()) {
+            if (!answerA.endsWith("A. ")) {
                 concatenated.append(answerA).append("\n");
             }
-            if (!answerB.isEmpty()) {
+            if (!answerB.endsWith("B. ")) {
                 concatenated.append(answerB).append("\n");
             }
-            if (!answerC.isEmpty()) {
+            if (!answerC.endsWith("C. ")) {
                 concatenated.append(answerC).append("\n");
             }
-            if (!answerD.isEmpty()) {
+            if (!answerD.endsWith("D. ")) {
                 concatenated.append(answerD).append("\n");
             }
-            if (!answerE.isEmpty()) {
+            if (!answerE.endsWith("E. ")) {
                 concatenated.append(answerE).append("\n");
             }
-            if (!answerF.isEmpty()) {
+            if (!answerF.endsWith("F. ")) {
                 concatenated.append(answerF).append("\n");
             }
             result = concatenated.toString();
@@ -204,5 +242,54 @@ public class QuestionDAO {
             }
         }
         return questionID;
+    }
+
+    public boolean checkQuestionDuplicate(String question) throws SQLException {
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = "SELECT * FROM Question WHERE question_text = N'" + question + "'";
+                ptm = conn.prepareStatement(sql);
+                rs = ptm.executeQuery();
+                if (rs.next()) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+        }
+        return false;
+    }
+
+    public ArrayList<Question> getAllQuestion() throws SQLException {
+        ArrayList<Question> list = new ArrayList<>();
+        try {
+            conn = null;
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = "";
+                ptm = conn.prepareStatement(sql);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    ArrayList<Answer> answer = new ArrayList<>();
+                    answer.add(new Answer(rs.getInt("questionID"), rs.getInt("answer_options"), rs.getString("answer_text").trim(), rs.getString("isCorrect")));
+                    //luu dap an vao entity answer, muc dich la de lay dap an cung luc voi cau hoi cho tien viec truy van
+                    list.add(new Question(rs.getInt("questionID"), rs.getString("question_text"), rs.getString("image"),
+                            rs.getString("question_type"), answer));
+                    //luu cau hoi + dap an vao entity question
+                }
+            }
+        } catch (Exception e) {
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
     }
 }

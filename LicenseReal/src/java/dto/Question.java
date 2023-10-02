@@ -16,13 +16,13 @@ public class Question {
     private String question;
     private String image;
     private ArrayList<Answer> answer;
-    private boolean questionType;
+    private String questionType;
     private int topicID;
 
     public Question() {
     }
 
-    public Question(int id, String question, String image, boolean questionType, ArrayList<Answer> answer) {
+    public Question(int id, String question, String image, String questionType, ArrayList<Answer> answer) {
         this.id = id;
         this.question = question;
         this.image = image;
@@ -30,7 +30,7 @@ public class Question {
         this.questionType = questionType;
     }
 
-    public Question(int id, String question, String image, ArrayList<Answer> answer, boolean questionType, int topicID) {
+    public Question(int id, String question, String image, ArrayList<Answer> answer, String questionType, int topicID) {
         this.id = id;
         this.question = question;
         this.image = image;
@@ -76,11 +76,11 @@ public class Question {
     }
 
 
-    public boolean isQuestionType() {
+    public String isQuestionType() {
         return questionType;
     }
 
-    public void setQuestionType(boolean questionType) {
+    public void setQuestionType(String questionType) {
         this.questionType = questionType;
     }
 

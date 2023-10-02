@@ -12,21 +12,21 @@ package dto;
 public class Answer {
     private int answerID;
     private int questionID;
-    private String options;
+    private int options;
     private String answer;
-    private boolean isCorrect;
+    private String isCorrect;
 
     public Answer() {
     }
 
-    public Answer(int answerID, int questionID, String options, boolean isCorrect) {
+    public Answer(int answerID, int questionID, int options, String isCorrect) {
         this.answerID = answerID;
         this.questionID = questionID;
         this.options = options;
         this.isCorrect = isCorrect;
     }
 
-    public Answer(int questionID, String options, String answer, boolean isCorrect) {
+    public Answer(int questionID, int options, String answer, String isCorrect) {
         this.questionID = questionID;
         this.options = options;
         this.answer = answer;
@@ -49,19 +49,19 @@ public class Answer {
         this.questionID = questionID;
     }
 
-    public String getOptions() {
+    public int getOptions() {
         return options;
     }
 
-    public void setOptions(String options) {
+    public void setOptions(int options) {
         this.options = options;
     }
 
-    public boolean isIsCorrect() {
+    public String isIsCorrect() {
         return isCorrect;
     }
 
-    public void setIsCorrect(boolean isCorrect) {
+    public void setIsCorrect(String isCorrect) {
         this.isCorrect = isCorrect;
     }
 

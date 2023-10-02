@@ -14,16 +14,16 @@
     </head>
     <body>
         <h1>Insert Questions Page</h1>
-        <form action="MainController?action=QuestionController" method="POST">
+        <form enctype="multipart/form-data" action="QuestionController" method="POST">
             <div>
                 <label>Question: </label>
-                <input type="text" placeholder="Enter question..." name="question">
+                <input type="text" placeholder="Enter question..." name="question" required="">
             </div>
             <div class="update-img">
                 <label for="cate">Image</label>
-                <input type="file" name="image" required = "required" id="fileInput" onchange="previewImage(event)" accept="image/*" />
+                <input type="file" name="image" id="fileInput" onchange="previewImage(event)" accept="image/*" />
                 <div class="file-img">
-                    <img id="preview" src="#" alt="Preview"/>
+                    <img id="preview" src="#" alt="Preview" style="max-height: 10rem; max-width: 20rem"/>
                 </div>
             </div>
             <div>
@@ -32,7 +32,7 @@
             </div>
             <div>
                 <label>Choose number of answer: </label>
-                <select name="answer_options" style="cursor: pointer">
+                <select name="answer_options" style="cursor: pointer"  required="">
                     <option value="0" disabled="">Choose one option!</option>
                     <option value="2">Have 2 answer</option>
                     <option value="3">Have 3 answer</option>
@@ -43,31 +43,31 @@
             </div>
             <div name="answer_div">
                 <label>Answer A: </label>
-                <input type="text" placeholder="Enter answer..." name="answerA" value="A. ">
+                <input type="text" placeholder="Enter answer..." name="answerA" value="A. " required="">
             </div>
             <div name="answer_div">
                 <label>Answer B: </label>
-                <input type="text" placeholder="Enter answer..." name="answerB" value="B. ">
+                <input type="text" placeholder="Enter answer..." name="answerB" value="B. " required="">
             </div>
             <div name="answer_div">
                 <label>Answer C: </label>
-                <input type="text" placeholder="Enter answer..." name="answerC" value="C. ">
+                <input type="text" placeholder="Enter answer..." name="answerC" value="C. " required="">
             </div>
             <div name="answer_div">
                 <label>Answer D: </label>
-                <input type="text" placeholder="Enter answer..." name="answerD" value="D. ">
+                <input type="text" placeholder="Enter answer..." name="answerD" value="D. " required="">
             </div>
             <div name="answer_div">
                 <label>Answer E: </label>
-                <input type="text" placeholder="Enter answer..." name="answerE" value="E. ">
+                <input type="text" placeholder="Enter answer..." name="answerE" value="E. " required="">
             </div>
             <div name="answer_div">
                 <label>Answer F: </label>
-                <input type="text" placeholder="Enter answer..." name="answerF" value="F. ">
+                <input type="text" placeholder="Enter answer..." name="answerF" value="F. " required="">
             </div>
             <div>
                 <label>Choose the correct answer: </label>
-                <select name="correct_answer" style="cursor: pointer">
+                <select name="correct_answer" style="cursor: pointer" required="">
                     <option value="A">A</option>
                     <option value="B">B</option>
                     <option value="C">C</option>
@@ -81,7 +81,7 @@
         </form>
         <div>
             <c:if test="${not empty message}">
-                <label>${message}</label>
+                <label style="color: red">${message}</label>
             </c:if>
         </div>
 
