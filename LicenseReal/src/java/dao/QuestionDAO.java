@@ -46,8 +46,8 @@ public class QuestionDAO {
                     ArrayList<Answer> answer = new ArrayList<>();
                     answer.add(new Answer(rs.getInt(5), rs.getInt(6), rs.getString(7).trim(), rs.getBoolean(8)));
                     //luu dap an vao entity answer, muc dich la de lay dap an cung luc voi cau hoi cho tien viec truy van
-                    list.add(new Question(rs.getInt(1), rs.getString(2), rs.getString(3),
-                            rs.getBoolean(4), answer));
+//                    list.add(new Question(rs.getInt(1), rs.getString(2), rs.getString(3),
+//                            rs.getBoolean(4), answer));
                     //luu cau hoi + dap an vao entity question
                 }
             }
