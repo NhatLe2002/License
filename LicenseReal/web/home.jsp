@@ -188,7 +188,7 @@
                         <a class="menu_items" to="/#">Thông tin lý thuyết</a>
                         <a class="menu_items" href="MainController?action=schedule" >Đăng kí lịch dạy</a>
                         <a class="menu_items" to="/#">Lịch thi</a>
-                        <a class="menu_items" href="test-exam.jsp">Thi thử trắc nghiệm</a>
+                        <a class="menu_items" href="QuestionController">Thi thử trắc nghiệm</a>
                         <c:choose>
                             <c:when test="${account != null}">
                                 ${account.getId()}
