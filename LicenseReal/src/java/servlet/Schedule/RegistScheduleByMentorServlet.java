@@ -5,7 +5,9 @@
  */
 package servlet.Schedule;
 
+import dao.MentorDAO;
 import dao.ScheduleDAO;
+import dto.MentorDTO;
 import dto.ScheduleDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,6 +15,7 @@ import java.sql.Date;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -24,10 +27,10 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-public class RegistScheduleServlet extends HttpServlet {
+public class RegistScheduleByMentorServlet extends HttpServlet {
 
-     //convert list LocalDate to Date
-     public static List<Date> convertLocalDateToDate(List<LocalDate> localDateList) {
+    //convert list LocalDate to Date
+    public static List<Date> convertLocalDateToDate(List<LocalDate> localDateList) {
         List<Date> dateList = new ArrayList<>();
         for (LocalDate localDate : localDateList) {
             dateList.add(java.sql.Date.valueOf(localDate));
@@ -36,21 +39,29 @@ public class RegistScheduleServlet extends HttpServlet {
     }
 
     public ArrayList<LocalDate> getAllMonday() {
-        int year = 2023; // Năm bạn muốn lấy các ngày đầu tiên và cuối cùng của tuần
-
+//        int year = 2023; // Năm bạn muốn lấy các ngày đầu tiên và cuối cùng của tuần
+//
         List<LocalDate> firstDaysOfWeek = new ArrayList<>();
-
-        LocalDate date = LocalDate.of(year, 1, 1);
-
-        // Lặp qua từng ngày trong năm
-        while (date.getYear() == year) {
-            DayOfWeek dayOfWeek = date.getDayOfWeek();
-            // Kiểm tra nếu ngày đó là ngày đầu tiên của tuần
-            if (dayOfWeek == DayOfWeek.MONDAY) {
-                firstDaysOfWeek.add(date);
-            }
-            date = date.plusDays(1);
-        }
+//
+//        LocalDate date = LocalDate.of(year, 1, 1);
+//
+//        // Lặp qua từng ngày trong năm
+//        while (date.getYear() == year) {
+//            DayOfWeek dayOfWeek = date.getDayOfWeek();
+//            // Kiểm tra nếu ngày đó là ngày đầu tiên của tuần
+//            if (dayOfWeek == DayOfWeek.MONDAY) {
+//                firstDaysOfWeek.add(date);
+//            }
+//            date = date.plusDays(1);
+//        }
+//        return (ArrayList<LocalDate>) firstDaysOfWeek;
+        LocalDate currentDate = LocalDate.now(); // Ngày hiện tại
+        // Lấy ngày đầu tiên của tuần hiện tại (ngày thứ Hai)
+        LocalDate firstDayOfCurrentWeek = currentDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        firstDaysOfWeek.add(firstDayOfCurrentWeek);
+        // Lấy ngày đầu tiên của tuần sau (ngày thứ Hai)
+        LocalDate firstDayOfNextWeek = firstDayOfCurrentWeek.plusWeeks(1);
+        firstDaysOfWeek.add(firstDayOfNextWeek);
         return (ArrayList<LocalDate>) firstDaysOfWeek;
     }
 
@@ -77,6 +88,7 @@ public class RegistScheduleServlet extends HttpServlet {
         LocalDate mondayOfWeek = date.minusDays(daysToSubtract);
         return mondayOfWeek;
     }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -92,6 +104,27 @@ public class RegistScheduleServlet extends HttpServlet {
             ArrayList<LocalDate> mondays = getAllMonday();
             LocalDate mondayOfWeek = getMondayOfWeek(currentDate);
             ArrayList<LocalDate> week = getWeek(mondayOfWeek);
+
+            //Get mentor to get id
+            //******ĐỢi có cookie sẽ lấy id bằng cookie
+            MentorDTO mentor = MentorDAO.getMentorByUserID(1);
+            //Get list checkbox regis schedule
+            if (request.getParameterValues("checkBoxName") != null) {
+                String[] checkBoxValues = request.getParameterValues("checkBoxName");
+                String[] parts;
+                //add schedule
+                for (String object : checkBoxValues) {
+
+                    parts = object.split("/");
+                    ScheduleDTO schedule = new ScheduleDTO(1, mentor.getId(), null, null, java.sql.Date.valueOf(parts[1]), Integer.parseInt(parts[0]));
+                    try {
+                        ScheduleDAO.insertSchedule(schedule);
+                    } catch (Exception e) {
+                        out.print("<h2>" + e + "</h2>");
+                    }
+                }
+            }
+
             ArrayList<ScheduleDTO> mentorSchedule = ScheduleDAO.getScheduleByMentorID(1);
 
             //Schedule of mentor check by action
@@ -103,7 +136,7 @@ public class RegistScheduleServlet extends HttpServlet {
             request.setAttribute("week", convertLocalDateToDate(week));
             request.setAttribute("mondays", mondays);
             request.getRequestDispatcher("mentor/regisScheduleOfMentor.jsp").forward(request, response);
-        
+
         }
     }
 

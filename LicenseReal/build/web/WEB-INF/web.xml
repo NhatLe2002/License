@@ -10,7 +10,23 @@
     </servlet>
     <servlet>
         <servlet-name>RegistScheduleServlet</servlet-name>
-        <servlet-class>servlet.Schedule.RegistScheduleServlet</servlet-class>
+        <servlet-class>servlet.Schedule.RegistScheduleByMentorServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewScheduleServlet</servlet-name>
+        <servlet-class>servlet.Schedule.ViewScheduleMentorServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TestServlet</servlet-name>
+        <servlet-class>servlet.Schedule.TestServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewScheduleMemberServlet</servlet-name>
+        <servlet-class>servlet.Schedule.ViewScheduleMemberServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RegisScheduleByMemberServlet</servlet-name>
+        <servlet-class>servlet.Schedule.RegisScheduleByMemberServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
@@ -23,6 +39,22 @@
     <servlet-mapping>
         <servlet-name>RegistScheduleServlet</servlet-name>
         <url-pattern>/RegistScheduleServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewScheduleServlet</servlet-name>
+        <url-pattern>/ViewScheduleServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TestServlet</servlet-name>
+        <url-pattern>/TestServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewScheduleMemberServlet</servlet-name>
+        <url-pattern>/ViewScheduleMemberServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegisScheduleByMemberServlet</servlet-name>
+        <url-pattern>/RegisScheduleByMemberServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

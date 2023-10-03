@@ -11,7 +11,7 @@ import java.time.LocalDate;
  *
  * @author Admin
  */
-public class User {
+public class UserDTO {
     private int id;
     private String name;
     private String phone;
@@ -24,10 +24,10 @@ public class User {
     private boolean status;
     private int accountID;
 
-    public User() {
+    public UserDTO() {
     }
 
-    public User(int id, String name, String phone, String email, LocalDate dob, String cccd, String address, String avatar, int role, boolean status, int accountID) {
+    public UserDTO(int id, String name, String phone, String email, LocalDate dob, String cccd, String address, String avatar, int role, boolean status, int accountID) {
         this.id = id;
         this.name = name;
         this.phone = phone;

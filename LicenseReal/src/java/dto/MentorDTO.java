@@ -9,17 +9,17 @@ package dto;
  *
  * @author Admin
  */
-public class Mentor {
+public class MentorDTO {
     private int id;
     private String certificate;
     private String experience;
     private boolean status;
     private int userID;
 
-    public Mentor() {
+    public MentorDTO() {
     }
 
-    public Mentor(int id, String certificate, String experience, boolean status, int userID) {
+    public MentorDTO(int id, String certificate, String experience, boolean status, int userID) {
         this.id = id;
         this.certificate = certificate;
         this.experience = experience;

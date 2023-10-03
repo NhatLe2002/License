@@ -1,9 +1,3 @@
-<%-- 
-    Document   : Home
-    Created on : Sep 29, 2023, 8:57:26 PM
-    Author     : Admin
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!DOCTYPE html>
@@ -187,8 +181,8 @@
                         <a class="menu_items" to="/#">Hỗ trợ</a>
                         <a class="menu_items" to="/#">Thông tin lý thuyết</a>
                         <!--Cho nay la feature cua mentor, can cao navarbar rieng cho mentor nha-->
-                        <a class="menu_items" href="MainController?action=regisSchedule" >Đăng kí lịch dạy</a>
                         <a class="menu_items" href="MainController?action=viewSchedule" >Lịch dạy</a>
+                        <a class="menu_items" href="MainController?action=viewScheduleMember" >Lịch Học</a>
                         <a class="menu_items" to="/#">Lịch thi</a>
                         <a class="menu_items" href="test-exam.jsp">Thi thử trắc nghiệm</a>
                         <c:choose>

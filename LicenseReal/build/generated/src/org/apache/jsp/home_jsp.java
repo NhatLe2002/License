@@ -59,8 +59,6 @@ public final class home_jsp extends org.apache.jasper.runtime.HttpJspBase
 
       out.write("\n");
       out.write("\n");
-      out.write("\n");
-      out.write("\n");
       out.write("<!DOCTYPE html>\n");
       out.write("<html lang=\"en\">\n");
       out.write("\n");
@@ -241,7 +239,9 @@ public final class home_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                        <a class=\"menu_items \" to=\"/#\">Home</a>\n");
       out.write("                        <a class=\"menu_items\" to=\"/#\">Hỗ trợ</a>\n");
       out.write("                        <a class=\"menu_items\" to=\"/#\">Thông tin lý thuyết</a>\n");
-      out.write("                        <a class=\"menu_items\" href=\"MainController?action=schedule\" >Đăng kí lịch dạy</a>\n");
+      out.write("                        <!--Cho nay la feature cua mentor, can cao navarbar rieng cho mentor nha-->\n");
+      out.write("                        <a class=\"menu_items\" href=\"MainController?action=regisSchedule\" >Đăng kí lịch dạy</a>\n");
+      out.write("                        <a class=\"menu_items\" href=\"MainController?action=viewSchedule\" >Lịch dạy</a>\n");
       out.write("                        <a class=\"menu_items\" to=\"/#\">Lịch thi</a>\n");
       out.write("                        <a class=\"menu_items\" href=\"test-exam.jsp\">Thi thử trắc nghiệm</a>\n");
       out.write("                        ");

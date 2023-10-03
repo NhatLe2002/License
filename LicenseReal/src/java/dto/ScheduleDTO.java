@@ -14,22 +14,22 @@ import java.sql.Time;
  */
 public class ScheduleDTO {
     private int id;
-    private int type;
+    private int mentorID;
+    private Integer memberID;
+    private Integer type;
     private Date day;
     private int time;
-    private int memberID;
-    private int mentorID;
 
     public ScheduleDTO() {
     }
 
-    public ScheduleDTO(int id, int type, Date day, int time, int memberID, int mentorID) {
+    public ScheduleDTO(int id, int mentorID, Integer memberID, Integer type, Date day, int time) {
         this.id = id;
+        this.mentorID = mentorID;
+        this.memberID = memberID;
         this.type = type;
         this.day = day;
         this.time = time;
-        this.memberID = memberID;
-        this.mentorID = mentorID;
     }
 
     public int getId() {
@@ -40,11 +40,27 @@ public class ScheduleDTO {
         this.id = id;
     }
 
-    public int getType() {
+    public int getMentorID() {
+        return mentorID;
+    }
+
+    public void setMentorID(int mentorID) {
+        this.mentorID = mentorID;
+    }
+
+    public Integer getMemberID() {
+        return memberID;
+    }
+
+    public void setMemberID(Integer memberID) {
+        this.memberID = memberID;
+    }
+
+    public Integer getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
@@ -62,22 +78,6 @@ public class ScheduleDTO {
 
     public void setTime(int time) {
         this.time = time;
-    }
-
-    public int getMemberID() {
-        return memberID;
-    }
-
-    public void setMemberID(int memberID) {
-        this.memberID = memberID;
-    }
-
-    public int getMentorID() {
-        return mentorID;
-    }
-
-    public void setMentorID(int mentorID) {
-        this.mentorID = mentorID;
     }
 
     

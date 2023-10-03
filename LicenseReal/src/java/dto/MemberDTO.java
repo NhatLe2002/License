@@ -9,16 +9,16 @@ package dto;
  *
  * @author Admin
  */
-public class Member {
+public class MemberDTO {
     private int id;
     private String health;
     private boolean status;
     private int userID;
 
-    public Member() {
+    public MemberDTO() {
     }
 
-    public Member(int id, String health, boolean status, int userID) {
+    public MemberDTO(int id, String health, boolean status, int userID) {
         this.id = id;
         this.health = health;
         this.status = status;

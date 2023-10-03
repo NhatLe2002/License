@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servlet;
+package servlet.Schedule;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-public class MainController extends HttpServlet {
+public class TestServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -28,43 +28,27 @@ public class MainController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private String url = "errorpage.html";
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String action = request.getParameter("action");
-            if (action == null || action.equals("")) {
-                url = "home.jsp";
-            } else if (action.equals("getItem")) {
-                url = "LoadItemServlet";
-            } else if (action.equals("login")) {
-                url = "AccountController";
-            } else if (action.equals("register")) {
-                url = "AccountController";
-            }else if (action.equals("regisSchedule")) {
-                url = "RegistScheduleServlet";
-            }else if (action.equals("regisScheduleBtn")) {
-                url = "RegistScheduleServlet";
-            }else if (action.equals("viewSchedule")) {
-                url = "ViewScheduleServlet";
-            }else if (action.equals("viewScheduleMember")) {
-                url = "ViewScheduleMemberServlet";
-            }else if (action.equals("regisScheduleByMember")) {
-                url = "RegisScheduleByMemberServlet";
-            }else if (action.equals("regisScheduleMemberBtn")) {
-                url = "RegisScheduleByMemberServlet";
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet TestServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet TestServlet at " + request.getContextPath() + "</h1>");
+            String[] checkBoxValues = request.getParameterValues("checkBoxName");
+            String[] parts ;
+            for (String object : checkBoxValues) {
+                parts = object.split("/");
+               out.println(parts[0]); 
+               out.println("</br>");
             }
-            
-//            else if (action.equals("viewScheduleServlet")) {
-//                url = "ViewScheduleServlet";
-//            }
-            
-            request.setAttribute("action", action);
-            request.getRequestDispatcher(url).forward(request, response);
-
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
