@@ -36,6 +36,8 @@ public class MainController extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String action = request.getParameter("action");
+            String message = (String) request.getAttribute("message");
+            request.setAttribute("message", message);
             if (action == null || action.equals("")) {
                 url = "home.jsp";
             } else if (action.equals("getItem")) {
@@ -44,21 +46,15 @@ public class MainController extends HttpServlet {
                 url = "AccountController";
             } else if (action.equals("register")) {
                 url = "AccountController";
-<<<<<<< HEAD
-            }else if (action.equals("schedule")) {
+            } else if (action.equals("schedule")) {
                 url = "ScheduleServlet";
-            }else if (action.equals("QuestionController")){
+            } else if (action.equals("QuestionController")) {
                 url = "QuestionController";
-            } else if (action.equals("insertQ&A")){
+            } else if (action.equals("insertQ&A")) {
                 url = "addQuestion.jsp";
-            } 
-            String message = (String) request.getAttribute("message");
-            request.setAttribute("message", message);
-=======
-            }else if (action.equals("update")) {
+            } else if (action.equals("update")) {
                 url = "UserController";
             }
->>>>>>> 3e9169492944ced8d11dec20c2320d5adee62204
             request.setAttribute("action", action);
             request.getRequestDispatcher(url).forward(request, response);
 
