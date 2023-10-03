@@ -317,8 +317,11 @@
                         <a class="menu_items" to="/#">Lịch thi</a>
                         <a class="menu_items" href="/#">Thi thử trắc nghiệm</a>
                         <c:choose>
+                            <c:when test="${user != null}">
+                                Hello, ${user.getName()}
+                            </c:when>
                             <c:when test="${account != null}">
-                                ${account.getId()}
+                                Hello, ${account.getUsername()}
                             </c:when>
                             <c:otherwise>
                                 <a class="btn_login"  href="login.jsp">Log in</a>
@@ -336,7 +339,7 @@
                 <form>
                     <div class="form-group">
                         <label for="fullname">Họ và tên:</label>
-                        <input type="text" id="fullname" class="form-control" value="${message}">
+                        <input type="text" id="fullname" class="form-control" value="${user.getName()}">
                     </div>
                     <div class="form-group">
                         <label for="license">Hạng xe thi:</label>

@@ -5,19 +5,27 @@
  */
 package servlet;
 
+import dao.UserDAO;
+import dto.Account;
+import dto.User;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
+import java.sql.Date;
+import java.time.LocalDate;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.xml.bind.DatatypeConverter;
 
 /**
  *
- * @author Admin
+ * @author emcua
  */
-public class MainController extends HttpServlet {
+@WebServlet(name = "UserController", urlPatterns = {"/UserController"})
+public class UserController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -28,40 +36,28 @@ public class MainController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private String url = "errorpage.html";
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            String action = request.getParameter("action");
-            if (action == null || action.equals("")) {
-                url = "home.jsp";
-            } else if (action.equals("getItem")) {
-                url = "LoadItemServlet";
-            } else if (action.equals("login")) {
-                url = "AccountController";
-            } else if (action.equals("register")) {
-                url = "AccountController";
-<<<<<<< HEAD
-            }else if (action.equals("schedule")) {
-                url = "ScheduleServlet";
-            }else if (action.equals("QuestionController")){
-                url = "QuestionController";
-            } else if (action.equals("insertQ&A")){
-                url = "addQuestion.jsp";
-            } 
-            String message = (String) request.getAttribute("message");
-            request.setAttribute("message", message);
-=======
-            }else if (action.equals("update")) {
-                url = "UserController";
-            }
->>>>>>> 3e9169492944ced8d11dec20c2320d5adee62204
-            request.setAttribute("action", action);
-            request.getRequestDispatcher(url).forward(request, response);
-
+        HttpSession session = request.getSession();
+        String name = request.getParameter("name");
+        String phone = request.getParameter("phone");
+        String email = request.getParameter("email");
+        Date dob = Date.valueOf(request.getParameter("dob"));
+        String cccd = request.getParameter("cccd");
+        String address = request.getParameter("address");
+        int accountID = Integer.parseInt(request.getParameter("accountID"));
+        User user = new User();
+        try {
+            if (UserDAO.getUser(accountID) == null){
+                UserDAO.createUser(name, phone, email, dob, cccd, address, accountID);
+            }else UserDAO.updateUser(name, phone, email, dob, cccd, address, accountID);
+            user = UserDAO.getUser(accountID);
+        } catch (Exception e) {
+        } finally {
+            session.setAttribute("user", user);
+            request.setAttribute("message", "Cập nhập thành công");
+            request.getRequestDispatcher("user-infor.jsp").forward(request, response);
         }
     }
 
