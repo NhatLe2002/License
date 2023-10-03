@@ -84,7 +84,10 @@
                 <label style="color: red">${message}</label>
             </c:if>
         </div>
-
+        
+        <div>
+            <a href="QuestionController">Show list questions</a>
+        </div>
     </body>
     <script>
         // Lấy tất cả các input trong các div chứa câu trả lời

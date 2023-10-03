@@ -76,7 +76,7 @@ public class Question {
     }
 
 
-    public String isQuestionType() {
+    public String getQuestionType() {
         return questionType;
     }
 

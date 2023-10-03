@@ -2,6 +2,8 @@ package servlet;
 
 import dao.AnswerDAO;
 import dao.QuestionDAO;
+import dto.Answer;
+import dto.Question;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -35,7 +37,25 @@ public class QuestionController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String message = "";
+
+        try {
+            QuestionDAO dao = new QuestionDAO();
+            ArrayList<Question> listQ = dao.getAllQuestion();
+            ArrayList<Answer> listA = new ArrayList<>();
+
+            for (Question question : listQ) {
+                listA .addAll(question.getAnswer());
+            }
+
+            request.setAttribute("listA", listA);
+            request.setAttribute("listQ", listQ);
+        } catch (Exception e) {
+            message = "ERROR: " + e.getMessage();
+        }
+
+        request.setAttribute("message", message);
+        request.getRequestDispatcher("showListQuestion.jsp").forward(request, response);
     }
 
     @Override
@@ -85,7 +105,7 @@ public class QuestionController extends HttpServlet {
                     String data = Base64.getEncoder().encodeToString(imageBytes);
 
                     //Kiem tra cac file gui len tu jsp co phai la file anh hay khong
-                    if (fileName.endsWith(".png") || fileName.endsWith(".PNG")) {
+                    if (fileName.endsWith(".png") || fileName.endsWith(".PNG") || fileName.isEmpty()) {
                         //Ghep cac dap an A B C D E F lai voi nhau thanh 1 chuoi cach nhau boi "\n"
                         String answer_text = dao.concatenatedString(answerA, answerB, answerC, answerD, answerE, answerF);
                         //Kiem tra chuoi co bi trong hay khong

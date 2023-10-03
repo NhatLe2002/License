@@ -57,7 +57,7 @@ public class Answer {
         this.options = options;
     }
 
-    public String isIsCorrect() {
+    public String getIsCorrect() {
         return isCorrect;
     }
 
