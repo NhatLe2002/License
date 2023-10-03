@@ -71,6 +71,7 @@
                                     <button type="submit" name="action" value="login"class="btn btn-info btn-lg btn-block" type="button">Đăng nhập</button>
                                 </div>
                                 <p>Chưa có tài khoản? <a href="register.jsp" class="link-info">Đăng ký ngay</a></p>
+                                ${message}
                             </form>
                         </div>
                     </div>
