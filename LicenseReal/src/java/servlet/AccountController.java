@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import dao.AccountDAO;
-import dto.Account;
+import dao.UserDAO;
+import dto.AccountDTO;
+import dto.UserDTO;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -33,12 +35,13 @@ public class AccountController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        Account account = new Account();
+        AccountDTO account = new AccountDTO();
+        UserDTO user = new UserDTO();
         String username;
         String password;
         String confirmPassword;
         boolean check;
-        String url = "home.jsp";
+        String url = "";
         String message = "";
         String action = request.getParameter("action");
         HttpSession session = request.getSession();
@@ -48,8 +51,15 @@ public class AccountController extends HttpServlet {
                     username = request.getParameter("username");
                     password = request.getParameter("password");
                     account = AccountDAO.getAccount(username, password);
-                    message = "Đăng nhập thành công";
-                    
+
+                    if (account == null) {
+                        message = "Sai mật khẩu hoặc tài khoản";
+                        url = "login.jsp";
+                    } else {
+                        user = UserDAO.getUser(account.getId());
+                        message = "Đăng nhập thành công";
+                        url = "home.jsp";
+                    }
                     break;
                 case "register":
                     username = request.getParameter("username");
@@ -60,18 +70,27 @@ public class AccountController extends HttpServlet {
                         url = "register.jsp";
                     } else {
                         check = AccountDAO.createAccount(username, password);
-                        if (check) {
-                            message = "Đăng ký thành công";
+                        if (check == false) {
+                            url = "register.jsp";
+                            message = "Tài khoản đã tồn tại";
                         } else {
-                            message = "Đăng ký thất bại";
+                            account = AccountDAO.getAccount(username, password);
+                            user = UserDAO.getUser(account.getId());
+                            if (check) {
+                                url = "user-infor.jsp";
+                                message = "Tạo tài khoản thành công, bạn hãy nhập thông tin cá nhân";
+                            } else {
+                                message = "Đăng ký thất bại";
+                            }
                         }
                     }
                     break;
             }
         } catch (Exception e) {
-            message = "Incorrect password or username";
+
         } finally {
             session.setAttribute("account", account);
+            session.setAttribute("user", user);
             request.setAttribute("message", message);
             request.getRequestDispatcher(url).forward(request, response);
         }

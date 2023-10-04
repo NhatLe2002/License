@@ -184,16 +184,19 @@
                         <a class="menu_items" href="MainController?action=viewSchedule" >Lịch dạy</a>
                         <a class="menu_items" href="MainController?action=viewScheduleMember" >Lịch Học</a>
                         <a class="menu_items" to="/#">Lịch thi</a>
-                        <a class="menu_items" href="test-exam.jsp">Thi thử trắc nghiệm</a>
+                        <a class="menu_items" href="QuestionController">Thi thử trắc nghiệm</a>
                         <c:choose>
+                            <c:when test="${user != null}">
+                                Hello, ${user.getName()}
+                            </c:when>
                             <c:when test="${account != null}">
-                                ${account.getId()}
+                                Hello, ${account.getUsername()}
                             </c:when>
                             <c:otherwise>
                                 <a class="btn_login"  href="login.jsp">Log in</a>
                             </c:otherwise>
                         </c:choose>
-                        
+
                     </div>
                 </div>
             </div>

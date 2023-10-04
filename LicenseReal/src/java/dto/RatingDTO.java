@@ -9,16 +9,16 @@ package dto;
  *
  * @author Admin
  */
-public class Rating {
+public class RatingDTO {
     private int id;
     private float star;
     private int memberID;
     private int mentorID;
 
-    public Rating() {
+    public RatingDTO() {
     }
 
-    public Rating(int id, float star, int memberID, int mentorID) {
+    public RatingDTO(int id, float star, int memberID, int mentorID) {
         this.id = id;
         this.star = star;
         this.memberID = memberID;

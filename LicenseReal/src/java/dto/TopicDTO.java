@@ -9,15 +9,15 @@ package dto;
  *
  * @author Admin
  */
-public class Topic {
+public class TopicDTO {
     private int id;
     private int topicID;
     private int questionID;
 
-    public Topic() {
+    public TopicDTO() {
     }
 
-    public Topic(int id, int topicID, int questionID) {
+    public TopicDTO(int id, int topicID, int questionID) {
         this.id = id;
         this.topicID = topicID;
         this.questionID = questionID;

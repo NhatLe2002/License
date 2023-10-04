@@ -11,17 +11,17 @@ import java.time.LocalDate;
  *
  * @author Admin
  */
-public class Payment {
+public class PaymentDTO {
     private int id;
     private float price;
     private LocalDate create_date;
     private int mentorID;
     private int memberID;
 
-    public Payment() {
+    public PaymentDTO() {
     }
 
-    public Payment(int id, float price, LocalDate create_date, int mentorID, int memberID) {
+    public PaymentDTO(int id, float price, LocalDate create_date, int mentorID, int memberID) {
         this.id = id;
         this.price = price;
         this.create_date = create_date;

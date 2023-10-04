@@ -9,14 +9,14 @@ package dto;
  *
  * @author Admin
  */
-public class Account {
+public class AccountDTO {
     private int id;
     private String username;
     private String password;
-    public Account() {
+    public AccountDTO() {
     }
 
-    public Account(int id, String username, String password) {
+    public AccountDTO(int id, String username, String password) {
         this.id = id;
         this.username = username;
         this.password = password;

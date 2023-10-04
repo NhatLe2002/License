@@ -12,7 +12,7 @@ import java.time.LocalDate;
  *
  * @author Admin
  */
-public class News {
+public class NewsDTO {
     private int id;
     private String content;
     private String image;
@@ -21,10 +21,10 @@ public class News {
     private boolean status;
     private int createby;
 
-    public News() {
+    public NewsDTO() {
     }
 
-    public News(int id, String content, String image, Date date, String title, boolean status, int createby) {
+    public NewsDTO(int id, String content, String image, Date date, String title, boolean status, int createby) {
         this.id = id;
         this.content = content;
         this.image = image;

@@ -7,6 +7,7 @@ package dto;
 
 import java.time.LocalDate;
 
+
 /**
  *
  * @author Admin
@@ -40,6 +41,20 @@ public class UserDTO {
         this.status = status;
         this.accountID = accountID;
     }
+
+    public UserDTO(int id, String name, String phone, String email, LocalDate dob, String cccd, String address, String avatar, int role, boolean status) {
+        this.id = id;
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.dob = dob;
+        this.cccd = cccd;
+        this.address = address;
+        this.avatar = avatar;
+        this.role = role;
+        this.status = status;
+    }
+    
 
     public int getId() {
         return id;
