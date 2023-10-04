@@ -62,6 +62,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>updateProfile</welcome-file>
+        <welcome-file>MainController</welcome-file>
     </welcome-file-list>
 </web-app>
