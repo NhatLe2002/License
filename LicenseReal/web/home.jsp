@@ -184,7 +184,7 @@
                         <a class="menu_items" href="MainController?action=viewSchedule" >Lịch dạy</a>
                         <a class="menu_items" href="MainController?action=viewScheduleMember" >Lịch Học</a>
                         <a class="menu_items" to="/#">Lịch thi</a>
-                        <a class="menu_items" href="QuestionController">Thi thử trắc nghiệm</a>
+                        <a class="menu_items" href="MainController?action=PracticeTest">Thi thử trắc nghiệm</a>
                         <c:choose>
                             <c:when test="${user != null}">
                                 Hello, ${user.getName()}
