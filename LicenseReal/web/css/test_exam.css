@@ -95,24 +95,24 @@ a {
     width: 100%;
 }
 
-.choose-exam-screen .btn {
+.submit-button button {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
-.choose-exam-screen .btn-start {
+.submit-button button {
     display: block;
     margin: 0 auto;
     text-align: center;
-    background-color: #007bff;
+    background-color: #fca265;
     color: #fff;
     padding: 10px 20px;
 }
 
-.choose-exam-screen .btn-primary:hover {
-    background-color: #0056b3;
+.submit-button button:hover {
+    background-color: #fd7e14;
 }
 
 /* style màn hình thi */
@@ -327,17 +327,18 @@ label {
     background-color: #fff;
     padding: 20px;
     width: 20rem;
-    height: 25rem;
+    max-height: 25rem;
     overflow: hidden;
     border-radius: 2rem;
     display: flex;
     flex-direction: column;
     align-items: flex;
     justify-content: center;
+    padding: 3rem;
 }
 
-.popup-content h1 {
-    color: #197307;
+.popup-content h2 {
+    color: #fd7e14;
     font-weight: bold;
     text-align: center;
     border-bottom: 1px solid #000;
@@ -350,13 +351,27 @@ label {
 }
 
 .popup-content button {
-    border: 1px solid red;
+    border: 1px solid #fd7e14;
     border-radius: 2rem;
     text-align: center;
     margin-top: 1rem;
+    font-weight: 600;
 }
-.popup-content button:hover {
+.popup-content .cancle-button:hover {
     border: 1px solid green;
     background-color: green;
     color: white;
+}
+.popup-content .close-button:hover {
+    border: 1px solid #fd7e14;
+    background-color: #fd7e14;
+    color: white;
+}
+.no-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }

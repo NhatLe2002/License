@@ -37,7 +37,7 @@ a {
 .header .main__navbar .container .menu {
     display: flex;
     align-items: center;
-    column-gap: 2rem;
+    column-gap: 1.5rem;
 }
 
 .header .main__navbar .container .menu .menu_items {
@@ -149,4 +149,18 @@ a {
 
 .bullet-points li {
     margin-bottom: 5px;
+}
+.no-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.login_name {
+    font-weight: bold;
+}
+.fullname {
+    color: #fd7e14;
 }

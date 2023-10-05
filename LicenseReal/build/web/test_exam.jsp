@@ -25,10 +25,10 @@
                     <c:set var="A" value="${listA[counter.index]}"></c:set>
                         <div class="form-container">
                             <div class="question-number" id="${counter.index + 1}">
-                            <span>Câu hỏi ${counter.index + 1}</span>
+                        <span class="no-select">Câu hỏi ${counter.index + 1}</span>
                         </div>
                         <div class="question-content d-flex justify-content-between">
-                            <div>
+                            <div class="no-select">
                                 ${Q.question}
                                 <c:if test="${not empty Q.image}">
                                     <div class="question-img">
@@ -54,7 +54,7 @@
                                 </ol>
                             </div>
                             <c:if test="${Q.questionType eq '1'}">
-                                <div class="paralysis-question">
+                                <div class="paralysis-question no-select">
                                     <i class="fa-regular fa-star"></i>
                                     <p>Câu hỏi liệt</p>
                                 </div>
@@ -64,7 +64,7 @@
                 </c:forEach>
             </div>
 
-            <div class="selected-answer">
+            <div class="selected-answer no-select">
                 <div class="selected-answer-container">
                     <c:forEach var="Q" items="${listQ}" varStatus="counter">
                         <div class="selected-answer-tab" data-question-number="${counter.index + 1}">${counter.index + 1}   </div>
@@ -79,7 +79,7 @@
 
 
         <!-- màn hình infor -->
-        <div class="extra-container">
+        <div class="extra-container no-select">
             <div class="row">
                 <div class="info-user col-md-8 d-flex flex-row flex-wrap gap-3">
                     <div class="avatar">
@@ -96,6 +96,13 @@
         </div>
 
         <!-- màn hình xử lý kết quả -->
+        <div class="popup-overlay no-select">
+            <div class="popup-content">
+                <h2>Bạn có muốn kết thúc bài thi?</h2>
+                <button class="btn cancle-button">Xem lại</button>
+                <button class="btn close-button">Kết thúc</button>
+            </div>
+        </div>
         <!--        <div class="popup-overlay">
                     <div class="popup-content">
                         <h1>Kết quả</h1>
@@ -143,37 +150,45 @@
                 var selectWrongAnswer = document.getElementsByClassName("selectWrongAnswer");
                 var popupOverlay = document.querySelector('.popup-overlay');
 
-//                submitButton.addEventListener("click", function () {
-//                    popupOverlay.style.display = "flex";
-//                    // Thực hiện các xử lý khác (nếu cần) khi nhấp vào nút "Kết thúc"
-//
-//                    var closeButton = document.querySelector('.close-button');
-//                    closeButton.addEventListener("click", function () {
-//                        document.body.removeChild(popupOverlay);
-//                    });
-//                });
                 submitButton.addEventListener("click", function () {
-                    for (var i = 0; i < selectAnswerDivs.length; i++) {
-                        selectAnswerDivs[i].style.display = "inline";
-                    }
-                    for (var i = 0; i < selectWrongAnswer.length; i++) {
-                        selectWrongAnswer[i].style.display = "inline";
-                    }
-                    // Cập nhật trạng thái thành "Đã kết thúc"
-                    var statusSpan = document.getElementById("statusSpan");
-                    statusSpan.textContent = "Đã kết thúc";
+                    popupOverlay.style.display = "flex";
+                    var cancleButton = document.querySelector('.cancle-button');
+                    cancleButton.addEventListener("click", function () {
+                        popupOverlay.style.display = "none";
+                    });
 
-                    // Dừng đồng hồ đếm ngược
-                    clearInterval(countdownTimer);
+                    var closeButton = document.querySelector('.close-button');
+                    closeButton.addEventListener("click", function () {
+                        // Vô hiệu hóa các thẻ input
+                        var questionInputs = document.querySelectorAll('input[class="question-input"]');
+                        questionInputs.forEach(function (input) {
+                            input.disabled = true;
+                        });
+
+                        popupOverlay.style.display = "none";
+                        for (var i = 0; i < selectAnswerDivs.length; i++) {
+                            selectAnswerDivs[i].style.display = "inline";
+                        }
+                        for (var i = 0; i < selectWrongAnswer.length; i++) {
+                            selectWrongAnswer[i].style.display = "inline";
+                        }
+                        // Cập nhật trạng thái thành "Đã kết thúc"
+                        var statusSpan = document.getElementById("statusSpan");
+                        statusSpan.textContent = "Đã kết thúc";
+
+                        // Dừng đồng hồ đếm ngược
+                        clearInterval(countdownTimer);
+                    });
                 });
             });
+
 
             //xử lý sự kiện khi chọn đáp án 
 
             function handleRadioSelection(event) {
                 const selectedOption = event.target.value;
                 const questionNumber = event.target.getAttribute('name').replace('question', '');
-                const selectedAnswerTab = document.querySelector(".selected-answer-tab:nth-child("+ questionNumber + ")");
+                const selectedAnswerTab = document.querySelector(".selected-answer-tab:nth-child(" + questionNumber + ")");
                 selectedAnswerTab.classList.toggle('active', event.target.checked);
             }
 
@@ -196,7 +211,7 @@
                         }
                     });
                 });
-            })
+            });
 
         </script>
 

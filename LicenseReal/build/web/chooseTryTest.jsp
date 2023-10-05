@@ -18,13 +18,16 @@
         <c:import url="userHeader.jsp"/>
 
         <!-- màn hình chọn thông tin thi thử -->
-        <div class="choose-exam-screen">
+        <div class="choose-exam-screen no-select">
             <div class="container">
                 <h1>Bắt đầu thi thử trắc nghiệm</h1>
                 <form action="UserQuestionController" method="POST">
                     <div class="form-group">
                         <label for="fullname">Họ và tên:</label>
-                        <input type="text" id="fullname" class="form-control" name="fullname" required>
+                        <input type="text" id="fullname" class="form-control" name="fullname" value="
+                               <c:if test="${user != null}">
+                                   ${user.getName().trim()}
+                               </c:if>" required>
                     </div>
                     <div class="form-group">
                         <label for="license">Hạng xe thi:</label>
@@ -35,7 +38,7 @@
                         <select id="exam" class="form-select" name="topic" required>
                             <option value="0">Chọn đề ngẫu nhiên</option>
                             <c:forEach var="T" items="${listTopic}">
-                            <option value="${T.topicID}">Đề thi số ${T.topicID}</option>
+                                <option value="${T.topicID}">Đề thi số ${T.topicID}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -45,5 +48,12 @@
             </div>
         </div>
     </body>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var fullnameInput = document.getElementById("fullname");
+            var fullnameValue = "<c:if test='${user != null}'>${user.getName()}</c:if>";
+            fullnameInput.value = fullnameValue.trim();
+        });
+    </script>
 
 </html>

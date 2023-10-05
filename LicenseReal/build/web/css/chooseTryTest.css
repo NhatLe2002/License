@@ -106,13 +106,13 @@ a {
     display: block;
     margin: 0 auto;
     text-align: center;
-    background-color: #007bff;
+    background-color: #fca265;
     color: #fff;
     padding: 10px 20px;
 }
 
 .choose-exam-screen .btn-primary:hover {
-    background-color: #0056b3;
+    background-color:#fd7e14;
 }
 
 /* style màn hình thi */
@@ -306,4 +306,12 @@ a {
 label {
     display: block;
     margin-bottom: 5px;
+}
+.no-select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }

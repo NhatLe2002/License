@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="./css/userHome.css"/>
     </head>
     <body>
-        <header class="header">
+        <header class="header no-select">
             <div class="main__navbar">
                 <div class="container mx-auto d-flex align-items-center gap-1 justify-content-between">
                     <div class="logo">
@@ -36,17 +36,19 @@
                         <a class="menu_items" href="MainController?action=viewScheduleMember" >Lịch Học</a>
                         <a class="menu_items" to="/#">Lịch thi</a>
                         <a class="menu_items" href="MainController?action=PracticeTest">Thi thử trắc nghiệm</a>
-                        <c:choose>
-                            <c:when test="${user != null}">
-                                Hello, ${user.getName()}
-                            </c:when>
-                            <c:when test="${account != null}">
-                                Hello, ${account.getUsername()}
-                            </c:when>
-                            <c:otherwise>
-                                <a class="btn_login"  href="login.jsp">Log in</a>
-                            </c:otherwise>
-                        </c:choose>
+                        <div class="login_name">
+                            <c:choose>
+                                <c:when test="${user != null}">
+                                    <a href="#" class="fullname">Hello, ${user.getName()}</a>
+                                </c:when>
+                                <c:when test="${account != null}">
+                                    <a href="#" class="fullname">Hello, ${account.getUsername()}</a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a class="btn_login"  href="login.jsp">Log in</a>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
                     </div>
                 </div>
             </div>
