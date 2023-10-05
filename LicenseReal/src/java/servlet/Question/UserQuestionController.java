@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -49,18 +48,29 @@ public class UserQuestionController extends HttpServlet {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String date = dateFormat.format(Date.valueOf(LocalDate.now()));
         String status = "Đang thi";
+        ArrayList<QuestionDTO> listQ;
+        ArrayList<AnswerDTO> listA;
         try {
             if (topic.equals("0")) {
-                ArrayList<QuestionDTO> listQ = dao.getRandomQuestionAndAnswer();
-                ArrayList<AnswerDTO> listA = new ArrayList<>();
+                listQ = dao.getRandomQuestionAndAnswer();
+                listA = new ArrayList<>();
 
-            for (QuestionDTO question : listQ) {
-                listA .addAll(question.getAnswer());
-            }
+                for (QuestionDTO question : listQ) {
+                    listA.addAll(question.getAnswer());
+                }
 
-            request.setAttribute("listA", listA);
-            request.setAttribute("listQ", listQ);
+                request.setAttribute("listA", listA);
+                request.setAttribute("listQ", listQ);
             } else {
+                listQ = dao.getTopic(topic);
+                listA = new ArrayList<>();
+
+                for (QuestionDTO question : listQ) {
+                    listA.addAll(question.getAnswer());
+                }
+
+                request.setAttribute("listA", listA);
+                request.setAttribute("listQ", listQ);
             }
         } catch (Exception e) {
         }

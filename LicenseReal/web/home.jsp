@@ -215,10 +215,12 @@
                      src="https://daotaolaixehd.com.vn/wp-content/uploads/2017/02/1000000000000000000-1024x768.jpg"
                      alt="Hình ảnh 4">
                 <div class="overlay">
+                    <form action="MainController?action=PracticeTest" method="POST">
                     <div class="overlay-text">
                         <h3>Chào mừng bạn đến với hệ thống thi thử trắc nghiệm bằng lái xe</h3>
                     </div>
                     <button class="overlay-button">Thi thử ngay</button>
+                    </form>
                 </div>
             </div>
         </div>
