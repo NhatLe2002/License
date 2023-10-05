@@ -1,5 +1,4 @@
 /LicenseReal/dist/
-/LicenseReal/nbproject/
-/LicenseReal/*.xml/
+/LicenseReal/nbproject/*.properties
 /LicenseReal/build/
-/LicenseReal/build.xml
+/LicenseReal/nbproject/*.xml
