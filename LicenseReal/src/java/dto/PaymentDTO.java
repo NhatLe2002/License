@@ -12,21 +12,26 @@ import java.time.LocalDate;
  * @author Admin
  */
 public class PaymentDTO {
+
     private int id;
     private float price;
     private LocalDate create_date;
-    private int mentorID;
     private int memberID;
+    private String type;
+    private boolean status;
+    private boolean cash_type;
 
     public PaymentDTO() {
     }
 
-    public PaymentDTO(int id, float price, LocalDate create_date, int mentorID, int memberID) {
+    public PaymentDTO(int id, float price, LocalDate create_date, int memberID, String type, boolean status, boolean cash_type) {
         this.id = id;
         this.price = price;
         this.create_date = create_date;
-        this.mentorID = mentorID;
         this.memberID = memberID;
+        this.type = type;
+        this.status = status;
+        this.cash_type = cash_type;
     }
 
     public int getId() {
@@ -53,14 +58,6 @@ public class PaymentDTO {
         this.create_date = create_date;
     }
 
-    public int getMentorID() {
-        return mentorID;
-    }
-
-    public void setMentorID(int mentorID) {
-        this.mentorID = mentorID;
-    }
-
     public int getMemberID() {
         return memberID;
     }
@@ -68,5 +65,29 @@ public class PaymentDTO {
     public void setMemberID(int memberID) {
         this.memberID = memberID;
     }
-    
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public boolean isCash_type() {
+        return cash_type;
+    }
+
+    public void setCash_type(boolean cash_type) {
+        this.cash_type = cash_type;
+    }
+
 }
