@@ -188,9 +188,11 @@
                         <c:choose>
                             <c:when test="${user != null}">
                                 Hello, ${user.getName()}
+                                <a class="menu_items" href="updateProfile?id=${sessionScope.user.getId()}"> Profile</a>
                             </c:when>
                             <c:when test="${account != null}">
                                 Hello, ${account.getUsername()}
+                                
                             </c:when>
                             <c:otherwise>
                                 <a class="btn_login"  href="login.jsp">Log in</a>

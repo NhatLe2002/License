@@ -36,7 +36,15 @@ public class MemberDTO {
         this.avatar = avatar;
         this.role = role;
     }
-
+    public MemberDTO(int id, UserDTO user) {
+        this.id = id;
+        this.userID = user.getId();
+        this.name = user.getName();
+        this.phone = user.getPhone();
+        this.email = user.getEmail();
+        this.cccd = user.getCccd();
+        this.status = true;
+    }
 
 
     public MemberDTO(int id, UserDTO user, String health) {
