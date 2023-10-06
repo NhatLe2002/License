@@ -75,14 +75,18 @@
                                     <c:forEach items="${requestScope.mentorScheduleNotTeache}" var="c">
                                         <c:if test="${requestScope.week[i] == c.getDay() && c.getTime() == time}">
                                             <c:set var="check" value="true"></c:set>
-                                                <td>
-                                                    <input type="checkbox" name="checkBoxName" value="${time}/${requestScope.week[i]}/${c.getMentorID()}/${c.getId()}">--></br>
-                                                Đây là lịch tất cả mentor đã đăng ký dạy</br>
-                                                Và lịch mà member chưa dạy</br>
-                                                Và member chưa học</br>
-                                                Member sẽ được đăng kí lịch tại đây
-                                              
-                                            </td>
+                                            <c:choose>
+                                                <c:when test="${requestScope.week[i] <= requestScope.currentDay}">
+                                                    <td>
+                                                        Ngày ĐK đã qua!
+                                                    </td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td>
+                                                        <input type="checkbox" name="checkBoxName" value="${c.getId()}"></br>
+                                                    </td>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </c:if>
                                     </c:forEach>
                                     <c:choose>

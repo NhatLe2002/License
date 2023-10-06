@@ -23,7 +23,7 @@ public class MemberDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "select * from Mentor where userID = ?";
+                String sql = "select * from Member where userID = ?";
 
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, id);
@@ -44,6 +44,6 @@ public class MemberDAO {
         return member;
     }
     public static void main(String[] args) {
-        System.out.println(getMemberByUserID(1).getId());
+        System.out.println(getMemberByUserID(5).getId());
     }
 }
