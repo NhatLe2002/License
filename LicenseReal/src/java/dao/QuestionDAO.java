@@ -12,7 +12,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import dto.QuestionDTO;
+import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import utils.DBUtils;
 
 /**
@@ -32,11 +35,19 @@ public class QuestionDAO {
             conn = null;
             conn = DBUtils.getConnection();
             if (conn != null) {
-                String sql = "SELECT * FROM (SELECT TOP(30) * FROM Question WHERE question_type = 'B2' ORDER BY RAND()) AS qus\n"
-                        + "JOIN Answer AS ans ON ans.questionID = qus.id\n"
-                        + "UNION ALL\n"
-                        + "SELECT * FROM (SELECT TOP(5) * FROM Question WHERE question_type = 'B2' ORDER BY RAND()) AS kqus\n"
-                        + "JOIN Answer AS kans ON kans.questionID = kqus.id";
+                String sql = "SELECT * FROM\n"
+                        + "(\n"
+                        + "    SELECT TOP(30) qus.id AS qus_id, qus.question_text, qus.image, qus.question_type AS question_type, qus.status AS qus_status, ans.*\n"
+                        + "    FROM Question AS qus\n"
+                        + "    JOIN Answer AS ans ON ans.questionID = qus.id\n"
+                        + "    WHERE qus.question_type = 0 AND qus.status = 1 \n"
+                        + "    UNION ALL\n"
+                        + "    SELECT TOP(5) kqus.id AS kqus_id, kqus.question_text, kqus.image, kqus.question_type AS question_type, kqus.status AS kqus_status, kans.*\n"
+                        + "    FROM Question AS kqus\n"
+                        + "    JOIN Answer AS kans ON kans.questionID = kqus.id\n"
+                        + "    WHERE kqus.question_type = 1 AND kqus.status = 1\n"
+                        + ") AS qus_kans\n"
+                        + "ORDER BY NEWID();";
                 //cau sql lay ngau nhien 30 cau hoi binh thuong + 5 cau hoi liet
                 ptm = conn.prepareStatement(sql);
                 rs = ptm.executeQuery();
@@ -114,9 +125,9 @@ public class QuestionDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                String sql = "SELECT tp.topicID AS TopicID, que.id AS QuestionID, que.question_text AS Questions,\n"
-                        + "que.image AS Image, que.questiontype AS QuestionType, ans.answer_options AS Options,\n"
-                        + "ans.answer AS Answer, ans.isCorrect FROM Question AS que\n"
+                String sql = "SELECT tp.topicID, que.id AS questionID, que.question_text,\n"
+                        + "que.image, que.question_type, ans.answer_options,\n"
+                        + "ans.answer_text, ans.isCorrect FROM Question AS que\n"
                         + "JOIN Topic AS tp ON que.id = tp.questionID\n"
                         + "JOIN Answer AS ans ON ans.questionID = que.id\n"
                         + "WHERE tp.topicID = " + topic;
@@ -124,12 +135,13 @@ public class QuestionDAO {
                 ptm = conn.prepareStatement(sql);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
-//                    ArrayList<Answer> answer = new ArrayList<>();
-//                    answer.add(new AnswerDTO(rs.getInt("QuestionID"), rs.getInt("Options").trim(), rs.getString("AnswerDTO"), rs.getString("isCorrect")));
-//                    //Gan dap an lay duoc vaof entity AnswerDTO
-//                    list.add(new QuestionDTO(rs.getInt("QuestionID"), rs.getString("Questions"), rs.getString("Image"),
-//                            answer, rs.getBoolean("QuestionType"), rs.getInt("TopicID")));
-//                    //Gan tat ca cau hoi va dap an cua ma de duoc yeu cau vao Entity QuestionDTO
+                    ArrayList<AnswerDTO> answer = new ArrayList<>();
+                    answer.add(new AnswerDTO(rs.getInt("questionID"), rs.getInt("answer_options"), rs.getString("answer_text").trim(), rs.getString("isCorrect")));
+                    //luu dap an vao entity answer, muc dich la de lay dap an cung luc voi cau hoi cho tien viec truy van
+
+                    list.add(new QuestionDTO(rs.getInt("questionID"), rs.getString("question_text"), rs.getString("image"),
+                            rs.getString("question_type"), answer));
+                    //luu cau hoi + dap an vao entity question  
                 }
             }
         } catch (Exception e) {
@@ -143,7 +155,7 @@ public class QuestionDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                String sql = "SELECT DISTINCT topicID FROM Topic";
+                String sql = "SELECT DISTINCT topicID FROM Topic WHERE status = 1";
                 ptm = conn.prepareStatement(sql);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
@@ -170,22 +182,22 @@ public class QuestionDAO {
         try {
             StringBuilder concatenated = new StringBuilder();
             if (!answerA.endsWith("A. ")) {
-                concatenated.append(answerA).append("\n");
+                concatenated.append(answerA).append("/");
             }
             if (!answerB.endsWith("B. ")) {
-                concatenated.append(answerB).append("\n");
+                concatenated.append(answerB).append("/");
             }
             if (!answerC.endsWith("C. ")) {
-                concatenated.append(answerC).append("\n");
+                concatenated.append(answerC).append("/");
             }
             if (!answerD.endsWith("D. ")) {
-                concatenated.append(answerD).append("\n");
+                concatenated.append(answerD).append("/");
             }
             if (!answerE.endsWith("E. ")) {
-                concatenated.append(answerE).append("\n");
+                concatenated.append(answerE).append("/");
             }
             if (!answerF.endsWith("F. ")) {
-                concatenated.append(answerF).append("\n");
+                concatenated.append(answerF).append("/");
             }
             result = concatenated.toString();
         } catch (Exception e) {
@@ -258,6 +270,7 @@ public class QuestionDAO {
         }
         return false;
     }
+
     public boolean checkDuplicateID(String question, int id) throws SQLException {
         try {
             conn = DBUtils.getConnection();
@@ -383,9 +396,59 @@ public class QuestionDAO {
         return false;
     }
 
-    public static void main(String[] args) throws SQLException {
+//    public static void main(String[] args) throws SQLException {
+//        QuestionDAO dao = new QuestionDAO();
+//        ArrayList<QuestionDTO> listQ = dao.getRandomQuestionAndAnswer();
+//        for (QuestionDTO questionDTO : listQ) {
+//            System.out.println(questionDTO);
+//            ArrayList<AnswerDTO> answers = questionDTO.getAnswer();
+//            for (AnswerDTO answer : answers) {
+//                System.out.println(answer);
+//                String result = Arrays.toString(answer.getAnswer().split("\n"));
+//                String[] resultArray = result.substring(1, result.length() - 1).split(", ");
+//
+//                int answerCount = resultArray.length;
+//
+//                if (answerCount >= 2) {
+//                    String answer1 = resultArray[0].trim();
+//                    String answer2 = resultArray[1].trim();
+//                    System.out.println("Answer1: " + answer1);
+//                    System.out.println("Answer2: " + answer2);
+//                }
+//
+//                if (answerCount >= 3) {
+//                    String answer3 = resultArray[2].trim();
+//                    System.out.println("Answer3: " + answer3);
+//                }
+//
+//                if (answerCount >= 4) {
+//                    String answer4 = resultArray[3].trim();
+//                    System.out.println("Answer4: " + answer4);
+//                }
+//
+//                if (answerCount >= 5) {
+//                    String answer5 = resultArray[4].trim();
+//                    System.out.println("Answer5: " + answer5);
+//                }
+//
+//                if (answerCount >= 6) {
+//                    String answer6 = resultArray[5].trim();
+//                    System.out.println("Answer6: " + answer6);
+//                }
+//
+//            }
+//        }
+//    }
+    public static void main(String[] args) {
         QuestionDAO dao = new QuestionDAO();
-        boolean result = dao.checkDuplicateID("Tuyền nè", 22);
-        System.out.println(result);
+        try {
+            ArrayList<QuestionDTO> list = dao.getTopic("1");
+            for (QuestionDTO questionDTO : list) {
+                System.out.println(questionDTO);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(QuestionDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 }

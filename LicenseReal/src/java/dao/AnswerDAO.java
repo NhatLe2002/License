@@ -5,10 +5,12 @@
  */
 package dao;
 
+import dto.QuestionDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import utils.DBUtils;
 
 /**
@@ -44,6 +46,11 @@ public class AnswerDAO {
         } 
         return false;
     }
+    
+//    public ArrayList<QuestionDTO> checkAnswer(String questionID, String selectAnswer) throws SQLException{
+//        
+//    }
+    
     public static void main(String[] args) throws SQLException {
         AnswerDAO dao = new AnswerDAO();
         boolean checkInsert = dao.insertAnswer(1, "4", "ABCB\nDBVBS\nskas\ndadhai", "A");

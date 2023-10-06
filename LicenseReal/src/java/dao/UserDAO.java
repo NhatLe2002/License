@@ -10,9 +10,9 @@ import dto.UserDTO;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.time.LocalDate;
 import utils.DBUtils;
 import static utils.DBUtils.getConnection;
+import utils.Util;
 
 /**
  *
@@ -20,60 +20,77 @@ import static utils.DBUtils.getConnection;
  */
 public class UserDAO extends DBUtils {
 
-    public static boolean createUser(String name, String phone, String email, Date dob, String cccd,
+    public static int createUser(String name, String phone, String email, Date dob, String cccd,
             String address, int accountID) {
-        boolean check = false;
+
         try {
-            String sql = "INSERT INTO [User] (name,phone,email,dob,cccd,address,role,status,accountID)"
-                    + "values(?,?,?,?,?,?,1,1,?)";
-            PreparedStatement ps = getConnection().prepareStatement(sql);
-            ps.setString(1, name);
-            ps.setString(2, phone);
-            ps.setString(3, email);
-            ps.setDate(4, dob);
-            ps.setString(5, cccd);
-            ps.setString(6, address);
-            ps.setInt(7, accountID);
-            int row = ps.executeUpdate();
-            if (row > 0) {
-                check = true;
+            if (!Util.validateAllDigits(phone.trim())) {
+                return 1; // khong dung dinh dang phone
+            } else if (!Util.validateEmail(email)) {
+                return 2; // khong dung dinh dang email
+            } else if (!Util.validateNotFutureDate(dob.toLocalDate())) {
+                return 3; // ngay o? tuong lai
+            } else if (!Util.validateAge(dob.toLocalDate())) {
+                return 4; // duoi 18 t
+            } else {
+                String sql = "INSERT INTO [User] (name,phone,email,dob,cccd,address,role,status,accountID)"
+                        + "values(?,?,?,?,?,?,1,1,?)";
+                PreparedStatement ps = getConnection().prepareStatement(sql);
+                ps.setString(1, name);
+                ps.setString(2, phone);
+                ps.setString(3, email);
+                ps.setDate(4, dob);
+                ps.setString(5, cccd);
+                ps.setString(6, address);
+                ps.setInt(7, accountID);
+                ps.executeUpdate();
             }
         } catch (Exception e) {
             System.out.println(e);
         }
-        return check;
+        return 0;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(createUser("", "000 ", "132@yahoo.com", new Date(2, 2, 2), ".00", "000", 36));
     }
 
     public static int updateUser(String name, String phone, String email, Date dob, String cccd,
             String address, int accountID) {
         try {
-            String sql = "UPDATE [User] "
-                    + "SET name = ?, "
-                    + "phone = ?, "
-                    + "email = ?, "
-                    + "dob = ?, "
-                    + "cccd = ?, "
-                    + "address = ? "
-                    + "WHERE accountID = ?";
+            if (!Util.validateAllDigits(phone.trim())) {
+                return 1; // khong dung dinh dang phone
+            } else if (!Util.validateEmail(email)) {
+                return 2; // khong dung dinh dang email
+            } else if (!Util.validateNotFutureDate(dob.toLocalDate())) {
+                return 3; // ngay o? tuong lai
+            } else if (!Util.validateAge(dob.toLocalDate())) {
+                return 4; // duoi 18 t
+            } else {
+                String sql = "UPDATE [User] "
+                        + "SET name = ?, "
+                        + "phone = ?, "
+                        + "email = ?, "
+                        + "dob = ?, "
+                        + "cccd = ?, "
+                        + "address = ? "
+                        + "WHERE accountID = ?";
 
-            PreparedStatement ps = getConnection().prepareStatement(sql);
-            ps.setString(1, name);
-            ps.setString(2, phone);
-            ps.setString(3, email);
-            ps.setDate(4, dob);
-            ps.setString(5, cccd);
-            ps.setString(6, address);
-            ps.setInt(7, accountID);
-            ps.executeUpdate();
-            return 1;
+                PreparedStatement ps = getConnection().prepareStatement(sql);
+                ps.setString(1, name);
+                ps.setString(2, phone);
+                ps.setString(3, email);
+                ps.setDate(4, dob);
+                ps.setString(5, cccd);
+                ps.setString(6, address);
+                ps.setInt(7, accountID);
+                ps.executeUpdate();
+            }
         } catch (Exception e) {
             System.out.println(e);
-            return 0;
-        }
-    }
 
-    public static void main(String[] args) {
-        System.out.println(getUser(6).getName());
+        }
+        return 0;
     }
 
     public static UserDTO getUser(int accountID) {

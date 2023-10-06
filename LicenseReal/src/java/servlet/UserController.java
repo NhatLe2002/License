@@ -8,17 +8,17 @@ package servlet;
 import dao.UserDAO;
 import dto.AccountDTO;
 import dto.UserDTO;
+
 import java.io.IOException;
-import java.io.PrintWriter;
+
 import java.sql.Date;
-import java.time.LocalDate;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.bind.DatatypeConverter;
 
 /**
  *
@@ -40,6 +40,7 @@ public class UserController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
+
         String name = request.getParameter("name");
         String phone = request.getParameter("phone");
         String email = request.getParameter("email");
@@ -47,17 +48,60 @@ public class UserController extends HttpServlet {
         String cccd = request.getParameter("cccd");
         String address = request.getParameter("address");
         int accountID = Integer.parseInt(request.getParameter("accountID"));
+        String url = "user-infor.jsp";
+        String message = "";
+        int check;
+
         UserDTO user = new UserDTO();
+
         try {
-            if (UserDAO.getUser(accountID) == null){
-                UserDAO.createUser(name, phone, email, dob, cccd, address, accountID);
-            }else UserDAO.updateUser(name, phone, email, dob, cccd, address, accountID);
-            user = UserDAO.getUser(accountID);
+
+            if (UserDAO.getUser(accountID) == null) {
+                check = UserDAO.createUser(name, phone, email, dob, cccd, address, accountID);
+                switch (check) {
+                    case 0:
+                        message = "Cập nhập thành công";
+                        break;
+                    case 1:
+                        message = "Số điện thoại sai định dạng";
+                        break;
+                    case 2:
+                        message = "Email sai định dạng";
+                        break;
+                    case 3:
+                        message = "Chọn ngày không hợp lệ";
+                        break;
+                    case 4:
+                        message = "Yêu cầu số tuổi lớn hơn 18";
+                        break;
+                }
+                user = UserDAO.getUser(accountID);
+            } else {
+                check = UserDAO.updateUser(name, phone, email, dob, cccd, address, accountID);
+                switch (check) {
+                    case 0:
+                        message = "Cập nhập thành công";
+                        break;
+                    case 1:
+                        message = "Số điện thoại sai định dạng";
+                        break;
+                    case 2:
+                        message = "Email sai định dạng";
+                        break;
+                    case 3:
+                        message = "Chọn ngày không hợp lệ";
+                        break;
+                    case 4:
+                        message = "Yêu cầu số tuổi lớn hơn 18";
+                        break;
+                }
+                user = UserDAO.getUser(accountID);
+            }
         } catch (Exception e) {
         } finally {
             session.setAttribute("user", user);
-            request.setAttribute("message", "Cập nhập thành công");
-            request.getRequestDispatcher("user-infor.jsp").forward(request, response);
+            request.setAttribute("message", message);
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 
