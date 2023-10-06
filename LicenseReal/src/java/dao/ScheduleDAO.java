@@ -186,7 +186,7 @@ public class ScheduleDAO {
 //        } else {
 //            System.out.println("sai");
 //        }
-        if (updateMenberIDInSchedule(2, 19)) {
+        if (updateMenberIDInSchedule(1, 5)) {
             System.out.println("oke");
         }else{
             System.out.println("chua dc");

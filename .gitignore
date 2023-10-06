@@ -1,1 +1,5 @@
 /LicenseReal/dist/
+/LicenseReal/nbproject/
+/LicenseReal/lib/
+/LicenseReal/*.xml
+/LicenseReal/build/

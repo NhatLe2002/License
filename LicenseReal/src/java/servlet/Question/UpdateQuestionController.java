@@ -1,4 +1,4 @@
-package servlet;
+package servlet.Question;
 
 import dao.QuestionDAO;
 import dto.AnswerDTO;
@@ -41,13 +41,13 @@ public class UpdateQuestionController extends HttpServlet {
         QuestionDAO dao = new QuestionDAO();
         try {
             QuestionDTO list = dao.getQuestionByID(id);
-            request.setAttribute("question", list);
+            request.setAttribute("listQ", list);
 
             ArrayList<AnswerDTO> answers = list.getAnswer();
-            request.setAttribute("answers", answers);
+            request.setAttribute("listA", answers);
 
             for (AnswerDTO answer : answers) {
-                String result = Arrays.toString(answer.getAnswer().split("\n"));
+                String result = Arrays.toString(answer.getAnswer().split("/"));
                 String[] resultArray = result.substring(1, result.length() - 1).split(", ");
 
                 int answerCount = resultArray.length;
