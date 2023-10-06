@@ -8,21 +8,31 @@ package servlet;
 import dao.DrivingProfileDAO;
 import dto.MemberDTO;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
+import org.apache.commons.io.IOUtils;
 
 /**
  *
  * @author HOANG ANH
  */
 @WebServlet(name = "UpdateProfileController", urlPatterns = {"/updateProfile"})
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10, // 10MB
+        maxRequestSize = 1024 * 1024 * 50)   // 50MB
 public class UpdateProfileController extends HttpServlet {
 
     /**
@@ -63,12 +73,21 @@ public class UpdateProfileController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        int id = Integer.parseInt(request.getParameter("id"));
-        int id = 1;
+        HttpSession session = request.getSession();
+        String ID = request.getParameter("id");
+        int id = 0; // Giá trị mặc định
+
+        if (ID != null && !ID.isEmpty()) {
+            try {
+                id = Integer.parseInt(ID);
+            } catch (NumberFormatException e) {
+                // Xử lý lỗi NumberFormatException tại đây
+            }
+        }
 
         // Gọi hàm getMemberById từ lớp DrivingProfileDAO
         MemberDTO member = DrivingProfileDAO.getMemberById(id);
-        HttpSession session = request.getSession();
+
         session.setAttribute("load_profile", member);
 
         // Chuyển hướng đến trang updateprofile.jsp
@@ -88,9 +107,9 @@ public class UpdateProfileController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        int id = Integer.parseInt(request.getParameter("id"));
-            String id = request.getParameter("id");
-            int ID = Integer.parseInt(id);
-
+        String id = request.getParameter("id");
+        int ID = Integer.parseInt(id);
+        String message = "";
         // Lấy các giá trị từ request parameter
         String name = new String(request.getParameter("name").getBytes("ISO-8859-1"), "UTF-8");
         String phone = request.getParameter("phone");
@@ -99,7 +118,7 @@ public class UpdateProfileController extends HttpServlet {
         LocalDate dob = LocalDate.parse(dobString);
         String cccd = request.getParameter("cccd");
         String address = request.getParameter("address");
-        String avatar = request.getParameter("avatar");
+//        String avatar = request.getParameter("avatar");
 //        int role = Integer.parseInt(request.getParameter("role"));
         String health = new String(request.getParameter("health").getBytes("ISO-8859-1"), "UTF-8");
 
@@ -112,26 +131,45 @@ public class UpdateProfileController extends HttpServlet {
         member.setDob(dob);
         member.setCccd(cccd);
         member.setAddress(address);
-        member.setAvatar(avatar);
         member.setHealth(health);
-        // Đặt các giá trị khác cho đối tượng member
+//        member.setAvatar(avatar);
 
-        // Gọi hàm updateMember
-        boolean success = DrivingProfileDAO.updateMember(member);
-
-        if (success) {
-            // Cập nhật thành công
-            // Thực hiện các thao tác khác sau khi cập nhật
-
-            // Chuyển hướng hoặc hiển thị thông báo thành công cho người dùng
-            response.sendRedirect("home.jsp");
-        } else {
-            // Cập nhật không thành công
-            // Xử lý lỗi hoặc hiển thị thông báo lỗi cho người dùng
-
-            // Chuyển hướng hoặc hiển thị thông báo lỗi cho người dùng
-            response.sendRedirect("error.jsp");
+        String avatar = member.getAvatar();
+        List<Part> fileParts = new ArrayList<>();
+        for (Part part : request.getParts()) {
+            String partName = new String(part.getName().getBytes("iso-8859-1"), "UTF-8");
+            if (partName.equals("avatar")) {
+                fileParts.add(part);
+            }
         }
+        for (Part filePart : fileParts) {
+            String filename = filePart.getSubmittedFileName();
+            InputStream fileContent = filePart.getInputStream();
+            byte[] imageBytes = IOUtils.toByteArray(fileContent);
+            String data = Base64.getEncoder().encodeToString(imageBytes);
+
+            if (filePart.getName().equals("avatar")) {
+                avatar = data;
+            }
+            member.setAvatar(avatar);
+            boolean success = DrivingProfileDAO.updateMember(member, avatar);
+
+            if (success) {
+                // Cập nhật thành công
+                // Thực hiện các thao tác khác sau khi cập nhật
+
+                // Chuyển hướng hoặc hiển thị thông báo thành công cho người dùng
+                message = "Cập nhật thông tin cá nhân thành công!";
+            } else {
+                // Cập nhật không thành công
+                // Xử lý lỗi hoặc hiển thị thông báo lỗi cho người dùng
+
+                // Chuyển hướng hoặc hiển thị thông báo lỗi cho người dùng
+                message = "Cập nhật thông tin cá thân thất bại!";
+            }
+        }
+        request.setAttribute("message", message);
+        request.getRequestDispatcher("home.jsp").forward(request, response);
     }
 
     /**
