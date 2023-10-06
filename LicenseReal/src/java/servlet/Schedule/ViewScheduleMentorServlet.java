@@ -5,6 +5,7 @@
  */
 package servlet.Schedule;
 
+import dao.MentorDAO;
 import dao.ScheduleDAO;
 import dto.ScheduleDTO;
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -78,6 +80,15 @@ public class ViewScheduleMentorServlet extends HttpServlet {
 //            out.println("<h1>Servlet ViewScheduleMentorServlet at " + request.getContextPath() + "</h1>");
 //            out.println("</body>");
 //            out.println("</html>");
+            Cookie[] c = request.getCookies();
+            String userId = "";
+            if (c != null) {
+                for (Cookie aCookie : c) {
+                    if (aCookie.getName().equals("userId")) {
+                        userId = aCookie.getValue();
+                    }
+                }
+            }
             LocalDate currentDate = LocalDate.now();
             if (request.getParameter("selectMondayOfWeek") != null) {
                 String selectMondayOfWeek = request.getParameter("selectMondayOfWeek");
@@ -88,7 +99,12 @@ public class ViewScheduleMentorServlet extends HttpServlet {
             ArrayList<LocalDate> mondays = getAllMonday();
             LocalDate mondayOfWeek = getMondayOfWeek(currentDate);
             ArrayList<LocalDate> week = getWeek(mondayOfWeek);
-            ArrayList<ScheduleDTO> mentorSchedule = ScheduleDAO.getScheduleByMentorID(1);
+            ArrayList<ScheduleDTO> mentorSchedule = new ArrayList<>();
+            if (userId != "") {
+                mentorSchedule = ScheduleDAO.getScheduleByMentorID(MentorDAO.getMentorByUserID(Integer.parseInt(userId)).getId());
+            } else {
+                mentorSchedule = null;
+            }
 
             //Schedule of mentor check by action
             //request.setAttribute("message", request.getParameter("action"));

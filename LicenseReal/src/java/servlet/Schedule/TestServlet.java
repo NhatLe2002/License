@@ -45,7 +45,7 @@ public class TestServlet extends HttpServlet {
             for (String object : checkBoxValues) {
                 parts = object.split("/");
                out.println(parts[0]); 
-               out.println("</br>");
+               out.println("<conkudai3met/br>");
             }
             out.println("</body>");
             out.println("</html>");
