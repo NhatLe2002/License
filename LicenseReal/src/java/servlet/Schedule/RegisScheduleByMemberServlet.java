@@ -19,6 +19,7 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -84,20 +85,31 @@ public class RegisScheduleByMemberServlet extends HttpServlet {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 currentDate = LocalDate.parse(selectMondayOfWeek, formatter);
             }
-
-            MemberDTO member = MemberDAO.getMemberByUserID(1);
+            Cookie[] c = request.getCookies();
+            String userId = "";
+            if (c != null) {
+                for (Cookie aCookie : c) {
+                    if (aCookie.getName().equals("userId")) {
+                        userId = aCookie.getValue();
+                    }
+                }
+            }
+            MemberDTO menber = new MemberDTO();
+            ArrayList<ScheduleDTO> memberSchedule = new ArrayList<>();
+            if (userId != "") {
+                menber = MemberDAO.getMemberByUserID(Integer.parseInt(userId));
+                memberSchedule = ScheduleDAO.getScheduleByMemberID(menber.getId());
+            } else {
+                memberSchedule = null;
+            }
             if (request.getParameterValues("checkBoxName") != null) {
                 String[] checkBoxValues = request.getParameterValues("checkBoxName");
-                String[] parts;
                 //add schedule
                 for (String object : checkBoxValues) {
-
-                    parts = object.split("/");
-                    ScheduleDTO schedule = new ScheduleDTO(Integer.parseInt(parts[3]),  Integer.parseInt(parts[2]), member.getId(), null, java.sql.Date.valueOf(parts[1]), Integer.parseInt(parts[0]));
                     try {
-                        ScheduleDAO.insertSchedule(schedule);
+                        ScheduleDAO.updateMenberIDInSchedule(Integer.parseInt(object), menber.getId());
                     } catch (Exception e) {
-                        out.print("<h2>" + e + "</h2>");
+
                     }
                 }
             }
@@ -105,16 +117,12 @@ public class RegisScheduleByMemberServlet extends HttpServlet {
             LocalDate mondayOfWeek = getMondayOfWeek(currentDate);
             ArrayList<LocalDate> week = getWeek(mondayOfWeek);
             ArrayList<ScheduleDTO> mentorScheduleNotTeache = ScheduleDAO.getScheduleNotTeach();
-            ArrayList<ScheduleDTO> mentorSchedule = ScheduleDAO.getScheduleByMentorID(1);
-            ArrayList<ScheduleDTO> memberSchedule = ScheduleDAO.getScheduleByMemberID(1);
-            
-            
-            
-            
 
+            Date currentDayCheck = Date.valueOf(LocalDate.now());
+            //Dung de check Date cua currentdate
+            request.setAttribute("currentDay", currentDayCheck);
             request.setAttribute("mentorScheduleNotTeache", mentorScheduleNotTeache);
             request.setAttribute("scheduleOfMember", memberSchedule);
-            request.setAttribute("scheduleOfMentor", mentorSchedule);
             request.setAttribute("currentMonday", mondayOfWeek);
             request.setAttribute("week", convertLocalDateToDate(week));
             request.setAttribute("mondays", mondays);

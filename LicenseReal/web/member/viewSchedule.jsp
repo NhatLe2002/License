@@ -71,14 +71,27 @@
                                 <c:forEach items="${requestScope.memberSchedule}" var="c">
                                     <c:if test="${requestScope.week[i] == c.getDay() && c.getTime() == time}">
                                         <c:set var="check" value="true"></c:set>
+                                        <c:choose>
+                                            <c:when test="${c.getType() == 1}">
+                                                <td>
+                                                    Học thực hành
+                                                    
+                                                    <!--cho nay de xem detail vs lai voting mentor-->
+                                                    <a class="menu_items" href="" >Detail</a>
+
+                                                </td>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <td>
+
+                                                </td>
+                                            </c:otherwise>
+                                        </c:choose>
+
                                     </c:if>
                                 </c:forEach>
                                 <c:choose>
                                     <c:when test="${check == true}">
-                                        <td>${requestScope.week[i]}</br>
-                                            Chỗ này hiện lịch học giáo viên.
-                                            Muốn hiện gì thì ghi ở đây vd: time,...
-                                        </td>
                                     </c:when>
                                     <c:otherwise>
                                         <td></td>
