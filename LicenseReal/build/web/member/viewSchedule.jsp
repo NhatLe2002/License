@@ -75,7 +75,6 @@
                                             <c:when test="${c.getType() == 1}">
                                                 <td>
                                                     Học thực hành
-                                                    
                                                     <!--cho nay de xem detail vs lai voting mentor-->
                                                     <a class="menu_items" href="" >Detail</a>
 
