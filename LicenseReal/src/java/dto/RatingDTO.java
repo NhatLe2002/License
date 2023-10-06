@@ -11,18 +11,48 @@ package dto;
  */
 public class RatingDTO {
     private int id;
-    private float star;
-    private int memberID;
     private int mentorID;
+    private int memberID;
+    private int star;
+    
+    
+    private String description;
 
     public RatingDTO() {
     }
 
-    public RatingDTO(int id, float star, int memberID, int mentorID) {
+    public RatingDTO(int id, int mentorID, int memberID, int star, String description) {
+        this.id = id;
+        this.mentorID = mentorID;
+        this.memberID = memberID;
+        this.star = star;
+        this.description = description;
+    }
+
+    
+
+    public RatingDTO(int mentorID, int memberID, int star, String description) {
+        this.mentorID = mentorID;
+        this.memberID = memberID;
+        this.star = star;
+        this.description = description;
+    }
+
+
+
+    public RatingDTO(int id, int star, int memberID, int mentorID) {
         this.id = id;
         this.star = star;
         this.memberID = memberID;
         this.mentorID = mentorID;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getId() {
@@ -37,7 +67,7 @@ public class RatingDTO {
         return star;
     }
 
-    public void setStar(float star) {
+    public void setStar(int star) {
         this.star = star;
     }
 
