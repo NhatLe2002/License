@@ -15,6 +15,7 @@ import dao.AccountDAO;
 import dao.UserDAO;
 import dto.AccountDTO;
 import dto.UserDTO;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -89,6 +90,9 @@ public class AccountController extends HttpServlet {
         } catch (Exception e) {
 
         } finally {
+            Cookie cookie = new Cookie("userId", Integer.toString(user.getId()));
+            cookie.setMaxAge(60 * 60);
+            response.addCookie(cookie);
             session.setAttribute("account", account);
             session.setAttribute("user", user);
             request.setAttribute("message", message);
