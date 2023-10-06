@@ -207,5 +207,10 @@ public class ScheduleDAO {
 //            System.out.println(scheduleMemberCanRegi.getDay());
 //        }
 
+        if (updateMenberIDInSchedule(1, 5)) {
+            System.out.println("oke");
+        }else{
+            System.out.println("chua dc");
+        }
     }
 }

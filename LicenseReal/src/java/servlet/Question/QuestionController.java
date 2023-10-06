@@ -1,4 +1,4 @@
-package servlet;
+package servlet.Question;
 
 import dao.AnswerDAO;
 import dao.QuestionDAO;

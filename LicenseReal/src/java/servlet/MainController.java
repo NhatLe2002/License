@@ -5,9 +5,14 @@
  */
 package servlet;
 
+import dao.QuestionDAO;
+import dto.QuestionDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +36,7 @@ public class MainController extends HttpServlet {
     private String url = "errorpage.html";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -58,6 +63,11 @@ public class MainController extends HttpServlet {
                 url = "RegisScheduleByMemberServlet";
             }else if (action.equals("regisScheduleMemberBtn")) {
                 url = "RegisScheduleByMemberServlet";
+            } else if (action.equals("PracticeTest")){
+                QuestionDAO dao = new QuestionDAO();
+                List<QuestionDTO> listTopic = dao.getTopicID();
+                request.setAttribute("listTopic", listTopic);
+                url = "chooseTryTest.jsp";
             }
             
 //            else if (action.equals("viewScheduleServlet")) {
@@ -71,6 +81,8 @@ public class MainController extends HttpServlet {
                 url = "addQuestion.jsp";
             } else if (action.equals("update")) {
                 url = "UserController";
+            }else if (action.equals("pay")) {
+                url = "ajaxServlet";
             }
             request.setAttribute("action", action);
             request.getRequestDispatcher(url).forward(request, response);
@@ -90,7 +102,11 @@ public class MainController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -104,7 +120,11 @@ public class MainController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
