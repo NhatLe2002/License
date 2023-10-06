@@ -71,6 +71,8 @@ public class MainController extends HttpServlet {
                 url = "addQuestion.jsp";
             } else if (action.equals("update")) {
                 url = "UserController";
+            }else if (action.equals("pay")) {
+                url = "ajaxServlet";
             }
             request.setAttribute("action", action);
             request.getRequestDispatcher(url).forward(request, response);
