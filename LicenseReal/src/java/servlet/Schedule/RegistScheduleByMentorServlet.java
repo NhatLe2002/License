@@ -19,6 +19,7 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,6 +37,7 @@ public class RegistScheduleByMentorServlet extends HttpServlet {
             dateList.add(java.sql.Date.valueOf(localDate));
         }
         return dateList;
+        
     }
 
     public ArrayList<LocalDate> getAllMonday() {
@@ -107,7 +109,16 @@ public class RegistScheduleByMentorServlet extends HttpServlet {
 
             //Get mentor to get id
             //******ĐỢi có cookie sẽ lấy id bằng cookie
-            MentorDTO mentor = MentorDAO.getMentorByUserID(1);
+            Cookie[] c = request.getCookies();
+            String userId = "";
+            if (c != null) {
+                for (Cookie aCookie : c) {
+                    if (aCookie.getName().equals("userId")) {
+                        userId = aCookie.getValue();
+                    }
+                }
+            }
+            int mentorId = MentorDAO.getMentorByUserID(Integer.parseInt(userId)).getId();
             //Get list checkbox regis schedule
             if (request.getParameterValues("checkBoxName") != null) {
                 String[] checkBoxValues = request.getParameterValues("checkBoxName");
@@ -116,7 +127,8 @@ public class RegistScheduleByMentorServlet extends HttpServlet {
                 for (String object : checkBoxValues) {
 
                     parts = object.split("/");
-                    ScheduleDTO schedule = new ScheduleDTO(1, mentor.getId(), null, null, java.sql.Date.valueOf(parts[1]), Integer.parseInt(parts[0]));
+                    ScheduleDTO schedule = new ScheduleDTO(1, 
+                            mentorId, null, 1, java.sql.Date.valueOf(parts[1]), Integer.parseInt(parts[0]));
                     try {
                         ScheduleDAO.insertSchedule(schedule);
                     } catch (Exception e) {
@@ -125,13 +137,15 @@ public class RegistScheduleByMentorServlet extends HttpServlet {
                 }
             }
 
-            ArrayList<ScheduleDTO> mentorSchedule = ScheduleDAO.getScheduleByMentorID(1);
+            ArrayList<ScheduleDTO> mentorSchedule = ScheduleDAO.getScheduleByMentorID(mentorId);
 
             //Schedule of mentor check by action
             //request.setAttribute("message", request.getParameter("action"));
             request.setAttribute("scheduleOfMentor", mentorSchedule);
 
+            Date currentDayCheck = Date.valueOf(LocalDate.now());
             //Dung de check Date cua currentdate
+            request.setAttribute("currentDay", currentDayCheck);
             request.setAttribute("currentMonday", mondayOfWeek);
             request.setAttribute("week", convertLocalDateToDate(week));
             request.setAttribute("mondays", mondays);

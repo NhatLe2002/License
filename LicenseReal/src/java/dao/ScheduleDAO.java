@@ -69,7 +69,7 @@ public class ScheduleDAO {
                         int time = rs.getInt("time");
                         int idMentor = rs.getInt("mentorID");
                         int idMember = rs.getInt("memberID");
-                        ScheduleDTO schedule = new ScheduleDTO(1, idMentor, idMember, type, day, time);
+                        ScheduleDTO schedule = new ScheduleDTO(idSche, idMentor, idMember, type, day, time);
                         list.add(schedule);
                     }
                 }
@@ -177,7 +177,7 @@ public class ScheduleDAO {
 
     public static void main(String[] args) {
 
-//        for (ScheduleDTO arg : getScheduleNotTeach()) {
+//        for (ScheduleDTO arg : getScheduleByMemberID(MemberDAO.getMemberByUserID(5).getId())) {
 //            System.out.println(arg.getMentorID());
 //        }
 //        insertSchedule(new ScheduleDTO(1, 1, 0, 0, java.sql.Date.valueOf("2023-10-07"), 2));
@@ -186,7 +186,28 @@ public class ScheduleDAO {
 //        } else {
 //            System.out.println("sai");
 //        }
-        if (updateMenberIDInSchedule(2, 19)) {
+//        if (updateMenberIDInSchedule(2, 19)) {
+//            System.out.println("oke");
+//        }else{
+//            System.out.println("chua dc");
+//        }
+//        ArrayList<ScheduleDTO> mentorScheduleNotTeache = ScheduleDAO.getScheduleNotTeach();
+//        ArrayList<ScheduleDTO> scheduleMemberCanRegis = mentorScheduleNotTeache;
+//        for (ScheduleDTO mentorSche : mentorScheduleNotTeache) {
+//            for (ScheduleDTO memberSche : ScheduleDAO.getScheduleByMemberID(1)) {
+//                if (mentorSche.getDay() == memberSche.getDay() && mentorSche.getTime() == memberSche.getTime()) {
+//                    scheduleMemberCanRegis.remove(memberSche);
+//                    for (ScheduleDTO scheduleMemberCanRegi : scheduleMemberCanRegis) {
+//                        System.out.println(scheduleMemberCanRegi.getDay());
+//                    }
+//                }
+//            }
+//        }
+//        for (ScheduleDTO scheduleMemberCanRegi : scheduleMemberCanRegis) {
+//            System.out.println(scheduleMemberCanRegi.getDay());
+//        }
+
+        if (updateMenberIDInSchedule(1, 5)) {
             System.out.println("oke");
         }else{
             System.out.println("chua dc");
