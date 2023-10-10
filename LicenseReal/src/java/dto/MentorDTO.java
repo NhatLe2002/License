@@ -15,6 +15,7 @@ public class MentorDTO {
     private String experience;
     private boolean status;
     private int userID;
+    private UserDTO user;
 
     public MentorDTO() {
     }
@@ -26,6 +27,16 @@ public class MentorDTO {
         this.status = status;
         this.userID = userID;
     }
+
+    public MentorDTO(int id, String certificate, String experience, boolean status, int userID, UserDTO user) {
+        this.id = id;
+        this.certificate = certificate;
+        this.experience = experience;
+        this.status = status;
+        this.userID = userID;
+        this.user = user;
+    }
+    
 
     public int getId() {
         return id;
@@ -66,5 +77,14 @@ public class MentorDTO {
     public void setUserID(int userID) {
         this.userID = userID;
     }
+
+    public UserDTO getUser() {
+        return user;
+    }
+
+    public void setUser(UserDTO user) {
+        this.user = user;
+    }
+    
     
 }

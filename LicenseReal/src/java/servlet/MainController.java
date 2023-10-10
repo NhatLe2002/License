@@ -69,10 +69,6 @@ public class MainController extends HttpServlet {
                 request.setAttribute("listTopic", listTopic);
                 url = "chooseTryTest.jsp";
             }
-            
-//            else if (action.equals("viewScheduleServlet")) {
-//                url = "ViewScheduleServlet";
-//            }
             else if (action.equals("schedule")) {
                 url = "ScheduleServlet";
             } else if (action.equals("QuestionController")) {
@@ -83,6 +79,10 @@ public class MainController extends HttpServlet {
                 url = "UserController";
             }else if (action.equals("pay")) {
                 url = "ajaxServlet";
+            }else if (action.equals("detailSlot")) {
+                url = "DetailSlotServlet";
+            }else if (action.equals("ratingOfMember")) {
+                url = "DetailSlotServlet";
             }
             request.setAttribute("action", action);
             request.getRequestDispatcher(url).forward(request, response);
