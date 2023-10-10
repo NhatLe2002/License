@@ -17,6 +17,7 @@ public class MentorDTO {
     private String experience;
     private boolean status;
     private int userID;
+    private UserDTO user;
     private String name;
     private String phone;
     private String email;
@@ -35,7 +36,14 @@ public class MentorDTO {
         this.status = status;
         this.userID = userID;
     }
-
+    public MentorDTO(int id, String certificate, String experience, boolean status, int userID, UserDTO user) {
+        this.id = id;
+        this.certificate = certificate;
+        this.experience = experience;
+        this.status = status;
+        this.userID = userID;
+        this.user = user;
+    }
         public MentorDTO(int id, UserDTO user, String certificate, String experience) {
         this.id = id;
         this.userID = user.getId();
@@ -90,7 +98,13 @@ public class MentorDTO {
     public void setUserID(int userID) {
         this.userID = userID;
     }
+    public UserDTO getUser() {
+        return user;
+    }
 
+    public void setUser(UserDTO user) {
+        this.user = user;
+    }
     public String getName() {
         return name;
     }
