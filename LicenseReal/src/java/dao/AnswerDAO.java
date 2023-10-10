@@ -27,7 +27,7 @@ public class AnswerDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-               String sql = "INSERT INTO Answer (questionID, answer_options, answer_text, isCorrect) VALUES (" + questionID + "," + answer_option + ",N'" + answer + "','" + isCorrect + "')";
+               String sql = "INSERT INTO Answer (questionID, answer_options, answer_text, isCorrect, status) VALUES (" + questionID + "," + answer_option + ",N'" + answer + "','" + isCorrect + "',1)";
                ptm = conn.prepareStatement(sql);
                int row = ptm.executeUpdate();
                 if (row > 0) {

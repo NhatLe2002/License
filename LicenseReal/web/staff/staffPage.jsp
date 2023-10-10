@@ -1,3 +1,10 @@
+<%-- 
+    Document   : staffPage
+    Created on : 06-10-2023, 08:56:09
+    Author     : HP Pro
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html lang="en"><head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,215 +15,7 @@
         <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" /> -->
         <!-- MDB -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css" rel="stylesheet">
-
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-
-            a {
-                text-decoration: none;
-                cursor: pointer;
-            }
-
-            /* content */
-            .admin #sidebarMenu {
-                position: fixed;
-                height: 100vh;
-                top: 0;
-                background-color: #fefae0 !important;
-            }
-
-            .admin .admin-content {
-                min-height: 100vh;
-                height: auto;
-            }
-
-            .admin .nav-item {
-                margin: 10px 0;
-            }
-
-            .admin .nav-item p {
-                padding: 15px 10px;
-                margin: 0;
-            }
-
-            .admin .nav-item:hover {
-                background-color: rgba(0, 0, 0, 0.1);
-                border-radius: 15px;
-                cursor: pointer;
-            }
-
-            .admin .logout-btn {
-                position: absolute;
-                color: #5979cb;
-                left: 25px;
-                bottom: 25px;
-            }
-
-            .admin .logout-btn:hover {
-                cursor: pointer;
-            }
-
-            .admin .filter {
-                display: flex;
-                width: 50%;
-                height: 40px;
-                margin: 20px;
-                justify-content: flex-end;
-                float: right;
-            }
-
-            .admin .filter .filter-input {
-                width: 200px;
-                margin: 0 20px;
-            }
-
-            .admin .admin-active {
-                border: 1px solid rgb(188, 188, 188);
-                background-color: rgba(0, 0, 0, 0.1);
-                border-radius: 15px;
-                box-shadow: 0px 0px 2px 0;
-            }
-
-            /* calendar */
-
-            @import url(https://fonts.googleapis.com/css?family=Poppins:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic);
-
-            :root {
-                --primary-color: #f90a39;
-                --text-color: #1d1d1d;
-                --bg-color: #f1f1fb;
-            }
-
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-                font-family: "Poppins", sans-serif;
-            }
-
-            body {
-                background-color: #fff;
-            }
-
-            .calendar {
-                width: 100%;
-                height: 100vh;
-                max-width: 1100px;
-                padding: 30px 20px;
-                border-radius: 10px;
-                margin: 20px auto;
-                background-color: var(--bg-color);
-            }
-
-            .calendar .header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 20px;
-                padding-bottom: 20px;
-                border-bottom: 2px solid #ccc;
-            }
-
-            .calendar .header .month {
-                display: flex;
-                align-items: center;
-                font-size: 25px;
-                font-weight: 600;
-                color: var(--text-color);
-            }
-
-            .calendar .header .btns {
-                display: flex;
-                gap: 10px;
-            }
-
-            .calendar .header .btns .btn {
-                width: 50px;
-                height: 40px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 5px;
-                color: #fff;
-                background-color: var(--primary-color);
-                font-size: 16px;
-                cursor: pointer;
-                transition: all 0.3s;
-            }
-
-            .calendar .header .btns .btn:hover {
-                background-color: #db0933;
-                transform: scale(1.05);
-            }
-
-            .weekdays {
-                display: flex;
-                gap: 10px;
-                margin-bottom: 10px;
-            }
-
-            .weekdays .day {
-                width: calc(100% / 7 - 10px);
-                text-align: center;
-                font-size: 16px;
-                font-weight: 600;
-            }
-
-            .days {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 10px;
-            }
-
-            .days .day {
-                width: calc(100% / 7 - 10px);
-                height: 100px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 5px;
-                font-size: 16px;
-                font-weight: 400;
-                color: var(--text-color);
-                background-color: #fff;
-                transition: all 0.3s;
-            }
-
-            .days .day:not(.next):not(.prev):hover {
-                color: #fff;
-                background-color: var(--primary-color);
-                transform: scale(1.05);
-            }
-
-            .days .day.today {
-                color: #fff;
-                background-color: var(--primary-color);
-            }
-
-            .days .day.next,
-            .days .day.prev {
-                color: #ccc;
-            }
-
-            .calendar .add-calendar {
-                padding: 12px 15px;
-                margin-top: 30px;
-            }
-            .logo {
-                display: flex;
-                align-items: center;
-            }
-            .logo h4 {
-                margin: 0;
-                padding: 1.5rem 0.5rem;
-            }
-
-        </style>
-
+        <link rel="stylesheet" href="./css/staffPage.css">
     </head>
 
     <body>
@@ -437,17 +236,17 @@
 
         <script>
 
-            const dashboard = document.querySelector(".dashboard")
-            const listUser = document.querySelector(".list-user")
-            const listTopic = document.querySelector(".list-topic")
-            const transaction = document.querySelector(".transaction")
-            const schedule = document.querySelector(".schedule")
+            const dashboard = document.querySelector(".dashboard");
+            const listUser = document.querySelector(".list-user");
+            const listTopic = document.querySelector(".list-topic");
+            const transaction = document.querySelector(".transaction");
+            const schedule = document.querySelector(".schedule");
 
-            const dashboardBtn = document.querySelector(".dashboard-btn")
-            const listUserBtn = document.querySelector(".list-user-btn")
-            const listTopicBtn = document.querySelector(".list-topic-btn")
-            const transactionBtn = document.querySelector(".transaction-btn")
-            const scheduleBtn = document.querySelector(".schedule-btn")
+            const dashboardBtn = document.querySelector(".dashboard-btn");
+            const listUserBtn = document.querySelector(".list-user-btn");
+            const listTopicBtn = document.querySelector(".list-topic-btn");
+            const transactionBtn = document.querySelector(".transaction-btn");
+            const scheduleBtn = document.querySelector(".schedule-btn");
 
             // xử lý sự kiện chuyển đổi các nội dung theo side bar
 
@@ -466,7 +265,7 @@
                 transactionBtn.classList.remove('admin-active');
                 scheduleBtn.classList.remove('admin-active');
                 dashboardBtn.classList.add('admin-active');
-            })
+            });
 
             // listUser
 
@@ -483,7 +282,7 @@
                 transactionBtn.classList.remove('admin-active');
                 scheduleBtn.classList.remove('admin-active');
                 listUserBtn.classList.add('admin-active');
-            })
+            });
 
             // list đề thi
 
@@ -500,7 +299,7 @@
                 transactionBtn.classList.remove('admin-active');
                 scheduleBtn.classList.remove('admin-active');
                 listTopicBtn.classList.add('admin-active');
-            })
+            });
 
             // lịch sử thanh toán
 
@@ -517,7 +316,7 @@
                 dashboardBtn.classList.remove('admin-active');
                 scheduleBtn.classList.remove('admin-active');
                 transactionBtn.classList.add('admin-active');
-            })
+            });
 
             // Lịch học
 
@@ -534,7 +333,7 @@
                 transactionBtn.classList.remove('admin-active');
                 dashboardBtn.classList.remove('admin-active');
                 scheduleBtn.classList.add('admin-active');
-            })
+            });
 
             // xử lý bảng lịch học
 
@@ -556,7 +355,7 @@
                 "9",
                 "10",
                 "11",
-                "12",
+                "12";
             ];
 
             const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];

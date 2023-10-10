@@ -16,18 +16,23 @@
               />
     </head>
     <body>
+        <div>
+            <c:if test="${not empty message}">
+                <label style="color: red">${message}</label>
+            </c:if>
+        </div>
         <h1>Show List Question Page</h1>
-        <a href="addQuestion.jsp">Back to Insert Question Page</a>
+        <a href="MainController?action=QuestionController">Show List Question Page</a>
         <table id="myTable"> 
             <thead>
                 <tr>
                     <th>No.</th>
                     <th>Question</th>
                     <th>Image</th>
-                    <th>Question Type</th>
-                    <th>Answer Option</th>
+                    <th>Number Of Option</th>
                     <th>Answer</th>
                     <th>Correct</th>
+                    <th>Question Type</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -42,14 +47,17 @@
                                 <img src="data:image;base64,${Q.image}" style="max-height: 5rem; max-width: 10rem"/>
                             </c:if>
                         </td>
-                        <td>${Q.questionType}</td>
                         <td>${A.options}</td>
                         <td>${A.answer}</td>
                         <td>${A.isCorrect}</td>
+                        <c:if test="${Q.questionType eq '1'}">
+                            <td>Paralysis</td>
+                        </c:if>
+                        <c:if test="${Q.questionType eq '0'}">
+                            <td>Normal</td>
+                        </c:if>
                         <td>
-                            <a href="UpdateQuestionController?id=${Q.id}"><i class="fa-solid fa-pen fa-bounce" style="color: #197307;"></i></a>
-                            |
-                            <a href="#"><i class="fa-solid fa-trash fa-bounce" style="color: #fa0000;"></i></i></a>
+                            <a href="RestoreQuestionController?id=${Q.id}"><i class="fa-solid fa-trash-arrow-up fa-bounce" style="color: #27b201;"></i></a>
                         </td>
                     </tr>
                 </c:forEach>

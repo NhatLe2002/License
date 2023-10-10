@@ -14,7 +14,7 @@
     </head>
     <body>
         <h1>Insert Questions Page</h1>
-        <form enctype="multipart/form-data" action="QuestionController" method="POST">
+        <form action="QuestionController" enctype="multipart/form-data" method="POST">
             <div>
                 <label>Question: </label>
                 <input type="text" placeholder="Enter question..." name="question" required="">
@@ -28,17 +28,20 @@
             </div>
             <div>
                 <label>Question Type: </label>
-                <input type="text" value="B2" name="question_type" readonly="">
+                <select name="question_type" style="cursor: pointer">
+                    <option value="0">Normal</option>
+                    <option value="1">Paralysis</option>
+                </select>
             </div>
             <div>
-                <label>Choose number of answer: </label>
+                <label>Choose number of answers: </label>
                 <select name="answer_options" style="cursor: pointer"  required="">
                     <option value="0" disabled="">Choose one option!</option>
-                    <option value="2">Have 2 answer</option>
-                    <option value="3">Have 3 answer</option>
-                    <option value="4">Have 4 answer</option>
-                    <option value="5">Have 5 answer</option>
-                    <option value="6" selected="">Have 6 answer</option>
+                    <option value="2">Have 2 answers</option>
+                    <option value="3">Have 3 answers</option>
+                    <option value="4">Have 4 answers</option>
+                    <option value="5">Have 5 answers</option>
+                    <option value="6" selected="">Have 6 answers</option>
                 </select>
             </div>
             <div name="answer_div">
@@ -79,6 +82,7 @@
             <button type="submit">Insert Question</button>
             <button type="reset">Reset Data</button>
         </form>
+        <!--Hien thi thong bao tu servlet-->
         <div>
             <c:if test="${not empty message}">
                 <label style="color: red">${message}</label>

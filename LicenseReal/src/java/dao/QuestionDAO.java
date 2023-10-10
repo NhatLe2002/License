@@ -181,22 +181,22 @@ public class QuestionDAO {
         String result = "";
         try {
             StringBuilder concatenated = new StringBuilder();
-            if (!answerA.endsWith("A. ")) {
+            if (!answerA.endsWith("A. ") && !answerA.isEmpty()) {
                 concatenated.append(answerA).append("/");
             }
-            if (!answerB.endsWith("B. ")) {
+            if (!answerB.endsWith("B. ") && !answerB.isEmpty()) {
                 concatenated.append(answerB).append("/");
             }
-            if (!answerC.endsWith("C. ")) {
+            if (!answerC.endsWith("C. ") && !answerC.isEmpty()) {
                 concatenated.append(answerC).append("/");
             }
-            if (!answerD.endsWith("D. ")) {
+            if (!answerD.endsWith("D. ") && !answerD.isEmpty()) {
                 concatenated.append(answerD).append("/");
             }
-            if (!answerE.endsWith("E. ")) {
+            if (!answerE.endsWith("E. ") && !answerE.isEmpty()) {
                 concatenated.append(answerE).append("/");
             }
-            if (!answerF.endsWith("F. ")) {
+            if (!answerF.endsWith("F. ") && !answerF.isEmpty()) {
                 concatenated.append(answerF).append("/");
             }
             result = concatenated.toString();
@@ -209,7 +209,7 @@ public class QuestionDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                String sql = "INSERT INTO Question (question_text, image, question_type) VALUES (N'" + question + "','" + image + "','" + question_type + "')";
+                String sql = "INSERT INTO Question (question_text, image, question_type, status) VALUES (N'" + question + "','" + image + "','" + question_type + "', 1)";
                 ptm = conn.prepareStatement(sql);
                 int row = ptm.executeUpdate();
                 if (row > 0) {
@@ -267,6 +267,16 @@ public class QuestionDAO {
                 }
             }
         } catch (Exception e) {
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
         }
         return false;
     }
@@ -292,14 +302,15 @@ public class QuestionDAO {
         return false;
     }
 
-    public ArrayList<QuestionDTO> getAllQuestion() throws SQLException {
+    public ArrayList<QuestionDTO> getAllQuestion(String status) throws SQLException {
         ArrayList<QuestionDTO> list = new ArrayList<>();
         try {
             conn = null;
             conn = DBUtils.getConnection();
             if (conn != null) {
                 String sql = "SELECT * FROM Question AS que\n"
-                        + "JOIN Answer AS ans ON que.id = ans.questionID";
+                        + "JOIN Answer AS ans ON que.id = ans.questionID\n"
+                        + "WHERE que.status = " + status;
                 ptm = conn.prepareStatement(sql);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
@@ -368,7 +379,7 @@ public class QuestionDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                sql = "UPDATE Question SET question_text = N'" + question_text + "', image = '" + image + "' WHERE id = " + questionID;
+                sql = "UPDATE Question SET question_text = N'" + question_text + "', image = '" + image + "', question_type = " + question_type + " WHERE id = " + questionID;
                 ptm = conn.prepareStatement(sql);
                 row = ptm.executeUpdate();
                 if (row > 0) {
@@ -396,43 +407,92 @@ public class QuestionDAO {
         return false;
     }
 
+    public boolean deleleQuestion(String questionID) throws SQLException {
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = "UPDATE Question SET status = 0 WHERE id = " + questionID;
+                ptm = conn.prepareStatement(sql);
+                int row = ptm.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return false;
+    }
+    public boolean restoreQuestion(String questionID) throws SQLException {
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = "UPDATE Question SET status = 1 WHERE id = " + questionID;
+                ptm = conn.prepareStatement(sql);
+                int row = ptm.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return false;
+    }
+
 //    public static void main(String[] args) throws SQLException {
 //        QuestionDAO dao = new QuestionDAO();
 //        ArrayList<QuestionDTO> listQ = dao.getRandomQuestionAndAnswer();
 //        for (QuestionDTO questionDTO : listQ) {
-//            System.out.println(questionDTO);
 //            ArrayList<AnswerDTO> answers = questionDTO.getAnswer();
 //            for (AnswerDTO answer : answers) {
-//                System.out.println(answer);
-//                String result = Arrays.toString(answer.getAnswer().split("\n"));
+//                
+//                String result = Arrays.toString(answer.getAnswer().replaceAll(", ", "###").split("/"));
+//                System.out.println("result: " + result);
 //                String[] resultArray = result.substring(1, result.length() - 1).split(", ");
+//                
+//                for (String string : resultArray) {
+//                    System.out.println("resultA: " + string);
+//                }
 //
 //                int answerCount = resultArray.length;
 //
 //                if (answerCount >= 2) {
-//                    String answer1 = resultArray[0].trim();
-//                    String answer2 = resultArray[1].trim();
+//                    String answer1 = resultArray[0].replaceAll("###", ", ").trim();
+//                    String answer2 = resultArray[1].replaceAll("###", ", ").trim();
 //                    System.out.println("Answer1: " + answer1);
 //                    System.out.println("Answer2: " + answer2);
 //                }
 //
 //                if (answerCount >= 3) {
-//                    String answer3 = resultArray[2].trim();
+//                    String answer3 = resultArray[2].replaceAll("###", ", ").trim();
 //                    System.out.println("Answer3: " + answer3);
 //                }
 //
 //                if (answerCount >= 4) {
-//                    String answer4 = resultArray[3].trim();
+//                    String answer4 = resultArray[3].replaceAll("###", ", ").trim();
 //                    System.out.println("Answer4: " + answer4);
 //                }
 //
 //                if (answerCount >= 5) {
-//                    String answer5 = resultArray[4].trim();
+//                    String answer5 = resultArray[4].replaceAll("###", ", ").trim();
 //                    System.out.println("Answer5: " + answer5);
 //                }
 //
 //                if (answerCount >= 6) {
-//                    String answer6 = resultArray[5].trim();
+//                    String answer6 = resultArray[5].replaceAll("###", ", ").trim();
 //                    System.out.println("Answer6: " + answer6);
 //                }
 //
@@ -442,10 +502,9 @@ public class QuestionDAO {
     public static void main(String[] args) {
         QuestionDAO dao = new QuestionDAO();
         try {
-            ArrayList<QuestionDTO> list = dao.getTopic("1");
-            for (QuestionDTO questionDTO : list) {
-                System.out.println(questionDTO);
-            }
+            QuestionDTO question = new QuestionDTO();
+            question = dao.getQuestionByID("138");
+            System.out.println(question);
         } catch (SQLException ex) {
             Logger.getLogger(QuestionDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
