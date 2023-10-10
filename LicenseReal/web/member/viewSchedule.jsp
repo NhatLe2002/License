@@ -75,9 +75,8 @@
                                             <c:when test="${c.getType() == 1}">
                                                 <td>
                                                     Học thực hành
-                                                    
                                                     <!--cho nay de xem detail vs lai voting mentor-->
-                                                    <a class="menu_items" href="" >Detail</a>
+                                                    <a class="menu_items" href="MainController?action=detailSlot&scheduleId=${c.getId()}" >Detail ${c.getId()}</a>
 
                                                 </td>
                                             </c:when>

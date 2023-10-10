@@ -68,9 +68,7 @@ public class MainController extends HttpServlet {
                 List<QuestionDTO> listTopic = dao.getTopicID();
                 request.setAttribute("listTopic", listTopic);
                 url = "chooseTryTest.jsp";
-            } //            else if (action.equals("viewScheduleServlet")) {
-            //                url = "ViewScheduleServlet";
-            //            }
+            } 
             else if (action.equals("schedule")) {
                 url = "ScheduleServlet";
             } else if (action.equals("QuestionController")) {
@@ -87,6 +85,10 @@ public class MainController extends HttpServlet {
                 url = "AccountController";
             }else if (action.equals("changePassword")) {
                 url = "AccountController";
+            }else if (action.equals("detailSlot")) {
+                url = "DetailSlotServlet";
+            }else if (action.equals("ratingOfMember")) {
+                url = "DetailSlotServlet";
             }
             request.setAttribute("action", action);
             request.getRequestDispatcher(url).forward(request, response);

@@ -19,6 +19,7 @@ public class ScheduleDTO {
     private Integer type;
     private Date day;
     private int time;
+    private MentorDTO mentor;
 
     public ScheduleDTO() {
     }
@@ -31,6 +32,17 @@ public class ScheduleDTO {
         this.day = day;
         this.time = time;
     }
+
+    public ScheduleDTO(int id, int mentorID, Integer memberID, Integer type, Date day, int time, MentorDTO mentor) {
+        this.id = id;
+        this.mentorID = mentorID;
+        this.memberID = memberID;
+        this.type = type;
+        this.day = day;
+        this.time = time;
+        this.mentor = mentor;
+    }
+    
 
     public int getId() {
         return id;
