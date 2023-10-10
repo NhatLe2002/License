@@ -5,7 +5,9 @@
  */
 package servlet.Schedule;
 
+import dao.MemberDAO;
 import dao.ScheduleDAO;
+import dto.MemberDTO;
 import dto.ScheduleDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,9 +18,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -33,7 +37,7 @@ public class ViewScheduleMemberServlet extends HttpServlet {
         }
         return dateList;
     }
-    
+
     public ArrayList<LocalDate> getAllMonday() {
         int year = 2023; // Năm bạn muốn lấy các ngày đầu tiên và cuối cùng của tuần
 
@@ -52,6 +56,7 @@ public class ViewScheduleMemberServlet extends HttpServlet {
         }
         return (ArrayList<LocalDate>) firstDaysOfWeek;
     }
+
     public static LocalDate getMondayOfWeek(LocalDate now) {
         // Create a LocalDate object for the specific date
         LocalDate date = now;
@@ -66,6 +71,7 @@ public class ViewScheduleMemberServlet extends HttpServlet {
         LocalDate mondayOfWeek = date.minusDays(daysToSubtract);
         return mondayOfWeek;
     }
+
     public static ArrayList<LocalDate> getWeek(LocalDate day) {
         ArrayList<LocalDate> week = new ArrayList<>();
         for (int i = 1; i <= 7; i++) {
@@ -74,27 +80,44 @@ public class ViewScheduleMemberServlet extends HttpServlet {
         }
         return week;
     }
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            
-            
+
+            Cookie[] c = request.getCookies();
+            String userId = "";
+            if (c != null) {
+                for (Cookie aCookie : c) {
+                    if (aCookie.getName().equals("userId")) {
+                        userId = aCookie.getValue();
+                    }
+                }
+            }
+            MemberDTO menber = new MemberDTO();
+
             LocalDate currentDate = LocalDate.now();
             if (request.getParameter("selectMondayOfWeek") != null) {
                 String selectMondayOfWeek = request.getParameter("selectMondayOfWeek");
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 currentDate = LocalDate.parse(selectMondayOfWeek, formatter);
             }
-            
-            
+
             ArrayList<LocalDate> mondays = getAllMonday();
             LocalDate mondayOfWeek = getMondayOfWeek(currentDate);
             ArrayList<LocalDate> week = getWeek(mondayOfWeek);
-            ArrayList<ScheduleDTO> memberSchedule = ScheduleDAO.getScheduleByMemberID(1);
-            
+            ArrayList<ScheduleDTO> memberSchedule = new ArrayList<>();
+            if (userId != "") {
+                menber = MemberDAO.getMemberByUserID(Integer.parseInt(userId));
+                memberSchedule = ScheduleDAO.getScheduleByMemberID(menber.getId());
+            } else {
+                memberSchedule = null;
+            }
+            Date currentDayCheck = Date.valueOf(LocalDate.now());
+            //Dung de check Date cua currentdate
+            request.setAttribute("currentDay", currentDayCheck);
             request.setAttribute("memberSchedule", memberSchedule);
             request.setAttribute("currentMonday", mondayOfWeek);
             request.setAttribute("week", convertLocalDateToDate(week));

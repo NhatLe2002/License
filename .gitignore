@@ -1,5 +1,9 @@
-/LicenseReal/dist
-/LicenseReal/nbproject
-/LicenseReal/lib
+/LicenseReal/dist/
+/LicenseReal/nbproject/
+/LicenseReal/lib/
 /LicenseReal/*.xml
-/LicenseReal/build
+<<<<<<< HEAD
+/LicenseReal/build/
+=======
+/LicenseReal/build/
+>>>>>>> master

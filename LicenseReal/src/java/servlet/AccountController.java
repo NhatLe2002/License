@@ -15,6 +15,7 @@ import dao.AccountDAO;
 import dao.UserDAO;
 import dto.AccountDTO;
 import dto.UserDTO;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -45,21 +46,23 @@ public class AccountController extends HttpServlet {
         String message = "";
         String action = request.getParameter("action");
         HttpSession session = request.getSession();
+        int idAccount = 0;
         try {
             switch (action) {
                 case "login":
                     username = request.getParameter("username");
                     password = request.getParameter("password");
                     account = AccountDAO.getAccount(username, password);
-
                     if (account == null) {
                         message = "Sai mật khẩu hoặc tài khoản";
                         url = "login.jsp";
                     } else {
                         user = UserDAO.getUser(account.getId());
+                        session.setAttribute("user", user);
                         message = "Đăng nhập thành công";
                         url = "home.jsp";
                     }
+                    session.setAttribute("account", account);
                     break;
                 case "register":
                     username = request.getParameter("username");
@@ -72,23 +75,76 @@ public class AccountController extends HttpServlet {
                         check = AccountDAO.createAccount(username, password);
                         if (check == false) {
                             url = "register.jsp";
-                            message = "Tài khoản đã tồn tại";
+                            message = "Đăng ký thật bại, vui lòng nhập tài khoản khác";
                         } else {
                             account = AccountDAO.getAccount(username, password);
                             user = UserDAO.getUser(account.getId());
-                            if (check) {
-                                url = "user-infor.jsp";
-                                message = "Tạo tài khoản thành công, bạn hãy nhập thông tin cá nhân";
-                            } else {
-                                message = "Đăng ký thất bại";
-                            }
+                            session.setAttribute("account", account);
+                            session.setAttribute("user", user);
+//                            Cookie cookie = new Cookie("userId", Integer.toString(user.getId()));
+//                            cookie.setMaxAge(60 * 60);
+//                            response.addCookie(cookie);
+                            url = "user-infor.jsp";
+                            message = "Tạo tài khoản thành công, bạn hãy nhập thông tin cá nhân";
+                        }
+                    }
+                    break;
+                case "getOTP":
+                    username = request.getParameter("username");
+                    idAccount = AccountDAO.getAccountID(username);
+                    if (idAccount == -1) {
+                        message = "Tài khoản không tồn tại";
+                        url = "forgotPassword.jsp";
+                    } else {
+                        String receiveEmail = UserDAO.getEmailByID(idAccount);
+                        if (receiveEmail == null) {
+                            message = "Tài khoản không tồn tại";
+                            url = "forgotPassword.jsp";
+                        } else {
+                            String newOTP = vnpay.common.Config.getRandomNumber(6);
+                            url = "confirmOTP.jsp";
+                            utils.Util.sendEmail(receiveEmail, newOTP);
+                            session.setAttribute("email", receiveEmail);
+                            session.setAttribute("OTP", newOTP);
+                            session.setAttribute("idAccount", idAccount);
+                        }
+                    }
+                    break;
+                case "confirmOTP":
+                    String confirmOTP = request.getParameter("confirmOTP");
+                    String OTP = session.getAttribute("OTP").toString();
+                    if (!confirmOTP.equals(OTP)) {
+                        message = "Mã OTP không đúng";
+                        url = "confirmOTP.jsp";
+                    } else {
+                        url = "changePassword.jsp";
+                    }
+                    break;
+                case "changePassword":
+                    password = request.getParameter("password");
+                    confirmPassword = request.getParameter("confirmPassword");
+                    String raw_idAccount = session.getAttribute("idAccount").toString();
+                    idAccount = Integer.parseInt(raw_idAccount);
+                    if (!confirmPassword.equals(password)) {
+                        message = "Xác nhận mật khẩu sai";
+                        url = "changePassword.jsp";
+                    } else {
+                        if (AccountDAO.changePassword(idAccount, password)) {
+                            url = "login.jsp";
+                        } else {
+                            message = "Thay đổi mật khẩu thất bại";
+                            url = "changePassword.jsp";
                         }
                     }
                     break;
             }
         } catch (Exception e) {
-
         } finally {
+            if (account != null) {
+                Cookie cookie = new Cookie("userId", Integer.toString(user.getId()));
+                cookie.setMaxAge(60 * 60);
+                response.addCookie(cookie);
+            }
             session.setAttribute("account", account);
             session.setAttribute("user", user);
             request.setAttribute("message", message);
