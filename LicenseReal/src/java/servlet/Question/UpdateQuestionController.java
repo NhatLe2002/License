@@ -40,42 +40,42 @@ public class UpdateQuestionController extends HttpServlet {
         String message = "";
         QuestionDAO dao = new QuestionDAO();
         try {
-            QuestionDTO list = dao.getQuestionByID(id);
-            request.setAttribute("listQ", list);
+            QuestionDTO question = dao.getQuestionByID(id);
+            request.setAttribute("question", question);
 
-            ArrayList<AnswerDTO> answers = list.getAnswer();
-            request.setAttribute("listA", answers);
+            ArrayList<AnswerDTO> answers = question.getAnswer();
+            request.setAttribute("answers", answers);
 
             for (AnswerDTO answer : answers) {
-                String result = Arrays.toString(answer.getAnswer().split("/"));
+                String result = Arrays.toString(answer.getAnswer().replaceAll(", ", "###").split("/"));
                 String[] resultArray = result.substring(1, result.length() - 1).split(", ");
-
+                
                 int answerCount = resultArray.length;
 
                 if (answerCount >= 2) {
-                    String answer1 = resultArray[0].trim();
-                    String answer2 = resultArray[1].trim();
+                    String answer1 = resultArray[0].replaceAll("###", ", ").trim();
+                    String answer2 = resultArray[1].replaceAll("###", ", ").trim();
                     request.setAttribute("answerA", answer1);
                     request.setAttribute("answerB", answer2);
                 }
 
                 if (answerCount >= 3) {
-                    String answer3 = resultArray[2].trim();
+                    String answer3 = resultArray[2].replaceAll("###", ", ").trim();
                     request.setAttribute("answerC", answer3);
                 }
 
                 if (answerCount >= 4) {
-                    String answer4 = resultArray[3].trim();
+                    String answer4 = resultArray[3].replaceAll("###", ", ").trim();
                     request.setAttribute("answerD", answer4);
                 }
 
                 if (answerCount >= 5) {
-                    String answer5 = resultArray[4].trim();
+                    String answer5 = resultArray[4].replaceAll("###", ", ").trim();
                     request.setAttribute("answerE", answer5);
                 }
 
                 if (answerCount >= 6) {
-                    String answer6 = resultArray[5].trim();
+                    String answer6 = resultArray[5].replaceAll("###", ", ").trim();
                     request.setAttribute("answerF", answer6);
                 }
 
@@ -84,7 +84,7 @@ public class UpdateQuestionController extends HttpServlet {
             message = "ERROR: " + e.getMessage();
         }
         request.setAttribute("message", message);
-        request.getRequestDispatcher("updateQuestion.jsp").forward(request, response);
+        request.getRequestDispatcher("staff/updateQuestion.jsp").forward(request, response);
     }
 
     @Override
@@ -98,8 +98,6 @@ public class UpdateQuestionController extends HttpServlet {
         String answerB = new String(request.getParameter("answerB").getBytes("ISO-8859-1"), "UTF-8");
         String answerC = new String(request.getParameter("answerC").getBytes("ISO-8859-1"), "UTF-8");
         String answerD = new String(request.getParameter("answerD").getBytes("ISO-8859-1"), "UTF-8");
-        String answerE = new String(request.getParameter("answerE").getBytes("ISO-8859-1"), "UTF-8");
-        String answerF = new String(request.getParameter("answerF").getBytes("ISO-8859-1"), "UTF-8");
         String isCorrect = request.getParameter("correct_answer");
         String queID = request.getParameter("id");
 
@@ -111,7 +109,13 @@ public class UpdateQuestionController extends HttpServlet {
         //Thong bao duoc hien thi de fix bug, gui thong bao den nguoi dung,...
         String message = "";
         String image = "";
+        String subQuestion = "";
 
+        if (question.length() > 30) {
+            subQuestion = question.substring(0, 30) + "...";
+        } else {
+            subQuestion = question;
+        }
         try {
             //Kiem tra xem cau hoi vua nhap da ton tai hay chua
             checkDuplicate = dao.checkQuestionDuplicate(question);
@@ -146,7 +150,7 @@ public class UpdateQuestionController extends HttpServlet {
                         //Kiem tra cac file gui len tu jsp co phai la file anh hay khong
                         if (fileName.endsWith(".png") || fileName.endsWith(".PNG") || fileName.isEmpty()) {
                             //Ghep cac dap an A B C D E F lai voi nhau thanh 1 chuoi cach nhau boi "\n"
-                            String answer_text = dao.concatenatedString(answerA, answerB, answerC, answerD, answerE, answerF);
+                            String answer_text = dao.concatenatedString(answerA, answerB, answerC, answerD);
                             //Kiem tra chuoi co bi trong hay khong
                             if (answer_text.isEmpty()) {
                                 message = "Please enter answer!";
@@ -156,7 +160,7 @@ public class UpdateQuestionController extends HttpServlet {
                                     checkUpdate = dao.UpdateQuestion(questionID, answer_options, answer_text, isCorrect, question, data, question_type);
                                     if (checkUpdate) {
                                         System.out.println("Update question successfully!");
-                                        message = "Update question '" + question + "' successfully!";
+                                        message = "Update question '" + subQuestion + "' successfully!";
                                     } else {
                                         message = "Can't update question!";
                                     }
@@ -165,7 +169,7 @@ public class UpdateQuestionController extends HttpServlet {
                                     checkUpdate = dao.UpdateQuestion(questionID, answer_options, answer_text, isCorrect, question, image, question_type);
                                     if (checkUpdate) {
                                         System.out.println("Update question successfully!");
-                                        message = "Update question '" + question + "' successfully!";
+                                        message = "Update question '" + subQuestion + "' successfully!";
                                     } else {
                                         message = "Can't update question!";
                                     }
@@ -206,7 +210,7 @@ public class UpdateQuestionController extends HttpServlet {
                     //Kiem tra cac file gui len tu jsp co phai la file anh hay khong
                     if (fileName.endsWith(".png") || fileName.endsWith(".PNG") || fileName.isEmpty()) {
                         //Ghep cac dap an A B C D E F lai voi nhau thanh 1 chuoi cach nhau boi "\n"
-                        String answer_text = dao.concatenatedString(answerA, answerB, answerC, answerD, answerE, answerF);
+                        String answer_text = dao.concatenatedString(answerA, answerB, answerC, answerD);
                         //Kiem tra chuoi co bi trong hay khong
                         if (answer_text.isEmpty()) {
                             message = "Please enter answer!";
@@ -216,7 +220,7 @@ public class UpdateQuestionController extends HttpServlet {
                                 checkUpdate = dao.UpdateQuestion(questionID, answer_options, answer_text, isCorrect, question, data, question_type);
                                 if (checkUpdate) {
                                     System.out.println("Update question successfully!");
-                                    message = "Update question '" + question + "' successfully!";
+                                    message = "Update question '" + subQuestion + "' successfully!";
                                 } else {
                                     System.out.println("Can't update question!");
                                 }
@@ -225,7 +229,7 @@ public class UpdateQuestionController extends HttpServlet {
                                 checkUpdate = dao.UpdateQuestion(questionID, answer_options, answer_text, isCorrect, question, image, question_type);
                                 if (checkUpdate) {
                                     System.out.println("Update question successfully!");
-                                    message = "Update question '" + question + "' successfully!";
+                                    message = "Update question '" + subQuestion + "' successfully!";
                                 } else {
                                     System.out.println("Can't update question!");
                                 }
@@ -240,9 +244,8 @@ public class UpdateQuestionController extends HttpServlet {
         } catch (Exception e) {
             message = "ERROR: " + e.getMessage();
         }
-        //Luu thong bao vao message va gui den trang addQuestion.jsp
-        request.setAttribute("message", message);
-        request.getRequestDispatcher("QuestionController").forward(request, response);
+        String redirectURL = "QuestionController?message" + message;
+        response.sendRedirect(redirectURL);
     }
 
     @Override
