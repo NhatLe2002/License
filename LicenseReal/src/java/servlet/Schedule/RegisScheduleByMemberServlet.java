@@ -127,6 +127,7 @@ public class RegisScheduleByMemberServlet extends HttpServlet {
             request.setAttribute("week", convertLocalDateToDate(week));
             request.setAttribute("mondays", mondays);
             request.getRequestDispatcher("member/regisScheduleOfMember.jsp").forward(request, response);
+            //Test git
         }
     }
 
