@@ -19,6 +19,7 @@ public class DrivingProfile {
     private String phone;
     private String email;
     private String cccd;;
+    private boolean gender;
     private boolean status;
 
     public DrivingProfile() {
@@ -31,13 +32,22 @@ public class DrivingProfile {
         this.memberID = memberID;
         this.status = status;
     }
-    public DrivingProfile( MemberDTO member, String img_user, boolean status){
+    public DrivingProfile( MemberDTO member, String img_user, boolean gender, boolean status){
         this.name = member.getName();
         this.phone = member.getPhone();
         this.email = member.getEmail();
         this.cccd = member.getCccd();
         this.img_user = img_user;
+        this.gender = gender;
         this.status = status;
+    }
+
+    public boolean isGender() {
+        return gender;
+    }
+
+    public void setGender(boolean gender) {
+        this.gender = gender;
     }
 
     public int getId() {
