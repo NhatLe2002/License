@@ -10,12 +10,11 @@ package dto;
  * @author Admin
  */
 public class RatingDTO {
+
     private int id;
     private int mentorID;
     private int memberID;
-    private int star;
-    
-    
+    private float star;
     private String description;
 
     public RatingDTO() {
@@ -29,8 +28,6 @@ public class RatingDTO {
         this.description = description;
     }
 
-    
-
     public RatingDTO(int mentorID, int memberID, int star, String description) {
         this.mentorID = mentorID;
         this.memberID = memberID;
@@ -38,9 +35,7 @@ public class RatingDTO {
         this.description = description;
     }
 
-
-
-    public RatingDTO(int id, int star, int memberID, int mentorID) {
+    public RatingDTO(int id, float star, int memberID, int mentorID) {
         this.id = id;
         this.star = star;
         this.memberID = memberID;
@@ -86,5 +81,5 @@ public class RatingDTO {
     public void setMentorID(int mentorID) {
         this.mentorID = mentorID;
     }
-    
+
 }

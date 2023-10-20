@@ -22,6 +22,12 @@ public class AccountDAO extends DBUtils {
         boolean check = false;
         String hashPassword = Util.hashPassword(password);
         try {
+            if (username.equals("")) {
+                return check = false;
+            }
+            if (!Util.validateUsername(username)) {
+                return check = false;
+            }
             if (getAccount(username, password) == null) {
                 String sql = "INSERT INTO Account(username,password)"
                         + "values(?,?)";
@@ -39,11 +45,7 @@ public class AccountDAO extends DBUtils {
             System.out.println(e);
         }
         return check;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(createAccount("anh123", "666"));
-        System.out.println(getAccount("anh123", "666").getId());
+    
     }
 
     public static AccountDTO getAccount(String username, String password) {
@@ -101,6 +103,26 @@ public class AccountDAO extends DBUtils {
         return check;
     }
 
+    public static int getAccountID(String username) {
+        int id = -1;
+        try {
+            String sql = "select * from Account where username = ? ";
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt("id");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return id;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(getAccountID("minhhoi"));
+//        System.out.println(getAccount("anh123", "666").getId());
+    }
 //    public static boolean changePassword(int id, String newPassword) {
 //    boolean check = false;
 //    try {

@@ -28,6 +28,10 @@
         <servlet-name>RegisScheduleByMemberServlet</servlet-name>
         <servlet-class>servlet.Schedule.RegisScheduleByMemberServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DetailSlotServlet</servlet-name>
+        <servlet-class>servlet.detailSlotAndRating.DetailSlotServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
         <url-pattern>/MainController</url-pattern>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>RegisScheduleByMemberServlet</servlet-name>
         <url-pattern>/RegisScheduleByMemberServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DetailSlotServlet</servlet-name>
+        <url-pattern>/DetailSlotServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

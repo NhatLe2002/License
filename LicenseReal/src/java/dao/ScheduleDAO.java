@@ -50,6 +50,28 @@ public class ScheduleDAO {
         }
         return list;
     }
+    public static ScheduleDTO getScheduleById(int id) {
+        ScheduleDTO schedule = new ScheduleDTO();
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "select * from Schedule where id = ?";
+
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, id);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        schedule = new ScheduleDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getDate(5), rs.getInt(6));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return schedule;
+    }
 
     public static ArrayList<ScheduleDTO> getScheduleNotTeach() {
         ArrayList<ScheduleDTO> list = new ArrayList<>();
@@ -99,7 +121,7 @@ public class ScheduleDAO {
                         int time = rs.getInt("time");
                         int idMentor = rs.getInt("mentorID");
                         int idMember = rs.getInt("memberID");
-                        ScheduleDTO schedule = new ScheduleDTO(id, idMentor, idMember, type, day, time);
+                        ScheduleDTO schedule = new ScheduleDTO(idSche, idMentor, idMember, type, day, time);
                         list.add(schedule);
                     }
                 }
@@ -207,10 +229,12 @@ public class ScheduleDAO {
 //            System.out.println(scheduleMemberCanRegi.getDay());
 //        }
 
-        if (updateMenberIDInSchedule(1, 5)) {
-            System.out.println("oke");
-        }else{
-            System.out.println("chua dc");
-        }
+//        if (updateMenberIDInSchedule(1, 5)) {
+//            System.out.println("oke");
+//        }else{
+//            System.out.println("chua dc");
+//        }
+
+        System.out.println(getScheduleById(4).getDay());
     }
 }

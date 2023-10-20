@@ -51,28 +51,24 @@ public class MainController extends HttpServlet {
                 url = "AccountController";
             } else if (action.equals("register")) {
                 url = "AccountController";
-            }else if (action.equals("regisSchedule")) {
+            } else if (action.equals("regisSchedule")) {
                 url = "RegistScheduleServlet";
-            }else if (action.equals("regisScheduleBtn")) {
+            } else if (action.equals("regisScheduleBtn")) {
                 url = "RegistScheduleServlet";
-            }else if (action.equals("viewSchedule")) {
+            } else if (action.equals("viewSchedule")) {
                 url = "ViewScheduleServlet";
-            }else if (action.equals("viewScheduleMember")) {
+            } else if (action.equals("viewScheduleMember")) {
                 url = "ViewScheduleMemberServlet";
-            }else if (action.equals("regisScheduleByMember")) {
+            } else if (action.equals("regisScheduleByMember")) {
                 url = "RegisScheduleByMemberServlet";
-            }else if (action.equals("regisScheduleMemberBtn")) {
+            } else if (action.equals("regisScheduleMemberBtn")) {
                 url = "RegisScheduleByMemberServlet";
-            } else if (action.equals("PracticeTest")){
+            } else if (action.equals("PracticeTest")) {
                 QuestionDAO dao = new QuestionDAO();
                 List<QuestionDTO> listTopic = dao.getTopicID();
                 request.setAttribute("listTopic", listTopic);
                 url = "chooseTryTest.jsp";
-            }
-            
-//            else if (action.equals("viewScheduleServlet")) {
-//                url = "ViewScheduleServlet";
-//            }
+            } 
             else if (action.equals("schedule")) {
                 url = "ScheduleServlet";
             } else if (action.equals("QuestionController")) {
@@ -81,8 +77,18 @@ public class MainController extends HttpServlet {
                 url = "addQuestion.jsp";
             } else if (action.equals("update")) {
                 url = "UserController";
-            }else if (action.equals("pay")) {
+            } else if (action.equals("pay")) {
                 url = "ajaxServlet";
+            } else if (action.equals("getOTP")) {
+                url = "AccountController";
+            } else if (action.equals("confirmOTP")) {
+                url = "AccountController";
+            }else if (action.equals("changePassword")) {
+                url = "AccountController";
+            }else if (action.equals("detailSlot")) {
+                url = "DetailSlotServlet";
+            }else if (action.equals("ratingOfMember")) {
+                url = "DetailSlotServlet";
             }
             request.setAttribute("action", action);
             request.getRequestDispatcher(url).forward(request, response);

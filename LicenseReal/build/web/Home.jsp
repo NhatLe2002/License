@@ -187,12 +187,14 @@
                         <a class="menu_items" href="MainController?action=PracticeTest">Thi thử trắc nghiệm</a>
                         <c:choose>
                             <c:when test="${user != null}">
-                                Hello, ${sessionScope.user.getName()}
+                                Hello, ${user.getName()}
+                                <a href="logout.jsp">Logout</a>
                                 <a class="menu_items" href="updateProfile?id=${sessionScope.user.getId()}"> Profile</a>
                             </c:when>
                             <c:when test="${account != null}">
                                 Hello, ${account.getUsername()}
-                                
+                                 <a href="logout.jsp">Logout</a>
+                                <a class="menu_items" href="updateProfile?id=${sessionScope.user.getId()}"> Profile</a>
                             </c:when>
                             <c:otherwise>
                                 <a class="btn_login"  href="login.jsp">Log in</a>
@@ -218,10 +220,10 @@
                      alt="Hình ảnh 4">
                 <div class="overlay">
                     <form action="MainController?action=PracticeTest" method="POST">
-                    <div class="overlay-text">
-                        <h3>Chào mừng bạn đến với hệ thống thi thử trắc nghiệm bằng lái xe</h3>
-                    </div>
-                    <button class="overlay-button">Thi thử ngay</button>
+                        <div class="overlay-text">
+                            <h3>Chào mừng bạn đến với hệ thống thi thử trắc nghiệm bằng lái xe</h3>
+                        </div>
+                        <button class="overlay-button">Thi thử ngay</button>
                     </form>
                 </div>
             </div>
@@ -275,41 +277,52 @@
                 </li>
             </ul>
         </div>
-        <script>!function(s,u,b,i,z){var o,t,r,y;s[i]||(s._sbzaccid=z,s[i]=function(){s[i].q.push(arguments)},s[i].q=[],s[i]("setAccount",z),r=["widget.subiz.net","storage.googleapis"+(t=".com"),"app.sbz.workers.dev",i+"a"+(o=function(k,t){var n=t<=6?5:o(k,t-1)+o(k,t-3);return k!==t?n:n.toString(32)})(20,20)+t,i+"b"+o(30,30)+t,i+"c"+o(40,40)+t],(y=function(k){var t,n;s._subiz_init_2094850928430||r[k]&&(t=u.createElement(b),n=u.getElementsByTagName(b)[0],t.async=1,t.src="https://"+r[k]+"/sbz/app.js?accid="+z,n.parentNode.insertBefore(t,n),setTimeout(y,2e3,k+1))})(0))}(window,document,"script","subiz", "acrufpoygbksyyxgvpgy")</script>        <script>
+        <script>!function (s, u, b, i, z) {
+                var o, t, r, y;
+                s[i] || (s._sbzaccid = z, s[i] = function () {
+                    s[i].q.push(arguments)
+                }, s[i].q = [], s[i]("setAccount", z), r = ["widget.subiz.net", "storage.googleapis" + (t = ".com"), "app.sbz.workers.dev", i + "a" + (o = function (k, t) {
+                        var n = t <= 6 ? 5 : o(k, t - 1) + o(k, t - 3);
+                        return k !== t ? n : n.toString(32)
+                    })(20, 20) + t, i + "b" + o(30, 30) + t, i + "c" + o(40, 40) + t], (y = function (k) {
+                        var t, n;
+            s._subiz_init_2094850928430 || r[k] && (t = u.createElement(b), n = u.getElementsByTagName(b)[0], t.async = 1, t.src = "https://" + r[k] + "/sbz/app.js?accid=" + z, n.parentNode.insertBefore(t, n), setTimeout(y, 2e3, k + 1))
+                    })(0))
+                }(window, document, "script", "subiz", "acrufpoygbksyyxgvpgy")</script>        <script>
 
-        <script>
-            const menuItems = document.querySelectorAll(".menu_items");
-
-            menuItems.forEach(item => {
-                item.addEventListener("click", function () {
-                    menuItems.forEach(item => item.classList.remove("menu_items_active"));
-                    this.classList.add("menu_items_active");
-                });
+                    <script>
+                    const menuItems = document.querySelectorAll(".menu_items");
+                
+                    menuItems.forEach(item => {
+                                item.addEventListener("click", function () {
+                                        menuItems.forEach(item => item.classList.remove("menu_items_active"));
+                                        this.classList.add("menu_items_active");
             });
-
-            //hero-slides 
+                    });
+                    
+                    //hero-slides 
             const slides = document.querySelectorAll('.slide');
-            let currentSlide = 0;
-
-            function showSlide(index) {
-                slides.forEach((slide, i) => {
-                    if (i === index) {
-                        slide.classList.add('active');
-                    } else {
-                        slide.classList.remove('active');
-                    }
+                let currentSlide = 0;
+                
+                    function showSlide(index) {
+                    slides.forEach((slide, i) => {
+                                            if (i === index) {
+                                                        slide.classList.add('active');
+                } else {
+                                                                slide.classList.remove('active');
+                }
                 });
             }
-
+            
             function nextSlide() {
-                currentSlide = (currentSlide + 1) % slides.length;
-                showSlide(currentSlide);
-            }
-
+                                                        currentSlide = (currentSlide + 1) % slides.length;
+                                                        showSlide(currentSlide);
+                }
+                
             setInterval(nextSlide, 3000);
-
+            
             showSlide(currentSlide);
-        </script>
+                </script>
     </body>
 
 </html>

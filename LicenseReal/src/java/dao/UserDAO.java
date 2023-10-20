@@ -51,9 +51,7 @@ public class UserDAO extends DBUtils {
         return 0;
     }
 
-    public static void main(String[] args) {
-        System.out.println(createUser("", "000 ", "132@yahoo.com", new Date(2, 2, 2), ".00", "000", 36));
-    }
+  
 
     public static int updateUser(String name, String phone, String email, Date dob, String cccd,
             String address, int accountID) {
@@ -119,4 +117,19 @@ public class UserDAO extends DBUtils {
         return null;
     }
 
+    public static String getEmailByID(int accountID) {
+        String email = null;
+        try {
+            String sql = "select * from [User] where accountID = ?";
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setInt(1, accountID);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return email = rs.getString("email");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return email;
+    }
 }
