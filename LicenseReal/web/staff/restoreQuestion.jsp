@@ -113,14 +113,11 @@
                                     class="card-header"
                                     style="display: flex; justify-content: space-between"
                                     >
-                                    <div>Ngân hàng câu hỏi</div>
+                                    <div>Danh sách câu hỏi đã xóa</div>
                                     <!-- Button trigger modal -->
                                     <div>
-                                        <a href="MainController?action=insertQ">
-                                            <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fas fa-plus"></i></button>
-                                        </a>
-                                        <a href="MainController?action=insertQ">
-                                            <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fa-solid fa-arrows-rotate fa-spin"></i></button>
+                                        <a href="MainController?action=QuestionController">
+                                            <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fa-solid fa-chevron-left"></i></button>
                                         </a>
                                     </div>
                                 </h5>
@@ -144,7 +141,7 @@
                                                     <tr>
                                                         <td>
                                                             <span class="fw-medium">${counter.count}</span>
-                                                        </td>
+                                                    </td>
                                                     <td>
                                                         <span style="display: inline-block; 
                                                               max-width: 10rem; 
@@ -188,21 +185,12 @@
                                                         <span class="badge bg-label-primary me-1">${A.isCorrect}</span>
                                                     </td>
                                                     <td>
-                                                        <div class="dropdown">
-                                                            <button
-                                                                type="button"
-                                                                class="btn p-0 dropdown-toggle hide-arrow"
-                                                                data-bs-toggle="dropdown"
-                                                                >
-                                                                <i class="bx bx-dots-vertical-rounded"></i>
-                                                            </button>
-                                                            <div class="dropdown-menu">
-                                                                <a
-                                                                    class="dropdown-item"
-                                                                    href="RestoreQuestionController?id=${Q.id}"
-                                                                    ><i class="fa-solid fa-rotate fa-spin"></i></i>Khôi phục</a
-                                                                >
-                                                            </div>
+                                                        <a
+                                                            class="dropdown-item"
+                                                            href="RestoreQuestionController?id=${Q.id}"
+                                                            style="color: #6a6cff"
+                                                            ><i class="fa-solid fa-rotate me-1"></i>Khôi phục</a
+                                                        >
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -247,10 +235,10 @@
                 const toast = document.getElementById('toast-notification');
                 const toastMessage = document.getElementById('toast-message');
                 if (message === 'success') {
-                    var success = 'Xóa câu hỏi thành công!';
+                    var success = 'Khôi phục câu hỏi thành công!';
                     toastMessage.textContent = success;
                 } else {
-                    var fail = 'Không thể xóa câu hỏi!';
+                    var fail = 'Không thể khôi phục câu hỏi!';
                     toastMessage.textContent = fail;
                 }
                 toast.classList.remove('hide');

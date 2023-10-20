@@ -32,11 +32,7 @@ public class RestoreQuestionController extends HttpServlet {
         String message = (String) request.getAttribute("message");
         String questionID = request.getParameter("id");
 
-        if (!questionID.equals("0")) {
-            request.setAttribute("id", questionID);
-            doPost(request, response);
-
-        } else {
+        if (questionID.equals("0")) {
             try {
                 QuestionDAO dao = new QuestionDAO();
                 ArrayList<QuestionDTO> listQ = dao.getAllQuestion("0");
@@ -55,6 +51,9 @@ public class RestoreQuestionController extends HttpServlet {
 
             request.setAttribute("message", message);
             request.getRequestDispatcher("staff/restoreQuestion.jsp").forward(request, response);
+        } else {
+            request.setAttribute("id", questionID);
+            doPost(request, response);
         }
 
     }
@@ -70,9 +69,9 @@ public class RestoreQuestionController extends HttpServlet {
             QuestionDAO dao = new QuestionDAO();
             checkRestore = dao.restoreQuestion(questionID);
             if (checkRestore) {
-                message = "Retore question successfully!";
+                message = "success";
             } else {
-                message = "Can't retore question!";
+                message = "fail";
             }
             ArrayList<QuestionDTO> listQ = dao.getAllQuestion("0");
             ArrayList<AnswerDTO> listA = new ArrayList<>();
