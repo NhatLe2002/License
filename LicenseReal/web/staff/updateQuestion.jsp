@@ -118,7 +118,7 @@
                                                             type="text"
                                                             id="emailBasic"
                                                             class="form-control"
-                                                            name="answerA" required=""
+                                                            name="answerA" 
                                                             value="${answerA}"
                                                             />
                                                     </div>
@@ -130,7 +130,7 @@
                                                             type="text"
                                                             id="emailBasic"
                                                             class="form-control"
-                                                            name="answerB" required=""
+                                                            name="answerB" 
                                                             value="${answerB}"
                                                             />
                                                     </div>
@@ -142,7 +142,7 @@
                                                             type="text"
                                                             id="emailBasic"
                                                             class="form-control"
-                                                            name="answerC" required=""
+                                                            name="answerC" 
                                                             value="${answerC}"
                                                             />
                                                     </div>
@@ -154,7 +154,7 @@
                                                             type="text"
                                                             id="emailBasic"
                                                             class="form-control"
-                                                            name="answerD" required=""
+                                                            name="answerD" 
                                                             value="${answerD}"
                                                             />
                                                     </div>
@@ -188,7 +188,7 @@
                                                                 </label>
                                                                 <select name="question_type" style="cursor: pointer">
                                                                     <option value="0" <c:if test="${question.questionType eq '0'}">selected=""</c:if>>Bình thường</option>
-                                                                <option value="1" <c:if test="${question.questionType eq '1'}">selected=""</c:if>>Câu hỏi liệt</option>
+                                                                    <option value="1" <c:if test="${question.questionType eq '1'}">selected=""</c:if>>Câu hỏi liệt</option>
                                                                 </select>
                                                             </div>
 
@@ -210,6 +210,11 @@
                                                         <c:if test="${not empty image}">
                                                             <div class="file-img" id="image" style="padding-top: 1rem">
                                                                 <img id="preview" src="data:image;base64,${image}" alt="Preview" style="max-height: 10rem; max-width: 20rem;"/>
+                                                            </div> 
+                                                        </c:if>
+                                                        <c:if test="${empty image && empty question.image}">
+                                                            <div class="file-img" id="image" style="padding-top: 1rem; display: none">
+                                                                <img id="preview" src="#" alt="Preview" style="max-height: 10rem; max-width: 20rem; "/>
                                                             </div> 
                                                         </c:if>
 

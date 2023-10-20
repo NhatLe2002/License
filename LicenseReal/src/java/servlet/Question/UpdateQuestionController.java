@@ -226,7 +226,6 @@ public class UpdateQuestionController extends HttpServlet {
         request.setAttribute("queID", queID);
         doGet(request, response);
 
-//        request.getRequestDispatcher("staff/updateQuestion.jsp").forward(request, response);
     }
 
     @Override
