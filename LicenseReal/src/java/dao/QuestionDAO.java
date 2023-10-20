@@ -177,7 +177,7 @@ public class QuestionDAO {
         return list;
     }
 
-    public String concatenatedString(String answerA, String answerB, String answerC, String answerD, String answerE, String answerF) {
+    public String concatenatedString(String answerA, String answerB, String answerC, String answerD) {
         String result = "";
         try {
             StringBuilder concatenated = new StringBuilder();
@@ -193,12 +193,7 @@ public class QuestionDAO {
             if (!answerD.endsWith("D. ") && !answerD.isEmpty()) {
                 concatenated.append(answerD).append("/");
             }
-            if (!answerE.endsWith("E. ") && !answerE.isEmpty()) {
-                concatenated.append(answerE).append("/");
-            }
-            if (!answerF.endsWith("F. ") && !answerF.isEmpty()) {
-                concatenated.append(answerF).append("/");
-            }
+
             result = concatenated.toString();
         } catch (Exception e) {
         }

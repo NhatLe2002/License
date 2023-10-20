@@ -98,8 +98,6 @@ public class UpdateQuestionController extends HttpServlet {
         String answerB = new String(request.getParameter("answerB").getBytes("ISO-8859-1"), "UTF-8");
         String answerC = new String(request.getParameter("answerC").getBytes("ISO-8859-1"), "UTF-8");
         String answerD = new String(request.getParameter("answerD").getBytes("ISO-8859-1"), "UTF-8");
-        String answerE = new String(request.getParameter("answerE").getBytes("ISO-8859-1"), "UTF-8");
-        String answerF = new String(request.getParameter("answerF").getBytes("ISO-8859-1"), "UTF-8");
         String isCorrect = request.getParameter("correct_answer");
         String queID = request.getParameter("id");
 
@@ -152,7 +150,7 @@ public class UpdateQuestionController extends HttpServlet {
                         //Kiem tra cac file gui len tu jsp co phai la file anh hay khong
                         if (fileName.endsWith(".png") || fileName.endsWith(".PNG") || fileName.isEmpty()) {
                             //Ghep cac dap an A B C D E F lai voi nhau thanh 1 chuoi cach nhau boi "\n"
-                            String answer_text = dao.concatenatedString(answerA, answerB, answerC, answerD, answerE, answerF);
+                            String answer_text = dao.concatenatedString(answerA, answerB, answerC, answerD);
                             //Kiem tra chuoi co bi trong hay khong
                             if (answer_text.isEmpty()) {
                                 message = "Please enter answer!";
@@ -212,7 +210,7 @@ public class UpdateQuestionController extends HttpServlet {
                     //Kiem tra cac file gui len tu jsp co phai la file anh hay khong
                     if (fileName.endsWith(".png") || fileName.endsWith(".PNG") || fileName.isEmpty()) {
                         //Ghep cac dap an A B C D E F lai voi nhau thanh 1 chuoi cach nhau boi "\n"
-                        String answer_text = dao.concatenatedString(answerA, answerB, answerC, answerD, answerE, answerF);
+                        String answer_text = dao.concatenatedString(answerA, answerB, answerC, answerD);
                         //Kiem tra chuoi co bi trong hay khong
                         if (answer_text.isEmpty()) {
                             message = "Please enter answer!";
