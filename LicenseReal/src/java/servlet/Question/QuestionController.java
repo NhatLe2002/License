@@ -55,7 +55,7 @@ public class QuestionController extends HttpServlet {
         }
 
         request.setAttribute("message", message);
-        request.getRequestDispatcher("showListQuestion.jsp").forward(request, response);
+        request.getRequestDispatcher("questionManagement.jsp").forward(request, response);
     }
 
     @Override
@@ -69,8 +69,6 @@ public class QuestionController extends HttpServlet {
         String answerB = new String(request.getParameter("answerB").getBytes("ISO-8859-1"), "UTF-8");
         String answerC = new String(request.getParameter("answerC").getBytes("ISO-8859-1"), "UTF-8");
         String answerD = new String(request.getParameter("answerD").getBytes("ISO-8859-1"), "UTF-8");
-        String answerE = new String(request.getParameter("answerE").getBytes("ISO-8859-1"), "UTF-8");
-        String answerF = new String(request.getParameter("answerF").getBytes("ISO-8859-1"), "UTF-8");
         String isCorrect = request.getParameter("correct_answer");
 
         //Khoi tao DAO de xu ly logic
@@ -107,7 +105,7 @@ public class QuestionController extends HttpServlet {
                     //Kiem tra cac file gui len tu jsp co phai la file anh hay khong
                     if (fileName.endsWith(".png") || fileName.endsWith(".PNG") || fileName.isEmpty()) {
                         //Ghep cac dap an A B C D E F lai voi nhau thanh 1 chuoi cach nhau boi "\n"
-                        String answer_text = dao.concatenatedString(answerA, answerB, answerC, answerD, answerE, answerF);
+                        String answer_text = dao.concatenatedString(answerA, answerB, answerC, answerD);
                         //Kiem tra chuoi co bi trong hay khong
                         if (answer_text.isEmpty()) {
                             message = "Please enter answer!";
@@ -143,7 +141,7 @@ public class QuestionController extends HttpServlet {
         }
         //Luu thong bao vao message va gui den trang addQuestion.jsp
         request.setAttribute("message", message);
-        request.getRequestDispatcher("addQuestion.jsp").forward(request, response);
+        request.getRequestDispatcher("addNewQuestion.jsp").forward(request, response);
     }
 
     @Override

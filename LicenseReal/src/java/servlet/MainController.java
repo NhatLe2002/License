@@ -73,8 +73,8 @@ public class MainController extends HttpServlet {
                 url = "ScheduleServlet";
             } else if (action.equals("QuestionController")) {
                 url = "QuestionController";
-            } else if (action.equals("insertQ&A")) {
-                url = "addQuestion.jsp";
+            } else if (action.equals("insertQ")) {
+                url = "addNewQuestion.jsp";
             } else if (action.equals("update")) {
                 url = "UserController";
             } else if (action.equals("pay")) {
