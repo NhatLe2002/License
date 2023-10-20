@@ -37,24 +37,27 @@ public class QuestionController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String message = "";
+        String status = "1";
+        String message = (String) request.getAttribute("message");
 
         try {
             QuestionDAO dao = new QuestionDAO();
-            ArrayList<QuestionDTO> listQ = dao.getAllQuestion();
+            ArrayList<QuestionDTO> listQ = dao.getAllQuestion(status);
             ArrayList<AnswerDTO> listA = new ArrayList<>();
 
             for (QuestionDTO question : listQ) {
-                listA .addAll(question.getAnswer());
+                listA.addAll(question.getAnswer());
             }
 
             request.setAttribute("listA", listA);
             request.setAttribute("listQ", listQ);
+
         } catch (Exception e) {
             message = "ERROR: " + e.getMessage();
         }
 
         request.setAttribute("message", message);
+
         request.getRequestDispatcher("questionManagement.jsp").forward(request, response);
     }
 
@@ -80,6 +83,13 @@ public class QuestionController extends HttpServlet {
         //Thong bao duoc hien thi de fix bug, gui thong bao den nguoi dung,...
         String message = "";
 
+        String subQuestion = "";
+
+        if (question.length() > 30) {
+            subQuestion = question.substring(0, 30) + "...";
+        } else {
+            subQuestion = question;
+        }
         try {
             //Kiem tra xem cau hoi vua nhap da ton tai hay chua
             checkDuplicate = dao.checkQuestionDuplicate(question);
@@ -120,7 +130,7 @@ public class QuestionController extends HttpServlet {
                                 checkInsert = answerDAO.insertAnswer(questionID, answer_options, answer_text, isCorrect);
                                 if (checkInsert) {
                                     System.out.println("Insert answer to DB successfully!");
-                                    message = "Insert question '" + question + "' successfully!";
+                                    message = "Insert question '" + subQuestion + "' successfully!";
                                 } else {
                                     System.out.println("Can't insert answer to DB!");
                                 }
@@ -141,6 +151,7 @@ public class QuestionController extends HttpServlet {
         }
         //Luu thong bao vao message va gui den trang addQuestion.jsp
         request.setAttribute("message", message);
+
         request.getRequestDispatcher("addNewQuestion.jsp").forward(request, response);
     }
 

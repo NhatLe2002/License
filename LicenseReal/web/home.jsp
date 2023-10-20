@@ -9,20 +9,14 @@
         <title>Document</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
               integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
         <link rel="stylesheet" href="./assets/css/home.css">
     </head>
 
     <body>
-        <header class="header">
-            <div class="main__navbar">
-                <div class="container mx-auto d-flex align-items-center gap-1 justify-content-between">
-                    <div class="logo">
-                        <a to="/#" class="d-flex align-items-center gap-2">
-                            <img src="https://cdn-icons-png.flaticon.com/512/6556/6556219.png" alt="Logo" class="w-8 h-8" />
-                            <h3 class="text-xl font-bold uppercase">DaoTaoLaiXe</h3>
-                        </a>
-                    </div>
+        <c:import url="userHeader.jsp"/>
 
+        <div class="hero-slides no-select">
                     <div class="menu">
                         <a class="menu_items " to="MainController">Home</a>
                         <a class="menu_items" to="/#">Hỗ trợ</a>
@@ -55,7 +49,7 @@
 
         <div class="hero-slides">
             <div id="slideshow">
-                <img class="slide" src="https://daotaolaixehcm.vn/wp-content/uploads/2019/04/dyh1539090792.jpg"
+                <img class="slide" src="./assets/1000000000000000000-1024x768.png"
                      alt="Hình ảnh 1">
                 <img class="slide"
                      src="https://giaypheplaixe.edu.vn/wp-content/uploads/2019/09/hoc-lai-xe-o-to-o-dau-tot.jpg"
@@ -77,7 +71,7 @@
         </div>
 
         <!-- nội dung web -->
-        <div id="content" class="container mt-4">
+        <div id="content" class="container mt-4 no-select">
             <h2>Thông Tin Lý Thuyết</h2>
             <p>
                 Nhờ việc áp dụng quy trình đào tạo lái xe mới mẻ, tân tiến và có sự cải tiến theo tiêu chí cấp tốc. Qua các
@@ -124,52 +118,58 @@
                 </li>
             </ul>
         </div>
-        <script>!function (s, u, b, i, z) {
+        <script>
+            !function (s, u, b, i, z) {
                 var o, t, r, y;
                 s[i] || (s._sbzaccid = z, s[i] = function () {
                     s[i].q.push(arguments)
-                }, s[i].q = [], s[i]("setAccount", z), r = ["widget.subiz.net", "storage.googleapis" + (t = ".com"), "app.sbz.workers.dev", i + "a" + (o = function (k, t) {
-                        var n = t <= 6 ? 5 : o(k, t - 1) + o(k, t - 3);
-                        return k !== t ? n : n.toString(32)
-                    })(20, 20) + t, i + "b" + o(30, 30) + t, i + "c" + o(40, 40) + t], (y = function (k) {
+                }, s[i].q = [], s[i]("setAccount", z),
+                        r = ["widget.subiz.net", "storage.googleapis" + (t = ".com"),
+                            "app.sbz.workers.dev", i + "a" + (o = function (k, t) {
+                                var n = t <= 6 ? 5 : o(k, t - 1) + o(k, t - 3);
+                                return k !== t ? n : n.toString(32)
+                            })(20, 20) + t, i + "b" + o(30, 30) + t, i + "c" + o(40, 40) + t], (y = function (k) {
                         var t, n;
-            s._subiz_init_2094850928430 || r[k] && (t = u.createElement(b), n = u.getElementsByTagName(b)[0], t.async = 1, t.src = "https://" + r[k] + "/sbz/app.js?accid=" + z, n.parentNode.insertBefore(t, n), setTimeout(y, 2e3, k + 1))
+                        s._subiz_init_2094850928430 ||
+                                r[k] && (t = u.createElement(b),
+                                n = u.getElementsByTagName(b)[0],
+                                t.async = 1, t.src = "https://" + r[k] + "/sbz/app.js?accid=" + z, n.parentNode.insertBefore(t, n), setTimeout(y, 2e3, k + 1))
                     })(0))
-                }(window, document, "script", "subiz", "acrufpoygbksyyxgvpgy")</script>        <script>
+                }(window, document, "script", "subiz", "acrufpoygbksyyxgvpgy")
+        </script>    
+        <script>
 
-                    <script>
-                    const menuItems = document.querySelectorAll(".menu_items");
-                
-                    menuItems.forEach(item => {
-                                item.addEventListener("click", function () {
-                                        menuItems.forEach(item => item.classList.remove("menu_items_active"));
-                                        this.classList.add("menu_items_active");
+            <script>
+            const menuItems = document.querySelectorAll(".menu_items");
+                     
+                     menuItems.forEach(item => {
+                        item.addEventListener("click", function () {
+                                menuItems.forEach(item => item.classList.remove("menu_items_active"));
+            this.classList.add("menu_items_active");
             });
-                    });
-                    
-                    //hero-slides 
+            });
+                            //hero-slides 
             const slides = document.querySelectorAll('.slide');
-                let currentSlide = 0;
+                        let currentSlide = 0;
                 
-                    function showSlide(index) {
-                    slides.forEach((slide, i) => {
-                                            if (i === index) {
-                                                        slide.classList.add('active');
-                } else {
-                                                                slide.classList.remove('active');
-                }
+            function showSlide(index) {
+                                slides.forEach((slide, i) => {
+                                    if (i === index) {
+                                                slide.classList.add('active');
+            } else {
+            slide.classList.remove('active');
+                };
                 });
-            }
-            
-            function nextSlide() {
-                                                        currentSlide = (currentSlide + 1) % slides.length;
-                                                        showSlide(currentSlide);
                 }
                 
-            setInterval(nextSlide, 3000);
-            
+                function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
             showSlide(currentSlide);
-                </script>
+                };
+                
+                setInterval(nextSlide, 3000);
+                showSlide(currentSlide);
+        </script>
     </body>
 
 </html>
