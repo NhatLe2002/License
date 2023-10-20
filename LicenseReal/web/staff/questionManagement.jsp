@@ -142,9 +142,9 @@
                                                     </td>
                                                     <td>
                                                         <span style="display: inline-block; 
-                                                             max-width: 10rem; 
-                                                             word-break: break-all; 
-                                                             overflow: hidden;">
+                                                              max-width: 10rem; 
+                                                              word-break: break-all; 
+                                                              overflow: hidden;">
                                                             <%-- Áp dụng cắt chuỗi ở đây --%>
                                                             <c:set var="truncatedQuestion" value="${fn:substring(Q.question, 0, 18)}" />
                                                             <c:choose>
@@ -164,7 +164,7 @@
                                                     </td>
                                                     <td>
                                                         <c:if test="${Q.questionType eq '1'}">
-                                                            <span class="fw-medium">Câu liệt</span>
+                                                            <span class="fw-medium" style="color:#fba265">Câu hỏi liệt</span>
                                                         </c:if>
                                                         <c:if test="${Q.questionType eq '0'}">
                                                             <span class="fw-medium">Bình thường</span>
@@ -194,12 +194,15 @@
                                                             <div class="dropdown-menu">
                                                                 <a
                                                                     class="dropdown-item"
-                                                                    href="javascript:void(0);"
+                                                                    href="UpdateQuestionController?id=${Q.id}"
                                                                     ><i class="bx bx-edit-alt me-1"></i>Chỉnh sửa</a
                                                                 >
                                                                 <a
                                                                     class="dropdown-item"
-                                                                    href="javascript:void(0);"
+                                                                    data-toggle="tooltip" title="Xóa"
+                                                                    data-bs-toggle="modal" 
+                                                                    data-bs-target="#modalConfirmDelete" 
+                                                                    onclick="showMess('${Q.id}')"
                                                                     ><i class="bx bx-trash me-1"></i> Xóa</a
                                                                 >
                                                             </div>
@@ -211,162 +214,95 @@
                                     </table>
                                 </div>
                             </div>
-                            <!--/ Basic Bootstrap Table -->
-                            <!-- Bootstrap modals -->
-                            <div class="card mb-4">
-                                <!-- Modal -->
-                                <div
-                                    class="modal fade"
-                                    id="basicModal"
-                                    tabindex="-1"
-                                    aria-hidden="true"
-                                    >
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel1">
-                                                    Chi tiết câu hỏi 1
-                                                </h5>
-                                                <button
-                                                    type="button"
-                                                    class="btn-close"
-                                                    data-bs-dismiss="modal"
-                                                    aria-label="Close"
-                                                    ></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="row">
-                                                    <div class="col mb-3">
-                                                        <label for="nameBasic" class="form-label"
-                                                               >Nội dung câu hỏi</label
-                                                        >
-                                                        <input
-                                                            type="text"
-                                                            id="nameBasic"
-                                                            class="form-control"
-                                                            placeholder="Nội dung"
-                                                            />
-                                                    </div>
-                                                </div>
-                                                <div class="row g-2">
-                                                    <div class="col mb-0">
-                                                        <label for="emailBasic" class="form-label"
-                                                               >Đáp án A</label
-                                                        >
-                                                        <input
-                                                            type="text"
-                                                            id="emailBasic"
-                                                            class="form-control"
-                                                            placeholder="xxxx@xxx.xx"
-                                                            />
-                                                    </div>
-                                                    <div class="col mb-0">
-                                                        <label for="emailBasic" class="form-label"
-                                                               >Đáp án B</label
-                                                        >
-                                                        <input
-                                                            type="text"
-                                                            id="emailBasic"
-                                                            class="form-control"
-                                                            placeholder="xxxx@xxx.xx"
-                                                            />
-                                                    </div>
-                                                </div>
-                                                <div class="row g-2">
-                                                    <div class="col mb-3">
-                                                        <label for="emailBasic" class="form-label"
-                                                               >Đáp án C</label
-                                                        >
-                                                        <input
-                                                            type="email"
-                                                            id="emailBasic"
-                                                            class="form-control"
-                                                            placeholder="xxxx@xxx.xx"
-                                                            />
-                                                    </div>
-                                                    <div class="col mb-0">
-                                                        <label for="emailBasic" class="form-label"
-                                                               >Đáp án D</label
-                                                        >
-                                                        <input
-                                                            type="email"
-                                                            id="emailBasic"
-                                                            class="form-control"
-                                                            placeholder="xxxx@xxx.xx"
-                                                            />
-                                                    </div>
-                                                </div>
-                                                <div class="row g-2">
-                                                    <div class="col mb-3">
-                                                        <div class="btn-group">
-                                                            <button type="button" class="btn btn-secondary">
-                                                                Chọn đáp án đúng
-                                                            </button>
-                                                            <button
-                                                                type="button"
-                                                                class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
-                                                                data-bs-toggle="dropdown"
-                                                                aria-expanded="false"
-                                                                >
-                                                                <span class="visually-hidden"
-                                                                      >Toggle Dropdown</span
-                                                                >
-                                                            </button>
-                                                            <ul class="dropdown-menu">
-                                                                <li>
-                                                                    <a class="dropdown-item" href="#3"
-                                                                       >Đáp án A</a
-                                                                    >
-                                                                </li>
-                                                                <li>
-                                                                    <a class="dropdown-item" href="#">Đáp án B</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="dropdown-item" href="#">Đáp án C</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="dropdown-item" href="#">Đáp án D</a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row g-2">
-                                                    <div class="col mb-3">
-                                                        <label for="nameBasic" class="form-label"
-                                                               >Hình ảnh</label
-                                                        >
-                                                        <img
-                                                            src="https://ik.imagekit.io/tvlk/blog/2021/09/du-lich-anh-8-1024x576.jpg?tr=dpr-2,w-675"
-                                                            class="d-block rounded"
-                                                            height="100%"
-                                                            width="100%"
-                                                            />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button
-                                                    type="button"
-                                                    class="btn btn-outline-secondary"
-                                                    data-bs-dismiss="modal"
-                                                    >
-                                                    Đóng
-                                                </button>
-                                                <button type="button" class="btn btn-primary">
-                                                    Chỉnh sửa
-                                                </button>
-                                            </div>
-                                        </div>
+                        </div>
+                        <div class="modal fade" id="modalConfirmDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                             aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">XÁC NHẬN LOẠI BỎ</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Bạn có chắc muốn xóa câu hỏi này?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                        <button type="button" class="btn btn-primary" id="btn-toast-delete" class="btn-close"
+                                                data-bs-dismiss="modal" aria-label="Close">Xác nhận</button>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Bootstrap modals -->
                         </div>
+                        <!-- toast thông báo thành công-->
+                        <c:if test="${not empty message}">
+                            <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+                                <div id="toast-notification" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+                                    <div class="toast-header">
+                                        <c:if test="${message eq 'success'}">
+                                            <strong id="toast-message" class="me-auto text-success"></strong>
+                                        </c:if>
+                                        <c:if test="${message eq 'fail'}">
+                                            <strong id="toast-message" class="me-auto text-danger"></strong>
+                                        </c:if>
+                                        <c:if test="${message eq 'exist'}">
+                                            <strong id="toast-message" class="me-auto text-danger"></strong>
+                                        </c:if>
+                                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:if>
                     </div>
                 </div>
             </div>
         </div>
+        <script>
+            function showMess(id) {
+                var btnToastDelete = document.querySelector('#btn-toast-delete');
+                btnToastDelete.addEventListener('click', function () {
+                    var deleteUrl = 'DeleteQuestionController?id=' + id;
+                    window.location.href = deleteUrl;
+                    // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
+                    document.getElementById('modalConfirmDelete').style.display = 'none';
+                });
+            }
+
+            window.addEventListener('DOMContentLoaded', (event) => {
+                const message = '${message}'; // Lấy giá trị thông báo từ servlet
+                if (message) {
+                    showToast(message); // Gọi hàm hiển thị thông báo
+                }
+            });
+
+            function showToast(message) {
+                const toast = document.getElementById('toast-notification');
+                const toastMessage = document.getElementById('toast-message');
+                if(message === 'success'){
+                    var success = 'Xóa câu hỏi thành công!';
+                    toastMessage.textContent = success;
+                } else {
+                    var fail = 'Không thể xóa câu hỏi!';
+                    toastMessage.textContent = fail;
+                }
+                toast.classList.remove('hide');
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+//            document.querySelector('#btn-toast-delete').addEventListener('click', function () {
+//                window.location.href = 'DeleteQuestionController?id=' + id;
+////                showToast('Xóa bộ đề thành công');
+//            });
+//            document.querySelector('#btn-toast-add').addEventListener('click', function () {
+//                showToast('Thêm bộ đề thành công');
+//            });
+
+//            document.querySelector('#btn-toast-edit').addEventListener('click', function () {
+//                showToast('Cập nhập bộ đề thành công');
+//            });
+        </script>
         <!-- Core JS -->
         <!-- build:js assets/vendor/js/core.js -->
 

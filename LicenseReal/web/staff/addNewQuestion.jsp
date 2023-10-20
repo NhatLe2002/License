@@ -95,7 +95,7 @@
                                             <h5 class="mb-0">Nhập các thông tin sau</h5>
                                         </div>
                                         <div class="card-body">
-                                            <form>
+                                            <form action="QuestionController" enctype="multipart/form-data" method="POST">
                                                 <div class="mb-3">
                                                     <label for="nameBasic" class="form-label"
                                                            >Nội dung câu hỏi</label
@@ -127,7 +127,7 @@
                                                         type="text"
                                                         id="emailBasic"
                                                         class="form-control"
-                                                        name="answerA" value="B. " required=""
+                                                        name="answerB" value="B. " required=""
                                                         />
                                                 </div>
                                                 <div class="mb-3" name="answer_div">
@@ -138,7 +138,7 @@
                                                         type="text"
                                                         id="emailBasic"
                                                         class="form-control"
-                                                        name="answerA" value="C. " required=""
+                                                        name="answerC" value="C. " required=""
                                                         />
                                                 </div>
                                                 <div class="mb-3" name="answer_div">
@@ -149,7 +149,7 @@
                                                         type="text"
                                                         id="emailBasic"
                                                         class="form-control"
-                                                        name="answerA" value="D. " required=""
+                                                        name="answerD" value="D. " required=""
                                                         />
                                                 </div>
 
@@ -162,7 +162,7 @@
                                                             <option value="0" disabled="">Chọn 1 lựa chọn!</option>
                                                             <option value="2">Có 2 đáp án</option>
                                                             <option value="3">Có 3 đáp án</option>
-                                                            <option value="4">Có 4 đáp án</option>
+                                                            <option value="4" selected="">Có 4 đáp án</option>
                                                         </select>
                                                     </div>
                                                     <div class="btn-group">
@@ -176,6 +176,15 @@
                                                             <option value="D">D</option>
                                                         </select>
                                                     </div>
+                                                    <div class="btn-group">
+                                                        <label>
+                                                            Chọn loại câu hỏi
+                                                        </label>
+                                                        <select name="question_type" style="cursor: pointer">
+                                                            <option value="0">Bình thường</option>
+                                                            <option value="1">Câu hỏi liệt</option>
+                                                        </select>
+                                                    </div>
 
                                                 </div>
                                                 <div class="mb-3">
@@ -185,8 +194,11 @@
                                                     <input
                                                         class="form-control"
                                                         type="file"
-                                                        id="formFile"
+                                                        name="image" id="fileInput" onchange="previewImage(event)" accept="image/*""
                                                         />
+                                                    <div class="file-img" id="image" style="padding-top: 1rem; display: none">
+                                                        <img id="preview" src="#" alt="Preview" style="max-height: 10rem; max-width: 20rem;"/>
+                                                    </div>
                                                 </div>
 
                                                 <button type="submit" class="btn btn-primary">
@@ -199,14 +211,161 @@
                             </div>
                         </div>
                         <!-- / Content -->
-
-                        <div class="content-backdrop fade"></div>
+                        <c:if test="${not empty message}">
+                            <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+                                <div id="toast-notification" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+                                    <div class="toast-header">
+                                        <c:if test="${message eq 'success'}">
+                                            <strong id="toast-message" class="me-auto text-success"></strong>
+                                        </c:if>
+                                        <c:if test="${message eq 'fail'}">
+                                            <strong id="toast-message" class="me-auto text-danger"></strong>
+                                        </c:if>
+                                        <c:if test="${message eq 'exist'}">
+                                            <strong id="toast-message" class="me-auto text-danger"></strong>
+                                        </c:if>
+                                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:if>
                     </div>
                     <!-- Content wrapper -->
                 </div>
                 <!-- / Layout page -->
             </div>
         </div>
+        <script>
+            window.addEventListener('DOMContentLoaded', (event) => {
+                const message = '${message}'; // Lấy giá trị thông báo từ servlet
+                if (message) {
+                    showToast(message); // Gọi hàm hiển thị thông báo
+                }
+            });
+
+            function showToast(message) {
+                const toast = document.getElementById('toast-notification');
+                const toastMessage = document.getElementById('toast-message');
+                if (message === 'success') {
+                    var success = 'Thêm câu hỏi thành công!';
+                    toastMessage.textContent = success;
+                } else if (message === 'fail') {
+                    var fail = 'Không thể thêm câu hỏi!';
+                    toastMessage.textContent = fail;
+                } else {
+                    var exist = 'Câu hỏi đã tồn tại!';
+                    toastMessage.textContent = exist;
+                }
+                toast.classList.remove('hide');
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+        </script>
+        <script>
+            // Lấy tất cả các input trong các div chứa câu trả lời
+            var answerInputsA = document.querySelectorAll('div[name="answer_div"] input[name="answerA"]');
+            var answerInputsB = document.querySelectorAll('div[name="answer_div"] input[name="answerB"');
+            var answerInputsC = document.querySelectorAll('div[name="answer_div"] input[name="answerC"');
+            var answerInputsD = document.querySelectorAll('div[name="answer_div"] input[name="answerD"');
+
+            // Lắng nghe sự kiện input của các input
+            answerInputsA.forEach(function (input) {
+                input.addEventListener('input', function () {
+                    // Kiểm tra giá trị của input và chỉ cho phép người dùng thêm nội dung sau giá trị ban đầu
+                    if (!input.value.startsWith("A. ")) {
+                        input.value = "A. " + input.value.slice(3);
+                    }
+                });
+            });
+            answerInputsB.forEach(function (input) {
+                input.addEventListener('input', function () {
+                    // Kiểm tra giá trị của input và chỉ cho phép người dùng thêm nội dung sau giá trị ban đầu
+                    if (!input.value.startsWith("B. ")) {
+                        input.value = "B. " + input.value.slice(3);
+                    }
+                });
+            });
+            answerInputsC.forEach(function (input) {
+                input.addEventListener('input', function () {
+                    // Kiểm tra giá trị của input và chỉ cho phép người dùng thêm nội dung sau giá trị ban đầu
+                    if (!input.value.startsWith("C. ")) {
+                        input.value = "C. " + input.value.slice(3);
+                    }
+                });
+            });
+            answerInputsD.forEach(function (input) {
+                input.addEventListener('input', function () {
+                    // Kiểm tra giá trị của input và chỉ cho phép người dùng thêm nội dung sau giá trị ban đầu
+                    if (!input.value.startsWith("D. ")) {
+                        input.value = "D. " + input.value.slice(3);
+                    }
+                });
+            });
+
+        </script>
+        <script>
+            // Lấy phần tử select và các phần tử div chứa câu trả lời
+            var answerOptionsSelect = document.querySelector('select[name="answer_options"]');
+            var answerDivs = document.querySelectorAll('div[name="answer_div"]');
+
+            // Lắng nghe sự kiện thay đổi của select
+            answerOptionsSelect.addEventListener('change', function () {
+                // Xóa tất cả các div chứa câu trả lời
+                answerDivs.forEach(function (div) {
+                    div.style.display = 'none';
+                });
+
+                // Lấy giá trị được chọn trong select
+                var selectedOption = answerOptionsSelect.value;
+
+                // Hiển thị các div chứa câu trả lời tương ứng
+                for (var i = 0; i < selectedOption; i++) {
+                    answerDivs[i].style.display = 'block';
+                }
+            });
+
+            // Lấy phần tử select chứa câu trả lời đúng và tất cả các option trong nó
+            var correctAnswerSelect = document.querySelector('select[name="correct_answer"]');
+            var correctAnswerOptions = correctAnswerSelect.querySelectorAll('option');
+
+            answerOptionsSelect.addEventListener('change', function () {
+                // Lấy giá trị được chọn trong select "answer_options"
+                var selectedOption = parseInt(answerOptionsSelect.value);
+
+                // Hiển thị các option tương ứng trong select "correct_answer"
+                correctAnswerOptions.forEach(function (option, index) {
+                    if (index < selectedOption) {
+                        option.style.display = 'block';
+                    } else {
+                        option.style.display = 'none';
+                    }
+                });
+            });
+        </script>
+        <script>
+            function previewImage(event) {
+                var reader = new FileReader();
+                reader.onload = function () {
+                    var output = document.getElementById("preview");
+                    output.src = reader.result;
+                };
+
+                var fileInput = event.target;
+                var files = fileInput.files;
+
+                if (files.length > 0) {
+                    var img = document.getElementById("image");
+                    reader.readAsDataURL(files[0]);
+                    img.style.display = 'block';
+                } else {
+                    // Nếu không có file được chọn, đặt lại ảnh về trạng thái ban đầu
+                    var output = document.getElementById("preview");
+                    output.src = "#";
+                }
+            }
+        </script>
         <!-- / Layout wrapper -->
 
         <!-- Core JS -->
