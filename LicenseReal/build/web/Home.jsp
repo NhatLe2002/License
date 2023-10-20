@@ -16,37 +16,6 @@
     <body>
         <c:import url="userHeader.jsp"/>
 
-        <div class="hero-slides no-select">
-                    <div class="menu">
-                        <a class="menu_items " to="MainController">Home</a>
-                        <a class="menu_items" to="/#">Hỗ trợ</a>
-                        <a class="menu_items" to="/#">Thông tin lý thuyết</a>
-                        <!--Cho nay la feature cua mentor, can cao navarbar rieng cho mentor nha-->
-                        <a class="menu_items" href="MainController?action=viewSchedule" >Lịch dạy</a>
-                        <a class="menu_items" href="MainController?action=viewScheduleMember" >Lịch Học</a>
-                        <a class="menu_items" to="/#">Lịch thi</a>
-                        <a class="menu_items" href="MainController?action=PracticeTest">Thi thử trắc nghiệm</a>
-                        <c:choose>
-                            <c:when test="${user != null}">
-                                Hello, ${user.getName()}
-                                <a href="logout.jsp">Logout</a>
-                                <a class="menu_items" href="updateProfile?id=${sessionScope.user.getId()}"> Profile</a>
-                            </c:when>
-                            <c:when test="${account != null}">
-                                Hello, ${account.getUsername()}
-                                 <a href="logout.jsp">Logout</a>
-                                <a class="menu_items" href="updateProfile?id=${sessionScope.user.getId()}"> Profile</a>
-                            </c:when>
-                            <c:otherwise>
-                                <a class="btn_login"  href="login.jsp">Log in</a>
-                            </c:otherwise>
-                        </c:choose>
-
-                    </div>
-                </div>
-            </div>
-        </header>
-
         <div class="hero-slides">
             <div id="slideshow">
                 <img class="slide" src="./assets/1000000000000000000-1024x768.png"
@@ -141,35 +110,39 @@
 
             <script>
             const menuItems = document.querySelectorAll(".menu_items");
-                     
-                     menuItems.forEach(item => {
-                        item.addEventListener("click", function () {
+                                           menuItems.forEach(item => { item.addEventListener("click", function () {
                                 menuItems.forEach(item => item.classList.remove("menu_items_active"));
             this.classList.add("menu_items_active");
             });
             });
-                            //hero-slides 
-            const slides = document.querySelectorAll('.slide');
+            //hero-slides                      const slides = document.querySelectorAll('.slide');
                         let currentSlide = 0;
-                
-            function showSlide(index) {
-                                slides.forEach((slide, i) => {
-                                    if (i === index) {
-                                                slide.classList.add('active');
+                    
+                function showSlide(index) 
+        
+                    {
+                            slides.forEach((slide, i) => {
+                                if (i === index) {
+                                    slide.classList.add('active');
             } else {
-            slide.classList.remove('active');
-                };
-                });
-                }
+                                    slide.classList.remove('active');
+                                }
+            ;
+            });
+            }
                 
-                function nextSlide() {
-            currentSlide = (currentSlide + 1) % slides.length;
-            showSlide(currentSlide);
-                };
+            
+            
+            function nextSlide() {
+                            currentSlide = (currentSlide + 1) % slides.length;
+                    showSlide(currentSlide);
+                }
+                    
+                ;
                 
                 setInterval(nextSlide, 3000);
                 showSlide(currentSlide);
-        </script>
+            </script>
     </body>
 
 </html>
