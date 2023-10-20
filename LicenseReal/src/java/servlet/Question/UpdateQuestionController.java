@@ -37,7 +37,12 @@ public class UpdateQuestionController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String id = request.getParameter("id");
-        String message = "";
+        String message = (String) request.getAttribute("message");
+        String image = (String) request.getAttribute("data");
+        String queID = (String) request.getAttribute("queID");
+        if (id.isEmpty() && !queID.isEmpty()) {
+            id = queID;
+        }
         QuestionDAO dao = new QuestionDAO();
         try {
             QuestionDTO question = dao.getQuestionByID(id);
@@ -49,7 +54,7 @@ public class UpdateQuestionController extends HttpServlet {
             for (AnswerDTO answer : answers) {
                 String result = Arrays.toString(answer.getAnswer().replaceAll(", ", "###").split("/"));
                 String[] resultArray = result.substring(1, result.length() - 1).split(", ");
-                
+
                 int answerCount = resultArray.length;
 
                 if (answerCount >= 2) {
@@ -68,22 +73,14 @@ public class UpdateQuestionController extends HttpServlet {
                     String answer4 = resultArray[3].replaceAll("###", ", ").trim();
                     request.setAttribute("answerD", answer4);
                 }
-
-                if (answerCount >= 5) {
-                    String answer5 = resultArray[4].replaceAll("###", ", ").trim();
-                    request.setAttribute("answerE", answer5);
-                }
-
-                if (answerCount >= 6) {
-                    String answer6 = resultArray[5].replaceAll("###", ", ").trim();
-                    request.setAttribute("answerF", answer6);
-                }
+                request.setAttribute("number_option", answer.getOptions());
 
             }
         } catch (Exception e) {
             message = "ERROR: " + e.getMessage();
         }
         request.setAttribute("message", message);
+        request.setAttribute("image", image);
         request.getRequestDispatcher("staff/updateQuestion.jsp").forward(request, response);
     }
 
@@ -109,13 +106,7 @@ public class UpdateQuestionController extends HttpServlet {
         //Thong bao duoc hien thi de fix bug, gui thong bao den nguoi dung,...
         String message = "";
         String image = "";
-        String subQuestion = "";
 
-        if (question.length() > 30) {
-            subQuestion = question.substring(0, 30) + "...";
-        } else {
-            subQuestion = question;
-        }
         try {
             //Kiem tra xem cau hoi vua nhap da ton tai hay chua
             checkDuplicate = dao.checkQuestionDuplicate(question);
@@ -141,46 +132,39 @@ public class UpdateQuestionController extends HttpServlet {
                         byte[] imageBytes = IOUtils.toByteArray(content);
                         String data = Base64.getEncoder().encodeToString(imageBytes);
                         //Lay questionID de them vao bang AnswerDTO trong DB
-                        int questionID = dao.getQuestionID(question);
+                        int questionID = Integer.parseInt(queID);
                         if (data.isEmpty()) {
                             QuestionDTO question1 = dao.getQuestionByID(Integer.toString(questionID));
                             image = question1.getImage();
                         }
 
-                        //Kiem tra cac file gui len tu jsp co phai la file anh hay khong
-                        if (fileName.endsWith(".png") || fileName.endsWith(".PNG") || fileName.isEmpty()) {
-                            //Ghep cac dap an A B C D E F lai voi nhau thanh 1 chuoi cach nhau boi "\n"
-                            String answer_text = dao.concatenatedString(answerA, answerB, answerC, answerD);
-                            //Kiem tra chuoi co bi trong hay khong
-                            if (answer_text.isEmpty()) {
-                                message = "Please enter answer!";
-                            } else {
-                                if (!data.isEmpty()) {
-                                    //Goi den ham them cau hoi va kiem tra xem da cap nhat du lieu vao bang QuestionDTO va AnswerDTO trong DB thanh cong hay chua
-                                    checkUpdate = dao.UpdateQuestion(questionID, answer_options, answer_text, isCorrect, question, data, question_type);
-                                    if (checkUpdate) {
-                                        System.out.println("Update question successfully!");
-                                        message = "Update question '" + subQuestion + "' successfully!";
-                                    } else {
-                                        message = "Can't update question!";
-                                    }
+                        //Ghep cac dap an A B C D E F lai voi nhau thanh 1 chuoi cach nhau boi "\n"
+                        String answer_text = dao.concatenatedString(answerA, answerB, answerC, answerD);
+                        //Kiem tra chuoi co bi trong hay khong
+                        if (answer_text.isEmpty()) {
+                            message = "fail";
+                        } else {
+                            if (!data.isEmpty()) {
+                                //Goi den ham them cau hoi va kiem tra xem da cap nhat du lieu vao bang QuestionDTO va AnswerDTO trong DB thanh cong hay chua
+                                checkUpdate = dao.UpdateQuestion(questionID, answer_options, answer_text, isCorrect, question, data, question_type);
+                                if (checkUpdate) {
+                                    message = "success";
                                 } else {
-                                    //Goi den ham them cau hoi va kiem tra xem da cap nhat du lieu vao bang QuestionDTO va AnswerDTO trong DB thanh cong hay chua
-                                    checkUpdate = dao.UpdateQuestion(questionID, answer_options, answer_text, isCorrect, question, image, question_type);
-                                    if (checkUpdate) {
-                                        System.out.println("Update question successfully!");
-                                        message = "Update question '" + subQuestion + "' successfully!";
-                                    } else {
-                                        message = "Can't update question!";
-                                    }
+                                    message = "fail";
+                                }
+                            } else {
+                                //Goi den ham them cau hoi va kiem tra xem da cap nhat du lieu vao bang QuestionDTO va AnswerDTO trong DB thanh cong hay chua
+                                checkUpdate = dao.UpdateQuestion(questionID, answer_options, answer_text, isCorrect, question, image, question_type);
+                                if (checkUpdate) {
+                                    message = "success";
+                                } else {
+                                    message = "fail";
                                 }
                             }
-                        } else {
-                            message = "Please select the image file as PNG file!";
                         }
                     }
                 } else {
-                    message = "This question already exists! Please check and try again!";
+                    message = "exist";
                 }
             } else {
                 //Doan code xu ly cac file anh png duoc gui len tu jsp
@@ -201,42 +185,36 @@ public class UpdateQuestionController extends HttpServlet {
                     byte[] imageBytes = IOUtils.toByteArray(content);
                     String data = Base64.getEncoder().encodeToString(imageBytes);
                     //Lay questionID de them vao bang AnswerDTO trong DB
-                    int questionID = dao.getQuestionID(question);
+                    int questionID = Integer.parseInt(queID);
                     if (data.isEmpty()) {
                         QuestionDTO question1 = dao.getQuestionByID(Integer.toString(questionID));
                         image = question1.getImage();
                     }
 
-                    //Kiem tra cac file gui len tu jsp co phai la file anh hay khong
-                    if (fileName.endsWith(".png") || fileName.endsWith(".PNG") || fileName.isEmpty()) {
-                        //Ghep cac dap an A B C D E F lai voi nhau thanh 1 chuoi cach nhau boi "\n"
-                        String answer_text = dao.concatenatedString(answerA, answerB, answerC, answerD);
-                        //Kiem tra chuoi co bi trong hay khong
-                        if (answer_text.isEmpty()) {
-                            message = "Please enter answer!";
-                        } else {
-                            if (!data.isEmpty()) {
-                                //Goi den ham them cau hoi va kiem tra xem da cap nhat du lieu vao bang QuestionDTO va AnswerDTO trong DB thanh cong hay chua
-                                checkUpdate = dao.UpdateQuestion(questionID, answer_options, answer_text, isCorrect, question, data, question_type);
-                                if (checkUpdate) {
-                                    System.out.println("Update question successfully!");
-                                    message = "Update question '" + subQuestion + "' successfully!";
-                                } else {
-                                    System.out.println("Can't update question!");
-                                }
+                    //Ghep cac dap an A B C D E F lai voi nhau thanh 1 chuoi cach nhau boi "\n"
+                    String answer_text = dao.concatenatedString(answerA, answerB, answerC, answerD);
+                    //Kiem tra chuoi co bi trong hay khong
+                    if (answer_text.isEmpty()) {
+                        message = "fail";
+                    } else {
+                        if (!data.isEmpty()) {
+                            //Goi den ham them cau hoi va kiem tra xem da cap nhat du lieu vao bang QuestionDTO va AnswerDTO trong DB thanh cong hay chua
+                            checkUpdate = dao.UpdateQuestion(questionID, answer_options, answer_text, isCorrect, question, data, question_type);
+                            if (checkUpdate) {
+                                message = "success";
                             } else {
-                                //Goi den ham them cau hoi va kiem tra xem da cap nhat du lieu vao bang QuestionDTO va AnswerDTO trong DB thanh cong hay chua
-                                checkUpdate = dao.UpdateQuestion(questionID, answer_options, answer_text, isCorrect, question, image, question_type);
-                                if (checkUpdate) {
-                                    System.out.println("Update question successfully!");
-                                    message = "Update question '" + subQuestion + "' successfully!";
-                                } else {
-                                    System.out.println("Can't update question!");
-                                }
+                                message = "fail";
+                            }
+                        } else {
+                            //Goi den ham them cau hoi va kiem tra xem da cap nhat du lieu vao bang QuestionDTO va AnswerDTO trong DB thanh cong hay chua
+                            checkUpdate = dao.UpdateQuestion(questionID, answer_options, answer_text, isCorrect, question, image, question_type);
+                            if (checkUpdate) {
+                                message = "success";
+                            } else {
+                                message = "fail";
                             }
                         }
-                    } else {
-                        message = "Please select the image file as PNG file!";
+
                     }
                 }
             }
@@ -244,8 +222,10 @@ public class UpdateQuestionController extends HttpServlet {
         } catch (Exception e) {
             message = "ERROR: " + e.getMessage();
         }
-        String redirectURL = "QuestionController?message" + message;
-        response.sendRedirect(redirectURL);
+        request.setAttribute("message", message);
+        request.setAttribute("queID", queID);
+        doGet(request, response);
+
     }
 
     @Override

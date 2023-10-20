@@ -29,11 +29,6 @@ public class DeleteQuestionController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
         String questionID = request.getParameter("id");
         boolean checkDelete;
         String message = "";
@@ -41,14 +36,20 @@ public class DeleteQuestionController extends HttpServlet {
             QuestionDAO dao = new QuestionDAO();
             checkDelete = dao.deleleQuestion(questionID);
             if (checkDelete) {
-                message = "Delete question successfully!";
+                message = "success";
             } else {
-                message = "Can't delete question!";
+                message = "fail";
             }
         } catch (Exception e) {
         }
         request.setAttribute("message", message);
         request.getRequestDispatcher("QuestionController").forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
     }
 
     @Override

@@ -1,73 +1,296 @@
-<%-- 
-    Document   : showListQuestion
-    Created on : 02-10-2023, 19:09:34
-    Author     : HP Pro
---%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Show List Question Page</title>
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-              />
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+            />
+
+        <title>Restore Question</title>
+
+        <meta name="description" content="" />
+
+        <!-- Favicon -->
+        <link
+            rel="icon"
+            type="image/x-icon"
+            href="https://cdn-icons-png.flaticon.com/512/6556/6556219.png"
+            />
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+            rel="stylesheet"
+            />
+
+        <link rel="stylesheet" href="./assets/vendor/fonts/boxicons.css" />
+
+        <!-- Core CSS -->
+        <link
+            rel="stylesheet"
+            href="./assets/vendor/css/core.css"
+            class="template-customizer-core-css"
+            />
+        <link
+            rel="stylesheet"
+            href="./assets/vendor/css/theme-default.css"
+            class="template-customizer-theme-css"
+            />
+        <link rel="stylesheet" href="./assets/css/demo.css" />
+
+        <!-- Vendors CSS -->
+        <link
+            rel="stylesheet"
+            href="./assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css"
+            />
+
+        <!-- Page CSS -->
+
+        <!-- Helpers -->
+        <script src="./assets/vendor/js/helpers.js"></script>
+        <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+        <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+        <script src="./assets/js/config.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     </head>
     <body>
-        <div>
-            <c:if test="${not empty message}">
-                <label style="color: red">${message}</label>
-            </c:if>
+        <!-- Layout wrapper -->
+        <div class="layout-wrapper layout-content-navbar">
+            <div class="layout-container">
+                <c:import url="menu.jsp"/>
+                <!-- Layout container -->
+                <div class="layout-page">
+                    <!-- Content wrapper -->
+                    <div class="content-wrapper">
+                        <!-- Navbar -->
+                        <nav
+                            class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+                            id="layout-navbar"
+                            >
+                            <div
+                                class="layout navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none"
+                                >
+                                <a
+                                    class="nav-item nav-link px-0 me-xl-4"
+                                    href="javascript:void(0)"
+                                    >
+                                    <i class="bx bx-menu bx-sm"></i>
+                                </a>
+                            </div>
+
+                            <div
+                                class="navbar-nav-right d-flex align-items-center"
+                                id="navbar-collapse"
+                                >
+                                <!-- Search -->
+                                <div class="navbar-nav align-items-center">
+                                    <div class="nav-item d-flex align-items-center">
+                                        <i class="bx bx-search fs-4 lh-0"></i>
+                                        <input
+                                            type="text"
+                                            class="form-control border-0 shadow-none ps-1 ps-sm-2"
+                                            placeholder="Tìm kiếm.."
+                                            aria-label="Tìm kiếm.."
+                                            />
+                                    </div>
+                                </div>
+                                <!-- /Search -->
+                            </div>
+                        </nav>
+                        <!-- / Navbar -->
+
+                        <!-- Content -->
+                        <div class="container-xxl flex-grow-1 container-p-y">
+                            <!-- Basic Bootstrap Table -->
+                            <div class="card">
+                                <h5
+                                    class="card-header"
+                                    style="display: flex; justify-content: space-between"
+                                    >
+                                    <div>Ngân hàng câu hỏi</div>
+                                    <!-- Button trigger modal -->
+                                    <div>
+                                        <a href="MainController?action=insertQ">
+                                            <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fas fa-plus"></i></button>
+                                        </a>
+                                        <a href="MainController?action=insertQ">
+                                            <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fa-solid fa-arrows-rotate fa-spin"></i></button>
+                                        </a>
+                                    </div>
+                                </h5>
+
+                                <div class="table-responsive text-nowrap">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>STT</th>
+                                                <th>Câu hỏi</th>
+                                                <th>Hình ảnh</th>
+                                                <th>Dạng câu hỏi</th>
+                                                <th>Đáp án</th>
+                                                <th>Đáp án đúng</th>
+                                                <th>Tính năng</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="table-border-bottom-0" >
+                                            <c:forEach var="Q" items="${listQ}" varStatus="counter">
+                                                <c:set var="A" value="${listA[counter.index]}"></c:set>
+                                                    <tr>
+                                                        <td>
+                                                            <span class="fw-medium">${counter.count}</span>
+                                                        </td>
+                                                    <td>
+                                                        <span style="display: inline-block; 
+                                                              max-width: 10rem; 
+                                                              word-break: break-all; 
+                                                              overflow: hidden;">
+                                                            <%-- Áp dụng cắt chuỗi ở đây --%>
+                                                            <c:set var="truncatedQuestion" value="${fn:substring(Q.question, 0, 18)}" />
+                                                            <c:choose>
+                                                                <c:when test="${fn:length(Q.question) > 18}">
+                                                                    ${truncatedQuestion}...
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    ${truncatedQuestion}
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <c:if test="${not empty Q.image}">
+                                                            <img src="data:image;base64,${Q.image}" style="max-height: 5rem; max-width: 10rem"/>
+                                                        </c:if>
+                                                    </td>
+                                                    <td>
+                                                        <c:if test="${Q.questionType eq '1'}">
+                                                            <span class="fw-medium" style="color:#fba265">Câu hỏi liệt</span>
+                                                        </c:if>
+                                                        <c:if test="${Q.questionType eq '0'}">
+                                                            <span class="fw-medium">Bình thường</span>
+                                                        </c:if>
+                                                    </td>
+                                                    <td>
+                                                        <c:set var="answer" value="${fn:replace(A.answer, '/', '<br>')}" />
+                                                        <div style="display: inline-block; 
+                                                             max-width: 15rem; 
+                                                             word-break: break-all; 
+                                                             overflow: hidden;">
+                                                            ${answer}
+                                                        </div>
+                                                    </td>
+                                                    <td style="align-content: center">
+                                                        <span class="badge bg-label-primary me-1">${A.isCorrect}</span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <button
+                                                                type="button"
+                                                                class="btn p-0 dropdown-toggle hide-arrow"
+                                                                data-bs-toggle="dropdown"
+                                                                >
+                                                                <i class="bx bx-dots-vertical-rounded"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu">
+                                                                <a
+                                                                    class="dropdown-item"
+                                                                    href="RestoreQuestionController?id=${Q.id}"
+                                                                    ><i class="fa-solid fa-rotate fa-spin"></i></i>Khôi phục</a
+                                                                >
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- toast thông báo thành công-->
+                        <c:if test="${not empty message}">
+                            <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+                                <div id="toast-notification" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+                                    <div class="toast-header">
+                                        <c:if test="${message eq 'success'}">
+                                            <strong id="toast-message" class="me-auto text-success"></strong>
+                                        </c:if>
+                                        <c:if test="${message eq 'fail'}">
+                                            <strong id="toast-message" class="me-auto text-danger"></strong>
+                                        </c:if>
+                                        <c:if test="${message eq 'exist'}">
+                                            <strong id="toast-message" class="me-auto text-danger"></strong>
+                                        </c:if>
+                                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:if>
+                    </div>
+                </div>
+            </div>
         </div>
-        <h1>Show List Question Page</h1>
-        <a href="MainController?action=QuestionController">Show List Question Page</a>
-        <table id="myTable"> 
-            <thead>
-                <tr>
-                    <th>No.</th>
-                    <th>Question</th>
-                    <th>Image</th>
-                    <th>Number Of Option</th>
-                    <th>Answer</th>
-                    <th>Correct</th>
-                    <th>Question Type</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <c:forEach var="Q" items="${listQ}" varStatus="counter">
-                    <c:set var="A" value="${listA[counter.index]}"></c:set>
-                        <tr>
-                            <td>${counter.count}</td>
-                        <td>${Q.question}</td>
-                        <td>
-                            <c:if test="${not empty Q.image}">
-                                <img src="data:image;base64,${Q.image}" style="max-height: 5rem; max-width: 10rem"/>
-                            </c:if>
-                        </td>
-                        <td>${A.options}</td>
-                        <td>${A.answer}</td>
-                        <td>${A.isCorrect}</td>
-                        <c:if test="${Q.questionType eq '1'}">
-                            <td>Paralysis</td>
-                        </c:if>
-                        <c:if test="${Q.questionType eq '0'}">
-                            <td>Normal</td>
-                        </c:if>
-                        <td>
-                            <a href="RestoreQuestionController?id=${Q.id}"><i class="fa-solid fa-trash-arrow-up fa-bounce" style="color: #27b201;"></i></a>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
+        <script>
+            window.addEventListener('DOMContentLoaded', (event) => {
+                const message = '${message}'; // Lấy giá trị thông báo từ servlet
+                if (message) {
+                    showToast(message); // Gọi hàm hiển thị thông báo
+                }
+            });
+
+            function showToast(message) {
+                const toast = document.getElementById('toast-notification');
+                const toastMessage = document.getElementById('toast-message');
+                if (message === 'success') {
+                    var success = 'Xóa câu hỏi thành công!';
+                    toastMessage.textContent = success;
+                } else {
+                    var fail = 'Không thể xóa câu hỏi!';
+                    toastMessage.textContent = fail;
+                }
+                toast.classList.remove('hide');
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+//            document.querySelector('#btn-toast-delete').addEventListener('click', function () {
+//                window.location.href = 'DeleteQuestionController?id=' + id;
+////                showToast('Xóa bộ đề thành công');
+//            });
+//            document.querySelector('#btn-toast-add').addEventListener('click', function () {
+//                showToast('Thêm bộ đề thành công');
+//            });
+
+//            document.querySelector('#btn-toast-edit').addEventListener('click', function () {
+//                showToast('Cập nhập bộ đề thành công');
+//            });
+        </script>
+        <!-- Core JS -->
+        <!-- build:js assets/vendor/js/core.js -->
+
+        <script src="./assets/vendor/libs/jquery/jquery.js"></script>
+        <script src="./assets/vendor/libs/popper/popper.js"></script>
+        <script src="./assets/vendor/js/bootstrap.js"></script>
+        <script src="./assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+        <script src="./assets/vendor/js/menu.js"></script>
+
+        <!-- endbuild -->
+
+        <!-- Vendors JS -->
+
+        <!-- Main JS -->
+        <script src="./assets/js/main.js"></script>
+
+        <!-- Page JS -->
+
+        <!-- Place this tag in your head or just before your close body tag. -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
     </body>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#myTable').DataTable();
-        });
-    </script>
 </html>
+
