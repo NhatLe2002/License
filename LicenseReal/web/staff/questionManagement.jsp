@@ -18,7 +18,7 @@
         <link
             rel="icon"
             type="image/x-icon"
-            href="./assets/img/favicon/favicon.ico"
+            href="https://cdn-icons-png.flaticon.com/512/6556/6556219.png"
             />
 
         <!-- Fonts -->
@@ -57,6 +57,7 @@
         <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
         <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
         <script src="./assets/js/config.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     </head>
     <body>
         <!-- Layout wrapper -->
@@ -114,9 +115,14 @@
                                     >
                                     <div>Ngân hàng câu hỏi</div>
                                     <!-- Button trigger modal -->
-                                    <a href="MainController?action=insertQ">
-                                        <button type="button" class="btn btn-primary">+</button>
-                                    </a>
+                                    <div>
+                                        <a href="MainController?action=insertQ">
+                                            <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fas fa-plus"></i></button>
+                                        </a>
+                                        <a href="MainController?action=restore">
+                                            <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fa-solid fa-arrows-rotate fa-spin"></i></button>
+                                        </a>
+                                    </div>
                                 </h5>
 
                                 <div class="table-responsive text-nowrap">
@@ -137,9 +143,8 @@
                                                 <c:set var="A" value="${listA[counter.index]}"></c:set>
                                                     <tr>
                                                         <td>
-                                                            <i class="fab fa-angular fa-lg text-danger me-3"></i>
                                                             <span class="fw-medium">${counter.count}</span>
-                                                    </td>
+                                                        </td>
                                                     <td>
                                                         <span style="display: inline-block; 
                                                               max-width: 10rem; 
@@ -278,7 +283,7 @@
             function showToast(message) {
                 const toast = document.getElementById('toast-notification');
                 const toastMessage = document.getElementById('toast-message');
-                if(message === 'success'){
+                if (message === 'success') {
                     var success = 'Xóa câu hỏi thành công!';
                     toastMessage.textContent = success;
                 } else {

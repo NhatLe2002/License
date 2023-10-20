@@ -75,6 +75,8 @@ public class MainController extends HttpServlet {
                 url = "QuestionController";
             } else if (action.equals("insertQ")) {
                 url = "staff/addNewQuestion.jsp";
+            } else if (action.equals("restore")) {
+                url = "staff/restoreQuestion.jsp";
             } else if (action.equals("update")) {
                 url = "UserController";
             } else if (action.equals("pay")) {

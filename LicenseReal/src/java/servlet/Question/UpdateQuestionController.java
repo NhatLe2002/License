@@ -132,7 +132,7 @@ public class UpdateQuestionController extends HttpServlet {
                         byte[] imageBytes = IOUtils.toByteArray(content);
                         String data = Base64.getEncoder().encodeToString(imageBytes);
                         //Lay questionID de them vao bang AnswerDTO trong DB
-                        int questionID = dao.getQuestionID(question);
+                        int questionID = Integer.parseInt(queID);
                         if (data.isEmpty()) {
                             QuestionDTO question1 = dao.getQuestionByID(Integer.toString(questionID));
                             image = question1.getImage();
@@ -185,7 +185,7 @@ public class UpdateQuestionController extends HttpServlet {
                     byte[] imageBytes = IOUtils.toByteArray(content);
                     String data = Base64.getEncoder().encodeToString(imageBytes);
                     //Lay questionID de them vao bang AnswerDTO trong DB
-                    int questionID = dao.getQuestionID(question);
+                    int questionID = Integer.parseInt(queID);
                     if (data.isEmpty()) {
                         QuestionDTO question1 = dao.getQuestionByID(Integer.toString(questionID));
                         image = question1.getImage();

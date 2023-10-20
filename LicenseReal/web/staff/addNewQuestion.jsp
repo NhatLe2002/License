@@ -27,7 +27,7 @@
         <link
             rel="icon"
             type="image/x-icon"
-            href="./assets/img/favicon/favicon.ico"
+            href="https://cdn-icons-png.flaticon.com/512/6556/6556219.png"
             />
 
         <!-- Fonts -->

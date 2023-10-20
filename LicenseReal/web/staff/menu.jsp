@@ -1,9 +1,3 @@
-<%-- 
-    Document   : menu
-    Created on : Oct 20, 2023, 9:19:21 AM
-    Author     : Vo Thanh Tuyen
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -20,7 +14,7 @@
             <div class="app-brand demo">
                 <a href="index.html" class="app-brand-link">
                     <span class="app-brand-logo demo"> </span>
-                    <img src="https://cdn-icons-png.flaticon.com/512/6556/6556219.png" alt="Logo" class="w-8 h-8" style="    width: 80px;
+                    <img src="https://cdn-icons-png.flaticon.com/512/6556/6556219.png" alt="Logo" class="w-8 h-8" style="width: 80px;
                          height: auto">
                     <span class=" demo menu-text fw-bold ms-2"
                           >DaoTaoLaiXe</span
