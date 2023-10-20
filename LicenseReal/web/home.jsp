@@ -187,7 +187,7 @@
                         <a class="menu_items" href="MainController?action=PracticeTest">Thi thử trắc nghiệm</a>
                         <c:choose>
                             <c:when test="${user != null}">
-                                Hello, ${user.getName()}
+                                Hello, ${sessionScope.user.getName()}
                                 <a class="menu_items" href="updateProfile?id=${sessionScope.user.getId()}"> Profile</a>
                             </c:when>
                             <c:when test="${account != null}">

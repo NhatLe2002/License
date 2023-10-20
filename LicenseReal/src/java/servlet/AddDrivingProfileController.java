@@ -98,6 +98,7 @@ public class AddDrivingProfileController extends HttpServlet {
             throws ServletException, IOException {
         
         String id = request.getParameter("id");
+        boolean gender = Boolean.parseBoolean(request.getParameter("gender"));
         System.out.println("ID value received: " + id);
         int memberID = Integer.parseInt(id);
         // Tạo đối tượng Member
@@ -132,7 +133,7 @@ public class AddDrivingProfileController extends HttpServlet {
                     }
                 }
 
-                boolean checkInsert = DrivingProfileDAO.addtodrivingprofile(memberID, img_cccd, img_user);
+                boolean checkInsert = DrivingProfileDAO.addtodrivingprofile(memberID, img_cccd, img_user, gender);
                 if (checkInsert) {
                     message = "Create driving profile successfully!";
                 } else {
