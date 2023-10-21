@@ -18,7 +18,7 @@
             />
 
         <title>
-            Update Question
+            Add Question
         </title>
 
         <meta name="description" content="" />
@@ -82,7 +82,7 @@
 
                         <div class="container-xxl flex-grow-1 container-p-y">
                             <h4 class="py-3 mb-4">
-                                <span class="text-muted fw-light">Forms/</span> Cập nhật câu hỏi 
+                                <span class="text-muted fw-light">Forms/</span> Thêm câu hỏi mới
                             </h4>
 
                             <!-- Basic Layout -->
@@ -95,141 +95,122 @@
                                             <h5 class="mb-0">Nhập các thông tin sau</h5>
                                         </div>
                                         <div class="card-body">
-                                            <c:forEach var="A" items="${answers}">
-                                                <form enctype="multipart/form-data" action="UpdateQuestionController?id=${A.questionID}" method="POST">
-                                                    <div class="mb-3">
-                                                        <label for="nameBasic" class="form-label"
-                                                               >Nội dung câu hỏi</label
-                                                        >
-                                                        <input
-                                                            type="text"
-                                                            id="nameBasic"
-                                                            class="form-control"
-                                                            placeholder="Nội dung câu hỏi"
-                                                            name="question" required=""
-                                                            value="${question.question}"
-                                                            />
+                                            <form action="QuestionController" enctype="multipart/form-data" method="POST">
+                                                <div class="mb-3">
+                                                    <label for="nameBasic" class="form-label"
+                                                           >Nội dung câu hỏi</label
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        id="nameBasic"
+                                                        class="form-control"
+                                                        placeholder="Nội dung câu hỏi"
+                                                        name="question" required=""
+                                                        />
+                                                </div>
+                                                <div class="mb-3" name="answer_div">
+                                                    <label for="emailBasic" class="form-label"
+                                                           >Đáp án A</label
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        id="emailBasic"
+                                                        class="form-control"
+                                                        name="answerA" value="A. " required=""
+                                                        />
+                                                </div>
+                                                <div class="mb-3" name="answer_div">
+                                                    <label for="emailBasic" class="form-label"
+                                                           >Đáp án B</label
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        id="emailBasic"
+                                                        class="form-control"
+                                                        name="answerB" value="B. " required=""
+                                                        />
+                                                </div>
+                                                <div class="mb-3" name="answer_div">
+                                                    <label for="emailBasic" class="form-label"
+                                                           >Đáp án C</label
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        id="emailBasic"
+                                                        class="form-control"
+                                                        name="answerC" value="C. " required=""
+                                                        />
+                                                </div>
+                                                <div class="mb-3" name="answer_div">
+                                                    <label for="emailBasic" class="form-label"
+                                                           >Đáp án D</label
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        id="emailBasic"
+                                                        class="form-control"
+                                                        name="answerD" value="D. " required=""
+                                                        />
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <div class="btn-group">
+                                                        <label>
+                                                            Chọn số đáp án
+                                                        </label>
+                                                        <select name="answer_options" style="cursor: pointer"  required="">
+                                                            <option value="0" disabled="">Chọn 1 lựa chọn!</option>
+                                                            <option value="2">Có 2 đáp án</option>
+                                                            <option value="3">Có 3 đáp án</option>
+                                                            <option value="4" selected="">Có 4 đáp án</option>
+                                                        </select>
                                                     </div>
-                                                    <div class="mb-3" name="answer_div">
-                                                        <label for="emailBasic" class="form-label"
-                                                               >Đáp án A</label
-                                                        >
-                                                        <input
-                                                            type="text"
-                                                            id="emailBasic"
-                                                            class="form-control"
-                                                            name="answerA" 
-                                                            value="${answerA}"
-                                                            />
+                                                    <div class="btn-group">
+                                                        <label>
+                                                            Chọn đáp án đúng
+                                                        </label>
+                                                        <select name="correct_answer" style="cursor: pointer" required="">
+                                                            <option value="A">A</option>
+                                                            <option value="B">B</option>
+                                                            <option value="C">C</option>
+                                                            <option value="D">D</option>
+                                                        </select>
                                                     </div>
-                                                    <div class="mb-3" name="answer_div">
-                                                        <label for="emailBasic" class="form-label"
-                                                               >Đáp án B</label
-                                                        >
-                                                        <input
-                                                            type="text"
-                                                            id="emailBasic"
-                                                            class="form-control"
-                                                            name="answerB" 
-                                                            value="${answerB}"
-                                                            />
-                                                    </div>
-                                                    <div class="mb-3" name="answer_div">
-                                                        <label for="emailBasic" class="form-label"
-                                                               >Đáp án C</label
-                                                        >
-                                                        <input
-                                                            type="text"
-                                                            id="emailBasic"
-                                                            class="form-control"
-                                                            name="answerC" 
-                                                            value="${answerC}"
-                                                            />
-                                                    </div>
-                                                    <div class="mb-3" name="answer_div">
-                                                        <label for="emailBasic" class="form-label"
-                                                               >Đáp án D</label
-                                                        >
-                                                        <input
-                                                            type="text"
-                                                            id="emailBasic"
-                                                            class="form-control"
-                                                            name="answerD" 
-                                                            value="${answerD}"
-                                                            />
+                                                    <div class="btn-group">
+                                                        <label>
+                                                            Chọn loại câu hỏi
+                                                        </label>
+                                                        <select name="question_type" style="cursor: pointer">
+                                                            <option value="0">Bình thường</option>
+                                                            <option value="1">Câu hỏi liệt</option>
+                                                        </select>
                                                     </div>
 
-                                                    <div class="mb-3">
-                                                        <div class="btn-group">
-                                                            <label>
-                                                                Chọn số đáp án
-                                                            </label>
-                                                            <select name="answer_options" style="cursor: pointer"  required="">
-                                                                <option value="0" disabled="">Chọn 1 lựa chọn!</option>
-                                                                <option value="2" <c:if test="${A.options eq '2'}">selected=""</c:if>>Có 2 đáp án</option>
-                                                                <option value="3" <c:if test="${A.options eq '3'}">selected=""</c:if>>Có 3 đáp án</option>
-                                                                <option value="4" <c:if test="${A.options eq '4'}">selected=""</c:if>>Có 4 đáp án</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="btn-group">
-                                                                <label>
-                                                                    Chọn đáp án đúng
-                                                                </label>
-                                                                <select name="correct_answer" style="cursor: pointer" required="">
-                                                                    <option value="A" <c:if test="${A.isCorrect eq 'A'}">selected</c:if>>A</option>
-                                                                <option value="B" <c:if test="${A.isCorrect eq 'B'}">selected</c:if>>B</option>
-                                                                <option value="C" <c:if test="${A.isCorrect eq 'C'}">selected</c:if>>C</option>
-                                                                <option value="D" <c:if test="${A.isCorrect eq 'D'}">selected</c:if>>D</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="btn-group">
-                                                                <label>
-                                                                    Chọn loại câu hỏi
-                                                                </label>
-                                                                <select name="question_type" style="cursor: pointer">
-                                                                    <option value="0" <c:if test="${question.questionType eq '0'}">selected=""</c:if>>Bình thường</option>
-                                                                    <option value="1" <c:if test="${question.questionType eq '1'}">selected=""</c:if>>Câu hỏi liệt</option>
-                                                                </select>
-                                                            </div>
-
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="formFile" class="form-label"
-                                                                   >Chọn đường dẫn hình ảnh</label
-                                                            >
-                                                            <input
-                                                                class="form-control"
-                                                                type="file"
-                                                                name="image" id="fileInput" onchange="previewImage(event)" accept="image/*""
-                                                                />
-                                                        <c:if test="${not empty question.image}">
-                                                            <div class="file-img" id="image" style="padding-top: 1rem">
-                                                                <img id="preview" src="data:image;base64,${question.image}" alt="Preview" style="max-height: 10rem; max-width: 20rem;"/>
-                                                            </div> 
-                                                        </c:if>
-                                                        <c:if test="${not empty image}">
-                                                            <div class="file-img" id="image" style="padding-top: 1rem">
-                                                                <img id="preview" src="data:image;base64,${image}" alt="Preview" style="max-height: 10rem; max-width: 20rem;"/>
-                                                            </div> 
-                                                        </c:if>
-                                                        <c:if test="${empty image && empty question.image}">
-                                                            <div class="file-img" id="image" style="padding-top: 1rem; display: none">
-                                                                <img id="preview" src="#" alt="Preview" style="max-height: 10rem; max-width: 20rem; "/>
-                                                            </div> 
-                                                        </c:if>
-
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="formFile" class="form-label"
+                                                           >Chọn đường dẫn hình ảnh</label
+                                                    >
+                                                    <input
+                                                        class="form-control"
+                                                        type="file"
+                                                        name="image" id="fileInput" onchange="previewImage(event)" accept="image/*""
+                                                        />
+                                                    <div class="file-img" id="image" style="padding-top: 1rem; display: none">
+                                                        <img id="preview" src="#" alt="Preview" style="max-height: 10rem; max-width: 20rem;"/>
                                                     </div>
+                                                </div>
 
-                                                    <button type="submit" class="btn btn-primary">
-                                                        Cập nhật
-                                                    </button>
-                                                </form>
-                                            </c:forEach>
+                                                <button type="submit" class="btn btn-primary">
+                                                    Thêm mới
+                                                </button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <!-- / Content -->
                         <c:if test="${not empty message}">
                             <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
                                 <div id="toast-notification" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
@@ -266,10 +247,10 @@
                 const toast = document.getElementById('toast-notification');
                 const toastMessage = document.getElementById('toast-message');
                 if (message === 'success') {
-                    var success = 'Cập nhật câu hỏi thành công!';
+                    var success = 'Thêm câu hỏi thành công!';
                     toastMessage.textContent = success;
                 } else if (message === 'fail') {
-                    var fail = 'Không thể cập nhật câu hỏi!';
+                    var fail = 'Không thể thêm câu hỏi!';
                     toastMessage.textContent = fail;
                 } else {
                     var exist = 'Câu hỏi đã tồn tại!';
@@ -341,17 +322,6 @@
 
                 // Hiển thị các div chứa câu trả lời tương ứng
                 for (var i = 0; i < selectedOption; i++) {
-                    answerDivs[i].style.display = 'block';
-                }
-            });
-
-            window.addEventListener('DOMContentLoaded', (event) => {
-                const number_option = '${number_option}';
-                answerDivs.forEach(function (div) {
-                    div.style.display = 'none';
-                });
-                // Hiển thị các div chứa câu trả lời tương ứng
-                for (var i = 0; i < number_option; i++) {
                     answerDivs[i].style.display = 'block';
                 }
             });

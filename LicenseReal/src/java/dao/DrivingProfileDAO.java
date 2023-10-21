@@ -139,7 +139,13 @@ public class DrivingProfileDAO {
                 // Cập nhật thông tin trong bảng Member
                 String memberSql = "UPDATE [Member] SET [health] = ? WHERE userID = ?";
                 PreparedStatement memberPst = cn.prepareStatement(memberSql);
-                memberPst.setString(1, member.getHealth());
+                String heo = "";
+                if (member.getHealth() == "yes") {
+                    heo = "Đã có";
+                } else {
+                    heo = "Chưa có";
+                }
+                memberPst.setString(1, heo);
                 memberPst.setInt(2, member.getId());
                 memberPst.executeUpdate();
 
@@ -158,12 +164,12 @@ public class DrivingProfileDAO {
     }
     
     // member nộp hồ sơ để thi 
-    public static boolean addtodrivingprofile(int memberID, String img_cccd, String img_user) {
+    public static boolean addtodrivingprofile(int memberID, String img_cccd, String img_user, boolean gender) {
         Connection cn = null;
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String drivingSql = "INSERT INTO [DrivingProfile](memberID,img_cccd,img_user,status) VALUES (" + memberID + ",'" + img_cccd + "','" + img_user + "',0)";
+                String drivingSql = "INSERT INTO [DrivingProfile](memberID,img_cccd,img_user,gender,status) VALUES (" + memberID + ",'" + img_cccd + "','" + img_user + "',"+ gender +" , 0)";
                 PreparedStatement drivingPst = cn.prepareStatement(drivingSql);
 //                drivingPst.setInt(1, memberID);
 //                drivingPst.setString(2, img_cccd);
@@ -224,7 +230,7 @@ public class DrivingProfileDAO {
         conn = DBUtils.getConnection();
         try{
         if (conn != null) {
-            String sql = "SELECT m.id AS member_id, u.id AS user_id, u.name, u.phone, u.email, u.cccd, d.img_user, d.status \n" +
+            String sql = "SELECT m.id AS member_id, u.id AS user_id, u.name, u.phone, u.email, u.cccd, d.img_user,d.gender , d.status \n" +
 "                    FROM DrivingProfile d\n" +
 "                    JOIN Member m ON d.memberID = m.id\n" +
 "                    JOIN [User] u ON u.id = m.userID\n" +
@@ -239,10 +245,11 @@ public class DrivingProfileDAO {
             String email = rs.getString("email");
             String cccd = rs.getString("cccd");
             String imgUser = rs.getString("img_user");
+            boolean gender = rs.getBoolean("gender");
             boolean status = rs.getBoolean("status");
             UserDTO userDTO = new UserDTO(userId, name, phone, email, cccd);
             MemberDTO memberDTO = new MemberDTO(memberId, userDTO);
-            DrivingProfile drivingProfile = new DrivingProfile(memberDTO, imgUser, status);          
+            DrivingProfile drivingProfile = new DrivingProfile(memberDTO, imgUser, gender, status);          
             list.add(drivingProfile);
         }
         }

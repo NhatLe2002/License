@@ -17,7 +17,7 @@
         </div>
         <form  id="myForm" action="addtodrivingpro" method="POST" enctype="multipart/form-data">
             <div class="update-box">
-                <label for="name">ID: </label><input value="${load_profile.id}" type="text" name="id" id="id" />
+                <input value="${load_profile.id}" type="text" name="id" id="id" hidden=""/>
                 <div class="update-title">
                     <label for="name">Tên</label>
                     <input value="${load_profile.name}" type="text" name="name" id="name" readonly/>
@@ -45,6 +45,14 @@
                 <div class="update-title">
                     <label for="health">Tình trạng sức khỏe</label>
                     <input value="${load_profile.health}" type="text" name="health" id="health" readonly/>
+                </div>
+                <div class="content d-flex">
+                    <div class="label-info">
+                        <label for="gender">Giới tính:</label>
+                    </div>
+                    <div class="input-info">
+                        <input type="text" id="gender" value="Nam">
+                    </div>
                 </div>
                 <div class="update-title">
                     <label for="img_cccd">Ảnh CCCD</label>

@@ -58,7 +58,7 @@ public class QuestionController extends HttpServlet {
 
         request.setAttribute("message", message);
 
-        request.getRequestDispatcher("questionManagement.jsp").forward(request, response);
+        request.getRequestDispatcher("staff/questionManagement.jsp").forward(request, response);
     }
 
     @Override
@@ -74,6 +74,14 @@ public class QuestionController extends HttpServlet {
         String answerD = new String(request.getParameter("answerD").getBytes("ISO-8859-1"), "UTF-8");
         String isCorrect = request.getParameter("correct_answer");
 
+//        request.setAttribute("question", question);
+//        request.setAttribute("question_type", question_type);
+//        request.setAttribute("answer_options", answer_options);
+//        request.setAttribute("answerA", answerA);
+//        request.setAttribute("answerB", answerB);
+//        request.setAttribute("answerC", answerC);
+//        request.setAttribute("answerD", answerD);
+//        request.setAttribute("isCorrect", isCorrect);
         //Khoi tao DAO de xu ly logic
         QuestionDAO dao = new QuestionDAO();
         AnswerDAO answerDAO = new AnswerDAO();
@@ -83,13 +91,6 @@ public class QuestionController extends HttpServlet {
         //Thong bao duoc hien thi de fix bug, gui thong bao den nguoi dung,...
         String message = "";
 
-        String subQuestion = "";
-
-        if (question.length() > 30) {
-            subQuestion = question.substring(0, 30) + "...";
-        } else {
-            subQuestion = question;
-        }
         try {
             //Kiem tra xem cau hoi vua nhap da ton tai hay chua
             checkDuplicate = dao.checkQuestionDuplicate(question);
@@ -112,38 +113,31 @@ public class QuestionController extends HttpServlet {
                     byte[] imageBytes = IOUtils.toByteArray(content);
                     String data = Base64.getEncoder().encodeToString(imageBytes);
 
-                    //Kiem tra cac file gui len tu jsp co phai la file anh hay khong
-                    if (fileName.endsWith(".png") || fileName.endsWith(".PNG") || fileName.isEmpty()) {
-                        //Ghep cac dap an A B C D E F lai voi nhau thanh 1 chuoi cach nhau boi "\n"
-                        String answer_text = dao.concatenatedString(answerA, answerB, answerC, answerD);
-                        //Kiem tra chuoi co bi trong hay khong
-                        if (answer_text.isEmpty()) {
-                            message = "Please enter answer!";
-                        } else {
-                            //Goi den ham them cau hoi va kiem tra xem da them du lieu vao bang QuestionDTO trong DB thanh cong hay chua
-                            checkInsert = dao.insertQuestions(question, data, question_type);
-                            if (checkInsert) {
-                                System.out.println("Insert question to DB successfully!");
-                                //Lay questionID de them vao bang AnswerDTO trong DB
-                                int questionID = dao.getQuestionID(question);
-                                //Goi den ham them dap an vao DB va kiem tra da them thanh cong hay chua
-                                checkInsert = answerDAO.insertAnswer(questionID, answer_options, answer_text, isCorrect);
-                                if (checkInsert) {
-                                    System.out.println("Insert answer to DB successfully!");
-                                    message = "Insert question '" + subQuestion + "' successfully!";
-                                } else {
-                                    System.out.println("Can't insert answer to DB!");
-                                }
-                            } else {
-                                System.out.println("Can't insert question to DB!");
-                            }
-                        }
+                    //Ghep cac dap an A B C D E F lai voi nhau thanh 1 chuoi cach nhau boi "\n"
+                    String answer_text = dao.concatenatedString(answerA, answerB, answerC, answerD);
+                    //Kiem tra chuoi co bi trong hay khong
+                    if (answer_text.isEmpty()) {
+                        message = "fail";
                     } else {
-                        message = "Please select the image file as PNG file!";
+                        //Goi den ham them cau hoi va kiem tra xem da them du lieu vao bang QuestionDTO trong DB thanh cong hay chua
+                        checkInsert = dao.insertQuestions(question, data, question_type);
+                        if (checkInsert) {
+                            //Lay questionID de them vao bang AnswerDTO trong DB
+                            int questionID = dao.getQuestionID(question);
+                            //Goi den ham them dap an vao DB va kiem tra da them thanh cong hay chua
+                            checkInsert = answerDAO.insertAnswer(questionID, answer_options, answer_text, isCorrect);
+                            if (checkInsert) {
+                                message = "success";
+                            } else {
+                                message = "fail";
+                            }
+                        } else {
+                            message = "fail";
+                        }
                     }
                 }
             } else {
-                message = "This question already exists! Please check and try again!";
+                message = "exist";
             }
 
         } catch (Exception e) {
@@ -152,7 +146,7 @@ public class QuestionController extends HttpServlet {
         //Luu thong bao vao message va gui den trang addQuestion.jsp
         request.setAttribute("message", message);
 
-        request.getRequestDispatcher("addNewQuestion.jsp").forward(request, response);
+        request.getRequestDispatcher("staff/addNewQuestion.jsp").forward(request, response);
     }
 
     @Override

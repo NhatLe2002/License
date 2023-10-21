@@ -127,7 +127,7 @@
                                                         type="text"
                                                         id="emailBasic"
                                                         class="form-control"
-                                                        name="answerA" value="B. " required=""
+                                                        name="answerB" value="B. " required=""
                                                         />
                                                 </div>
                                                 <div class="mb-3" name="answer_div">
@@ -138,7 +138,7 @@
                                                         type="text"
                                                         id="emailBasic"
                                                         class="form-control"
-                                                        name="answerA" value="C. " required=""
+                                                        name="answerC" value="C. " required=""
                                                         />
                                                 </div>
                                                 <div class="mb-3" name="answer_div">
@@ -149,7 +149,7 @@
                                                         type="text"
                                                         id="emailBasic"
                                                         class="form-control"
-                                                        name="answerA" value="D. " required=""
+                                                        name="answerD" value="D. " required=""
                                                         />
                                                 </div>
 

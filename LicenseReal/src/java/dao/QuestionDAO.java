@@ -374,7 +374,7 @@ public class QuestionDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                sql = "UPDATE Question SET question_text = N'" + question_text + "', image = '" + image + "', question_type = " + question_type + " WHERE id = " + questionID;
+                sql = "UPDATE Question SET question_text = N'" + question_text + "', image = '" + image + "', question_type = '" + question_type + "', status = 1 WHERE id = " + questionID;
                 ptm = conn.prepareStatement(sql);
                 row = ptm.executeUpdate();
                 if (row > 0) {

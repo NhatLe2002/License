@@ -10,7 +10,7 @@
             content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
             />
 
-        <title>Restore Question</title>
+        <title>Quản trị viên - Quản lí câu hỏi</title>
 
         <meta name="description" content="" />
 
@@ -113,11 +113,14 @@
                                     class="card-header"
                                     style="display: flex; justify-content: space-between"
                                     >
-                                    <div>Danh sách câu hỏi đã xóa</div>
+                                    <div>Ngân hàng câu hỏi</div>
                                     <!-- Button trigger modal -->
                                     <div>
-                                        <a href="MainController?action=QuestionController">
-                                            <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fa-solid fa-chevron-left"></i></button>
+                                        <a href="MainController?action=insertQ">
+                                            <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fas fa-plus"></i></button>
+                                        </a>
+                                        <a href="MainController?action=restore">
+                                            <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fa-solid fa-arrows-rotate fa-spin"></i></button>
                                         </a>
                                     </div>
                                 </h5>
@@ -141,7 +144,7 @@
                                                     <tr>
                                                         <td>
                                                             <span class="fw-medium">${counter.count}</span>
-                                                    </td>
+                                                        </td>
                                                     <td>
                                                         <span style="display: inline-block; 
                                                               max-width: 10rem; 
@@ -185,18 +188,54 @@
                                                         <span class="badge bg-label-primary me-1">${A.isCorrect}</span>
                                                     </td>
                                                     <td>
-                                                        <a
-                                                            class="dropdown-item"
-                                                            href="RestoreQuestionController?id=${Q.id}"
-                                                            style="color: #6a6cff"
-                                                            ><i class="fa-solid fa-rotate me-1"></i>Khôi phục</a
-                                                        >
+                                                        <div class="dropdown">
+                                                            <button
+                                                                type="button"
+                                                                class="btn p-0 dropdown-toggle hide-arrow"
+                                                                data-bs-toggle="dropdown"
+                                                                >
+                                                                <i class="bx bx-dots-vertical-rounded"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu">
+                                                                <a
+                                                                    class="dropdown-item"
+                                                                    href="UpdateQuestionController?id=${Q.id}"
+                                                                    ><i class="bx bx-edit-alt me-1"></i>Chỉnh sửa</a
+                                                                >
+                                                                <a
+                                                                    class="dropdown-item"
+                                                                    data-toggle="tooltip" title="Xóa"
+                                                                    data-bs-toggle="modal" 
+                                                                    data-bs-target="#modalConfirmDelete" 
+                                                                    onclick="showMess('${Q.id}')"
+                                                                    ><i class="bx bx-trash me-1"></i> Xóa</a
+                                                                >
+                                                            </div>
                                                         </div>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
                                         </tbody>
                                     </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="modalConfirmDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                             aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">XÁC NHẬN LOẠI BỎ</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Bạn có chắc muốn xóa câu hỏi này?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                        <button type="button" class="btn btn-primary" id="btn-toast-delete" class="btn-close"
+                                                data-bs-dismiss="modal" aria-label="Close">Xác nhận</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -224,6 +263,16 @@
             </div>
         </div>
         <script>
+            function showMess(id) {
+                var btnToastDelete = document.querySelector('#btn-toast-delete');
+                btnToastDelete.addEventListener('click', function () {
+                    var deleteUrl = 'DeleteQuestionController?id=' + id;
+                    window.location.href = deleteUrl;
+                    // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
+                    document.getElementById('modalConfirmDelete').style.display = 'none';
+                });
+            }
+
             window.addEventListener('DOMContentLoaded', (event) => {
                 const message = '${message}'; // Lấy giá trị thông báo từ servlet
                 if (message) {
@@ -235,10 +284,10 @@
                 const toast = document.getElementById('toast-notification');
                 const toastMessage = document.getElementById('toast-message');
                 if (message === 'success') {
-                    var success = 'Khôi phục câu hỏi thành công!';
+                    var success = 'Xóa câu hỏi thành công!';
                     toastMessage.textContent = success;
                 } else {
-                    var fail = 'Không thể khôi phục câu hỏi!';
+                    var fail = 'Không thể xóa câu hỏi!';
                     toastMessage.textContent = fail;
                 }
                 toast.classList.remove('hide');

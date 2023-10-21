@@ -68,13 +68,14 @@ public class MainController extends HttpServlet {
                 List<QuestionDTO> listTopic = dao.getTopicID();
                 request.setAttribute("listTopic", listTopic);
                 url = "chooseTryTest.jsp";
-            } 
-            else if (action.equals("schedule")) {
+            } else if (action.equals("schedule")) {
                 url = "ScheduleServlet";
             } else if (action.equals("QuestionController")) {
                 url = "QuestionController";
             } else if (action.equals("insertQ")) {
-                url = "addNewQuestion.jsp";
+                url = "staff/addNewQuestion.jsp";
+            } else if (action.equals("restore")) {
+                url = "RestoreQuestionController?id=0";
             } else if (action.equals("update")) {
                 url = "UserController";
             } else if (action.equals("pay")) {
