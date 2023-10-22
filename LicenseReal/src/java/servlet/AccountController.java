@@ -58,11 +58,40 @@ public class AccountController extends HttpServlet {
                         url = "login.jsp";
                     } else {
                         user = UserDAO.getUser(account.getId());
+                        if (user == null) {
+                            url = "user-infor.jsp";
+                            message = "Bạn cần cập nhật thông tin!";
+                        }
                         session.setAttribute("user", user);
+                        switch (user.getRole()) {
+                            case 1:
+                                session.setAttribute("ROLE", "US");
+                                url = "MainController?action=member";
+                                break;
+                            case 2:
+                                session.setAttribute("ROLE", "MT");
+                                url = "MainController?action=mentor";
+                                break;
+                            case 3:
+                                session.setAttribute("ROLE", "ST");
+                                url = "MainController?action=staff";
+                                break;
+                            case 4:
+                                session.setAttribute("ROLE", "AD");
+                                url = "MainController?action=admin";
+                                break;
+                            default:
+                                url = "login.jsp";
+                                break;
+                        }
                         message = "Đăng nhập thành công";
-                        url = "home.jsp";
                     }
                     session.setAttribute("account", account);
+                    if (account != null) {
+                        Cookie cookie = new Cookie("userId", Integer.toString(user.getId()));
+                        cookie.setMaxAge(60 * 60);
+                        response.addCookie(cookie);
+                    }
                     break;
                 case "register":
                     username = request.getParameter("username");
@@ -81,9 +110,11 @@ public class AccountController extends HttpServlet {
                             user = UserDAO.getUser(account.getId());
                             session.setAttribute("account", account);
                             session.setAttribute("user", user);
-//                            Cookie cookie = new Cookie("userId", Integer.toString(user.getId()));
-//                            cookie.setMaxAge(60 * 60);
-//                            response.addCookie(cookie);
+//                            if (account != null) {
+//                                Cookie cookie = new Cookie("userId", Integer.toString(user.getId()));
+//                                cookie.setMaxAge(60 * 60);
+//                                response.addCookie(cookie);
+//                            }
                             url = "user-infor.jsp";
                             message = "Tạo tài khoản thành công, bạn hãy nhập thông tin cá nhân";
                         }
@@ -140,13 +171,7 @@ public class AccountController extends HttpServlet {
             }
         } catch (Exception e) {
         } finally {
-            if (account != null) {
-                Cookie cookie = new Cookie("userId", Integer.toString(user.getId()));
-                cookie.setMaxAge(60 * 60);
-                response.addCookie(cookie);
-            }
-            session.setAttribute("account", account);
-            session.setAttribute("user", user);
+
             request.setAttribute("message", message);
             request.getRequestDispatcher(url).forward(request, response);
         }

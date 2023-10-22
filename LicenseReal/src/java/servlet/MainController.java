@@ -84,15 +84,27 @@ public class MainController extends HttpServlet {
                 url = "AccountController";
             } else if (action.equals("confirmOTP")) {
                 url = "AccountController";
-            }else if (action.equals("changePassword")) {
+            } else if (action.equals("changePassword")) {
                 url = "AccountController";
-            }else if (action.equals("detailSlot")) {
+            } else if (action.equals("detailSlot")) {
                 url = "DetailSlotServlet";
-            }else if (action.equals("ratingOfMember")) {
+            } else if (action.equals("ratingOfMember")) {
                 url = "DetailSlotServlet";
+            } else if (action.equals("admin")) {
+                url = "admin/dashboard.jsp";
+            } else if (action.equals("staff")) {
+                url = "QuestionController";
+            } else if (action.equals("member")) {
+                url = "home.jsp";
+            } else if (action.equals("mentor")) {
+                url = "home.jsp";
             }
             request.setAttribute("action", action);
-            request.getRequestDispatcher(url).forward(request, response);
+            if ("staff".equals(action)) {
+                response.sendRedirect(url);
+            } else {
+                request.getRequestDispatcher(url).forward(request, response);
+            }
 
         }
     }
