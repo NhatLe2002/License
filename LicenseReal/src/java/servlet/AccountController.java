@@ -66,11 +66,11 @@ public class AccountController extends HttpServlet {
                         switch (user.getRole()) {
                             case 1:
                                 session.setAttribute("ROLE", "US");
-                                url = "MainController";
+                                url = "MainController?action=member";
                                 break;
                             case 2:
                                 session.setAttribute("ROLE", "MT");
-                                url = "MainController";
+                                url = "MainController?action=mentor";
                                 break;
                             case 3:
                                 session.setAttribute("ROLE", "ST");

@@ -48,7 +48,7 @@
                         <!--Mentor-->
                         <c:if test="${sessionScope.ROLE == 'MT'}">
                             <a class="menu_items " href="MainController">Home</a>
-                            <a class="menu_items" href="#" >Đăng ký ịch dạy</a>
+                            <a class="menu_items" href="#" >Đăng ký lịch dạy</a>
                             <a class="menu_items" href="MainController?action=viewSchedule" >Lịch dạy</a>
                         </c:if>
 

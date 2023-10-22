@@ -94,6 +94,10 @@ public class MainController extends HttpServlet {
                 url = "admin/dashboard.jsp";
             } else if (action.equals("staff")) {
                 url = "QuestionController";
+            } else if (action.equals("member")) {
+                url = "home.jsp";
+            } else if (action.equals("mentor")) {
+                url = "home.jsp";
             }
             request.setAttribute("action", action);
             if ("staff".equals(action)) {
