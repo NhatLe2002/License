@@ -66,10 +66,10 @@
                 <c:if test="${empty sessionScope.ROLE}">
                     <c:redirect url="MainController?action=login"></c:redirect>
                 </c:if>
-                <c:if test="${sessionScope.ROLE == 3}">
+                <c:if test="${sessionScope.ROLE == 'ST'}">
                     <c:import url="menu.jsp"/>
                 </c:if>
-                <c:if test="${sessionScope.ROLE == '4'}">
+                <c:if test="${sessionScope.ROLE == 'AD'}">
                     <c:import url="../admin/menu.jsp"/>
                 </c:if>
                 

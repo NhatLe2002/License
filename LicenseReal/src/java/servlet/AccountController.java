@@ -58,6 +58,7 @@ public class AccountController extends HttpServlet {
                         url = "login.jsp";
                     } else {
                         user = UserDAO.getUser(account.getId());
+                        session.setAttribute("user", user);
                         switch (user.getRole()) {
                             case 1:
                                 session.setAttribute("ROLE", "US");
@@ -79,11 +80,14 @@ public class AccountController extends HttpServlet {
                                 url = "login.jsp";
                                 break;
                         }
-                        session.setAttribute("user", user);
                         message = "Đăng nhập thành công";
-
                     }
                     session.setAttribute("account", account);
+                    if (account != null) {
+                        Cookie cookie = new Cookie("userId", Integer.toString(user.getId()));
+                        cookie.setMaxAge(60 * 60);
+                        response.addCookie(cookie);
+                    }
                     break;
                 case "register":
                     username = request.getParameter("username");
@@ -102,9 +106,11 @@ public class AccountController extends HttpServlet {
                             user = UserDAO.getUser(account.getId());
                             session.setAttribute("account", account);
                             session.setAttribute("user", user);
-//                            Cookie cookie = new Cookie("userId", Integer.toString(user.getId()));
-//                            cookie.setMaxAge(60 * 60);
-//                            response.addCookie(cookie);
+                            if (account != null) {
+                                Cookie cookie = new Cookie("userId", Integer.toString(user.getId()));
+                                cookie.setMaxAge(60 * 60);
+                                response.addCookie(cookie);
+                            }
                             url = "user-infor.jsp";
                             message = "Tạo tài khoản thành công, bạn hãy nhập thông tin cá nhân";
                         }
@@ -161,13 +167,7 @@ public class AccountController extends HttpServlet {
             }
         } catch (Exception e) {
         } finally {
-            if (account != null) {
-                Cookie cookie = new Cookie("userId", Integer.toString(user.getId()));
-                cookie.setMaxAge(60 * 60);
-                response.addCookie(cookie);
-            }
-            session.setAttribute("account", account);
-            session.setAttribute("user", user);
+
             request.setAttribute("message", message);
             request.getRequestDispatcher(url).forward(request, response);
         }

@@ -96,7 +96,11 @@ public class MainController extends HttpServlet {
                 url = "QuestionController";
             }
             request.setAttribute("action", action);
-            request.getRequestDispatcher(url).forward(request, response);
+            if ("staff".equals(action)) {
+                response.sendRedirect(url);
+            } else {
+                request.getRequestDispatcher(url).forward(request, response);
+            }
 
         }
     }
