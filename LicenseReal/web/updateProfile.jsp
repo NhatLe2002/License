@@ -535,7 +535,7 @@
 
                                     <div class='edit-profile d-flex gap-2'>
                                         <i class="fa-regular fa-pen-to-square"></i>
-                                        <a href="addtodrivingpro?id=?">Nộp hồ sơ thi</a>  
+                                        <a href="addtodrivingpro?id=${sessionScope.load_profile.getId()}">Nộp hồ sơ thi</a>  
                                     </div>
                                 </div>
 

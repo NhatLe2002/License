@@ -51,8 +51,8 @@
                         <label for="gender">Giới tính:</label>
                     </div>
                     <div class="input-info">
-                        <input type="text" id="gender" value="Nam">
-                    </div>
+                        <input type="text" id="gender" value="1">
+                    </div>  
                 </div>
                 <div class="update-title">
                     <label for="img_cccd">Ảnh CCCD</label>

@@ -169,13 +169,15 @@ public class DrivingProfileDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String drivingSql = "INSERT INTO [DrivingProfile](memberID,img_cccd,img_user,gender,status) VALUES (" + memberID + ",'" + img_cccd + "','" + img_user + "',"+ gender +" , 0)";
+                String drivingSql = "INSERT INTO [DrivingProfile](memberID,img_cccd,img_user,gender,status) VALUES (" + memberID + ",'" + img_cccd + "','" + img_user + "','"+ gender +"' , 0)";
                 PreparedStatement drivingPst = cn.prepareStatement(drivingSql);
 //                drivingPst.setInt(1, memberID);
 //                drivingPst.setString(2, img_cccd);
 //                drivingPst.setString(3, img_user);
-                drivingPst.executeUpdate();
-                return true;
+                int row = drivingPst.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
             }
         } catch (ClassNotFoundException | SQLException e) {
         } finally {
