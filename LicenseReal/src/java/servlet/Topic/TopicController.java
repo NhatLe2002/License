@@ -31,17 +31,17 @@ public class TopicController extends HttpServlet {
             request.setAttribute("status", status);
             request.setAttribute("topicID", topicID);
             doPost(request, response);
+        } else {
+            String message = (String) request.getAttribute("message");
+            try {
+                TopicDAO dao = new TopicDAO();
+                ArrayList<TopicDTO> list = dao.getAllTopic();
+                request.setAttribute("topic", list);
+            } catch (Exception e) {
+            }
+            request.setAttribute("message", message);
+            request.getRequestDispatcher("staff/topicManagement.jsp").forward(request, response);
         }
-
-        String message = (String) request.getAttribute("message");
-        try {
-            TopicDAO dao = new TopicDAO();
-            ArrayList<TopicDTO> list = dao.getAllTopic();
-            request.setAttribute("topic", list);
-        } catch (Exception e) {
-        }
-        request.setAttribute("message", message);
-        request.getRequestDispatcher("staff/topicManagement.jsp").forward(request, response);
     }
 
     @Override

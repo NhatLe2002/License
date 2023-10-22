@@ -159,12 +159,24 @@
                                                             />
                                                     </div>
 
-                                                    <div class="mb-3">
+                                                    <div class="mb-3"
+                                                         style="display: flex;
+                                                         flex-wrap: nowrap;
+                                                         flex-direction: row;
+                                                         align-items: center;
+                                                         margin: 0">
                                                         <div class="btn-group">
-                                                            <label>
+                                                            <label  style="
+                                                                    padding: 0.5rem;
+                                                                    padding-left: 0;
+                                                                    margin: 0;
+                                                                    width: 12rem">
                                                                 Chọn số đáp án
                                                             </label>
-                                                            <select name="answer_options" style="cursor: pointer"  required="">
+                                                            <select class="form-control" name="answer_options" 
+                                                                    style="cursor: pointer;
+                                                                    text-align: center;
+                                                                    padding: 0"  required="">
                                                                 <option value="0" disabled="">Chọn 1 lựa chọn!</option>
                                                                 <option value="2" <c:if test="${A.options eq '2'}">selected=""</c:if>>Có 2 đáp án</option>
                                                                 <option value="3" <c:if test="${A.options eq '3'}">selected=""</c:if>>Có 3 đáp án</option>
@@ -172,10 +184,16 @@
                                                                 </select>
                                                             </div>
                                                             <div class="btn-group">
-                                                                <label>
+                                                                <label style="
+                                                                       padding: 0.5rem;
+                                                                       margin: 0;
+                                                                       width: 17rem">
                                                                     Chọn đáp án đúng
                                                                 </label>
-                                                                <select name="correct_answer" style="cursor: pointer" required="">
+                                                                <select class="form-control" name="correct_answer" 
+                                                                        style="cursor: pointer;
+                                                                        text-align: center;
+                                                                        padding: 0" required="">
                                                                     <option value="A" <c:if test="${A.isCorrect eq 'A'}">selected</c:if>>A</option>
                                                                 <option value="B" <c:if test="${A.isCorrect eq 'B'}">selected</c:if>>B</option>
                                                                 <option value="C" <c:if test="${A.isCorrect eq 'C'}">selected</c:if>>C</option>
@@ -183,12 +201,18 @@
                                                                 </select>
                                                             </div>
                                                             <div class="btn-group">
-                                                                <label>
+                                                                <label style="
+                                                                       padding: 0.5rem;
+                                                                       margin: 0;
+                                                                       width: 15rem">
                                                                     Chọn loại câu hỏi
                                                                 </label>
-                                                                <select name="question_type" style="cursor: pointer">
+                                                                <select class="form-control" name="question_type" 
+                                                                        style="cursor: pointer;
+                                                                        text-align: center;
+                                                                        padding: 0">
                                                                     <option value="0" <c:if test="${question.questionType eq '0'}">selected=""</c:if>>Bình thường</option>
-                                                                    <option value="1" <c:if test="${question.questionType eq '1'}">selected=""</c:if>>Câu hỏi liệt</option>
+                                                                <option value="1" <c:if test="${question.questionType eq '1'}">selected=""</c:if>>Câu hỏi liệt</option>
                                                                 </select>
                                                             </div>
 
@@ -215,6 +239,7 @@
                                                         <c:if test="${empty image && empty question.image}">
                                                             <div class="file-img" id="image" style="padding-top: 1rem; display: none">
                                                                 <img id="preview" src="#" alt="Preview" style="max-height: 10rem; max-width: 20rem; "/>
+                                                                <button type="button" onclick="resetImage()" class="btn btn-primary">Xóa ảnh</button>
                                                             </div> 
                                                         </c:if>
 
@@ -223,6 +248,9 @@
                                                     <button type="submit" class="btn btn-primary">
                                                         Cập nhật
                                                     </button>
+                                                    <a style="text-decoration: none;
+                                                        color: inherit;" href="MainController?action=QuestionController"><button type="button" class="btn btn-primary">Hủy</button>
+                                                    </a>
                                                 </form>
                                             </c:forEach>
                                         </div>
@@ -388,13 +416,31 @@
                 if (files.length > 0) {
                     var img = document.getElementById("image");
                     reader.readAsDataURL(files[0]);
-                    img.style.display = 'block';
+                    img.style.display = 'inline-grid';
                 } else {
                     // Nếu không có file được chọn, đặt lại ảnh về trạng thái ban đầu
                     var output = document.getElementById("preview");
                     output.src = "#";
                 }
             }
+            function resetImage() {
+                // Lấy thẻ <input> theo id
+                var inputElement = document.getElementById("fileInput");
+
+                // Đặt lại giá trị của thẻ <input> thành rỗng
+                inputElement.value = "";
+
+                // Lấy thẻ <img> theo id
+                var imgElement = document.getElementById("preview");
+
+                // Đặt lại giá trị src của thẻ <img> thành giá trị mặc định
+                imgElement.src = "#";
+
+                // Ẩn thẻ <img>
+                var imageContainer = document.getElementById("image");
+                imageContainer.style.display = "none";
+            }
+
         </script>
         <!-- / Layout wrapper -->
 

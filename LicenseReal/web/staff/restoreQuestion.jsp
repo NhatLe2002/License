@@ -116,7 +116,7 @@
                                     <div>Danh sách câu hỏi đã xóa</div>
                                     <!-- Button trigger modal -->
                                     <div>
-                                        <a href="MainController?action=QuestionController">
+                                        <a title="Thoát" href="MainController?action=QuestionController">
                                             <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fa-solid fa-chevron-left"></i></button>
                                         </a>
                                     </div>

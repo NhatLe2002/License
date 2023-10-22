@@ -117,10 +117,10 @@
                                     <div>Ngân hàng câu hỏi</div>
                                     <!-- Button trigger modal -->
                                     <div>
-                                        <a href="MainController?action=insertQ">
+                                        <a title="Tạo câu hỏi" href="MainController?action=insertQ">
                                             <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fas fa-plus"></i></button>
                                         </a>
-                                        <a href="MainController?action=restore">
+                                        <a title="Khôi phục" href="MainController?action=restore">
                                             <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fa-solid fa-arrows-rotate fa-spin"></i></button>
                                         </a>
                                     </div>
@@ -190,7 +190,7 @@
                                                     </td>
                                                     <td>
                                                         <div class="dropdown">
-                                                            <button
+                                                            <button title="Tính năng"
                                                                 type="button"
                                                                 class="btn p-0 dropdown-toggle hide-arrow"
                                                                 data-bs-toggle="dropdown"
@@ -205,7 +205,8 @@
                                                                 >
                                                                 <a
                                                                     class="dropdown-item"
-                                                                    data-toggle="tooltip" title="Xóa"
+                                                                    style="cursor: pointer"
+                                                                    data-toggle="tooltip"
                                                                     data-bs-toggle="modal" 
                                                                     data-bs-target="#modalConfirmDelete" 
                                                                     onclick="showMess('${Q.id}')"

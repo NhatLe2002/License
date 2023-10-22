@@ -18,6 +18,13 @@ public class TopicDAO {
     private ResultSet rs;
 
     public static void main(String[] args) throws SQLException {
+        TopicDAO tDao = new TopicDAO();
+        boolean checkInsert = tDao.createTopic();
+        if (checkInsert) {
+            System.out.println("Success");
+        } else {
+            System.out.println("Fail");
+        }
     }
 
     public ArrayList<TopicDTO> getAllTopic() throws SQLException {
@@ -79,17 +86,60 @@ public class TopicDAO {
         String sql;
         try {
             conn = DBUtils.getConnection();
-            if (status.equals("1")) {
-                sql = "UPDATE Topic SET status = 0 WHERE topicID = " + topicID;
-            } else {
-                sql = "UPDATE Topic SET status = 1 WHERE topicID = " + topicID;
-            }
-            ptm = conn.prepareStatement(sql);
-            int row = ptm.executeUpdate();
-            if (row > 0) {
-                return true;
+            if (conn != null) {
+                if (status.equals("1")) {
+                    sql = "UPDATE Topic SET status = 0 WHERE topicID = " + topicID;
+                } else {
+                    sql = "UPDATE Topic SET status = 1 WHERE topicID = " + topicID;
+                }
+                ptm = conn.prepareStatement(sql);
+                int row = ptm.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
             }
         } catch (Exception e) {
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+        }
+        return result;
+    }
+
+    public boolean createTopic() throws SQLException {
+        QuestionDAO dao = new QuestionDAO();
+        TopicDAO tDao = new TopicDAO();
+        boolean result = false;
+        String sql;
+        int row = 0;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ArrayList<TopicDTO> topic = tDao.getAllTopic();
+                int numberOfTopic = topic.size() + 1;
+                ArrayList<QuestionDTO> listQuestion = dao.getRandomQuestionAndAnswer();
+                for (QuestionDTO questionDTO : listQuestion) {
+                    sql = "INSERT INTO Topic (questionID, topicID, status) VALUES (" + questionDTO.getId() + ", " + numberOfTopic + ",1)";
+                    ptm = conn.prepareStatement(sql);
+                    row = ptm.executeUpdate();
+                }
+                if (row > 0) {
+                    return true;
+                }
+            }
+
+        } catch (Exception e) {
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
         }
         return result;
     }
