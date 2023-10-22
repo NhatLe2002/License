@@ -10,7 +10,7 @@
             content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
             />
 
-        <title>Quản trị viên - Quản lí câu hỏi</title>
+        <title>Quản trị viên - Quản lí bộ đề</title>
 
         <meta name="description" content="" />
 
@@ -64,7 +64,7 @@
         <div class="layout-wrapper layout-content-navbar">
             <div class="layout-container">
                 <c:import url="../menu.jsp"/>
-                
+
                 <!-- Layout container -->
                 <div class="layout-page">
                     <!-- Content wrapper -->
@@ -131,63 +131,29 @@
                                         <thead>
                                             <tr>
                                                 <th>STT</th>
-                                                <th>Câu hỏi</th>
-                                                <th>Hình ảnh</th>
-                                                <th>Dạng câu hỏi</th>
-                                                <th>Đáp án</th>
-                                                <th>Đáp án đúng</th>
+                                                <th>Bộ đề</th>
+                                                <th>Trạng thái</th>
                                                 <th>Tính năng</th>
                                             </tr>
                                         </thead>
                                         <tbody class="table-border-bottom-0" >
-                                            <c:forEach var="Q" items="${listQ}" varStatus="counter">
-                                                <c:set var="A" value="${listA[counter.index]}"></c:set>
-                                                    <tr>
-                                                        <td>
-                                                            <span class="fw-medium">${counter.count}</span>
-                                                        </td>
+                                            <c:forEach var="T" items="${topic}" varStatus="counter">
+                                                <tr>
                                                     <td>
-                                                        <span style="display: inline-block; 
-                                                              max-width: 10rem; 
-                                                              word-break: break-all; 
-                                                              overflow: hidden;">
-                                                            <%-- Áp dụng cắt chuỗi ở đây --%>
-                                                            <c:set var="truncatedQuestion" value="${fn:substring(Q.question, 0, 18)}" />
-                                                            <c:choose>
-                                                                <c:when test="${fn:length(Q.question) > 18}">
-                                                                    ${truncatedQuestion}...
-                                                                </c:when>
-                                                                <c:otherwise>
-                                                                    ${truncatedQuestion}
-                                                                </c:otherwise>
-                                                            </c:choose>
-                                                        </span>
-                                                    </td>
-                                                    <td>
-                                                        <c:if test="${not empty Q.image}">
-                                                            <img src="data:image;base64,${Q.image}" style="max-height: 5rem; max-width: 10rem"/>
-                                                        </c:if>
-                                                    </td>
-                                                    <td>
-                                                        <c:if test="${Q.questionType eq '1'}">
-                                                            <span class="fw-medium" style="color:#fba265">Câu hỏi liệt</span>
-                                                        </c:if>
-                                                        <c:if test="${Q.questionType eq '0'}">
-                                                            <span class="fw-medium">Bình thường</span>
-                                                        </c:if>
-                                                    </td>
-                                                    <td>
-                                                        <c:set var="answer" value="${fn:replace(A.answer, '/', '<br>')}" />
-                                                        <div style="display: inline-block; 
-                                                             max-width: 15rem; 
-                                                             word-break: break-all; 
-                                                             overflow: hidden;">
-                                                            ${answer}
-                                                        </div>
+                                                        <span class="fw-medium">${counter.count}</span>
                                                     </td>
                                                     <td style="align-content: center">
-                                                        <span class="badge bg-label-primary me-1">${A.isCorrect}</span>
+                                                        <span class="badge bg-label-primary me-1">${T.topicID}</span>
                                                     </td>
+                                                    <td>
+                                                        <c:if test="${T.status eq '1'}">
+                                                            <span class="fw-medium" style="color:#fba265">Đang mở</span>
+                                                        </c:if>
+                                                        <c:if test="${T.status eq '0'}">
+                                                            <span class="fw-medium">Đã đóng</span>
+                                                        </c:if>
+                                                    </td>
+
                                                     <td>
                                                         <div class="dropdown">
                                                             <button
@@ -200,17 +166,29 @@
                                                             <div class="dropdown-menu">
                                                                 <a
                                                                     class="dropdown-item"
-                                                                    href="UpdateQuestionController?id=${Q.id}"
-                                                                    ><i class="bx bx-edit-alt me-1"></i>Chỉnh sửa</a
+                                                                    href="#"
+                                                                    ><i class="bx bx-edit-alt me-1"></i>Xem chi tiết</a
                                                                 >
-                                                                <a
-                                                                    class="dropdown-item"
-                                                                    data-toggle="tooltip" title="Xóa"
-                                                                    data-bs-toggle="modal" 
-                                                                    data-bs-target="#modalConfirmDelete" 
-                                                                    onclick="showMess('${Q.id}')"
-                                                                    ><i class="bx bx-trash me-1"></i> Xóa</a
-                                                                >
+                                                                <c:if test="${T.status eq '1'}">
+                                                                    <a
+                                                                        class="dropdown-item"
+                                                                        data-toggle="tooltip" title="Xóa"
+                                                                        data-bs-toggle="modal" 
+                                                                        data-bs-target="#modalConfirmDelete" 
+                                                                        onclick="showMess('${T.topicID}')"
+                                                                        ><i class="fa-solid fa-ban me-1"></i> Đóng bộ đề</a
+                                                                    >
+                                                                </c:if>
+                                                                <c:if test="${T.status eq '0'}">
+                                                                    <a
+                                                                        class="dropdown-item"
+                                                                        data-toggle="tooltip" title="Xóa"
+                                                                        data-bs-toggle="modal" 
+                                                                        data-bs-target="#modalConfirmDelete" 
+                                                                        onclick="showMess('${T.topicID}')"
+                                                                        ><i class="fa-solid fa-arrow-rotate-left me-1"></i> Mở bộ đề</a
+                                                                    >
+                                                                </c:if>
                                                             </div>
                                                         </div>
                                                     </td>
