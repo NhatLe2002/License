@@ -113,6 +113,7 @@ public class UserDAO extends DBUtils {
             }
         } catch (Exception e) {
             System.out.println(e);
+            return null;
         }
         return null;
     }

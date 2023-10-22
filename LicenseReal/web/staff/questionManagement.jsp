@@ -64,7 +64,7 @@
         <div class="layout-wrapper layout-content-navbar">
             <div class="layout-container">
                 <c:if test="${empty sessionScope.ROLE}">
-                    <c:redirect url="MainController?action=login"></c:redirect>
+                    <c:redirect url="login.jsp"></c:redirect>
                 </c:if>
                 <c:if test="${sessionScope.ROLE == 'ST'}">
                     <c:import url="menu.jsp"/>

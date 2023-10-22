@@ -28,14 +28,30 @@
                     </div>
 
                     <div class="menu">
-                        <a class="menu_items " href="MainController">Home</a>
-                        <a class="menu_items" to="/#">Hỗ trợ</a>
-                        <a class="menu_items" to="/#">Thông tin lý thuyết</a>
-                        <!--Cho nay la feature cua mentor, can cao navarbar rieng cho mentor nha-->
-                        <a class="menu_items" href="MainController?action=viewSchedule" >Lịch dạy</a>
-                        <a class="menu_items" href="MainController?action=viewScheduleMember" >Lịch Học</a>
-                        <a class="menu_items" to="/#">Lịch thi</a>
-                        <a class="menu_items" href="MainController?action=PracticeTest">Thi thử trắc nghiệm</a>
+                        <!--Guest-->
+                        <c:if test="${empty sessionScope.ROLE}">
+                            <a class="menu_items " href="MainController">Home</a>
+                            <a class="menu_items " href="login.jsp">Đăng ký học thực hành</a>
+                            <a class="menu_items" href="MainController?action=PracticeTest">Thi thử trắc nghiệm</a>
+                        </c:if>
+                            
+                        <!--Member-->
+                        <c:if test="${sessionScope.ROLE == 'US'}">
+                            <a class="menu_items " href="MainController">Home</a>
+                            <a class="menu_items " href="#">Đăng ký học thực hành</a>
+                            <a class="menu_items " href="#">Nộp hồ sơ thi</a>
+                            <a class="menu_items" href="MainController?action=viewScheduleMember" >Lịch Học</a>
+                            <a class="menu_items" to="/#">Lịch thi</a>
+                            <a class="menu_items" href="MainController?action=PracticeTest">Thi thử trắc nghiệm</a>
+                        </c:if>
+                            
+                        <!--Mentor-->
+                        <c:if test="${sessionScope.ROLE == 'MT'}">
+                            <a class="menu_items " href="MainController">Home</a>
+                            <a class="menu_items" href="#" >Đăng ký ịch dạy</a>
+                            <a class="menu_items" href="MainController?action=viewSchedule" >Lịch dạy</a>
+                        </c:if>
+
                         <div class="login_name">
                             <c:choose>
                                 <c:when test="${user != null}">

@@ -58,6 +58,10 @@ public class AccountController extends HttpServlet {
                         url = "login.jsp";
                     } else {
                         user = UserDAO.getUser(account.getId());
+                        if (user == null) {
+                            url = "user-infor.jsp";
+                            message = "Bạn cần cập nhật thông tin!";
+                        }
                         session.setAttribute("user", user);
                         switch (user.getRole()) {
                             case 1:
@@ -66,7 +70,7 @@ public class AccountController extends HttpServlet {
                                 break;
                             case 2:
                                 session.setAttribute("ROLE", "MT");
-                                url = "MainController?action=mentor";
+                                url = "MainController";
                                 break;
                             case 3:
                                 session.setAttribute("ROLE", "ST");
@@ -106,11 +110,11 @@ public class AccountController extends HttpServlet {
                             user = UserDAO.getUser(account.getId());
                             session.setAttribute("account", account);
                             session.setAttribute("user", user);
-                            if (account != null) {
-                                Cookie cookie = new Cookie("userId", Integer.toString(user.getId()));
-                                cookie.setMaxAge(60 * 60);
-                                response.addCookie(cookie);
-                            }
+//                            if (account != null) {
+//                                Cookie cookie = new Cookie("userId", Integer.toString(user.getId()));
+//                                cookie.setMaxAge(60 * 60);
+//                                response.addCookie(cookie);
+//                            }
                             url = "user-infor.jsp";
                             message = "Tạo tài khoản thành công, bạn hãy nhập thông tin cá nhân";
                         }

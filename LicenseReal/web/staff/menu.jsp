@@ -13,7 +13,7 @@
             class="layout-menu menu-vertical menu bg-menu-theme"
             >
             <div class="app-brand demo">
-                <a href="index.html" class="app-brand-link">
+                <a href="MainController?action=QuestionController" class="app-brand-link">
                     <span class="app-brand-logo demo"> </span>
                     <img src="https://cdn-icons-png.flaticon.com/512/6556/6556219.png" alt="Logo" class="w-8 h-8" style="width: 80px;
                          height: auto">
