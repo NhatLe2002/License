@@ -99,7 +99,10 @@ public class MainController extends HttpServlet {
             } else if (action.equals("mentor")) {
                 url = "home.jsp";
             } else if (action.equals("TopicController")) {
-                url = "TopicController";
+                String topicID = request.getParameter("id");
+                url = "TopicController?id=" + topicID;
+            } else if (action.equals("details")) {
+                url = "DetailsTopicServlet";
             }
             request.setAttribute("action", action);
             if ("staff".equals(action)) {

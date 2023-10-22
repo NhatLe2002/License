@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import utils.DBUtils;
 
 public class TopicDAO {
@@ -17,18 +18,6 @@ public class TopicDAO {
     private ResultSet rs;
 
     public static void main(String[] args) throws SQLException {
-        TopicDAO dao = new TopicDAO();
-        ArrayList<TopicDTO> listTopic = new ArrayList<TopicDTO>();
-        ArrayList<TopicDTO> list = dao.getAllQuestionInTopic("1");
-        QuestionDAO questionDAO = new QuestionDAO();
-        for (TopicDTO topicDTO : list) {
-            String questionID = String.valueOf(topicDTO.getQuestionID());
-            QuestionDTO questionDTO = questionDAO.getQuestionByID(questionID);
-            listTopic.add(new TopicDTO(questionDTO));
-        }
-        for (TopicDTO topicDTO : listTopic) {
-            System.out.println(topicDTO.getList());
-        }
     }
 
     public ArrayList<TopicDTO> getAllTopic() throws SQLException {
@@ -36,7 +25,7 @@ public class TopicDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                String sql = "SELECT DISTINCT topicID FROM Topic WHERE status = 1";
+                String sql = "SELECT DISTINCT topicID, status FROM Topic";
                 ptm = conn.prepareStatement(sql);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
@@ -63,7 +52,7 @@ public class TopicDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                String sql = "SELECT id, questionID FROM Topic WHERE topicID = 1 AND status = 1";
+                String sql = "SELECT id, questionID FROM Topic WHERE topicID = " + topicID + " AND status = 1";
                 ptm = conn.prepareStatement(sql);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
@@ -85,4 +74,23 @@ public class TopicDAO {
         return listTopic;
     }
 
+    public boolean updateStatusTopic(String topicID, String status) throws SQLException {
+        boolean result = false;
+        String sql;
+        try {
+            conn = DBUtils.getConnection();
+            if (status.equals("1")) {
+                sql = "UPDATE Topic SET status = 0 WHERE topicID = " + topicID;
+            } else {
+                sql = "UPDATE Topic SET status = 1 WHERE topicID = " + topicID;
+            }
+            ptm = conn.prepareStatement(sql);
+            int row = ptm.executeUpdate();
+            if (row > 0) {
+                return true;
+            }
+        } catch (Exception e) {
+        }
+        return result;
+    }
 }

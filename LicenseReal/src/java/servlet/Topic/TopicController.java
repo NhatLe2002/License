@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "TopicController", urlPatterns = {"/TopicController"})
 public class TopicController extends HttpServlet {
 
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -25,7 +24,15 @@ public class TopicController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String action = request.getParameter("action");
+        if (action.equals("deactive") || action.equals("active")) {
+            String status = request.getParameter("status");
+            String topicID = request.getParameter("id");
+            request.setAttribute("status", status);
+            request.setAttribute("topicID", topicID);
+            doPost(request, response);
+        }
+
         String message = (String) request.getAttribute("message");
         try {
             TopicDAO dao = new TopicDAO();
@@ -40,7 +47,23 @@ public class TopicController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String status = (String) request.getAttribute("status");
+        String topicID = (String) request.getAttribute("topicID");
+        TopicDAO dao = new TopicDAO();
+        String message = "";
+        try {
+            boolean checkUpdate = dao.updateStatusTopic(topicID, status);
+            if (checkUpdate) {
+                message = "success";
+            } else {
+                message = "fail";
+            }
+            ArrayList<TopicDTO> list = dao.getAllTopic();
+            request.setAttribute("topic", list);
+        } catch (Exception e) {
+        }
+        request.setAttribute("message", message);
+        request.getRequestDispatcher("staff/topicManagement.jsp").forward(request, response);
     }
 
     @Override

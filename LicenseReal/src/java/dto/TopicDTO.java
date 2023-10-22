@@ -5,7 +5,7 @@
  */
 package dto;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -15,7 +15,7 @@ public class TopicDTO {
     private int id;
     private int topicID;
     private int questionID;
-    QuestionDTO list;
+    List<QuestionDTO> list;
     private boolean status;
 
     public TopicDTO() {
@@ -37,7 +37,7 @@ public class TopicDTO {
         this.questionID = questionID;
     }
 
-    public TopicDTO(QuestionDTO list) {
+    public TopicDTO(List<QuestionDTO> list) {
         this.list = list;
     }
 
@@ -67,11 +67,11 @@ public class TopicDTO {
         this.questionID = questionID;
     }
 
-    public QuestionDTO getList() {
+    public List<QuestionDTO> getList() {
         return list;
     }
 
-    public void setList(QuestionDTO list) {
+    public void setList(List<QuestionDTO> list) {
         this.list = list;
     }
 

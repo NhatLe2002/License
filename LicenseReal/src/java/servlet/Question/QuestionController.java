@@ -57,7 +57,6 @@ public class QuestionController extends HttpServlet {
         }
 
         request.setAttribute("message", message);
-
         request.getRequestDispatcher("staff/questionManagement.jsp").forward(request, response);
     }
 

@@ -114,14 +114,11 @@
                                     class="card-header"
                                     style="display: flex; justify-content: space-between"
                                     >
-                                    <div>Ngân hàng câu hỏi</div>
+                                    <div>Danh sách bộ đề</div>
                                     <!-- Button trigger modal -->
                                     <div>
                                         <a href="MainController?action=insertQ">
                                             <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fas fa-plus"></i></button>
-                                        </a>
-                                        <a href="MainController?action=restore">
-                                            <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fa-solid fa-arrows-rotate fa-spin"></i></button>
                                         </a>
                                     </div>
                                 </h5>
@@ -143,13 +140,13 @@
                                                         <span class="fw-medium">${counter.count}</span>
                                                     </td>
                                                     <td style="align-content: center">
-                                                        <span class="badge bg-label-primary me-1">${T.topicID}</span>
+                                                        <span class="badge bg-label-primary me-1">Bộ đề ${T.topicID}</span>
                                                     </td>
                                                     <td>
-                                                        <c:if test="${T.status eq '1'}">
+                                                        <c:if test="${T.status eq 'true'}">
                                                             <span class="fw-medium" style="color:#fba265">Đang mở</span>
                                                         </c:if>
-                                                        <c:if test="${T.status eq '0'}">
+                                                        <c:if test="${T.status eq 'false'}">
                                                             <span class="fw-medium">Đã đóng</span>
                                                         </c:if>
                                                     </td>
@@ -166,26 +163,26 @@
                                                             <div class="dropdown-menu">
                                                                 <a
                                                                     class="dropdown-item"
-                                                                    href="#"
+                                                                    href="MainController?action=details&id=${T.topicID}"
                                                                     ><i class="bx bx-edit-alt me-1"></i>Xem chi tiết</a
                                                                 >
-                                                                <c:if test="${T.status eq '1'}">
+                                                                <c:if test="${T.status eq 'true'}">
                                                                     <a
                                                                         class="dropdown-item"
                                                                         data-toggle="tooltip" title="Xóa"
                                                                         data-bs-toggle="modal" 
-                                                                        data-bs-target="#modalConfirmDelete" 
-                                                                        onclick="showMess('${T.topicID}')"
+                                                                        data-bs-target="#modalConfirmDeactive" 
+                                                                        onclick="showDeactive('${T.topicID}')"
                                                                         ><i class="fa-solid fa-ban me-1"></i> Đóng bộ đề</a
                                                                     >
                                                                 </c:if>
-                                                                <c:if test="${T.status eq '0'}">
+                                                                <c:if test="${T.status eq 'false'}">
                                                                     <a
                                                                         class="dropdown-item"
                                                                         data-toggle="tooltip" title="Xóa"
                                                                         data-bs-toggle="modal" 
-                                                                        data-bs-target="#modalConfirmDelete" 
-                                                                        onclick="showMess('${T.topicID}')"
+                                                                        data-bs-target="#modalConfirmActive" 
+                                                                        onclick="showActive('${T.topicID}')"
                                                                         ><i class="fa-solid fa-arrow-rotate-left me-1"></i> Mở bộ đề</a
                                                                     >
                                                                 </c:if>
@@ -199,20 +196,39 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="modal fade" id="modalConfirmDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                        <div class="modal fade" id="modalConfirmDeactive" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                              aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="staticBackdropLabel">XÁC NHẬN LOẠI BỎ</h5>
+                                        <h5 class="modal-title" id="staticBackdropLabel">XÁC NHẬN ĐÓNG BỘ ĐỀ</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        Bạn có chắc muốn xóa câu hỏi này?
+                                        Bạn có chắc muốn đóng bộ đề này?
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                                        <button type="button" class="btn btn-primary" id="btn-toast-delete" class="btn-close"
+                                        <button type="button" class="btn btn-primary" id="btn-toast-deactive" class="btn-close"
+                                                data-bs-dismiss="modal" aria-label="Close">Xác nhận</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="modalConfirmActive" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                             aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">XÁC NHẬN MỞ BỘ ĐỀ</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Bạn có chắc muốn mở bộ đề này?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                        <button type="button" class="btn btn-primary" id="btn-toast-active" class="btn-close"
                                                 data-bs-dismiss="modal" aria-label="Close">Xác nhận</button>
                                     </div>
                                 </div>
@@ -242,13 +258,22 @@
             </div>
         </div>
         <script>
-            function showMess(id) {
-                var btnToastDelete = document.querySelector('#btn-toast-delete');
+            function showDeactive(id) {
+                var btnToastDelete = document.querySelector('#btn-toast-deactive');
                 btnToastDelete.addEventListener('click', function () {
-                    var deleteUrl = 'DeleteQuestionController?id=' + id;
+                    var deleteUrl = 'TopicController?action=deactive&status=1&id=' + id;
                     window.location.href = deleteUrl;
                     // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
-                    document.getElementById('modalConfirmDelete').style.display = 'none';
+                    document.getElementById('modalConfirmDeactive').style.display = 'none';
+                });
+            }
+            function showActive(id) {
+                var btnToastDelete = document.querySelector('#btn-toast-active');
+                btnToastDelete.addEventListener('click', function () {
+                    var deleteUrl = 'TopicController?action=active&status=0&id=' + id;
+                    window.location.href = deleteUrl;
+                    // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
+                    document.getElementById('modalConfirmActive').style.display = 'none';
                 });
             }
 
@@ -263,10 +288,10 @@
                 const toast = document.getElementById('toast-notification');
                 const toastMessage = document.getElementById('toast-message');
                 if (message === 'success') {
-                    var success = 'Xóa câu hỏi thành công!';
+                    var success = 'Cập nhật trạng thái thành công!';
                     toastMessage.textContent = success;
                 } else {
-                    var fail = 'Không thể xóa câu hỏi!';
+                    var fail = 'Không thể cập nhật trạng thái!';
                     toastMessage.textContent = fail;
                 }
                 toast.classList.remove('hide');
