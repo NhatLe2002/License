@@ -63,7 +63,16 @@
         <!-- Layout wrapper -->
         <div class="layout-wrapper layout-content-navbar">
             <div class="layout-container">
-                <c:import url="menu.jsp"/>
+                <c:if test="${empty sessionScope.ROLE}">
+                    <c:redirect url="MainController?action=login"></c:redirect>
+                </c:if>
+                <c:if test="${sessionScope.ROLE == 3}">
+                    <c:import url="menu.jsp"/>
+                </c:if>
+                <c:if test="${sessionScope.ROLE == '4'}">
+                    <c:import url="../admin/menu.jsp"/>
+                </c:if>
+                
                 <!-- Layout container -->
                 <div class="layout-page">
                     <!-- Content wrapper -->

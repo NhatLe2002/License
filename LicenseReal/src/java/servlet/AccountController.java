@@ -58,9 +58,30 @@ public class AccountController extends HttpServlet {
                         url = "login.jsp";
                     } else {
                         user = UserDAO.getUser(account.getId());
+                        switch (user.getRole()) {
+                            case 1:
+                                session.setAttribute("ROLE", "US");
+                                url = "MainController";
+                                break;
+                            case 2:
+                                session.setAttribute("ROLE", "MT");
+                                url = "MainController?action=mentor";
+                                break;
+                            case 3:
+                                session.setAttribute("ROLE", "ST");
+                                url = "MainController?action=staff";
+                                break;
+                            case 4:
+                                session.setAttribute("ROLE", "AD");
+                                url = "MainController?action=admin";
+                                break;
+                            default:
+                                url = "login.jsp";
+                                break;
+                        }
                         session.setAttribute("user", user);
                         message = "Đăng nhập thành công";
-                        url = "home.jsp";
+
                     }
                     session.setAttribute("account", account);
                     break;

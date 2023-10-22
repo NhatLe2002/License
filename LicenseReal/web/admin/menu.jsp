@@ -38,6 +38,13 @@
                 </li>
                 <!-- Layouts -->
                 <li class="menu-item active">
+                    <a href="#" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-layout"></i>
+                        <div data-i18n="Layouts">Thống kê</div>
+                    </a>
+                </li>
+
+                <li class="menu-item">
                     <a href="MainController?action=QuestionController" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-layout"></i>
                         <div data-i18n="Layouts">Quản lí câu hỏi</div>
@@ -65,6 +72,30 @@
                     </a>
                 </li>
 
+                <li class="menu-header small text-uppercase">
+                    <span class="menu-header-text">Quản lý tài khoản</span>
+                </li>
+
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <i class="menu-icon tf-icons fa-solid fa-users"></i>
+                        <div data-i18n="Layouts">Thành viên</div>
+                    </a>
+                </li>
+
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <i class="menu-icon tf-icons fa-solid fa-people-pulling"></i>
+                        <div data-i18n="Layouts">Người hướng dẫn</div>
+                    </a>
+                </li>
+
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <i class="menu-icon tf-icons fa-solid fa-people-group"></i>
+                        <div data-i18n="Layouts">Nhân viên</div>
+                    </a>
+                </li>
 
                 <li class="menu-header small text-uppercase">
                     <span class="menu-header-text">Tài khoản &amp; Người dùng</span>
@@ -113,6 +144,7 @@
                 document.getElementById('modalConfirmDelete').style.display = 'none';
             });
         }
+
         // Lắng nghe sự kiện click trên các thẻ li
         var liItems = document.querySelectorAll('.menu-item');
         liItems.forEach(function (li) {
