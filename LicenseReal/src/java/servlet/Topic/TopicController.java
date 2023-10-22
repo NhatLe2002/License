@@ -13,14 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "TopicController", urlPatterns = {"/TopicController"})
 public class TopicController extends HttpServlet {
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
         }
     }
-
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -31,6 +31,22 @@ public class TopicController extends HttpServlet {
             request.setAttribute("status", status);
             request.setAttribute("topicID", topicID);
             doPost(request, response);
+        } else if (action.equals("create")) {
+            TopicDAO dao = new TopicDAO();
+            String message = "";
+            try {
+                boolean checkInsert = dao.createTopic();
+                if (checkInsert) {
+                    message = "success_topic";
+                } else {
+                    message = "fail_topic";
+                }
+                ArrayList<TopicDTO> list = dao.getAllTopic();
+                request.setAttribute("topic", list);
+            } catch (Exception e) {
+            }
+            request.setAttribute("message", message);
+            request.getRequestDispatcher("staff/topicManagement.jsp").forward(request, response);
         } else {
             String message = (String) request.getAttribute("message");
             try {
@@ -43,7 +59,7 @@ public class TopicController extends HttpServlet {
             request.getRequestDispatcher("staff/topicManagement.jsp").forward(request, response);
         }
     }
-
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -65,7 +81,7 @@ public class TopicController extends HttpServlet {
         request.setAttribute("message", message);
         request.getRequestDispatcher("staff/topicManagement.jsp").forward(request, response);
     }
-
+    
     @Override
     public String getServletInfo() {
         return "Short description";

@@ -117,7 +117,7 @@
                                     <div>Chi tiết bộ đề</div>
                                     <!-- Button trigger modal -->
                                     <div>
-                                        <a href="MainController?action=TopicController">
+                                        <a title="Thoát" href="MainController?action=TopicController">
                                             <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fa-solid fa-chevron-left"></i></button>
                                         </a>
                                     </div>

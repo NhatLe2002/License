@@ -118,10 +118,10 @@
                                     <!-- Button trigger modal -->
                                     <div>
                                         <a class="dropdown-item"
-                                           data-toggle="tooltip" title="Thêm bộ đề"
-                                           data-bs-toggle="modal" 
-                                           data-bs-target="#modalConfirmCreate" 
-                                           onclick="showCreate()"> 
+                                            data-toggle="tooltip" title="Thêm bộ đề"
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#modalConfirmCreate" 
+                                            onclick="showCreate()"> 
                                             <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fas fa-plus"></i></button>
                                         </a>
                                     </div>
@@ -158,10 +158,10 @@
                                                     <td>
                                                         <div class="dropdown">
                                                             <button title="Tính năng"
-                                                                    type="button"
-                                                                    class="btn p-0 dropdown-toggle hide-arrow"
-                                                                    data-bs-toggle="dropdown"
-                                                                    >
+                                                                type="button"
+                                                                class="btn p-0 dropdown-toggle hide-arrow"
+                                                                data-bs-toggle="dropdown"
+                                                                >
                                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                                             </button>
                                                             <div class="dropdown-menu">
@@ -182,12 +182,12 @@
                                                                 </c:if>
                                                                 <c:if test="${T.status eq 'false'}">
                                                                     <a style="cursor: pointer"
-                                                                       class="dropdown-item"
-                                                                       data-toggle="tooltip"
-                                                                       data-bs-toggle="modal" 
-                                                                       data-bs-target="#modalConfirmActive" 
-                                                                       onclick="showActive('${T.topicID}')"
-                                                                       ><i class="fa-solid fa-arrow-rotate-left me-1"></i> Mở bộ đề</a
+                                                                        class="dropdown-item"
+                                                                        data-toggle="tooltip"
+                                                                        data-bs-toggle="modal" 
+                                                                        data-bs-target="#modalConfirmActive" 
+                                                                        onclick="showActive('${T.topicID}')"
+                                                                        ><i class="fa-solid fa-arrow-rotate-left me-1"></i> Mở bộ đề</a
                                                                     >
                                                                 </c:if>
                                                             </div>
@@ -283,60 +283,61 @@
         </div>
         <script>
             function showDeactive(id) {
-            var btnToastDelete = document.querySelector('#btn-toast-deactive');
-            btnToastDelete.addEventListener('click', function () {
-            var deleteUrl = 'TopicController?action=deactive&status=1&id=' + id;
-            window.location.href = deleteUrl;
-            // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
-            document.getElementById('modalConfirmDeactive').style.display = 'none';
-            });
+                var btnToastDelete = document.querySelector('#btn-toast-deactive');
+                btnToastDelete.addEventListener('click', function () {
+                    var deleteUrl = 'TopicController?action=deactive&status=1&id=' + id;
+                    window.location.href = deleteUrl;
+                    // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
+                    document.getElementById('modalConfirmDeactive').style.display = 'none';
+                });
             }
             function showActive(id) {
-            var btnToastDelete = document.querySelector('#btn-toast-active');
-            btnToastDelete.addEventListener('click', function () {
-            var deleteUrl = 'TopicController?action=active&status=0&id=' + id;
-            window.location.href = deleteUrl;
-            // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
-            document.getElementById('modalConfirmActive').style.display = 'none';
-            });
+                var btnToastDelete = document.querySelector('#btn-toast-active');
+                btnToastDelete.addEventListener('click', function () {
+                    var deleteUrl = 'TopicController?action=active&status=0&id=' + id;
+                    window.location.href = deleteUrl;
+                    // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
+                    document.getElementById('modalConfirmActive').style.display = 'none';
+                });
             }
             function showCreate() {
-            var btnToastDelete = document.querySelector('#btn-toast-create');
-            btnToastDelete.addEventListener('click', function () {
-            var deleteUrl = 'MainController?action=CreateTopicServlet';
-            window.location.href = deleteUrl;
-            // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
-            document.getElementById('modalConfirmCreate').style.display = 'none';
-            });
+                var btnToastDelete = document.querySelector('#btn-toast-create');
+                btnToastDelete.addEventListener('click', function () {
+                    var deleteUrl = 'TopicController?action=create';
+                    window.location.href = deleteUrl;
+                    // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
+                    document.getElementById('modalConfirmCreate').style.display = 'none';
+                });
             }
 
             window.addEventListener('DOMContentLoaded', (event) => {
-            const message = '${message}'; // Lấy giá trị thông báo từ servlet
-            if (message) {
-            showToast(message); // Gọi hàm hiển thị thông báo
-            }
+                const message = '${message}'; // Lấy giá trị thông báo từ servlet
+                if (message) {
+                    showToast(message); // Gọi hàm hiển thị thông báo
+                }
             });
+
             function showToast(message) {
-            const toast = document.getElementById('toast-notification');
-            const toastMessage = document.getElementById('toast-message');
-            if (message === 'success') {
-            var success = 'Cập nhật trạng thái thành công!';
-            toastMessage.textContent = success;
-            } else if (message === 'fail'){
-            var fail = 'Không thể cập nhật trạng thái!';
-            toastMessage.textContent = fail;
-            } else if {
-            var fail_topic = 'Không thể tạo bộ đề!';
-            toastMessage.textContent = fail_topic;
-            } else {
-            var success_topic = 'Tạo bộ đề thành công!';
-            toastMessage.textContent = success_topic;
-            }
-            toast.classList.remove('hide');
-            toast.classList.add('show');
-            setTimeout(() => {
-            toast.classList.remove('show');
-            }, 3000);
+                const toast = document.getElementById('toast-notification');
+                const toastMessage = document.getElementById('toast-message');
+                if (message === 'success') {
+                    var success = 'Cập nhật trạng thái thành công!';
+                    toastMessage.textContent = success;
+                } else if (message === 'fail'){
+                    var fail = 'Không thể cập nhật trạng thái!';
+                    toastMessage.textContent = fail;
+                } else if (message === 'success_topic'){
+                    var success_topic = 'Tạo bộ đề thành công!';
+                    toastMessage.textContent = success_topic;
+                } else {
+                    var fail_topic = 'Không thể tạo bộ đề!';
+                    toastMessage.textContent = fail_topic;
+                }
+                toast.classList.remove('hide');
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
             }
 //            document.querySelector('#btn-toast-delete').addEventListener('click', function () {
 //                window.location.href = 'DeleteQuestionController?id=' + id;
