@@ -14,6 +14,7 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
         <!-- MDB -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css" rel="stylesheet" />
+        
 
         <style>
             /* header */
@@ -468,63 +469,17 @@
     </head>
 
     <body>
-        <c:import url="userHeader.jsp"/>
 
-        <div class='mt-5 mb-5 d-flex gap-3 container container-driving-profile'>
-            <div class="d-flex flex-column option-account-container gap-3">
-                <div class='title' id='title'></div>
-                <div class='sidebar-account'>
-                    <a href="/driving-profile.html" class="link-option-account">
-                        <span class="bold-icon">
-                            <i class="fa-regular fa-user"></i>
-                        </span>
-                        <div class="text-option-account">Thông tin cá nhân</div>
-                    </a>
+        <c:import url="menu.jsp"/>
 
-                    <a class="link-option-account">
-                        <span class="bold-icon">
-                            <i class="fa-regular fa-file"></i>
-                        </span>
-                        <div class="text-option-account">Lịch sử làm bài</div>
-                    </a>
-
-                    <a class="link-option-account">
-                        <span class="bold-icon">
-                            <i class="fa-solid fa-shekel-sign"></i>
-                        </span>
-                        <div class="text-option-account">Lịch sử giao dịch</div>
-                    </a>
-
-                    <a href="/change-password.html" class="link-option-account">
-                        <span class="bold-icon">
-                            <i class="fa-solid fa-lock"></i>
-                        </span>
-                        <div class="text-option-account">Đổi mật khẩu</div>
-                    </a>
-                    <a herf="MainController?action=logout" class="link-option-account" >
-                        <span class="bold-icon">
-                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                        </span>
-                        <div class="text-option-account">Đăng xuất</div>
-                    </a>
-                </div>
-            </div>
-
-            <div class='separate-line-layout-account'></div>
-            <div class='content-option-container'>
+            
                 <div class="d-flex justify-content-center flex-column profile-container gap-3">
                     <div class='title'>Cập nhập trang cá nhân</div>
                     <div class='user-profile d-flex gap-5 '>
                         <div class='left d-flex flex-column gap-3'>
                             <div class='avatar-user'>
-                                <c:if test="${not empty load_profile.avatar}">
-                                    <img id="avatar-img" src="data:image;base64,${load_profile.avatar}"
-                                         alt="Preview">
-                                </c:if>
-                                <c:if test="${empty load_profile.avatar}">
-                                    <img id="avatar-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png"
-                                         alt="Preview">
-                                </c:if>
+                                <img id="avatar-img" src="data:image;base64,${load_profile.img_user}"
+                                     alt="Preview"></img>
                             </div>
 
 
@@ -540,7 +495,7 @@
 
                                     <div class='edit-profile d-flex gap-2'>
                                         <i class="fa-regular fa-pen-to-square"></i>
-                                        <a href="addtodrivingpro?id=${sessionScope.load_profile.getId()}">Nộp hồ sơ thi</a>  
+                                        <!--<a href="addtodrivingpro?id=${sessionScope.load_profile.getId()}">Nộp hồ sơ thi</a>-->  
                                     </div>
                                 </div>
 
@@ -665,8 +620,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+               
         </div>
 
         <!-- footer -->
@@ -758,15 +712,6 @@
             }
         </script>
         <script>
-            function logout() {
-                var btnToastDelete = document.querySelector('#btn-toast-delete');
-                btnToastDelete.addEventListener('click', function () {
-                    var deleteUrl = 'LogoutServlet';
-                    window.location.href = deleteUrl;
-                    // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
-                    document.getElementById('modalConfirmDelete').style.display = 'none';
-                });
-            }
             function previewImage(event) {
                 var reader = new FileReader();
                 reader.onload = function () {

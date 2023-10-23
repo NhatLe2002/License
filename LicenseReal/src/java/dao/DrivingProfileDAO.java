@@ -23,11 +23,12 @@ import utils.DBUtils;
  * @author HOANG ANH
  */
 public class DrivingProfileDAO {
+
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-  
+
         MemberDTO mdto = getMemberById(1);
         System.out.println(mdto);
-}
+    }
 
     // lấy member theo userID
     public static MemberDTO getMemberById(int id) {
@@ -72,16 +73,17 @@ public class DrivingProfileDAO {
         }
         return member;
     }
-        public static MentorDTO getMentorById(int id) {
+
+    public static MentorDTO getMentorById(int id) {
         Connection cn = null;
         MentorDTO mentor = null;
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "SELECT U.[id], U.[name], U.[phone], U.[email], U.[dob], U.[cccd], U.[address], U.[avatar], U.[role], M.[certificate],M.[experience], M.[userID]\n" +
-"                        FROM [User] U \n" +
-"                        JOIN [Mentor] M ON U.id = M.userID \n" +
-"                        WHERE M.status = 1 AND M.userID = ?";
+                String sql = "SELECT U.[id], U.[name], U.[phone], U.[email], U.[dob], U.[cccd], U.[address], U.[avatar], U.[role], M.[certificate],M.[experience], M.[userID]\n"
+                        + "                        FROM [User] U \n"
+                        + "                        JOIN [Mentor] M ON U.id = M.userID \n"
+                        + "                        WHERE M.status = 1 AND M.userID = ?";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, id);
                 ResultSet rs = pst.executeQuery();
@@ -162,14 +164,14 @@ public class DrivingProfileDAO {
         }
         return false;
     }
-    
+
     // member nộp hồ sơ để thi 
-    public static boolean addtodrivingprofile(int memberID, String img_cccd, String img_user, boolean gender) {
+    public static boolean addtodrivingprofile(int memberID, String img_cccd, String img_user, boolean gender, boolean flag) {
         Connection cn = null;
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String drivingSql = "INSERT INTO [DrivingProfile](memberID,img_cccd,img_user,gender,status) VALUES (" + memberID + ",'" + img_cccd + "','" + img_user + "','"+ gender +"' , 0)";
+                String drivingSql = "INSERT INTO [DrivingProfile](memberID,img_cccd,img_user,gender,flag,status) VALUES (" + memberID + ",'" + img_cccd + "','" + img_user + "','" + gender + "' , '" + flag + "', 0)";
                 PreparedStatement drivingPst = cn.prepareStatement(drivingSql);
 //                drivingPst.setInt(1, memberID);
 //                drivingPst.setString(2, img_cccd);
@@ -223,41 +225,92 @@ public class DrivingProfileDAO {
         }
         return result;
     }
-       //hàm lấy tất cả hồ sơ lấy xe để staff quản lí
+
+    public static DrivingProfile getDrivingProfileById(int id) throws ClassNotFoundException, SQLException {
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        DrivingProfile drivingProfile = null;
+        conn = DBUtils.getConnection();
+        try {
+
+            String sql = "SELECT m.id AS member_id, u.id AS user_id, u.name, u.phone, u.email, u.cccd, u.dob, u.address, d.img_user, d.img_cccd, m.health,d.gender, d.flag , d.status \n"
+                    + "                    FROM DrivingProfile d\n"
+                    + "                    JOIN Member m ON d.memberID = m.id\n"
+                    + "                    JOIN [User] u ON u.id = m.userID\n";
+            ptm = conn.prepareStatement(sql);
+            rs = ptm.executeQuery();
+            while (rs.next()) {
+                int memberId = rs.getInt("member_id");
+                int userId = rs.getInt("user_id");
+                String name = rs.getString("name");
+                String phone = rs.getString("phone");
+                String email = rs.getString("email");
+                String cccd = rs.getString("cccd");
+                java.sql.Date dob = rs.getDate("dob");
+                LocalDate localDate = dob.toLocalDate();
+                String address = rs.getString("address");
+                String imgUser = rs.getString("img_user");
+                String imgCCCD = rs.getString("img_cccd");
+                String health = rs.getString("health");
+                boolean gender = rs.getBoolean("gender");
+                boolean flag = rs.getBoolean("flag");
+                boolean status = rs.getBoolean("status");
+                UserDTO userDTO = new UserDTO(id, name, phone, email, localDate, cccd, address);
+                MemberDTO memberDTO = new MemberDTO(id, userDTO, health);
+                drivingProfile = new DrivingProfile(memberDTO, imgCCCD, imgUser, gender);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return drivingProfile;
+    }
+    //hàm lấy tất cả hồ sơ lấy xe để staff quản lí
+
     public static ArrayList<DrivingProfile> getAllDrivingProfile() throws SQLException, ClassNotFoundException {
         ArrayList<DrivingProfile> list = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ptm = null;
         ResultSet rs = null;
         conn = DBUtils.getConnection();
-        try{
-        if (conn != null) {
-            String sql = "SELECT m.id AS member_id, u.id AS user_id, u.name, u.phone, u.email, u.cccd, d.img_user,d.gender , d.status \n" +
-"                    FROM DrivingProfile d\n" +
-"                    JOIN Member m ON d.memberID = m.id\n" +
-"                    JOIN [User] u ON u.id = m.userID\n" +
-"                    WHERE d.status = 0";
-            ptm = conn.prepareStatement(sql);
-            rs = ptm.executeQuery();
-            while (rs.next()) {
-            int memberId = rs.getInt("member_id");
-            int userId = rs.getInt("user_id");
-            String name = rs.getString("name");
-            String phone = rs.getString("phone");
-            String email = rs.getString("email");
-            String cccd = rs.getString("cccd");
-            String imgUser = rs.getString("img_user");
-            boolean gender = rs.getBoolean("gender");
-            boolean status = rs.getBoolean("status");
-            UserDTO userDTO = new UserDTO(userId, name, phone, email, cccd);
-            MemberDTO memberDTO = new MemberDTO(memberId, userDTO);
-            DrivingProfile drivingProfile = new DrivingProfile(memberDTO, imgUser, gender, status);          
-            list.add(drivingProfile);
-        }
-        }
-        }catch(SQLException e){
-            
-        }finally {
+        try {
+            if (conn != null) {
+                String sql = "SELECT m.id AS member_id, u.id AS user_id, u.name, u.phone, u.email, u.cccd, d.img_user,d.gender, d.flag , d.status \n"
+                        + "                    FROM DrivingProfile d\n"
+                        + "                    JOIN Member m ON d.memberID = m.id\n"
+                        + "                    JOIN [User] u ON u.id = m.userID\n"
+                        + "                    WHERE d.status = 0";
+                ptm = conn.prepareStatement(sql);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    int memberId = rs.getInt("member_id");
+                    int userId = rs.getInt("user_id");
+                    String name = rs.getString("name");
+                    String phone = rs.getString("phone");
+                    String email = rs.getString("email");
+                    String cccd = rs.getString("cccd");
+                    String imgUser = rs.getString("img_user");
+                    boolean gender = rs.getBoolean("gender");
+                    boolean flag = rs.getBoolean("flag");
+                    boolean status = rs.getBoolean("status");
+                    UserDTO userDTO = new UserDTO(userId, name, phone, email, cccd);
+                    MemberDTO memberDTO = new MemberDTO(memberId, userDTO);
+                    DrivingProfile drivingProfile = new DrivingProfile(memberDTO, imgUser, gender, flag, status);
+                    list.add(drivingProfile);
+                }
+            }
+        } catch (SQLException e) {
+
+        } finally {
             if (rs != null) {
                 rs.close();
             }
@@ -270,6 +323,7 @@ public class DrivingProfileDAO {
         }
         return list;
     }
+
     //hàm lấy tất cả hồ sơ lấy xe để staff quản lí
     public static boolean getAllDrivingProfile1() throws SQLException, ClassNotFoundException {
         ArrayList<DrivingProfile> list = new ArrayList<>();
@@ -277,23 +331,23 @@ public class DrivingProfileDAO {
         PreparedStatement ptm = null;
         ResultSet rs = null;
         conn = DBUtils.getConnection();
-        try{
-        if (conn != null) {
-            String sql = "SELECT m.id AS member_id, u.id AS user_id, u.name, u.phone, u.email, u.cccd, d.img_user, d.status \n" +
-"                    FROM DrivingProfile d\n" +
-"                    JOIN Member m ON d.memberID = m.id\n" +
-"                    JOIN [User] u ON u.id = m.userID\n" +
-"                    WHERE d.status = 0";
-            ptm = conn.prepareStatement(sql);
-            rs = ptm.executeQuery();
-            if (rs.next()) {
-                return true;
+        try {
+            if (conn != null) {
+                String sql = "SELECT m.id AS member_id, u.id AS user_id, u.name, u.phone, u.email, u.cccd, d.img_user, d.status \n"
+                        + "                    FROM DrivingProfile d\n"
+                        + "                    JOIN Member m ON d.memberID = m.id\n"
+                        + "                    JOIN [User] u ON u.id = m.userID\n"
+                        + "                    WHERE d.status = 0";
+                ptm = conn.prepareStatement(sql);
+                rs = ptm.executeQuery();
+                if (rs.next()) {
+                    return true;
+                }
+
             }
-        
-        }
-        }catch(SQLException e){
-            
-        }finally {
+        } catch (SQLException e) {
+
+        } finally {
             if (rs != null) {
                 rs.close();
             }
@@ -306,8 +360,5 @@ public class DrivingProfileDAO {
         }
         return false;
     }
-    
-
 
 }
-

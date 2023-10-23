@@ -52,7 +52,7 @@
                 </li>
 
                 <li class="menu-item">
-                    <a href="#" class="menu-link">
+                    <a href="MainController?action=DrivingProfileStaffController" class="menu-link">
                         <i class="menu-icon tf-icons fa-regular fa-address-card"></i>
                         <div data-i18n="Layouts">Duyệt hồ sơ đăng ký</div>
                     </a>

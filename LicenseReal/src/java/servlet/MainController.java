@@ -49,6 +49,8 @@ public class MainController extends HttpServlet {
                 url = "LoadItemServlet";
             } else if (action.equals("login")) {
                 url = "AccountController";
+                } else if (action.equals("logout")) {
+                url = "LogoutServlet";
             } else if (action.equals("register")) {
                 url = "AccountController";
             } else if (action.equals("regisSchedule")) {
@@ -63,6 +65,8 @@ public class MainController extends HttpServlet {
                 url = "RegisScheduleByMemberServlet";
             } else if (action.equals("regisScheduleMemberBtn")) {
                 url = "RegisScheduleByMemberServlet";
+            } else if (action.equals("DrivingProfileStaffController")) {
+                url = "drivingstaff";
             } else if (action.equals("PracticeTest")) {
                 QuestionDAO dao = new QuestionDAO();
                 List<QuestionDTO> listTopic = dao.getTopicID();
