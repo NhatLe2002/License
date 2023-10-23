@@ -12,6 +12,25 @@
             href="https://cdn-icons-png.flaticon.com/512/6556/6556219.png"
             />
     </head>
+    <style>
+        /* Tùy chỉnh thanh cuộn */
+        ::-webkit-scrollbar {
+            width: 6px; /* Đặt chiều rộng của thanh cuộn */
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: #f1f1f1; /* Màu nền của thanh cuộn */
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #888; /* Màu của thanh cuộn */
+            border-radius: 3px; /* Bo cong viền của thanh cuộn */
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #555; /* Màu của thanh cuộn khi di chuột qua */
+        }
+    </style>
     <body>
         <c:if test="${empty sessionScope.ROLE}">
             <c:redirect url="login.jsp"/>
@@ -24,7 +43,7 @@
             <c:redirect url="MainController?action=mentor"/>
         </c:if>
         <!-- Menu -->
-        <aside
+        <aside 
             id="layout-menu"
             class="layout-menu menu-vertical menu bg-menu-theme"
             >
@@ -56,21 +75,21 @@
                 <c:if test="${sessionScope.ROLE == 'AD'}">
                     <li class="menu-item">
                         <a href="MainController?action=admin" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-layout"></i>
+                            <i class="menu-icon fa-solid fa-chart-pie"></i>
                             <div data-i18n="Layouts">Thống kê</div>
                         </a>
                     </li>
 
                     <li class="menu-item">
                         <a href="MainController?action=QuestionController" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-layout"></i>
+                            <i class="menu-icon fa-regular fa-circle-question"></i>
                             <div data-i18n="Layouts">Quản lí câu hỏi</div>
                         </a>
                     </li>
 
                     <li class="menu-item">
                         <a href="MainController?action=TopicController" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-list-ul"></i>
+                            <i class="menu-icon fa-solid fa-list-ul"></i>
                             <div data-i18n="Layouts">Danh sách đề thi</div>
                         </a>
                     </li>
@@ -117,14 +136,14 @@
                 <c:if test="${sessionScope.ROLE == 'ST'}">
                     <li class="menu-item">
                         <a href="MainController?action=QuestionController" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-layout"></i>
+                            <i class="menu-icon fa-regular fa-circle-question"></i>
                             <div data-i18n="Layouts">Quản lí câu hỏi</div>
                         </a>
                     </li>
 
                     <li class="menu-item">
                         <a href="MainController?action=TopicController" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-list-ul"></i>
+                            <i class="menu-icon fa-solid fa-list-ul"></i>
                             <div data-i18n="Layouts">Danh sách đề thi</div>
                         </a>
                     </li>
@@ -147,12 +166,12 @@
                 </li>
 
                 <li class="menu-item" 
-                    data-toggle="tooltip" title="Xóa"
+                    data-toggle="tooltip"
                     data-bs-toggle="modal" 
                     data-bs-target="#modalConfirmDelete" 
                     onclick="logout()">
                     <a href="#" class="menu-link">
-                        <i class="menu-icon tf-icons bx bx-log-out"></i>
+                        <i class="menu-icon fa-solid fa-arrow-right-from-bracket"></i>
                         <div data-i18n="Layouts">Đăng xuất</div>
                     </a>
                 </li>

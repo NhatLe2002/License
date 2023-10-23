@@ -105,6 +105,14 @@ public class MainController extends HttpServlet {
                 url = "DetailsTopicServlet";
             } else if (action.equals("FeedbackController")) {
                 url = "FeedbackController";
+            } else if (action.equals("accept")) {
+                String feedbackID = request.getParameter("id");
+                request.setAttribute("id", feedbackID);
+                url = "FeedbackController";
+            } else if (action.equals("delete")) {
+                String feedbackID = request.getParameter("id");
+                request.setAttribute("id", feedbackID);
+                url = "FeedbackController";
             }
             request.setAttribute("action", action);
             if ("staff".equals(action)) {

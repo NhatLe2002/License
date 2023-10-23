@@ -51,11 +51,10 @@ public class QuestionController extends HttpServlet {
 
             request.setAttribute("listA", listA);
             request.setAttribute("listQ", listQ);
-
+            request.setAttribute("totalSize", listQ.size());
         } catch (Exception e) {
             message = "ERROR: " + e.getMessage();
         }
-
         request.setAttribute("message", message);
         request.getRequestDispatcher("staff/questionManagement.jsp").forward(request, response);
     }
@@ -73,14 +72,6 @@ public class QuestionController extends HttpServlet {
         String answerD = new String(request.getParameter("answerD").getBytes("ISO-8859-1"), "UTF-8");
         String isCorrect = request.getParameter("correct_answer");
 
-//        request.setAttribute("question", question);
-//        request.setAttribute("question_type", question_type);
-//        request.setAttribute("answer_options", answer_options);
-//        request.setAttribute("answerA", answerA);
-//        request.setAttribute("answerB", answerB);
-//        request.setAttribute("answerC", answerC);
-//        request.setAttribute("answerD", answerD);
-//        request.setAttribute("isCorrect", isCorrect);
         //Khoi tao DAO de xu ly logic
         QuestionDAO dao = new QuestionDAO();
         AnswerDAO answerDAO = new AnswerDAO();

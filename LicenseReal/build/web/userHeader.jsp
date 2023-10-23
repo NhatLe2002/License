@@ -21,6 +21,25 @@
             href="https://cdn-icons-png.flaticon.com/512/6556/6556219.png"
             />
     </head>
+    <style>
+        /* Tùy chỉnh thanh cuộn */
+        ::-webkit-scrollbar {
+            width: 6px; /* Đặt chiều rộng của thanh cuộn */
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: #f1f1f1; /* Màu nền của thanh cuộn */
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #888; /* Màu của thanh cuộn */
+            border-radius: 3px; /* Bo cong viền của thanh cuộn */
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #555; /* Màu của thanh cuộn khi di chuột qua */
+        }
+    </style>
     <body>
         <header class="header no-select">
             <div class="main__navbar">
@@ -39,7 +58,7 @@
                             <a class="menu_items " href="login.jsp">Đăng ký học thực hành</a>
                             <a class="menu_items" href="MainController?action=PracticeTest">Thi thử trắc nghiệm</a>
                         </c:if>
-                            
+
                         <!--Member-->
                         <c:if test="${sessionScope.ROLE == 'US'}">
                             <a class="menu_items " href="MainController">Home</a>
@@ -49,7 +68,7 @@
                             <a class="menu_items" to="/#">Lịch thi</a>
                             <a class="menu_items" href="MainController?action=PracticeTest">Thi thử trắc nghiệm</a>
                         </c:if>
-                            
+
                         <!--Mentor-->
                         <c:if test="${sessionScope.ROLE == 'MT'}">
                             <a class="menu_items " href="MainController">Home</a>

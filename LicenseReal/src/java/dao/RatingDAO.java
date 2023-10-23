@@ -19,6 +19,10 @@ import utils.DBUtils;
  */
 public class RatingDAO {
 
+    Connection conn = null;
+    PreparedStatement ptm = null;
+    ResultSet rs = null;
+
     public static RatingDTO getRatingByMemberAndMentorID(int memberId, int mentorId) {
         RatingDTO rating = null;
         Connection cn = null;
@@ -149,9 +153,6 @@ public class RatingDAO {
     }
 
     public ArrayList<RatingDTO> getAllRatingAndMentorName() throws SQLException {
-        Connection conn = null;
-        PreparedStatement ptm = null;
-        ResultSet rs = null;
         ArrayList<RatingDTO> list = new ArrayList<>();
         try {
             conn = DBUtils.getConnection();
@@ -179,5 +180,51 @@ public class RatingDAO {
             }
         }
         return list;
+    }
+
+    public boolean acceptFeedback(String feedbackID) throws SQLException {
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = "UPDATE Rating SET status = 1 WHERE id = " + feedbackID;
+                ptm = conn.prepareStatement(sql);
+                int row = ptm.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+        }
+        return false;
+    }
+    
+    public boolean deleteFeedback(String feedbackID) throws SQLException {
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = "DELETE FROM Rating WHERE id = " + feedbackID;
+                ptm = conn.prepareStatement(sql);
+                int row = ptm.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+        }
+        return false;
     }
 }

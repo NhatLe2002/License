@@ -1,7 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -115,17 +114,7 @@
                                     class="card-header"
                                     style="display: flex; justify-content: space-between"
                                     >
-                                    <div>Danh sách bộ đề</div>
-                                    <!-- Button trigger modal -->
-                                    <div>
-                                        <a class="dropdown-item"
-                                           data-toggle="tooltip" title="Thêm bộ đề"
-                                           data-bs-toggle="modal" 
-                                           data-bs-target="#modalConfirmCreate" 
-                                           onclick="showCreate()"> 
-                                            <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fas fa-plus"></i></button>
-                                        </a>
-                                    </div>
+                                    <div>Danh sách phản hồi</div>
                                 </h5>
 
                                 <div class="table-responsive text-nowrap">
@@ -141,51 +130,84 @@
                                             </tr>
                                         </thead>
                                         <tbody class="table-border-bottom-0" >
-                                            <c:forEach var="F" items="${listFeedback}" varStatus="counter">
-                                                <tr>
-                                                    <td>
-                                                        <span class="fw-medium">${counter.count}</span>
-                                                    </td>
-                                                    <td>
-                                                        <span class="fw-medium">${F.mentorName}</span>
-                                                    </td>
-                                                    <td>
-                                                        <span class="fw-medium">${F.description}</span>
-                                                    </td>
-                                                    <td>
-                                                        <span class="fw-medium">${F.star}/5</span>
-                                                    </td>
-                                                    <td>
-                                                        <span class="fw-medium">Chưa phê duyệt</span>
-                                                    </td>
+                                            <c:choose>
+                                                <c:when test="${empty listFeedback}">
+                                                    <tr>
+                                                        <td><span class="fw-medium">Rỗng</span></td>
+                                                        <td><span class="fw-medium">Chưa có phản hồi</span></td>
+                                                        <td><span class="fw-medium">Chưa có phản hồi</span></td>
+                                                        <td><span class="fw-medium">Chưa có phản hồi</span></td>
+                                                        <td><span class="fw-medium">Chưa có phản hồi</span></td>
+                                                        <td></td>
+                                                    </tr>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <c:forEach var="F" items="${listFeedback}" varStatus="counter">
+                                                        <tr>
+                                                            <td>
+                                                                <span class="fw-medium">${counter.count}</span>
+                                                            </td>
+                                                            <td>
+                                                                <span class="fw-medium">${F.mentorName}</span>
+                                                            </td>
+                                                            <td>
+                                                                <span class="fw-medium">${F.description}</span>
+                                                            </td>
+                                                            <td>
+                                                                <c:set var="rating" value="${F.star}" />
+                                                                <c:set var="integerPart" value="${fn:substringBefore(rating, '.')}"/>
+                                                                <c:set var="decimalPart" value="${rating - integerPart}" />
 
-                                                    <td>
-                                                        <div class="dropdown">
-                                                            <button title="Tính năng"
-                                                                    type="button"
-                                                                    class="btn p-0 dropdown-toggle hide-arrow"
-                                                                    data-bs-toggle="dropdown"
-                                                                    >
-                                                                <i class="bx bx-dots-vertical-rounded"></i>
-                                                            </button>
-                                                            <div class="dropdown-menu">
-                                                                <a class="dropdown-item"
-                                                                    href="#"
-                                                                    ><i class="fa-solid fa-check me-1"></i>Duyệt phản hồi
-                                                                </a>
-                                                                <a  style="cursor: pointer"
-                                                                    class="dropdown-item"
-                                                                    data-toggle="tooltip"
-                                                                    data-bs-toggle="modal" 
-                                                                    data-bs-target="#modalConfirmDeactive" 
-                                                                    onclick="showDeactive('${F.id}')"
-                                                                    ><i class="fa-solid fa-ban me-1"></i> Xóa
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </c:forEach>
+                                                                <c:forEach begin="1" end="${integerPart}" varStatus="loop">
+                                                                    <i class="fa-solid fa-star" style="color: #6a6cff;"></i>
+                                                                </c:forEach>
+
+                                                                <c:if test="${decimalPart > 0}">
+                                                                    <i class="fa-solid fa-star-half-stroke" style="color: #6a6cff;"></i>
+                                                                </c:if>
+
+                                                                <c:forEach begin="${integerPart + 2}" end="5" varStatus="loop">
+                                                                    <i class="fa-regular fa-star" style="color: #6a6cff;"></i>
+                                                                </c:forEach>
+
+                                                                <c:if test="${decimalPart == 0 && integerPart < 5}">
+                                                                    <i class="fa-regular fa-star" style="color: #6a6cff;"></i>
+                                                                </c:if>
+                                                            </td>
+                                                            <td>
+                                                                <span class="fw-medium">Chưa phê duyệt</span>
+                                                            </td>
+
+                                                            <td>
+                                                                <div class="dropdown">
+                                                                    <button title="Tính năng"
+                                                                            type="button"
+                                                                            class="btn p-0 dropdown-toggle hide-arrow"
+                                                                            data-bs-toggle="dropdown"
+                                                                            >
+                                                                        <i class="bx bx-dots-vertical-rounded"></i>
+                                                                    </button>
+                                                                    <div class="dropdown-menu">
+                                                                        <a class="dropdown-item"
+                                                                           href="MainController?action=accept&id=${F.id}"
+                                                                           ><i class="fa-solid fa-check me-1"></i>Duyệt phản hồi
+                                                                        </a>
+                                                                        <a  style="cursor: pointer"
+                                                                            class="dropdown-item"
+                                                                            data-toggle="tooltip"
+                                                                            data-bs-toggle="modal" 
+                                                                            data-bs-target="#modalConfirmDeactive" 
+                                                                            onclick="showDeactive('${F.id}')"
+                                                                            ><i class="fa-solid fa-ban me-1"></i> Xóa
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                </c:otherwise>
+                                            </c:choose>
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -237,7 +259,7 @@
             function showDeactive(id) {
                 var btnToastDelete = document.querySelector('#btn-toast-deactive');
                 btnToastDelete.addEventListener('click', function () {
-                    var deleteUrl = '#' + id;
+                    var deleteUrl = 'MainController?action=delete&id=' + id;
                     window.location.href = deleteUrl;
                     // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
                     document.getElementById('modalConfirmDeactive').style.display = 'none';
@@ -255,10 +277,10 @@
                 const toast = document.getElementById('toast-notification');
                 const toastMessage = document.getElementById('toast-message');
                 if (message === 'success') {
-                    var success = 'Cập nhật trạng thái thành công!';
+                    var success = 'Duyệt phản hồi thành công!';
                     toastMessage.textContent = success;
                 } else if (message === 'fail') {
-                    var fail = 'Không thể cập nhật trạng thái!';
+                    var fail = 'Không thể duyệt phản hồi!';
                     toastMessage.textContent = fail;
                 } else if (message === 'success_feedback') {
                     var success_feedback = 'Xóa phản hồi thành công!';

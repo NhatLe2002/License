@@ -3,7 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/SP%20SWP/License/LicenseReal/web/staff/detailsTopic.jsp</file>
+            <file>file:/D:/SP%20SWP/License/LicenseReal/src/java/servlet/MainController.java</file>
+            <file>file:/D:/SP%20SWP/License/LicenseReal/web/staff/questionManagement.jsp</file>
+            <file>file:/D:/SP%20SWP/License/LicenseReal/web/admin/dashboard.jsp</file>
+            <file>file:/D:/SP%20SWP/License/LicenseReal/src/java/servlet/feedback/FeedbackController.java</file>
+            <file>file:/D:/SP%20SWP/License/LicenseReal/src/java/servlet/Question/QuestionController.java</file>
+            <file>file:/D:/SP%20SWP/License/LicenseReal/web/staff/feedbackManagement.jsp</file>
+            <file>file:/D:/SP%20SWP/License/LicenseReal/src/java/dao/RatingDAO.java</file>
         </group>
     </open-files>
 </project-private>

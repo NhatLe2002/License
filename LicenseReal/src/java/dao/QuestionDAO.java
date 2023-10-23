@@ -76,49 +76,7 @@ public class QuestionDAO {
         return list;
     }
 
-    //Ham dung de kiem tra ket qua lay duoc tu DB
-//    public static void main(String[] args) throws SQLException {
-//        QuestionDAO dao = new QuestionDAO();
-//        ArrayList<Question> list = dao.getRandomQuestionAndAnswer();
-//        for (QuestionDTO question : list) {
-//            ArrayList<Answer> answers = question.getAnswer();
-//            for (AnswerDTO answer : answers) {
-//                String result = Arrays.toString(answer.getAnswer().split("\n"));
-//                System.out.println(result);
-//
-//                String[] resultArray = result.substring(1, result.length() - 1).split(", ");
-//
-//                int answerCount = resultArray.length;
-//
-//                if (answerCount >= 2) {
-//                    String answer1 = resultArray[0].trim();
-//                    String answer2 = resultArray[1].trim();
-//                    System.out.println("answer1: " + answer1);
-//                    System.out.println("answer2: " + answer2);
-//                }
-//
-//                if (answerCount >= 3) {
-//                    String answer3 = resultArray[2].trim();
-//                    System.out.println("answer3: " + answer3);
-//                }
-//
-//                if (answerCount >= 4) {
-//                    String answer4 = resultArray[3].trim();
-//                    System.out.println("answer4: " + answer4);
-//                }
-//
-//                if (answerCount >= 5) {
-//                    String answer5 = resultArray[4].trim();
-//                    System.out.println("answer5: " + answer5);
-//                }
-//
-//                if (answerCount >= 6) {
-//                    String answer6 = resultArray[5].trim();
-//                    System.out.println("answer6: " + answer6);
-//                }
-//            }
-//        }
-//    }
+
     //Ham lay bo cau hoi theo ma de
     public ArrayList<QuestionDTO> getTopic(String topic) throws SQLException {
         ArrayList<QuestionDTO> list = new ArrayList<>();
@@ -424,6 +382,7 @@ public class QuestionDAO {
         }
         return false;
     }
+    
     public boolean restoreQuestion(String questionID) throws SQLException {
         try {
             conn = DBUtils.getConnection();
@@ -447,59 +406,11 @@ public class QuestionDAO {
         return false;
     }
 
-//    public static void main(String[] args) throws SQLException {
-//        QuestionDAO dao = new QuestionDAO();
-//        ArrayList<QuestionDTO> listQ = dao.getRandomQuestionAndAnswer();
-//        for (QuestionDTO questionDTO : listQ) {
-//            ArrayList<AnswerDTO> answers = questionDTO.getAnswer();
-//            for (AnswerDTO answer : answers) {
-//                
-//                String result = Arrays.toString(answer.getAnswer().replaceAll(", ", "###").split("/"));
-//                System.out.println("result: " + result);
-//                String[] resultArray = result.substring(1, result.length() - 1).split(", ");
-//                
-//                for (String string : resultArray) {
-//                    System.out.println("resultA: " + string);
-//                }
-//
-//                int answerCount = resultArray.length;
-//
-//                if (answerCount >= 2) {
-//                    String answer1 = resultArray[0].replaceAll("###", ", ").trim();
-//                    String answer2 = resultArray[1].replaceAll("###", ", ").trim();
-//                    System.out.println("Answer1: " + answer1);
-//                    System.out.println("Answer2: " + answer2);
-//                }
-//
-//                if (answerCount >= 3) {
-//                    String answer3 = resultArray[2].replaceAll("###", ", ").trim();
-//                    System.out.println("Answer3: " + answer3);
-//                }
-//
-//                if (answerCount >= 4) {
-//                    String answer4 = resultArray[3].replaceAll("###", ", ").trim();
-//                    System.out.println("Answer4: " + answer4);
-//                }
-//
-//                if (answerCount >= 5) {
-//                    String answer5 = resultArray[4].replaceAll("###", ", ").trim();
-//                    System.out.println("Answer5: " + answer5);
-//                }
-//
-//                if (answerCount >= 6) {
-//                    String answer6 = resultArray[5].replaceAll("###", ", ").trim();
-//                    System.out.println("Answer6: " + answer6);
-//                }
-//
-//            }
-//        }
-//    }
     public static void main(String[] args) {
         QuestionDAO dao = new QuestionDAO();
         try {
-            QuestionDTO question = new QuestionDTO();
-            question = dao.getQuestionByID("138");
-            System.out.println(question);
+            ArrayList<QuestionDTO> list = dao.getAllQuestion("1");
+            System.out.println(list.size());
         } catch (SQLException ex) {
             Logger.getLogger(QuestionDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
