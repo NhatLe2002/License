@@ -61,12 +61,19 @@ public class AccountController extends HttpServlet {
                         url = "login.jsp";
                     } else {
                         user = UserDAO.getUser(account.getId());
+                        if (account != null) {
+                            Cookie cookie = new Cookie("userId", Integer.toString(user.getId()));
+                            cookie.setMaxAge(60 * 60);
+                            response.addCookie(cookie);
+                        }
                         member = DrivingProfileDAO.getMemberById(user.getId());
+                        if (member != null) {
+                            session.setAttribute("memberID", member.getId());
+                        }
                         if (user == null) {
                             url = "user-infor.jsp";
                             message = "Bạn cần cập nhật thông tin!";
                         }
-                        session.setAttribute("memberID", member.getId());
                         session.setAttribute("user", user);
                         switch (user.getRole()) {
                             case 1:
@@ -92,11 +99,7 @@ public class AccountController extends HttpServlet {
                         message = "Đăng nhập thành công";
                     }
                     session.setAttribute("account", account);
-                    if (account != null) {
-                        Cookie cookie = new Cookie("userId", Integer.toString(user.getId()));
-                        cookie.setMaxAge(60 * 60);
-                        response.addCookie(cookie);
-                    }
+
                     break;
                 case "register":
                     username = request.getParameter("username");
