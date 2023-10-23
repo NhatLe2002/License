@@ -64,11 +64,9 @@
         <div class="layout-wrapper layout-content-navbar">
             <div class="layout-container">
                 <c:import url="../menu.jsp"/>
-                
+
                 <!-- Layout container -->
                 <div class="layout-page">
-                    <!-- Content wrapper -->
-                    <div class="content-wrapper">
                         <!-- Navbar -->
                         <nav
                             class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
@@ -107,159 +105,160 @@
                         <!-- / Navbar -->
 
                         <!-- Content -->
-                        <div class="container-xxl flex-grow-1 container-p-y">
-                            <!-- Basic Bootstrap Table -->
-                            <div class="card">
-                                <h5
-                                    class="card-header"
-                                    style="display: flex; justify-content: space-between"
-                                    >
-                                    <div>Ngân hàng câu hỏi</div>
-                                    <!-- Button trigger modal -->
-                                    <div>
-                                        <a title="Tạo câu hỏi" href="MainController?action=insertQ">
-                                            <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fas fa-plus"></i></button>
-                                        </a>
-                                        <a title="Khôi phục" href="MainController?action=restore">
-                                            <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fa-solid fa-arrows-rotate fa-spin"></i></button>
-                                        </a>
-                                    </div>
-                                </h5>
+                        <div class="content-wrapper">
+                            <div class="container-xxl flex-grow-1 container-p-y ">
+                                <!-- Basic Bootstrap Table -->
+                                <div class="card">
+                                    <h5
+                                        class="card-header"
+                                        style="display: flex; justify-content: space-between"
+                                        >
+                                        <div>Ngân hàng câu hỏi</div>
+                                        <!-- Button trigger modal -->
+                                        <div>
+                                            <a title="Tạo câu hỏi" href="MainController?action=insertQ">
+                                                <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fas fa-plus"></i></button>
+                                            </a>
+                                            <a title="Khôi phục" href="MainController?action=restore">
+                                                <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fa-solid fa-arrows-rotate fa-spin"></i></button>
+                                            </a>
+                                        </div>
+                                    </h5>
 
-                                <div class="table-responsive text-nowrap">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>STT</th>
-                                                <th>Câu hỏi</th>
-                                                <th>Hình ảnh</th>
-                                                <th>Dạng câu hỏi</th>
-                                                <th>Đáp án</th>
-                                                <th>Đáp án đúng</th>
-                                                <th>Tính năng</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="table-border-bottom-0" >
-                                            <c:forEach var="Q" items="${listQ}" varStatus="counter">
-                                                <c:set var="A" value="${listA[counter.index]}"></c:set>
-                                                    <tr>
-                                                        <td>
-                                                            <span class="fw-medium">${counter.count}</span>
-                                                        </td>
-                                                    <td>
-                                                        <span style="display: inline-block; 
-                                                              max-width: 10rem; 
-                                                              word-break: break-all; 
-                                                              overflow: hidden;">
-                                                            <%-- Áp dụng cắt chuỗi ở đây --%>
-                                                            <c:set var="truncatedQuestion" value="${fn:substring(Q.question, 0, 18)}" />
-                                                            <c:choose>
-                                                                <c:when test="${fn:length(Q.question) > 18}">
-                                                                    ${truncatedQuestion}...
-                                                                </c:when>
-                                                                <c:otherwise>
-                                                                    ${truncatedQuestion}
-                                                                </c:otherwise>
-                                                            </c:choose>
-                                                        </span>
-                                                    </td>
-                                                    <td>
-                                                        <c:if test="${not empty Q.image}">
-                                                            <img src="data:image;base64,${Q.image}" style="max-height: 5rem; max-width: 10rem"/>
-                                                        </c:if>
-                                                    </td>
-                                                    <td>
-                                                        <c:if test="${Q.questionType eq '1'}">
-                                                            <span class="fw-medium" style="color:#fba265">Câu hỏi liệt</span>
-                                                        </c:if>
-                                                        <c:if test="${Q.questionType eq '0'}">
-                                                            <span class="fw-medium">Bình thường</span>
-                                                        </c:if>
-                                                    </td>
-                                                    <td>
-                                                        <c:set var="answer" value="${fn:replace(A.answer, '/', '<br>')}" />
-                                                        <div style="display: inline-block; 
-                                                             max-width: 15rem; 
-                                                             word-break: break-all; 
-                                                             overflow: hidden;">
-                                                            ${answer}
-                                                        </div>
-                                                    </td>
-                                                    <td style="align-content: center">
-                                                        <span class="badge bg-label-primary me-1">${A.isCorrect}</span>
-                                                    </td>
-                                                    <td>
-                                                        <div class="dropdown">
-                                                            <button title="Tính năng"
-                                                                type="button"
-                                                                class="btn p-0 dropdown-toggle hide-arrow"
-                                                                data-bs-toggle="dropdown"
-                                                                >
-                                                                <i class="bx bx-dots-vertical-rounded"></i>
-                                                            </button>
-                                                            <div class="dropdown-menu">
-                                                                <a
-                                                                    class="dropdown-item"
-                                                                    href="UpdateQuestionController?id=${Q.id}"
-                                                                    ><i class="bx bx-edit-alt me-1"></i>Chỉnh sửa</a
-                                                                >
-                                                                <a
-                                                                    class="dropdown-item"
-                                                                    style="cursor: pointer"
-                                                                    data-toggle="tooltip"
-                                                                    data-bs-toggle="modal" 
-                                                                    data-bs-target="#modalConfirmDelete" 
-                                                                    onclick="showMess('${Q.id}')"
-                                                                    ><i class="bx bx-trash me-1"></i> Xóa</a
-                                                                >
-                                                            </div>
-                                                        </div>
-                                                    </td>
+                                    <div class="table-responsive text-nowrap">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>STT</th>
+                                                    <th>Câu hỏi</th>
+                                                    <th>Hình ảnh</th>
+                                                    <th>Dạng câu hỏi</th>
+                                                    <th>Đáp án</th>
+                                                    <th>Đáp án đúng</th>
+                                                    <th>Tính năng</th>
                                                 </tr>
-                                            </c:forEach>
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody class="table-border-bottom-0" >
+                                                <c:forEach var="Q" items="${listQ}" varStatus="counter">
+                                                    <c:set var="A" value="${listA[counter.index]}"></c:set>
+                                                        <tr>
+                                                            <td>
+                                                                <span class="fw-medium">${counter.count}</span>
+                                                        </td>
+                                                        <td>
+                                                            <span style="display: inline-block; 
+                                                                  max-width: 10rem; 
+                                                                  word-break: break-all; 
+                                                                  overflow: hidden;">
+                                                                <%-- Áp dụng cắt chuỗi ở đây --%>
+                                                                <c:set var="truncatedQuestion" value="${fn:substring(Q.question, 0, 18)}" />
+                                                                <c:choose>
+                                                                    <c:when test="${fn:length(Q.question) > 18}">
+                                                                        ${truncatedQuestion}...
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        ${truncatedQuestion}
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <c:if test="${not empty Q.image}">
+                                                                <img src="data:image;base64,${Q.image}" style="max-height: 5rem; max-width: 10rem"/>
+                                                            </c:if>
+                                                        </td>
+                                                        <td>
+                                                            <c:if test="${Q.questionType eq '1'}">
+                                                                <span class="fw-medium" style="color:#fba265">Câu hỏi liệt</span>
+                                                            </c:if>
+                                                            <c:if test="${Q.questionType eq '0'}">
+                                                                <span class="fw-medium">Bình thường</span>
+                                                            </c:if>
+                                                        </td>
+                                                        <td>
+                                                            <c:set var="answer" value="${fn:replace(A.answer, '/', '<br>')}" />
+                                                            <div style="display: inline-block; 
+                                                                 max-width: 15rem; 
+                                                                 word-break: break-all; 
+                                                                 overflow: hidden;">
+                                                                ${answer}
+                                                            </div>
+                                                        </td>
+                                                        <td style="align-content: center">
+                                                            <span class="badge bg-label-primary me-1">${A.isCorrect}</span>
+                                                        </td>
+                                                        <td>
+                                                            <div class="dropdown">
+                                                                <button title="Tính năng"
+                                                                        type="button"
+                                                                        class="btn p-0 dropdown-toggle hide-arrow"
+                                                                        data-bs-toggle="dropdown"
+                                                                        >
+                                                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                                                </button>
+                                                                <div class="dropdown-menu">
+                                                                    <a
+                                                                        class="dropdown-item"
+                                                                        href="UpdateQuestionController?id=${Q.id}"
+                                                                        ><i class="bx bx-edit-alt me-1"></i>Chỉnh sửa</a
+                                                                    >
+                                                                    <a
+                                                                        class="dropdown-item"
+                                                                        style="cursor: pointer"
+                                                                        data-toggle="tooltip"
+                                                                        data-bs-toggle="modal" 
+                                                                        data-bs-target="#modalConfirmDelete" 
+                                                                        onclick="showMess('${Q.id}')"
+                                                                        ><i class="bx bx-trash me-1"></i> Xóa</a
+                                                                    >
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            <div class="modal fade" id="modalConfirmDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="staticBackdropLabel">XÁC NHẬN LOẠI BỎ</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Bạn có chắc muốn xóa câu hỏi này?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                            <button type="button" class="btn btn-primary" id="btn-toast-delete" class="btn-close"
+                                                    data-bs-dismiss="modal" aria-label="Close">Xác nhận</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            <!-- toast thông báo thành công-->
+                            <c:if test="${not empty message}">
+                                <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+                                    <div id="toast-notification" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+                                        <div class="toast-header">
+                                            <c:if test="${message eq 'success'}">
+                                                <strong id="toast-message" class="me-auto text-success"></strong>
+                                            </c:if>
+                                            <c:if test="${message eq 'fail'}">
+                                                <strong id="toast-message" class="me-auto text-danger"></strong>
+                                            </c:if>
+                                            <c:if test="${message eq 'exist'}">
+                                                <strong id="toast-message" class="me-auto text-danger"></strong>
+                                            </c:if>
+                                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:if>
                         </div>
-                        <div class="modal fade" id="modalConfirmDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-                             aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="staticBackdropLabel">XÁC NHẬN LOẠI BỎ</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        Bạn có chắc muốn xóa câu hỏi này?
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                                        <button type="button" class="btn btn-primary" id="btn-toast-delete" class="btn-close"
-                                                data-bs-dismiss="modal" aria-label="Close">Xác nhận</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- toast thông báo thành công-->
-                        <c:if test="${not empty message}">
-                            <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-                                <div id="toast-notification" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
-                                    <div class="toast-header">
-                                        <c:if test="${message eq 'success'}">
-                                            <strong id="toast-message" class="me-auto text-success"></strong>
-                                        </c:if>
-                                        <c:if test="${message eq 'fail'}">
-                                            <strong id="toast-message" class="me-auto text-danger"></strong>
-                                        </c:if>
-                                        <c:if test="${message eq 'exist'}">
-                                            <strong id="toast-message" class="me-auto text-danger"></strong>
-                                        </c:if>
-                                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </c:if>
                     </div>
                 </div>
             </div>

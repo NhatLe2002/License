@@ -9,6 +9,7 @@ import dto.RatingDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import utils.DBUtils;
 
@@ -135,6 +136,48 @@ public class RatingDAO {
 //        for (RatingDTO rating : getAllRating()) {
 //            System.out.println(rating.getStar());
 //        }
-        System.out.println(insertRating(new RatingDTO(1, 1, 1, 1)));
+//        System.out.println(insertRating(new RatingDTO(1, 1, 1, 1)));
+
+        try {
+            RatingDAO dao = new RatingDAO();
+            ArrayList<RatingDTO> list = dao.getAllRatingAndMentorName();
+            for (RatingDTO ratingDTO : list) {
+                System.out.println(ratingDTO);
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    public ArrayList<RatingDTO> getAllRatingAndMentorName() throws SQLException {
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        ArrayList<RatingDTO> list = new ArrayList<>();
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = "SELECT ra.*, us.name FROM Rating AS ra\n"
+                        + "JOIN Mentor AS me ON me.id = ra.mentorID\n"
+                        + "JOIN [User] AS us ON me.userID = us.id\n"
+                        + "WHERE ra.status = 0";
+                ptm = conn.prepareStatement(sql);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    list.add(new RatingDTO(rs.getInt("id"), rs.getInt("mentorID"), rs.getInt("memberID"), rs.getFloat("star"), rs.getString("description"), rs.getString("name")));
+                }
+            }
+        } catch (Exception e) {
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
     }
 }

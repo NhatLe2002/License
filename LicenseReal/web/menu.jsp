@@ -82,7 +82,7 @@
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a href="#" class="menu-link">
+                        <a href="MainController?action=FeedbackController" class="menu-link">
                             <i class="menu-icon tf-icons fa-regular fa-comment"></i>
                             <div data-i18n="Layouts">Duyệt phản hồi</div>
                         </a>
@@ -136,7 +136,7 @@
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a href="#" class="menu-link">
+                        <a href="MainController?action=FeedbackController" class="menu-link">
                             <i class="menu-icon tf-icons fa-regular fa-comment"></i>
                             <div data-i18n="Layouts">Duyệt phản hồi</div>
                         </a>

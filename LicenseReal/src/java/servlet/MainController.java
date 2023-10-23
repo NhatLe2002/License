@@ -103,6 +103,8 @@ public class MainController extends HttpServlet {
                 url = "TopicController?id=" + topicID;
             } else if (action.equals("details")) {
                 url = "DetailsTopicServlet";
+            } else if (action.equals("FeedbackController")) {
+                url = "FeedbackController";
             }
             request.setAttribute("action", action);
             if ("staff".equals(action)) {
