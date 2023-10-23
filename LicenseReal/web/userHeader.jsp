@@ -47,7 +47,33 @@
                 z-index: 2; /* Ensure the popup is above the overlay */
             }
         </style>
+
+        <link
+            rel="icon"
+            type="image/x-icon"
+            href="https://cdn-icons-png.flaticon.com/512/6556/6556219.png"
+            />
+
     </head>
+    <style>
+        /* Tùy chỉnh thanh cuộn */
+        ::-webkit-scrollbar {
+            width: 6px; /* Đặt chiều rộng của thanh cuộn */
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: #f1f1f1; /* Màu nền của thanh cuộn */
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #888; /* Màu của thanh cuộn */
+            border-radius: 3px; /* Bo cong viền của thanh cuộn */
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #555; /* Màu của thanh cuộn khi di chuột qua */
+        }
+    </style>
     <body>
         <header class="header no-select">
             <div class="main__navbar">
@@ -105,7 +131,7 @@
                                     <select id="dropdown">
                                         <c:if test="${action == 'updatePage' }">
                                             <option value="MainController?action=home">Home</option>
-                                            <option selected value="MainController?action=updatePage"> <a href="updateProfile?id=${sessionScope.user.getId()}" class="fullname">Profile</a></option>
+                                            <option selected value="MainController?action=updatePage?id=${sessionScope.user.getId()}">Profile</option>
                                             <option value="MainController?action=logout">Logout</option>
                                         </c:if>
                                         <c:if test="${action == 'member'|| action == 'home' || action == 'update' || action == 'PracticeTest'}">

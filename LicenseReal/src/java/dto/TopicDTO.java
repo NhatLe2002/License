@@ -5,6 +5,8 @@
  */
 package dto;
 
+import java.util.List;
+
 /**
  *
  * @author Admin
@@ -13,6 +15,8 @@ public class TopicDTO {
     private int id;
     private int topicID;
     private int questionID;
+    List<QuestionDTO> list;
+    private boolean status;
 
     public TopicDTO() {
     }
@@ -23,6 +27,22 @@ public class TopicDTO {
         this.questionID = questionID;
     }
 
+    public TopicDTO(int topicID, boolean status) {
+        this.topicID = topicID;
+        this.status = status;
+    }
+
+    public TopicDTO(int id, int questionID) {
+        this.id = id;
+        this.questionID = questionID;
+    }
+
+    public TopicDTO(List<QuestionDTO> list) {
+        this.list = list;
+    }
+
+
+    
     public int getId() {
         return id;
     }
@@ -45,6 +65,22 @@ public class TopicDTO {
 
     public void setQuestionID(int questionID) {
         this.questionID = questionID;
+    }
+
+    public List<QuestionDTO> getList() {
+        return list;
+    }
+
+    public void setList(List<QuestionDTO> list) {
+        this.list = list;
+    }
+
+    public boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
     
 }

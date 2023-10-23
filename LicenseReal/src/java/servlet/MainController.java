@@ -49,6 +49,8 @@ public class MainController extends HttpServlet {
                 url = "LoadItemServlet";
             } else if (action.equals("login")) {
                 url = "AccountController";
+                } else if (action.equals("logout")) {
+                url = "LogoutServlet";
             } else if (action.equals("register")) {
                 url = "AccountController";
             } else if (action.equals("regisSchedule")) {
@@ -63,6 +65,8 @@ public class MainController extends HttpServlet {
                 url = "RegisScheduleByMemberServlet";
             } else if (action.equals("regisScheduleMemberBtn")) {
                 url = "RegisScheduleByMemberServlet";
+            } else if (action.equals("DrivingProfileStaffController")) {
+                url = "drivingstaff";
             } else if (action.equals("PracticeTest")) {
                 QuestionDAO dao = new QuestionDAO();
                 List<QuestionDTO> listTopic = dao.getTopicID();
@@ -96,6 +100,7 @@ public class MainController extends HttpServlet {
                 url = "home.jsp";
             } else if (action.equals("mentor")) {
                 url = "home.jsp";
+
             } else if (action.equals("logout")) {
                 url = "AccountController";
 //            } else if (action.equals("updatePage")) {
@@ -110,6 +115,23 @@ public class MainController extends HttpServlet {
                 url = "PayController";
             } else if (action.equals("payCash")) {
                 url = "PayCashController";
+
+            } else if (action.equals("TopicController")) {
+                String topicID = request.getParameter("id");
+                url = "TopicController?id=" + topicID;
+            } else if (action.equals("details")) {
+                url = "DetailsTopicServlet";
+            } else if (action.equals("FeedbackController")) {
+                url = "FeedbackController";
+            } else if (action.equals("accept")) {
+                String feedbackID = request.getParameter("id");
+                request.setAttribute("id", feedbackID);
+                url = "FeedbackController";
+            } else if (action.equals("delete")) {
+                String feedbackID = request.getParameter("id");
+                request.setAttribute("id", feedbackID);
+                url = "FeedbackController";
+
             }
             
             request.setAttribute("action", action);

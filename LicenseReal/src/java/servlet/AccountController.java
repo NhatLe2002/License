@@ -196,6 +196,7 @@ public class AccountController extends HttpServlet {
                     } else {
                         if (AccountDAO.changePassword(idAccount, password)) {
                             url = "login.jsp";
+                            message = "Thay đổi mật khẩu thành công";
                         } else {
                             message = "Thay đổi mật khẩu thất bại";
                             url = "changePassword.jsp";

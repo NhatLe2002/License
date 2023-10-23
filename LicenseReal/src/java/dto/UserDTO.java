@@ -35,6 +35,7 @@ public class UserDTO {
         this.email = email;
         this.cccd = cccd;
     }
+    
 
     public UserDTO(int id, String name, String phone, String email, LocalDate dob, String cccd, String address, String avatar, int role, boolean status, int accountID) {
         this.id = id;
@@ -61,6 +62,15 @@ public class UserDTO {
         this.avatar = avatar;
         this.role = role;
         this.status = status;
+    }
+        public UserDTO(int id, String name, String phone, String email, LocalDate dob, String cccd, String address) {
+        this.id = id;
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.dob = dob;
+        this.cccd = cccd;
+        this.address = address;
     }
     
 
