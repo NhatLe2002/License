@@ -89,8 +89,8 @@ public class Util {
     }
 
     public static void sendEmail(String receiveEmail, String OTP) {
-        final String PASSWORD = "mbqzfxvwmucodpjz";
-        final String EMAIL = "centeryoga98@gmail.com";
+        final String PASSWORD = "tynomtmftulrxqoz";
+        final String EMAIL = "groupswp3@gmail.com";
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
@@ -118,9 +118,7 @@ public class Util {
 
     }
 
-    public static void main(String[] args) {
-        sendEmail("emcuahoi1223@gmail.com", "");
-    }
+ 
 // 
 
 }

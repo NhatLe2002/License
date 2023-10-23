@@ -1,3 +1,4 @@
+<%@page import="dao.PaymentDAO"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="java.nio.charset.StandardCharsets"%>
 <%@page import="vnpay.common.Config"%>
@@ -62,15 +63,11 @@
                 </div>    
                 <div class="form-group">
                     <label >Số tiền:</label>
-                    <label><%=request.getParameter("vnp_Amount")%></label>
+                    <label><%= request.getParameter("vnp_Amount").substring(0, request.getParameter("vnp_Amount").length() - 2)%></label>
                 </div>  
                 <div class="form-group">
                     <label >Mô tả giao dịch:</label>
-                    <label><%=request.getParameter("vnp_OrderInfo")%></label>
-                </div> 
-                <div class="form-group">
-                    <label >Mã lỗi thanh toán:</label>
-                    <label><%=request.getParameter("vnp_ResponseCode")%></label>
+                    <label>Thanh toán hóa đơn cho dịch vụ đăng ký học và thi thử lái xe</label>
                 </div> 
                 <div class="form-group">
                     <label >Mã giao dịch tại CTT VNPAY-QR:</label>
@@ -90,6 +87,16 @@
                         <%
                             if (signValue.equals(vnp_SecureHash)) {
                                 if ("00".equals(request.getParameter("vnp_TransactionStatus"))) {
+                                    String raw_price = request.getParameter("vnp_Amount").substring(0, request.getParameter("vnp_Amount").length() - 2);
+                                    float price = Float.parseFloat(raw_price);
+                                    int memberID = Integer.parseInt(session.getAttribute("memberID").toString());
+                                    String type = session.getAttribute("type").toString();
+                                    PaymentDAO.createPayment(
+                                            memberID,
+                                            price,
+                                            type,
+                                            true,
+                                            true);
                                     out.print("Thành công");
                                 } else {
                                     out.print("Không thành công");
@@ -106,6 +113,7 @@
             </p>
             <footer class="footer">
                 <p>&copy; VNPAY 2020</p>
+                <a class="menu_items " href="/LicenseReal/MainController?action=home">Home</a>
             </footer>
         </div>  
     </body>

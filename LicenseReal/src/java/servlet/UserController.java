@@ -61,6 +61,8 @@ public class UserController extends HttpServlet {
                 switch (check) {
                     case 0:
                         message = "Cập nhập thành công";
+                        //them tao member
+                        url = "home.jsp";
                         break;
                     case 1:
                         message = "Số điện thoại sai định dạng";
@@ -81,6 +83,8 @@ public class UserController extends HttpServlet {
                 switch (check) {
                     case 0:
                         message = "Cập nhập thành công";
+                        // them tao member
+                        url = "home.jsp";
                         break;
                     case 1:
                         message = "Số điện thoại sai định dạng";
