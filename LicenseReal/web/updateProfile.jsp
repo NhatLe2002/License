@@ -470,7 +470,7 @@
     <body>
         <c:import url="userHeader.jsp"/>
 
-        <div class='mt-5 mb-5 d-flex gap-3 container container-driving-profile'>
+        <div class='mt-5 mb-5 d-flex gap-3 container container-driving-profile no-select'>
             <div class="d-flex flex-column option-account-container gap-3">
                 <div class='title' id='title'></div>
                 <div class='sidebar-account'>
@@ -501,7 +501,7 @@
                         </span>
                         <div class="text-option-account">Đổi mật khẩu</div>
                     </a>
-                    <a herf="MainController?action=logout" class="link-option-account" >
+                    <a class="link-option-account" href="LogoutServlet">
                         <span class="bold-icon">
                             <i class="fa-solid fa-arrow-right-from-bracket"></i>
                         </span>
@@ -518,12 +518,12 @@
                         <div class='left d-flex flex-column gap-3'>
                             <div class='avatar-user'>
                                 <c:if test="${not empty load_profile.avatar}">
-                                    <img id="avatar-img" src="data:image;base64,${load_profile.avatar}"
-                                         alt="Preview">
+                                <img id="avatar-img" src="data:image;base64,${load_profile.avatar}"
+                                     alt="Preview">
                                 </c:if>
                                 <c:if test="${empty load_profile.avatar}">
                                     <img id="avatar-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png"
-                                         alt="Preview">
+                                     alt="Preview">
                                 </c:if>
                             </div>
 
@@ -670,47 +670,7 @@
         </div>
 
         <!-- footer -->
-        <footer class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="footer-col">
-                        <h4>Về chúng tôi</h4>
-                        <p>Một công cụ học lái xe, mang lại cho bạn cơ hội rèn luyện và nâng cao kiến thức về quy
-                            tắc giao thông và kỹ năng lái xe một cách an toàn và hiệu quả.</p>
-                    </div>
-                    <div class="footer-col">
-                        <h4>Thông tin bên lề</h4>
-                        <ul>
-                            <li><a href="#">Quyền lợi</a></li>
-                            <li><a href="#">Dịch vụ</a></li>
-                            <li><a href="#">Đánh giá</a></li>
-                            <li><a href="#">Liên lạc</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-col">
-                        <h4>Dịch vụ cung cấp</h4>
-                        <ul>
-                            <li><a href="#">Thi thử</a></li>
-                            <li><a href="#">Học lý thuyết</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-col">
-                        <h4>Thông tin tương tác</h4>
-                        <p>Nếu bạn có bất kì thắc mắc nào vui lòng liên hệ demo@example.com</p>
-                        <ul>
-                            <li class='d-flex justify-items-center align-items-center text-black'>
-                                <i class="fa-solid fa-location-dot icon text-black"></i>
-                                <a href="#" class='pl-2'>123 Address</a>
-                            </li>
-                            <li class='d-flex justify-items-center align-items-center text-black'>
-                                <i class="fa-solid fa-phone icon text-black"></i>
-                                <a href="#" class='pl-2'> 0923456789</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </footer>
+        <c:import url="userFooter.jsp"/>
         <script>
             function validateEmail() {
                 const emailInput = document.getElementById('email');
@@ -828,7 +788,7 @@
                     reader.readAsDataURL(selectedFile);
                 }
             });
-// Assume `load_profile` is an object containing the loaded profile data
+            // Assume `load_profile` is an object containing the loaded profile data
             const healthCertificateValue = '${load_profile.health}';
 
             // Check if the health certificate value is "yes" or "no" and set the corresponding radio button as checked

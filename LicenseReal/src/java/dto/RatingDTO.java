@@ -16,6 +16,7 @@ public class RatingDTO {
     private int memberID;
     private float star;
     private String description;
+    private String mentorName;
 
     public RatingDTO() {
     }
@@ -40,6 +41,15 @@ public class RatingDTO {
         this.star = star;
         this.memberID = memberID;
         this.mentorID = mentorID;
+    }
+
+    public RatingDTO(int id, int mentorID, int memberID, float star, String description, String mentorName) {
+        this.id = id;
+        this.mentorID = mentorID;
+        this.memberID = memberID;
+        this.star = star;
+        this.description = description;
+        this.mentorName = mentorName;
     }
 
     public String getDescription() {
@@ -82,4 +92,12 @@ public class RatingDTO {
         this.mentorID = mentorID;
     }
 
+    public String getMentorName() {
+        return mentorName;
+    }
+
+    public void setMentorName(String mentorName) {
+        this.mentorName = mentorName;
+    }
+    
 }

@@ -16,7 +16,7 @@
     <body>
         <c:import url="userHeader.jsp"/>
 
-        <div class="hero-slides">
+        <div class="hero-slides no-select">
             <div id="slideshow">
                 <img class="slide" src="./assets/1000000000000000000-1024x768.png"
                      alt="Hình ảnh 1">
@@ -87,6 +87,7 @@
                 </li>
             </ul>
         </div>
+        <c:import url="userFooter.jsp"/>
         <script>
             !function (s, u, b, i, z) {
                 var o, t, r, y;

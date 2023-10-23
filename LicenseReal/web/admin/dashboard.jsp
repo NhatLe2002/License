@@ -49,7 +49,7 @@
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
         <!-- Menu -->
-        <c:import url="menu.jsp"/>
+        <c:import url="../menu.jsp"/>
         <!-- / Menu -->
         <!-- Layout container -->
         <div class="layout-page">

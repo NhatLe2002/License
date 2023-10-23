@@ -58,64 +58,61 @@
         <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
         <script src="./assets/js/config.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+        <!-- Thư viện jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <!-- Thư viện Bootstrap JS -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     </head>
     <body>
         <!-- Layout wrapper -->
         <div class="layout-wrapper layout-content-navbar">
             <div class="layout-container">
-                <c:if test="${empty sessionScope.ROLE}">
-                    <c:redirect url="login.jsp"></c:redirect>
-                </c:if>
-                <c:if test="${sessionScope.ROLE == 'ST'}">
-                    <c:import url="menu.jsp"/>
-                </c:if>
-                <c:if test="${sessionScope.ROLE == 'AD'}">
-                    <c:import url="../admin/menu.jsp"/>
-                </c:if>
-                
+                <c:import url="../menu.jsp"/>
+
                 <!-- Layout container -->
                 <div class="layout-page">
-                    <!-- Content wrapper -->
-                    <div class="content-wrapper">
-                        <!-- Navbar -->
-                        <nav
-                            class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
-                            id="layout-navbar"
+                    <!-- Navbar -->
+                    <nav
+                        class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+                        id="layout-navbar"
+                        >
+                        <div
+                            class="layout navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none"
                             >
-                            <div
-                                class="layout navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none"
+                            <a
+                                class="nav-item nav-link px-0 me-xl-4"
+                                href="javascript:void(0)"
                                 >
-                                <a
-                                    class="nav-item nav-link px-0 me-xl-4"
-                                    href="javascript:void(0)"
-                                    >
-                                    <i class="bx bx-menu bx-sm"></i>
-                                </a>
-                            </div>
+                                <i class="bx bx-menu bx-sm"></i>
+                            </a>
+                        </div>
 
-                            <div
-                                class="navbar-nav-right d-flex align-items-center"
-                                id="navbar-collapse"
-                                >
-                                <!-- Search -->
-                                <div class="navbar-nav align-items-center">
-                                    <div class="nav-item d-flex align-items-center">
-                                        <i class="bx bx-search fs-4 lh-0"></i>
-                                        <input
-                                            type="text"
-                                            class="form-control border-0 shadow-none ps-1 ps-sm-2"
-                                            placeholder="Tìm kiếm.."
-                                            aria-label="Tìm kiếm.."
-                                            />
-                                    </div>
+                        <div
+                            class="navbar-nav-right d-flex align-items-center"
+                            id="navbar-collapse"
+                            >
+                            <!-- Search -->
+                            <div class="navbar-nav align-items-center">
+                                <div class="nav-item d-flex align-items-center">
+                                    <i class="bx bx-search fs-4 lh-0"></i>
+                                    <input
+                                        type="text"
+                                        class="form-control border-0 shadow-none ps-1 ps-sm-2"
+                                        placeholder="Tìm kiếm.."
+                                        aria-label="Tìm kiếm.."
+                                        />
                                 </div>
-                                <!-- /Search -->
                             </div>
-                        </nav>
-                        <!-- / Navbar -->
+                            <!-- /Search -->
+                        </div>
+                    </nav>
+                    <!-- / Navbar -->
 
-                        <!-- Content -->
-                        <div class="container-xxl flex-grow-1 container-p-y">
+                    <!-- Content -->
+                    <div class="content-wrapper">
+                        <div class="container-xxl flex-grow-1 container-p-y ">
                             <!-- Basic Bootstrap Table -->
                             <div class="card">
                                 <h5
@@ -125,10 +122,10 @@
                                     <div>Ngân hàng câu hỏi</div>
                                     <!-- Button trigger modal -->
                                     <div>
-                                        <a href="MainController?action=insertQ">
+                                        <a title="Tạo câu hỏi" href="MainController?action=insertQ">
                                             <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fas fa-plus"></i></button>
                                         </a>
-                                        <a href="MainController?action=restore">
+                                        <a title="Khôi phục" href="MainController?action=restore">
                                             <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fa-solid fa-arrows-rotate fa-spin"></i></button>
                                         </a>
                                     </div>
@@ -153,7 +150,7 @@
                                                     <tr>
                                                         <td>
                                                             <span class="fw-medium">${counter.count}</span>
-                                                        </td>
+                                                    </td>
                                                     <td>
                                                         <span style="display: inline-block; 
                                                               max-width: 10rem; 
@@ -198,11 +195,11 @@
                                                     </td>
                                                     <td>
                                                         <div class="dropdown">
-                                                            <button
-                                                                type="button"
-                                                                class="btn p-0 dropdown-toggle hide-arrow"
-                                                                data-bs-toggle="dropdown"
-                                                                >
+                                                            <button title="Tính năng"
+                                                                    type="button"
+                                                                    class="btn p-0 dropdown-toggle hide-arrow"
+                                                                    data-bs-toggle="dropdown"
+                                                                    >
                                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                                             </button>
                                                             <div class="dropdown-menu">
@@ -213,7 +210,8 @@
                                                                 >
                                                                 <a
                                                                     class="dropdown-item"
-                                                                    data-toggle="tooltip" title="Xóa"
+                                                                    style="cursor: pointer"
+                                                                    data-toggle="tooltip"
                                                                     data-bs-toggle="modal" 
                                                                     data-bs-target="#modalConfirmDelete" 
                                                                     onclick="showMess('${Q.id}')"
@@ -227,50 +225,146 @@
                                         </tbody>
                                     </table>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="modal fade" id="modalConfirmDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-                             aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="staticBackdropLabel">XÁC NHẬN LOẠI BỎ</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        Bạn có chắc muốn xóa câu hỏi này?
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                                        <button type="button" class="btn btn-primary" id="btn-toast-delete" class="btn-close"
-                                                data-bs-dismiss="modal" aria-label="Close">Xác nhận</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- toast thông báo thành công-->
-                        <c:if test="${not empty message}">
-                            <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-                                <div id="toast-notification" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
-                                    <div class="toast-header">
-                                        <c:if test="${message eq 'success'}">
-                                            <strong id="toast-message" class="me-auto text-success"></strong>
-                                        </c:if>
-                                        <c:if test="${message eq 'fail'}">
-                                            <strong id="toast-message" class="me-auto text-danger"></strong>
-                                        </c:if>
-                                        <c:if test="${message eq 'exist'}">
-                                            <strong id="toast-message" class="me-auto text-danger"></strong>
-                                        </c:if>
-                                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+
+
+
+                                <div class="modal fade" id="modalConfirmDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="staticBackdropLabel">XÁC NHẬN LOẠI BỎ</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Bạn có chắc muốn xóa câu hỏi này?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                                <button type="button" class="btn btn-primary" id="btn-toast-delete" class="btn-close"
+                                                        data-bs-dismiss="modal" aria-label="Close">Xác nhận</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                                <!-- toast thông báo thành công-->
+                                <c:if test="${not empty message}">
+                                    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11" >
+                                        <div id="toast-notification" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+                                            <div class="toast-header">
+                                                <c:if test="${message eq 'success'}">
+                                                    <strong id="toast-message" class="me-auto text-success"></strong>
+                                                </c:if>
+                                                <c:if test="${message eq 'fail'}">
+                                                    <strong id="toast-message" class="me-auto text-danger"></strong>
+                                                </c:if>
+                                                <c:if test="${message eq 'exist'}">
+                                                    <strong id="toast-message" class="me-auto text-danger"></strong>
+                                                </c:if>
+                                                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:if>
                             </div>
-                        </c:if>
+                            <nav aria-label="Page navigation" 
+                                 style="position: fixed;
+                                 bottom: 0.25rem;
+                                 right: 1.5rem;">
+                                <ul class="pagination">
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                        <c:set var="page" value="${totalSize / 50}" />
+                                        <c:if test="${totalSize % 50 > 0}">
+                                            <c:set var="totalPages" value="${page + 1}" />
+                                        </c:if>
+                                        <c:forEach var="i" begin="2" end="${totalPages}">
+                                        <li class="page-item"><a class="page-link" href="#"><c:out value="${i}" /></a></li>
+                                        </c:forEach>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
+        <script>
+            $(document).ready(function () {
+                var resultsPerPage = 50; // Số lượng kết quả trên mỗi trang
+
+                // Xác định số lượng trang dựa trên số lượng kết quả
+                var totalResults = ${totalSize};
+                var totalPages = Math.ceil(totalResults / resultsPerPage);
+
+                // Hiển thị trang hiện tại
+                var currentPage = 1;
+                showPage(currentPage);
+
+                // Xử lý sự kiện khi người dùng chuyển trang
+                // Xử lý sự kiện khi người dùng nhấp vào nút "Previous"
+                $(".pagination").on("click", ".page-link", function (event) {
+                    event.preventDefault();
+                    if ($(this).attr("aria-label") === "Previous") {
+                        currentPage = currentPage - 1;
+                        showPage(currentPage);
+                    } else if ($(this).attr("aria-label") === "Next") {
+                        currentPage = currentPage + 1;
+                        showPage(currentPage);
+                    } else {
+                        var targetPage = parseInt($(this).text());
+                        if (!isNaN(targetPage)) {
+                            currentPage = targetPage;
+                            showPage(currentPage);
+                        }
+                    }
+                });
+
+                // Hiển thị các kết quả tương ứng với trang hiện tại
+                function showPage(page) {
+                    // Tính toán chỉ số bắt đầu và kết thúc của kết quả trên trang này
+                    var startIndex = (page - 1) * resultsPerPage;
+                    var endIndex = startIndex + resultsPerPage;
+
+                    // Hiển thị các kết quả tương ứng
+                    $(".table tbody tr").hide();
+                    $(".table tbody tr").slice(startIndex, endIndex).show();
+
+                    // Cập nhật trạng thái của phân trang
+                    updatePagination(page);
+                }
+
+                // Cập nhật trạng thái của phân trang
+                function updatePagination(page) {
+                    $(".pagination .page-item").removeClass("active");
+                    $(".pagination .page-item").eq(page).addClass("active");
+                }
+
+            });
+            window.addEventListener('scroll', function () {
+                var nav = document.querySelector('.pagination-container');
+                var windowHeight = window.innerHeight;
+                var documentHeight = Math.max(document.documentElement.clientHeight, document.body.clientHeight);
+                var scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+
+                if (scrollPosition + windowHeight >= documentHeight) {
+                    nav.style.bottom = '20px';
+                } else {
+                    nav.style.bottom = (windowHeight - nav.offsetHeight + 20) + 'px';
+                }
+            });
+        </script>
         <script>
             function showMess(id) {
                 var btnToastDelete = document.querySelector('#btn-toast-delete');
@@ -305,17 +399,17 @@
                     toast.classList.remove('show');
                 }, 3000);
             }
-//            document.querySelector('#btn-toast-delete').addEventListener('click', function () {
-//                window.location.href = 'DeleteQuestionController?id=' + id;
-////                showToast('Xóa bộ đề thành công');
-//            });
-//            document.querySelector('#btn-toast-add').addEventListener('click', function () {
-//                showToast('Thêm bộ đề thành công');
-//            });
+            //            document.querySelector('#btn-toast-delete').addEventListener('click', function () {
+            //                window.location.href = 'DeleteQuestionController?id=' + id;
+            ////                showToast('Xóa bộ đề thành công');
+            //            });
+            //            document.querySelector('#btn-toast-add').addEventListener('click', function () {
+            //                showToast('Thêm bộ đề thành công');
+            //            });
 
-//            document.querySelector('#btn-toast-edit').addEventListener('click', function () {
-//                showToast('Cập nhập bộ đề thành công');
-//            });
+            //            document.querySelector('#btn-toast-edit').addEventListener('click', function () {
+            //                showToast('Cập nhập bộ đề thành công');
+            //            });
         </script>
         <!-- Core JS -->
         <!-- build:js assets/vendor/js/core.js -->
@@ -337,6 +431,7 @@
 
         <!-- Place this tag in your head or just before your close body tag. -->
         <script async defer src="https://buttons.github.io/buttons.js"></script>
+
     </body>
 </html>
 

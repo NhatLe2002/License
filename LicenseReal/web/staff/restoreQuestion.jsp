@@ -63,7 +63,7 @@
         <!-- Layout wrapper -->
         <div class="layout-wrapper layout-content-navbar">
             <div class="layout-container">
-                <c:import url="menu.jsp"/>
+                <c:import url="../menu.jsp"/>
                 <!-- Layout container -->
                 <div class="layout-page">
                     <!-- Content wrapper -->
@@ -116,7 +116,7 @@
                                     <div>Danh sách câu hỏi đã xóa</div>
                                     <!-- Button trigger modal -->
                                     <div>
-                                        <a href="MainController?action=QuestionController">
+                                        <a title="Thoát" href="MainController?action=QuestionController">
                                             <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fa-solid fa-chevron-left"></i></button>
                                         </a>
                                     </div>
