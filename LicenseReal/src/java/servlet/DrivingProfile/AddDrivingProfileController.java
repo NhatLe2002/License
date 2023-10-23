@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servlet;
+package servlet.DrivingProfile;
 
 import dao.DrivingProfileDAO;
 import dto.MemberDTO;
@@ -74,13 +74,11 @@ public class AddDrivingProfileController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //        int id = Integer.parseInt(request.getParameter("id"));
-        int id = 1;
+        int id = Integer.parseInt(request.getParameter("id"));
         // Gọi hàm getMemberById từ lớp DrivingProfileDAO
         MemberDTO member = DrivingProfileDAO.getMemberById(id);
         HttpSession session = request.getSession();
         session.setAttribute("load_profile", member);
-
         // Chuyển hướng đến trang adddrivingprofile.jsp
         response.sendRedirect("adddrivingprofile.jsp");
     }
@@ -98,7 +96,10 @@ public class AddDrivingProfileController extends HttpServlet {
             throws ServletException, IOException {
         
         String id = request.getParameter("id");
-        boolean gender = Boolean.parseBoolean(request.getParameter("gender"));
+        String gen = request.getParameter("gender");
+        boolean gender = Boolean.parseBoolean(gen);
+        boolean flag = false;
+//        boolean gender = true;
         System.out.println("ID value received: " + id);
         int memberID = Integer.parseInt(id);
         // Tạo đối tượng Member
@@ -132,22 +133,22 @@ public class AddDrivingProfileController extends HttpServlet {
                         img_user = data;
                     }
                 }
-
-                boolean checkInsert = DrivingProfileDAO.addtodrivingprofile(memberID, img_cccd, img_user, gender);
+                
+                boolean checkInsert = DrivingProfileDAO.addtodrivingprofile(memberID, img_cccd, img_user, gender, flag);
                 if (checkInsert) {
-                    message = "Create driving profile successfully!";
+                    message = "success";
                 } else {
-                    message = "Can't create driving profile!";
+                    message = "fail";
                 }
             } else {
-                message = "Duplicate member ID!";
+                message = "duplicate";
             }
         } catch (SQLException ex) {
             response.getWriter().println("ERROR: " + ex.getMessage());
         }
 
         request.setAttribute("message", message);
-        request.getRequestDispatcher("home.jsp").forward(request, response);
+        request.getRequestDispatcher("adddrivingprofile.jsp").forward(request, response);
     }
 
     /**

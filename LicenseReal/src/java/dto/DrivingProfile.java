@@ -4,13 +4,16 @@
  * and open the template in the editor.
  */
 package dto;
+
 import dto.MemberDTO;
 import java.time.LocalDate;
+
 /**
  *
  * @author Admin
  */
 public class DrivingProfile {
+
     private int id;
     private String img_cccd;
     private String img_user;
@@ -18,8 +21,12 @@ public class DrivingProfile {
     private String name;
     private String phone;
     private String email;
-    private String cccd;;
+    private String cccd;
+    private LocalDate dob;
+    private String address;
+    private String health;
     private boolean gender;
+    private boolean flag;
     private boolean status;
 
     public DrivingProfile() {
@@ -32,14 +39,72 @@ public class DrivingProfile {
         this.memberID = memberID;
         this.status = status;
     }
-    public DrivingProfile( MemberDTO member, String img_user, boolean gender, boolean status){
+
+    public DrivingProfile(MemberDTO member, String img_cccd, String img_user, boolean gender, boolean flag, boolean status) {
+        this.name = member.getName();
+        this.phone = member.getPhone();
+        this.email = member.getEmail();
+        this.cccd = member.getCccd();
+        this.img_cccd = img_cccd;
+        this.img_user = img_user;
+        this.gender = gender;
+        this.flag = flag;
+        this.status = status;
+    }
+        public DrivingProfile(MemberDTO member, String img_cccd, String img_user, boolean gender) {
+        this.name = member.getName();
+        this.phone = member.getPhone();
+        this.email = member.getEmail();
+        this.cccd = member.getCccd();
+        this.address = member.getAddress();
+        this.dob = member.getDob();
+        this.health = member.getHealth();
+        this.img_cccd = img_cccd;
+        this.img_user = img_user;
+        this.gender = gender;
+    }
+
+    public DrivingProfile(MemberDTO member, String img_user, boolean gender, boolean flag, boolean status) {
         this.name = member.getName();
         this.phone = member.getPhone();
         this.email = member.getEmail();
         this.cccd = member.getCccd();
         this.img_user = img_user;
         this.gender = gender;
+        this.flag = flag;
         this.status = status;
+    }
+
+    public LocalDate getDob() {
+        return dob;
+    }
+
+    public String getHealth() {
+        return health;
+    }
+
+    public void setHealth(String health) {
+        this.health = health;
+    }
+
+    public void setDob(LocalDate dob) {
+        this.dob = dob;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
     }
 
     public boolean isGender() {
@@ -128,13 +193,13 @@ public class DrivingProfile {
 //    }
     @Override
     public String toString() {
-        return "DrivingProfile{" + " name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
-                ", email='" + email + '\'' +
-                ", cccd='" + cccd + '\'' +
-                ", imgUser='" + img_user + '\'' +
-                ", status=" + status +
-                '}';
+        return "DrivingProfile{" + " name='" + name + '\''
+                + ", phone='" + phone + '\''
+                + ", email='" + email + '\''
+                + ", cccd='" + cccd + '\''
+                + ", imgUser='" + img_user + '\''
+                + ", status=" + status
+                + '}';
     }
-    
+
 }

@@ -117,7 +117,36 @@ public class Util {
         }
 
     }
+    public static void sendEmailRequest(String receiveEmail, String OTP) {
+        final String PASSWORD = "mbqzfxvwmucodpjz";
+        final String EMAIL = "centeryoga98@gmail.com";
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
 
+        Authenticator auth = new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(EMAIL, PASSWORD); //To change body of generated methods, choose Tools | Templates.
+            }
+        };
+        Session session = Session.getInstance(props, auth);
+        MimeMessage msg = new MimeMessage(session);
+        try {
+            msg.addHeader("Content-type", "text/HTML; charset=UTF-8");
+            msg.addHeader(EMAIL, EMAIL);
+            msg.setFrom(EMAIL);
+            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(receiveEmail, false));
+            msg.setSubject("Lấy lại mật khẩu","UTF-8");
+            msg.setText("Đây là mã OTP để lấy lại mật khẩu : " + OTP,"UTF-8");
+            Transport.send(msg);
+        } catch (Exception e) {
+        }
+
+    }
+    
     public static void main(String[] args) {
         sendEmail("emcuahoi1223@gmail.com", "");
     }
