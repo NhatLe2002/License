@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -14,6 +15,22 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
         <!-- MDB -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css" rel="stylesheet" />
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            th, td {
+                text-align: left;
+                padding: 8px;
+                border-bottom: 1px solid #ddd;
+            }
+
+            th {
+                background-color: #f2f2f2;
+            }
+        </style>
 
         <style>
             /* header */
@@ -513,157 +530,48 @@
             <div class='separate-line-layout-account'></div>
             <div class='content-option-container'>
                 <div class="d-flex justify-content-center flex-column profile-container gap-3">
-                    <div class='title'>Cập nhập trang cá nhân</div>
-                    <div class='user-profile d-flex gap-5 '>
-                        <div class='left d-flex flex-column gap-3'>
-                            <div class='avatar-user'>
-                                <c:if test="${not empty load_profile.avatar}">
-                                <img id="avatar-img" src="data:image;base64,${load_profile.avatar}"
-                                     alt="Preview">
-                                </c:if>
-                                <c:if test="${empty load_profile.avatar}">
-                                    <img id="avatar-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png"
-                                     alt="Preview">
-                                </c:if>
-                            </div>
-
-
-                        </div>
-
-                        <div class='right d-flex flex-column'>
-                            <div class="header-profile d-flex flex-column">
-                                <div class='top-header-profile d-flex justify-content-between align-items-center gap-3'>
-                                    <div
-                                        class="left-top-header-profile d-flex justify-content-center align-items-center gap-3">
-                                        <p class='user-name'>${load_profile.name}</p>
-                                    </div>
-
-                                    <div class='edit-profile d-flex gap-2'>
-                                        <i class="fa-regular fa-pen-to-square"></i>
-                                        <a href="addtodrivingpro?id=${sessionScope.load_profile.getId()}">Nộp hồ sơ thi</a>  
-                                    </div>
-                                </div>
-
-                                <div class='role-name my-2'>
-                                    <p>Thí sinh </p>
-                                </div>
-                            </div>
-
-                            <div class="main d-flex flex-column">
-                                <div class="main-top d-flex gap-4">
-                                    <div class='about d-flex gap-2 active align-items-center'>
-                                        <i class="fa-regular fa-address-card"></i>
-                                        <p>Bản thân</p>
-                                    </div>
-
-                                    <div class='timeline d-flex gap-2 align-items-center'>
-                                        <i class="fa-solid fa-timeline"></i>
-                                        <p>Lịch sử hoạt động</p>
-                                    </div>
-                                </div>
-                                <div class="main-info d-flex flex-column justify-content-around">
-                                    <form action="updateProfile" method="POST" enctype="multipart/form-data">
-                                        <div class="contact-info">
-                                            <p class='text-header-profile'>Thông tin liên lạc</p>
-                                            <input value="${load_profile.id}" type="text" name="id" id="id" hidden="" />
-                                            <div class="content d-flex">
-                                                <div class="label-info">
-                                                    <label for="phoneNumber">Số điện thoại:</label>
-                                                </div>
-                                                <div class="input-info">
-                                                    <input type="text" id="phoneNumber" name="phone" oninput="validatePhone()" value="${load_profile.phone}">
-                                                </div>
-                                            </div>
-
-                                            <div class="content d-flex">
-                                                <div class="label-info">
-                                                    <label for="email">Email:</label>
-                                                </div>
-                                                <div class="input-info">
-                                                    <input type="text" id="email" name="email" value="${load_profile.email}">
-                                                </div>
-                                            </div>
-                                            <div class="content d-flex">
-                                                <div class="label-info">
-                                                    <label for="avatar">Avatar:</label>
-                                                </div>
-                                                <div class="input-info">
-                                                    <i class="fa-solid fa-camera" id="camera-icon"></i>
-                                                    <input type="file" name="avatar" id="file-input" style="display: none;" onchange="previewImage(event)" accept="image/*">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="basic-info">
-                                            <p class='text-header-profile'>Thông tin cơ bản</p>
-                                            <div class="content d-flex">
-                                                <div class="label-info">
-                                                    <label for="full-name">Họ và tên:</label>
-                                                </div>
-                                                <div class="input-info">
-                                                    <input type="text" id="full-name" oninput="validateFullName()" id="input-fullname" name="name" value="${load_profile.name}" required=""/>
-                                                </div>
-                                            </div>
-
-                                            <div class="content d-flex">
-                                                <div class="label-info">
-                                                    <label for="birthdate">Ngày sinh:</label>
-                                                </div>
-                                                <div class="input-info">
-                                                    <input type="date" id="birthdate" name="dob" value="${load_profile.dob}">
-                                                </div>
-                                            </div>
-                                            <div class="content d-flex">
-                                                <div class="label-info">
-                                                    <label for="hometown">Quốc tịch:</label>
-                                                </div>
-                                                <div class="input-info">
-                                                    <input type="text" id="hometown" value="Việt Nam" readonly="">
-                                                </div>
-                                            </div>
-
-                                            <div class="content d-flex">
-                                                <div class="label-info">
-                                                    <label for="cccd">CCCD:</label>
-                                                </div>
-                                                <div class="input-info">
-                                                    <input type="text" id="cccd" oninput="validateCCCD()" name="cccd" value="${load_profile.cccd}">
-                                                </div>
-                                            </div>
-
-                                            <div class="content d-flex">
-                                                <div class="label-info">
-                                                    <label for="address">Địa chỉ thường trú:</label>
-                                                </div>
-                                                <div class="input-info">
-                                                    <input type="text" id="address"
-                                                           name="address" value="${load_profile.address}">
-                                                </div>
-                                            </div>
-                                            <div class="content d-flex">
-                                                <div class="label-info">
-                                                    <label for="health-certificate">Giấy khám sức khỏe:</label>
-                                                </div>
-                                                <div class="input-info" style="margin-top: 20px;">
-                                                    <div class="radio-buttons d-flex gap-3 justify-content-center align-items-center">
-                                                        <input class="health-certificate" type="radio" id="health-certificate-yes" name="health" value="yes">
-                                                        <label for="health-certificate-yes">Đã có</label>
-                                                        <input class="health-certificate" type="radio" id="health-certificate-no" name="health" value="no">
-                                                        <label for="health-certificate-no">Chưa có</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-5 d-flex gap-3" style="margin-left: 150px;">
-                                            <button class="btn btn-outline-secondary">Hủy</button>
-                                            <button class="btn btn-primary" type="submit">Thay đổi</button>
-                                        </div>
-                                    </form>
-
-                                </div>
-                            </div>
-                        </div>
+                    <div class='title'>Lịch sử giao dịch</div>
+                    <div class="table">
+                        <table>
+                            <tr>
+                                <th>Tên</th>
+                                <th>Giá</th>
+                                <th>Loại hình</th>
+                                <th>Tình trạng</th>
+                                <th>Hình thức thanh toán</th>
+                                <th>Ngày tạo</th>
+                            </tr>
+                            <c:forEach items="${listP}" var="p">
+                                <tr>
+                                    <td>${user.getName()}</td>
+                                    <c:if test="${p.getPrice() == 500000}">
+                                        <td>500k</td>
+                                    </c:if>
+                                    <c:if test="${p.getPrice() == 15000000}">
+                                        <td>15tr</td>
+                                    </c:if>
+                                    <c:if test="${p.getType().equals('regisTest')}">
+                                        <td>Đăng ký nộp hồ sơ</td>
+                                    </c:if>
+                                    <c:if test="${p.getType().equals('regisLearn')}">
+                                        <td>Đăng ký học thực hành</td>
+                                    </c:if>
+                                    <c:if test="${p.isStatus() == true}">
+                                        <td style="color: green;">Đã thanh toán</td>
+                                    </c:if>
+                                    <c:if test="${p.isStatus() == false}">
+                                        <td style="color: red;">Chưa thanh toán</td>
+                                    </c:if>
+                                    <c:if test="${p.isCash_type() == true}">
+                                        <td>VN Pay</td>
+                                    </c:if>
+                                    <c:if test="${p.isCash_type() == false}">
+                                        <td>Tiền mặt</td>
+                                    </c:if>                                 
+                                    <td>${p.getCreate_date()}</td>
+                                </tr>
+                            </c:forEach>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -671,53 +579,21 @@
 
         <!-- footer -->
         <c:import url="userFooter.jsp"/>
+
         <script>
-            function validateEmail() {
-                const emailInput = document.getElementById('email');
-                const email = emailInput.value.trim();
-
-                // Define the regular expression pattern for email validation
-                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-                // Check if the email matches the pattern
-                if (emailPattern.test(email)) {
-                    emailInput.classList.remove('error');
+            function formatPrice(price) {
+                price = parseInt(price);
+                if (price === 500000) {
+                    return '500,000';
+                } else if (price === 15000000) {
+                    return '15tr';
                 } else {
-                    emailInput.classList.add('error');
+                    return price.toString(); // Default case: return the price as is
                 }
             }
-            function validatePhone() {
-                var input = document.getElementById('phoneNumber');
-                var value = input.value;
-
-                // Remove any non-numeric characters
-                var numericValue = value.replace(/[^0-9]/g, '');
-
-                // Truncate the value if it exceeds the maximum length
-                if (numericValue.length > 10) {
-                    numericValue = numericValue.substring(0, 10);
-                }
-
-                // Update the input value
-                input.value = numericValue;
-            }
-            function validateCCCD() {
-                var input = document.getElementById('cccd');
-                var value = input.value;
-
-                // Loại bỏ các kí tự không phải là số
-                var numericValue = value.replace(/[^0-9]/g, '');
-
-                // Giới hạn độ dài tối đa là 12 số
-                if (numericValue.length > 12) {
-                    numericValue = numericValue.substring(0, 12);
-                }
-
-                // Cập nhật giá trị của ô input
-                input.value = numericValue;
-            }
-        </script>
-        <script>
+            var price1 = 500000;
+            var formattedPrice1 = formatPrice(price1);
+            console.log(formattedPrice1);
             function logout() {
                 var btnToastDelete = document.querySelector('#btn-toast-delete');
                 btnToastDelete.addEventListener('click', function () {

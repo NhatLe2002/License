@@ -129,9 +129,9 @@
                                 <c:when test="${user != null}">
                                     <a  class="fullname">Hello, ${user.getName()}</a>
                                     <select id="dropdown">
-                                        <c:if test="${action == 'updatePage' }">
+                                        <c:if test="${action == 'updatePage' || action == 'ViewTransactions' }">
                                             <option value="MainController?action=home">Home</option>
-                                            <option selected value="MainController?action=updatePage?id=${sessionScope.user.getId()}">Profile</option>
+                                            <option selected value="MainController?action=updatePage&id=${sessionScope.user.getId()}">Profile</option>
                                             <c:if test="${sessionScope.ROLE == 'AD'}">
                                                 <option value="MainController?action=admin">Dashboard</option>
                                             </c:if>

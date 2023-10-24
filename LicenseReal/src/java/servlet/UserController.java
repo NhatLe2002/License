@@ -5,8 +5,11 @@
  */
 package servlet;
 
+import dao.DrivingProfileDAO;
+import dao.MemberDAO;
 import dao.UserDAO;
 import dto.AccountDTO;
+import dto.MemberDTO;
 import dto.UserDTO;
 
 import java.io.IOException;
@@ -51,17 +54,22 @@ public class UserController extends HttpServlet {
         String url = "user-infor.jsp";
         String message = "";
         int check;
-
+        MemberDTO member = new MemberDTO();
         UserDTO user = new UserDTO();
 
         try {
 
             if (UserDAO.getUser(accountID) == null) {
                 check = UserDAO.createUser(name, phone, email, dob, cccd, address, accountID);
+                user = UserDAO.getUser(accountID);
                 switch (check) {
                     case 0:
                         message = "Cập nhập thành công";
-                        //them tao member
+                        MemberDAO.createMember(user.getId());
+                        member = DrivingProfileDAO.getMemberById(user.getId());
+                        if (member != null) {
+                            session.setAttribute("memberID", member.getId());
+                        }
                         url = "home.jsp";
                         break;
                     case 1:
@@ -77,13 +85,18 @@ public class UserController extends HttpServlet {
                         message = "Yêu cầu số tuổi lớn hơn 18";
                         break;
                 }
-                user = UserDAO.getUser(accountID);
+
             } else {
                 check = UserDAO.updateUser(name, phone, email, dob, cccd, address, accountID);
+                user = UserDAO.getUser(accountID);
                 switch (check) {
                     case 0:
                         message = "Cập nhập thành công";
-                        // them tao member
+                        MemberDAO.createMember(user.getId());
+                        member = DrivingProfileDAO.getMemberById(user.getId());
+                        if (member != null) {
+                            session.setAttribute("memberID", member.getId());
+                        }
                         url = "home.jsp";
                         break;
                     case 1:
@@ -99,7 +112,7 @@ public class UserController extends HttpServlet {
                         message = "Yêu cầu số tuổi lớn hơn 18";
                         break;
                 }
-                user = UserDAO.getUser(accountID);
+
             }
         } catch (Exception e) {
         } finally {

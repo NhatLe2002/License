@@ -106,7 +106,12 @@
                             <div data-i18n="Layouts">Duyệt phản hồi</div>
                         </a>
                     </li>
-
+                    <li class="menu-item">
+                        <a href="MainController?action=ViewAllTransactions" class="menu-link">
+                            <i class="menu-icon tf-icons fa-solid fa-wallet"></i>
+                            <div data-i18n="Layouts">Duyệt hóa đơn</div>
+                        </a>
+                    </li>
                     <li class="menu-header small text-uppercase">
                         <span class="menu-header-text">Quản lý tài khoản</span>
                     </li>
@@ -158,6 +163,12 @@
                         <a href="MainController?action=FeedbackController" class="menu-link">
                             <i class="menu-icon tf-icons fa-regular fa-comment"></i>
                             <div data-i18n="Layouts">Duyệt phản hồi</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#" class="menu-link">
+                            <i class="menu-icon tf-icons fa-solid fa-wallet"></i>
+                            <div data-i18n="Layouts">Duyệt hóa đơn</div>
                         </a>
                     </li>
                 </c:if>

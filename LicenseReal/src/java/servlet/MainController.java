@@ -103,10 +103,8 @@ public class MainController extends HttpServlet {
 
             } else if (action.equals("logout")) {
                 url = "AccountController";
-//            } else if (action.equals("updatePage")) {
-//                String id = request.getParameter("idMember");
-//                request.setAttribute("id", id);
-//                url = "updateProfile";
+            } else if (action.equals("updatePage")) {
+                url = "updateProfile";
             } else if (action.equals("resendOTP")) {
                 url = "AccountController";
             } else if (action.equals("payment")) {
@@ -132,7 +130,11 @@ public class MainController extends HttpServlet {
                 request.setAttribute("id", feedbackID);
                 url = "FeedbackController";
 
-            }
+            } else if (action.equals("ViewTransactions")) {
+                url = "ViewTransactionsController";
+            } else if (action.equals("ViewAllTransactions")) {
+                url = "ViewAllTransactionsController";
+            } 
             
             request.setAttribute("action", action);
             if ("staff".equals(action)) {

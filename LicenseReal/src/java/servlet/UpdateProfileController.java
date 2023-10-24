@@ -91,7 +91,8 @@ public class UpdateProfileController extends HttpServlet {
         session.setAttribute("load_profile", member);
 
         // Chuyển hướng đến trang updateprofile.jsp
-        response.sendRedirect("updateProfile.jsp");
+//        response.sendRedirect("updateProfile.jsp");
+        request.getRequestDispatcher("updateProfile.jsp").forward(request, response);
 
     }
 

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import dao.AccountDAO;
 import dao.DrivingProfileDAO;
+import dao.MemberDAO;
 import dao.UserDAO;
 import dto.AccountDTO;
 import dto.MemberDTO;
@@ -114,8 +115,10 @@ public class AccountController extends HttpServlet {
                             url = "register.jsp";
                             message = "Đăng ký thật bại, vui lòng nhập tài khoản khác";
                         } else {
+
                             account = AccountDAO.getAccount(username, password);
                             user = UserDAO.getUser(account.getId());
+                            
                             session.setAttribute("account", account);
                             session.setAttribute("user", user);
 //                            if (account != null) {
