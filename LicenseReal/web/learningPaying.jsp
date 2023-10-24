@@ -15,8 +15,8 @@
         <h1>Gói thực hành với 4 buổi tập</h1>
         <form action="MainController" method="post">
           
-            <label for="price">Gíá: 500,000 VNĐ</label>
-            <input hidden type="number" id="price" name="price" value="500000">
+            <label for="price">Gíá: 1,200,000 VNĐ</label>
+            <input hidden type="number" id="price" name="price" value="1200000">
             <br></br>
             <label   for="type">Loại hình: Học thực hành</label>
             <input hidden type="text" id="type" name="type" value="${type}">

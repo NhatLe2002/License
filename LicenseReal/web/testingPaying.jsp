@@ -15,8 +15,8 @@
         <h1>Gói đăng ký nộp hồ sơ thi lái xe</h1>
         <form action="MainController" method="post">
 
-            <label for="price">Gíá: 15,000,000 VNĐ</label>
-            <input hidden type="number" id="price" name="price" value="15000000">
+            <label for="price">Gíá: 10,000,000 VNĐ</label>
+            <input hidden type="number" id="price" name="price" value="10000000">
             <br></br>
             <label   for="type">Loại hình: Phí nộp hồ sơ</label>
             <input hidden type="text" id="type" name="type" value="${type}">

@@ -216,9 +216,13 @@ public class AccountController extends HttpServlet {
             }
         } catch (Exception e) {
         } finally {
+            if (url.equals("MainController?action=admin")) {
+                response.sendRedirect(url);
+            } else {
+                request.setAttribute("message", message);
+                request.getRequestDispatcher(url).forward(request, response);
+            }
 
-            request.setAttribute("message", message);
-            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 

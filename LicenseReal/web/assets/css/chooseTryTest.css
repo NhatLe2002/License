@@ -38,6 +38,7 @@ a {
     display: flex;
     align-items: center;
     column-gap: 2.7rem;
+    
 }
 
 .header .main__navbar .container .menu .menu_items {

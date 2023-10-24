@@ -132,11 +132,17 @@
                                         <c:if test="${action == 'updatePage' }">
                                             <option value="MainController?action=home">Home</option>
                                             <option selected value="MainController?action=updatePage?id=${sessionScope.user.getId()}">Profile</option>
+                                            <c:if test="${sessionScope.ROLE == 'AD'}">
+                                                <option value="MainController?action=admin">Dashboard</option>
+                                            </c:if>
                                             <option value="MainController?action=logout">Logout</option>
                                         </c:if>
                                         <c:if test="${action == 'member'|| action == 'home' || action == 'update' || action == 'PracticeTest'}">
                                             <option selected value="MainController?action=home">Home</option>
                                             <option value="updateProfile?action=updatePage&id=${sessionScope.user.getId()}">Profile</option>
+                                            <c:if test="${sessionScope.ROLE == 'AD'}">
+                                                <option value="MainController?action=admin">Dashboard</option>
+                                            </c:if>
                                             <option value="MainController?action=logout">Logout</option>
                                         </c:if>
 

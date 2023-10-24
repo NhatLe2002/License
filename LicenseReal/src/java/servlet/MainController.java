@@ -93,7 +93,7 @@ public class MainController extends HttpServlet {
             } else if (action.equals("ratingOfMember")) {
                 url = "DetailSlotServlet";
             } else if (action.equals("admin")) {
-                url = "admin/dashboard.jsp";
+                url = "DashboardController";
             } else if (action.equals("staff")) {
                 url = "QuestionController";
             } else if (action.equals("member")) {
