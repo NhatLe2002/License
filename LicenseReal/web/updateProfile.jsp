@@ -569,7 +569,7 @@
                                     <form action="updateProfile" method="POST" enctype="multipart/form-data">
                                         <div class="contact-info">
                                             <p class='text-header-profile'>Thông tin liên lạc</p>
-                                            <input value="${load_profile.id}" type="text" name="id" id="id" hidden="" />
+                                            <input value="${sessionScope.user.getId()}" type="text" name="id" id="id" hidden="" />
                                             <div class="content d-flex">
                                                 <div class="label-info">
                                                     <label for="phoneNumber">Số điện thoại:</label>
