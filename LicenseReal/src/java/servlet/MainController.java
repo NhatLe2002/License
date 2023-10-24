@@ -95,7 +95,7 @@ public class MainController extends HttpServlet {
             } else if (action.equals("ratingOfMember")) {
                 url = "DetailSlotServlet";
             } else if (action.equals("admin")) {
-                url = "admin/dashboard.jsp";
+                url = "DashboardController";
             } else if (action.equals("staff")) {
                 url = "QuestionController";
             } else if (action.equals("member")) {
@@ -119,7 +119,7 @@ public class MainController extends HttpServlet {
                 url = "FeedbackController";
             }
             request.setAttribute("action", action);
-            if ("staff".equals(action)) {
+            if ("staff".equals(action) || "admin".equals(action)) {
                 response.sendRedirect(url);
             } else {
                 request.getRequestDispatcher(url).forward(request, response);
