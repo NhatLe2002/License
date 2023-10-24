@@ -10,6 +10,8 @@ import dto.UserDTO;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import utils.DBUtils;
 import static utils.DBUtils.getConnection;
 import utils.Util;
@@ -19,10 +21,10 @@ import utils.Util;
  * @author emcua
  */
 public class UserDAO extends DBUtils {
-
+    
     public static int createUser(String name, String phone, String email, Date dob, String cccd,
             String address, int accountID) {
-
+        
         try {
             if (!Util.validateAllDigits(phone.trim())) {
                 return 1; // khong dung dinh dang phone
@@ -50,9 +52,7 @@ public class UserDAO extends DBUtils {
         }
         return 0;
     }
-
-  
-
+    
     public static int updateUser(String name, String phone, String email, Date dob, String cccd,
             String address, int accountID) {
         try {
@@ -73,7 +73,7 @@ public class UserDAO extends DBUtils {
                         + "cccd = ?, "
                         + "address = ? "
                         + "WHERE accountID = ?";
-
+                
                 PreparedStatement ps = getConnection().prepareStatement(sql);
                 ps.setString(1, name);
                 ps.setString(2, phone);
@@ -86,11 +86,11 @@ public class UserDAO extends DBUtils {
             }
         } catch (Exception e) {
             System.out.println(e);
-
+            
         }
         return 0;
     }
-
+    
     public static UserDTO getUser(int accountID) {
         UserDTO user = new UserDTO();
         try {
@@ -117,7 +117,7 @@ public class UserDAO extends DBUtils {
         }
         return null;
     }
-
+    
     public static String getEmailByID(int accountID) {
         String email = null;
         try {
@@ -132,5 +132,38 @@ public class UserDAO extends DBUtils {
             System.out.println(e);
         }
         return email;
+    }
+
+    public static List<UserDTO> getListByRole(int role) {
+        List<UserDTO> list = new ArrayList<>();
+        UserDTO user = new UserDTO();
+        try {
+            String sql = "select * from [User] where role = ?";
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setInt(1, role);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                user = new UserDTO(rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("phone"),
+                        rs.getString("email"),
+                        rs.getDate("dob").toLocalDate(),
+                        rs.getString("cccd"),
+                        rs.getString("address"),
+                        rs.getString("avatar"),
+                        rs.getInt("role"),
+                        rs.getBoolean("status"),
+                        rs.getInt("accountID"));
+                list.add(user);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+        return list;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(UserDAO.getListByRole(2));
     }
 }

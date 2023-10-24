@@ -474,7 +474,7 @@
             <div class="d-flex flex-column option-account-container gap-3">
                 <div class='title' id='title'></div>
                 <div class='sidebar-account'>
-                    <a href="/driving-profile.html" class="link-option-account">
+                    <a href="MainController?action=updatePage&id=${sessionScope.user.getId()}" class="link-option-account">
                         <span class="bold-icon">
                             <i class="fa-regular fa-user"></i>
                         </span>
@@ -488,7 +488,7 @@
                         <div class="text-option-account">Lịch sử làm bài</div>
                     </a>
 
-                    <a class="link-option-account">
+                    <a href="MainController?action=ViewTransactions" class="link-option-account">
                         <span class="bold-icon">
                             <i class="fa-solid fa-shekel-sign"></i>
                         </span>

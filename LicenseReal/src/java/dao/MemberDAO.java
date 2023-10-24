@@ -43,7 +43,29 @@ public class MemberDAO {
         }
         return member;
     }
-    public static void main(String[] args) {
-        System.out.println(getMemberByUserID(5).getId());
+
+    public static boolean createMember(int userID) {
+        boolean check = false;
+        try {
+
+            String sql = "INSERT INTO Member(status,userID)"
+                    + "values(1,?)";
+            PreparedStatement ps = DBUtils.getConnection().prepareStatement(sql);
+            ps.setInt(1, userID);
+            int row = ps.executeUpdate();
+            if (row > 0) {
+                check = true;
+            } else {
+                check = false;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return check;
+
     }
+
+//    public static void main(String[] args) {
+//        System.out.println(createAccount(1));
+//    }
 }

@@ -16,8 +16,13 @@
         <h2>${email}</h2>
         <form method="POST" action="MainController">
             <input name="confirmOTP" placeholder="Nhập OTP"></input>
+            <input  hidden name="username" value="${username}"></input>
+            <input  hidden name="email" value="${email}"></input>
             <button name="action" value="confirmOTP" type="submit">Xác nhận</button>
-            ${message}
+            <button name="action" value="resendOTP" type="submit">Gửi lại mã OTP</button>
+           ${message}
+          
         </form>
+      
     </body>
 </html>

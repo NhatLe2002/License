@@ -34,7 +34,7 @@ public class MainController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     private String url = "errorpage.html";
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
@@ -43,7 +43,7 @@ public class MainController extends HttpServlet {
             String action = request.getParameter("action");
             String message = (String) request.getAttribute("message");
             request.setAttribute("message", message);
-            if (action == null || action.equals("")) {
+            if (action == null || action.equals("") || action.equals("home")) {
                 url = "home.jsp";
             } else if (action.equals("getItem")) {
                 url = "LoadItemServlet";
@@ -82,8 +82,6 @@ public class MainController extends HttpServlet {
                 url = "RestoreQuestionController?id=0";
             } else if (action.equals("update")) {
                 url = "UserController";
-            } else if (action.equals("pay")) {
-                url = "ajaxServlet";
             } else if (action.equals("getOTP")) {
                 url = "AccountController";
             } else if (action.equals("confirmOTP")) {
@@ -95,13 +93,27 @@ public class MainController extends HttpServlet {
             } else if (action.equals("ratingOfMember")) {
                 url = "DetailSlotServlet";
             } else if (action.equals("admin")) {
-                url = "admin/dashboard.jsp";
+                url = "DashboardController";
             } else if (action.equals("staff")) {
                 url = "QuestionController";
             } else if (action.equals("member")) {
                 url = "home.jsp";
             } else if (action.equals("mentor")) {
                 url = "home.jsp";
+
+            } else if (action.equals("logout")) {
+                url = "AccountController";
+            } else if (action.equals("updatePage")) {
+                url = "updateProfile";
+            } else if (action.equals("resendOTP")) {
+                url = "AccountController";
+            } else if (action.equals("payment")) {
+                String type = request.getParameter("type");
+                request.setAttribute("type", type);
+                url = "PayController";
+            } else if (action.equals("payCash")) {
+                url = "PayCashController";
+
             } else if (action.equals("TopicController")) {
                 String topicID = request.getParameter("id");
                 url = "TopicController?id=" + topicID;
@@ -117,14 +129,20 @@ public class MainController extends HttpServlet {
                 String feedbackID = request.getParameter("id");
                 request.setAttribute("id", feedbackID);
                 url = "FeedbackController";
-            }
+
+            } else if (action.equals("ViewTransactions")) {
+                url = "ViewTransactionsController";
+            } else if (action.equals("ViewAllTransactions")) {
+                url = "ViewAllTransactionsController";
+            } 
+            
             request.setAttribute("action", action);
             if ("staff".equals(action)) {
                 response.sendRedirect(url);
             } else {
                 request.getRequestDispatcher(url).forward(request, response);
             }
-
+            
         }
     }
 

@@ -48,7 +48,7 @@
             class="layout-menu menu-vertical menu bg-menu-theme"
             >
             <div class="app-brand demo">
-                <a href="#" class="app-brand-link">
+                <a href="MainController?action=home" class="app-brand-link">
                     <span class="app-brand-logo demo"> </span>
                     <img src="https://cdn-icons-png.flaticon.com/512/6556/6556219.png" alt="Logo" class="w-8 h-8" style="width: 80px;
                          height: auto">
@@ -106,7 +106,12 @@
                             <div data-i18n="Layouts">Duyệt phản hồi</div>
                         </a>
                     </li>
-
+                    <li class="menu-item">
+                        <a href="MainController?action=ViewAllTransactions" class="menu-link">
+                            <i class="menu-icon tf-icons fa-solid fa-wallet"></i>
+                            <div data-i18n="Layouts">Duyệt hóa đơn</div>
+                        </a>
+                    </li>
                     <li class="menu-header small text-uppercase">
                         <span class="menu-header-text">Quản lý tài khoản</span>
                     </li>
@@ -158,6 +163,12 @@
                         <a href="MainController?action=FeedbackController" class="menu-link">
                             <i class="menu-icon tf-icons fa-regular fa-comment"></i>
                             <div data-i18n="Layouts">Duyệt phản hồi</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#" class="menu-link">
+                            <i class="menu-icon tf-icons fa-solid fa-wallet"></i>
+                            <div data-i18n="Layouts">Duyệt hóa đơn</div>
                         </a>
                     </li>
                 </c:if>

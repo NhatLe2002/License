@@ -54,7 +54,7 @@ public class PaymentDAO {
             ps.setInt(1, memberID);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                
+
                 list.add(new PaymentDTO(rs.getInt("id"),
                         rs.getFloat("price"), rs.getDate("create_date").toLocalDate(),
                         rs.getInt("memberID"), rs.getString("type"),
@@ -66,7 +66,48 @@ public class PaymentDAO {
         return list;
     }
 
+    public static ArrayList<PaymentDTO> getAllPayment() {
+        ArrayList<PaymentDTO> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM [PAYMENT] ";
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+
+                list.add(new PaymentDTO(rs.getInt("id"),
+                        rs.getFloat("price"), rs.getDate("create_date").toLocalDate(),
+                        rs.getInt("memberID"), rs.getString("type"),
+                        rs.getBoolean("status"), rs.getBoolean("cash_type")));
+
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+
+    public static boolean updatePayment(int id) {
+        boolean check = false;
+
+        try {
+            String sql = "UPDATE [Payment] SET status = 1 WHERE id = ? ";
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+            check = true;
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return check;
+    }
+
     public static void main(String[] args) {
-        System.out.println(getPaymentByID(1));
+
+        ArrayList<PaymentDTO> list = getAllPayment();
+        for (PaymentDTO p : list) {
+            System.out.println(p);
+
+        }
+        System.out.println(updatePayment(18));
     }
 }

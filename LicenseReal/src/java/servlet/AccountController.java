@@ -12,8 +12,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import dao.AccountDAO;
+import dao.DrivingProfileDAO;
+import dao.MemberDAO;
 import dao.UserDAO;
 import dto.AccountDTO;
+import dto.MemberDTO;
 import dto.UserDTO;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
@@ -37,6 +40,7 @@ public class AccountController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         AccountDTO account = new AccountDTO();
+        MemberDTO member = new MemberDTO();
         UserDTO user = new UserDTO();
         String username;
         String password;
@@ -58,6 +62,15 @@ public class AccountController extends HttpServlet {
                         url = "login.jsp";
                     } else {
                         user = UserDAO.getUser(account.getId());
+                        if (account != null) {
+                            Cookie cookie = new Cookie("userId", Integer.toString(user.getId()));
+                            cookie.setMaxAge(60 * 60);
+                            response.addCookie(cookie);
+                        }
+                        member = DrivingProfileDAO.getMemberById(user.getId());
+                        if (member != null) {
+                            session.setAttribute("memberID", member.getId());
+                        }
                         if (user == null) {
                             url = "user-infor.jsp";
                             message = "Bạn cần cập nhật thông tin!";
@@ -87,11 +100,7 @@ public class AccountController extends HttpServlet {
                         message = "Đăng nhập thành công";
                     }
                     session.setAttribute("account", account);
-                    if (account != null) {
-                        Cookie cookie = new Cookie("userId", Integer.toString(user.getId()));
-                        cookie.setMaxAge(60 * 60);
-                        response.addCookie(cookie);
-                    }
+
                     break;
                 case "register":
                     username = request.getParameter("username");
@@ -106,8 +115,10 @@ public class AccountController extends HttpServlet {
                             url = "register.jsp";
                             message = "Đăng ký thật bại, vui lòng nhập tài khoản khác";
                         } else {
+
                             account = AccountDAO.getAccount(username, password);
                             user = UserDAO.getUser(account.getId());
+                            
                             session.setAttribute("account", account);
                             session.setAttribute("user", user);
 //                            if (account != null) {
@@ -138,6 +149,35 @@ public class AccountController extends HttpServlet {
                             session.setAttribute("email", receiveEmail);
                             session.setAttribute("OTP", newOTP);
                             session.setAttribute("idAccount", idAccount);
+                            session.setAttribute("username", username);
+                            int expirationTimeInSeconds = 60;
+                            long expirationTimeInMillis = System.currentTimeMillis() + (expirationTimeInSeconds * 1000);
+                            session.setAttribute("OTPExpirationTime", expirationTimeInMillis);
+                        }
+                    }
+                    break;
+                case "resendOTP":
+                    username = request.getParameter("username");
+                    idAccount = AccountDAO.getAccountID(username);
+                    if (idAccount == -1) {
+                        message = "Tài khoản không tồn tại" + username;
+                        url = "confirmOTP.jsp";
+                    } else {
+                        String receiveEmail = UserDAO.getEmailByID(idAccount);
+                        if (receiveEmail == null) {
+                            message = "Tài khoản không tồn tại aa a" + username;
+                            url = "confirmOTP.jsp";
+                        } else {
+                            String newOTP = vnpay.common.Config.getRandomNumber(6);
+                            url = "confirmOTP.jsp";
+                            utils.Util.sendEmail(receiveEmail, newOTP);
+                            session.setAttribute("email", receiveEmail);
+                            session.setAttribute("OTP", newOTP);
+                            session.setAttribute("idAccount", idAccount);
+                            session.setAttribute("username", username);
+                            int expirationTimeInSeconds = 60;
+                            long expirationTimeInMillis = System.currentTimeMillis() + (expirationTimeInSeconds * 1000);
+                            session.setAttribute("OTPExpirationTime", expirationTimeInMillis);
                         }
                     }
                     break;
@@ -162,18 +202,30 @@ public class AccountController extends HttpServlet {
                     } else {
                         if (AccountDAO.changePassword(idAccount, password)) {
                             url = "login.jsp";
+                            message = "Thay đổi mật khẩu thành công";
                         } else {
                             message = "Thay đổi mật khẩu thất bại";
                             url = "changePassword.jsp";
                         }
                     }
                     break;
+                case "logout":
+                    session = request.getSession();
+                    if (session != null) {
+                        session.invalidate();
+                    }
+                    url = "home.jsp";
+                    break;
             }
         } catch (Exception e) {
         } finally {
+            if (url.equals("MainController?action=admin")) {
+                response.sendRedirect(url);
+            } else {
+                request.setAttribute("message", message);
+                request.getRequestDispatcher(url).forward(request, response);
+            }
 
-            request.setAttribute("message", message);
-            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 
