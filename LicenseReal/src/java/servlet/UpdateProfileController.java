@@ -73,10 +73,10 @@ public class UpdateProfileController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
         String ID = request.getParameter("id");
         int id = 0; // Giá trị mặc định
 
+        
         if (ID != null && !ID.isEmpty()) {
             try {
                 id = Integer.parseInt(ID);
@@ -87,11 +87,11 @@ public class UpdateProfileController extends HttpServlet {
 
         // Gọi hàm getMemberById từ lớp DrivingProfileDAO
         MemberDTO member = DrivingProfileDAO.getMemberById(id);
-
-        session.setAttribute("load_profile", member);
+//        request.setAttribute("memberID", memberID);
+        request.setAttribute("load_profile", member);
 
         // Chuyển hướng đến trang updateprofile.jsp
-        response.sendRedirect("updateProfile.jsp");
+        request.getRequestDispatcher("updateProfile.jsp").forward(request, response);
 
     }
 
@@ -121,6 +121,8 @@ public class UpdateProfileController extends HttpServlet {
 //        String avatar = request.getParameter("avatar");
 //        int role = Integer.parseInt(request.getParameter("role"));
         String health = new String(request.getParameter("health").getBytes("ISO-8859-1"), "UTF-8");
+        String image = "";
+        boolean success = false;
 
         // Tạo đối tượng Member
         MemberDTO member = new MemberDTO();
@@ -147,29 +149,37 @@ public class UpdateProfileController extends HttpServlet {
             InputStream fileContent = filePart.getInputStream();
             byte[] imageBytes = IOUtils.toByteArray(fileContent);
             String data = Base64.getEncoder().encodeToString(imageBytes);
+            if (data.isEmpty()) {
+                MemberDTO img = DrivingProfileDAO.getMemberById(ID);
+                image = img.getAvatar();
+            }
 
             if (filePart.getName().equals("avatar")) {
                 avatar = data;
             }
             member.setAvatar(avatar);
-            boolean success = DrivingProfileDAO.updateMember(member, avatar);
+            if (avatar.isEmpty()) {
+                success = DrivingProfileDAO.updateMember(member, image);
+            } else {
+                success = DrivingProfileDAO.updateMember(member, avatar);
+            }
 
             if (success) {
                 // Cập nhật thành công
                 // Thực hiện các thao tác khác sau khi cập nhật
 
                 // Chuyển hướng hoặc hiển thị thông báo thành công cho người dùng
-                message = "Cập nhật thông tin cá nhân thành công!";
+                message = "success";
             } else {
                 // Cập nhật không thành công
                 // Xử lý lỗi hoặc hiển thị thông báo lỗi cho người dùng
 
                 // Chuyển hướng hoặc hiển thị thông báo lỗi cho người dùng
-                message = "Cập nhật thông tin cá thân thất bại!";
+                message = "fail";
             }
         }
         request.setAttribute("message", message);
-        request.getRequestDispatcher("home.jsp").forward(request, response);
+        request.getRequestDispatcher("updateProfile.jsp").forward(request, response);
     }
 
     /**

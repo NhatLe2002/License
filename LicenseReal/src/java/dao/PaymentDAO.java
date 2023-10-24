@@ -67,6 +67,12 @@ public class PaymentDAO {
     }
 
     public static void main(String[] args) {
-        System.out.println(getPaymentByID(1));
+        ArrayList<PaymentDTO> list = new ArrayList<>();
+        list = getPaymentByID(1);
+        for (PaymentDTO payment : list) {
+    boolean status = payment.isStatus();
+    System.out.println("Status: " + status);
+}
+       
     }
 }

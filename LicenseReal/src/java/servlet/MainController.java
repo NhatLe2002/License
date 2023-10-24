@@ -49,7 +49,7 @@ public class MainController extends HttpServlet {
                 url = "LoadItemServlet";
             } else if (action.equals("login")) {
                 url = "AccountController";
-                } else if (action.equals("logout")) {
+            } else if (action.equals("logout")) {
                 url = "LogoutServlet";
             } else if (action.equals("register")) {
                 url = "AccountController";
@@ -117,7 +117,23 @@ public class MainController extends HttpServlet {
                 String feedbackID = request.getParameter("id");
                 request.setAttribute("id", feedbackID);
                 url = "FeedbackController";
+            } else if (action.equals("updateP")) {
+                String id = request.getParameter("id");
+                request.setAttribute("id", id);
+                url = "updateProfile?id=" + id;
+            } else if (action.equals("adddriver")) {
+                String id = request.getParameter("id");
+                request.setAttribute("id", id);
+                url = "addtodrivingpro?id=" + id;
+            } else if (action.equals("viewdriving")) {
+                String id = request.getParameter("id");
+                request.setAttribute("id", id);
+                url = "viewdriving?id=" +id;
+                } else if (action.equals("memberStaff")) {
+                url = "memberStaff";
             }
+            
+
             request.setAttribute("action", action);
             if ("staff".equals(action)) {
                 response.sendRedirect(url);

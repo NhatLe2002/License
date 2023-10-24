@@ -79,7 +79,7 @@
                         <div class="login_name">
                             <c:choose>
                                 <c:when test="${user != null}">
-                                    <a href="updateProfile?id=${sessionScope.user.getId()}" class="fullname">Hello, ${user.getName()}</a>
+                                    <a href="MainController?action=updateP&id=${sessionScope.user.getId()}" class="fullname">Hello, ${user.getName()}</a>
                                 </c:when>
                                 <c:when test="${account != null}">
                                     <a href="#" class="fullname">Hello, ${account.getUsername()}</a>

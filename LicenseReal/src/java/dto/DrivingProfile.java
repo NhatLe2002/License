@@ -64,7 +64,8 @@ public class DrivingProfile {
         this.gender = gender;
     }
 
-    public DrivingProfile(MemberDTO member, String img_user, boolean gender, boolean flag, boolean status) {
+    public DrivingProfile(MemberDTO member, int memberID, String img_user, boolean gender, boolean flag, boolean status) {
+        this.memberID = memberID;
         this.name = member.getName();
         this.phone = member.getPhone();
         this.email = member.getEmail();

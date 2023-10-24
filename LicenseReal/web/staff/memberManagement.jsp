@@ -137,13 +137,13 @@
                                                 <th>Tên</th>
                                                 <th>Số điện thoại</th>
                                                 <th>Email</th>
-                                                <th>Tình trạng thanh toán</th>
+                                                <th>Căn cước</th>
                                                 <th>Tình trạng hồ sơ</th>
                                                 <th>Tính năng</th>
                                             </tr>
                                         </thead>
                                         <tbody class="table-border-bottom-0" >
-                                            <c:forEach var="list" items="${list_driving}" varStatus="counter">
+                                            <c:forEach var="list" items="${list_member}" varStatus="counter">
                                                 <tr>
                                                     <td>
                                                         <span class="fw-medium">${counter.count}</span>
@@ -152,19 +152,14 @@
                                                     <td>${list.phone}</td>
                                                     <td>${list.email}</td>
                                                     <td>
-                                                        <c:if test="${list.flag eq 'true'}">
-                                                            <span class="fw-medium" style="color:#fba265">Đã thanh toán</span>
-                                                        </c:if>
-                                                        <c:if test="${list.flag eq 'false'}">
-                                                            <span class="text-danger fw-medium">Chưa thanh toán</span>
-                                                        </c:if>
+                                                        ${list.cccd}
                                                     </td>
                                                     <td>
                                                         <c:if test="${list.status eq 'true'}">
-                                                            <span class="text-success fw-medium" style="color:#fba265">Đã hoàn tất</span>
+                                                            <span class="fw-medium" style="color:#fba265">Đang hoạt động</span>
                                                         </c:if>
                                                         <c:if test="${list.status eq 'false'}">
-                                                            <span class="text-danger fw-medium">Chưa được duyệt</span>
+                                                            <span class="fw-medium">Bị ban</span>
                                                         </c:if>
                                                     </td>
                                                     <td>
@@ -179,7 +174,7 @@
                                                             <div class="dropdown-menu">
                                                                 <a
                                                                     class="dropdown-item"
-                                                                    href="MainController?action=viewdriving&id=${list.memberID}"
+                                                                    href="#"
                                                                     ><i class="bx bx-edit-alt me-1"></i>Chỉnh sửa</a
                                                                 >
                                                                 <c:if test="${list.status eq 'true'}">
@@ -328,6 +323,7 @@
 //            document.querySelector('#btn-toast-edit').addEventListener('click', function () {
 //                showToast('Cập nhập bộ đề thành công');
 //            });
+
         </script>
         <!-- Core JS -->
         <!-- build:js assets/vendor/js/core.js -->

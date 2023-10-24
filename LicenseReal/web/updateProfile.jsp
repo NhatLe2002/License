@@ -468,7 +468,11 @@
     </head>
 
     <body>
+        <c:if test="${empty sessionScope.user }">
+            <c:redirect url="login.jsp"></c:redirect>
+        </c:if>
         <c:import url="userHeader.jsp"/>
+        
 
         <div class='mt-5 mb-5 d-flex gap-3 container container-driving-profile no-select'>
             <div class="d-flex flex-column option-account-container gap-3">
@@ -518,12 +522,12 @@
                         <div class='left d-flex flex-column gap-3'>
                             <div class='avatar-user'>
                                 <c:if test="${not empty load_profile.avatar}">
-                                <img id="avatar-img" src="data:image;base64,${load_profile.avatar}"
-                                     alt="Preview">
+                                    <img id="avatar-img" src="data:image;base64,${load_profile.avatar}"
+                                         alt="Preview">
                                 </c:if>
                                 <c:if test="${empty load_profile.avatar}">
                                     <img id="avatar-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png"
-                                     alt="Preview">
+                                         alt="Preview">
                                 </c:if>
                             </div>
 
@@ -540,7 +544,7 @@
 
                                     <div class='edit-profile d-flex gap-2'>
                                         <i class="fa-regular fa-pen-to-square"></i>
-                                        <a href="addtodrivingpro?id=${sessionScope.load_profile.getId()}">Nộp hồ sơ thi</a>  
+                                        <a href="MainController?action=adddriver&id=${load_profile.getId()}">Nộp hồ sơ thi</a>  
                                     </div>
                                 </div>
 
@@ -656,7 +660,9 @@
                                         </div>
 
                                         <div class="mt-5 d-flex gap-3" style="margin-left: 150px;">
-                                            <button class="btn btn-outline-secondary">Hủy</button>
+                                            <a style="text-decoration: none;
+                                                        color: inherit;" href="MainController?action=updateP&id=${sessionScope.user.getId()}"><button type="button" class="btn btn-primary">Hủy</button>
+                                                    </a>
                                             <button class="btn btn-primary" type="submit">Thay đổi</button>
                                         </div>
                                     </form>
@@ -667,6 +673,28 @@
                     </div>
                 </div>
             </div>
+                                                <!-- toast thông báo thành công-->
+            <c:if test="${not empty message}">
+                <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11" >
+                    <div id="toast-notification" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-header">
+                            <c:if test="${message eq 'success'}">
+                                <strong id="toast-message" class="me-auto text-success"></strong>
+                            </c:if>
+                            <c:if test="${message eq 'fail'}">
+                                <strong id="toast-message" class="me-auto text-danger"></strong>
+                            </c:if>
+                            <c:if test="${message eq 'exist'}">
+                                <strong id="toast-message" class="me-auto text-danger"></strong>
+                            </c:if>
+                                <c:if test="${message eq 'notenough'}">
+                                <strong id="toast-message" class="me-auto text-danger"></strong>
+                            </c:if>
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            </c:if>
         </div>
 
         <!-- footer -->
@@ -788,15 +816,60 @@
                     reader.readAsDataURL(selectedFile);
                 }
             });
-            // Assume `load_profile` is an object containing the loaded profile data
             const healthCertificateValue = '${load_profile.health}';
 
-            // Check if the health certificate value is "yes" or "no" and set the corresponding radio button as checked
-            if (healthCertificateValue === 'yes') {
+// Check if the health certificate value is "yes" or "no" and set the corresponding radio button as checked
+            if (healthCertificateValue === 'Đã có') {
                 document.getElementById('health-certificate-yes').checked = true;
-            } else if (healthCertificateValue === 'no') {
+            } else if (healthCertificateValue === 'Chưa có') {
                 document.getElementById('health-certificate-no').checked = true;
             }
+        </script>
+                <script>
+//                    function showMess(id) {
+//                        var btnToastDelete = document.querySelector('#btn-toast-send');
+//                        btnToastDelete.addEventListener('click', function () {
+//                            var deleteUrl = 'addtodrivingpro?id=' + id;
+//                            window.location.href = deleteUrl;
+//                            // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
+//                            document.getElementById('modalConfirmSend').style.display = 'none';
+//                        });
+//                    }
+
+            window.addEventListener('DOMContentLoaded', (event) => {
+                const message = '${message}'; // Lấy giá trị thông báo từ servlet
+                if (message) {
+                    showToast(message); // Gọi hàm hiển thị thông báo
+                }
+            });
+
+            function showToast(message) {
+                const toast = document.getElementById('toast-notification');
+                const toastMessage = document.getElementById('toast-message');
+                if (message === 'success') {
+                    var success = 'Cập nhật thông tin thành công! Hãy đăng nhập lại để cập nhật thông tin ';
+                    toastMessage.textContent = success;
+                } else if (message === 'fail') {
+                    var fail = 'Cập nhật thông tin thất bại!';
+                    toastMessage.textContent = fail;
+                } else {
+                    var exist = 'Bạn đã gửi hồ sơ rồi!';
+                    toastMessage.textContent = exist;
+                }
+                toast.classList.remove('hide');
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+            //            function showConfirmationPopup(id) {
+            //                var btnToastSend = document.getElementById('btn-toast-send');
+            //                btnToastSend.addEventListener('click', function () {
+            //                    var deleteUrl = 'addtodrivingpro?id=' + id;
+            //                    window.location.href = deleteUrl;
+            //                    document.getElementById('modalConfirmSend').style.display = 'none'; // Ẩn modal sau khi xác nhận
+            //                });
+            //            }
         </script>
     </body>
 
