@@ -72,6 +72,7 @@
                         <p>${requestScope.test}</p>
                         <input type="hidden" name="ratingMember" id="rating-input" value="0">
                         <input type="hidden" name="scheduleId" value="${requestScope.scheduleID}">
+                        <input type="text" name="description" >
                         <button type="submit" name="action" value="ratingOfMember">Rating</button>
                     </form>
                 </c:when>

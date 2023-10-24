@@ -21,6 +21,15 @@ public class RatingDTO {
     public RatingDTO() {
     }
 
+    public RatingDTO(int id, int mentorID, int memberID, float star, String description) {
+        this.id = id;
+        this.mentorID = mentorID;
+        this.memberID = memberID;
+        this.star = star;
+        this.description = description;
+    }
+
+    
     public RatingDTO(int id, int mentorID, int memberID, int star, String description) {
         this.id = id;
         this.mentorID = mentorID;

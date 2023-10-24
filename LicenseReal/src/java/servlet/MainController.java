@@ -90,7 +90,9 @@ public class MainController extends HttpServlet {
                 url = "AccountController";
             } else if (action.equals("detailSlot")) {
                 url = "DetailSlotServlet";
-            } else if (action.equals("ratingOfMember")) {
+            } else if (action.equals("bookingSlot")) {
+                url = "RegisScheduleByMemberServlet";
+            }else if (action.equals("ratingOfMember")) {
                 url = "DetailSlotServlet";
             } else if (action.equals("admin")) {
                 url = "DashboardController";
@@ -129,13 +131,13 @@ public class MainController extends HttpServlet {
                 String feedbackID = request.getParameter("id");
                 request.setAttribute("id", feedbackID);
                 url = "FeedbackController";
-
             } else if (action.equals("ViewTransactions")) {
                 url = "ViewTransactionsController";
             } else if (action.equals("ViewAllTransactions")) {
                 url = "ViewAllTransactionsController";
+            }else if (action.equals("detailBookingSlot")) {
+                url = "DetailBookingSlotServlet";
             } 
-            
             request.setAttribute("action", action);
             if ("staff".equals(action)) {
                 response.sendRedirect(url);
