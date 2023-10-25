@@ -129,21 +129,21 @@
                                 <c:when test="${user != null}">
                                     <a  class="fullname">Hello, ${user.getName()}</a>
                                     <select id="dropdown">
-                                        <c:if test="${action == 'updatePage' || action == 'ViewTransactions' }">
+                                        <c:if test="${action == 'updatePage' || action == 'ViewTransactions'  || action == 'passwordProfile' || action =='changePasswordProfile'}">
                                             <option value="MainController?action=home">Home</option>
-                                            <option selected value="MainController?action=updatePage&id=${sessionScope.user.getId()}">Profile</option>
+                                            <option selected value="MainController?action=updatePage&id=${sessionScope.user.getId()}">Thông tin cá nhân</option>
                                             <c:if test="${sessionScope.ROLE == 'AD'}">
-                                                <option value="MainController?action=admin">Dashboard</option>
+                                                <option value="MainController?action=admin">Thống kê<</option>
                                             </c:if>
-                                            <option value="MainController?action=logout">Logout</option>
+                                            <option value="MainController?action=logout">Đăng xuất</option>
                                         </c:if>
                                         <c:if test="${action == 'member'|| action == 'home' || action == 'update' || action == 'PracticeTest'}">
                                             <option selected value="MainController?action=home">Home</option>
-                                            <option value="updateProfile?action=updatePage&id=${sessionScope.user.getId()}">Profile</option>
+                                            <option value="MainController?action=updatePage&id=${sessionScope.user.getId()}">Thông tin cá nhân</option>
                                             <c:if test="${sessionScope.ROLE == 'AD'}">
-                                                <option value="MainController?action=admin">Dashboard</option>
+                                                <option value="MainController?action=admin">Thống kê</option>
                                             </c:if>
-                                            <option value="MainController?action=logout">Logout</option>
+                                            <option value="MainController?action=logout">Đăng xuất</option>
                                         </c:if>
 
                                     </select>
@@ -151,7 +151,7 @@
                                 </c:when>
 
                                 <c:otherwise>
-                                    <a class="btn_login"  href="login.jsp">Log in</a>
+                                    <a class="btn_login"  href="MainController?action=loginPage">Đăng nhập</a>
                                 </c:otherwise>
                             </c:choose>
                         </div>

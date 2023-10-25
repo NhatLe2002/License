@@ -512,7 +512,7 @@
                         <div class="text-option-account">Lịch sử giao dịch</div>
                     </a>
 
-                    <a href="/change-password.html" class="link-option-account">
+                    <a href="MainController?action=passwordProfile" class="link-option-account">
                         <span class="bold-icon">
                             <i class="fa-solid fa-lock"></i>
                         </span>
@@ -544,11 +544,11 @@
                             <c:forEach items="${listP}" var="p">
                                 <tr>
                                     <td>${user.getName()}</td>
-                                    <c:if test="${p.getPrice() == 500000}">
-                                        <td>500k</td>
+                                    <c:if test="${p.getPrice() == 1200000}">
+                                        <td>1tr2</td>
                                     </c:if>
-                                    <c:if test="${p.getPrice() == 15000000}">
-                                        <td>15tr</td>
+                                    <c:if test="${p.getPrice() == 10000000}">
+                                        <td>10tr</td>
                                     </c:if>
                                     <c:if test="${p.getType().equals('regisTest')}">
                                         <td>Đăng ký nộp hồ sơ</td>

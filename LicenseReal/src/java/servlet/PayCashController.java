@@ -55,6 +55,7 @@ public class PayCashController extends HttpServlet {
             }
             if (!check_cash_type) {
                 PaymentDAO.createPayment(memberID, price, type, false, check_cash_type);
+                
             } else {
                 session.setAttribute("cash_type", cash_type);
                 session.setAttribute("type", type);

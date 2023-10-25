@@ -26,7 +26,7 @@ public class DrivingProfileDAO {
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
-        MemberDTO mdto = getMemberById(1);
+        MemberDTO mdto = getMemberById(11);
         System.out.println(mdto);
     }
 

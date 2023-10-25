@@ -76,7 +76,8 @@ public class UpdateProfileController extends HttpServlet {
         HttpSession session = request.getSession();
         String ID = request.getParameter("id");
         int id = 0; // Giá trị mặc định
-         String action = request.getParameter("action");
+        String action = request.getParameter("action");
+        
         if (ID != null && !ID.isEmpty()) {
             try {
                 id = Integer.parseInt(ID);

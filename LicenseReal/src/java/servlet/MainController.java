@@ -34,7 +34,7 @@ public class MainController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     private String url = "errorpage.html";
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
@@ -49,14 +49,20 @@ public class MainController extends HttpServlet {
                 url = "LoadItemServlet";
             } else if (action.equals("login")) {
                 url = "AccountController";
-                } else if (action.equals("logout")) {
+            } else if (action.equals("loginPage")) {
+                url = "login.jsp";
+            } else if (action.equals("logout")) {
                 url = "LogoutServlet";
             } else if (action.equals("register")) {
                 url = "AccountController";
+            } else if (action.equals("registerPage")) {
+                url = "register.jsp";
             } else if (action.equals("regisSchedule")) {
                 url = "RegistScheduleServlet";
             } else if (action.equals("regisScheduleBtn")) {
-                url = "RegistScheduleServlet";
+                url = "RegistScheduleServlet";            
+            } else if (action.equals("forgotPasswordPage")) {
+                url = "forgotPassword.jsp";
             } else if (action.equals("viewSchedule")) {
                 url = "ViewScheduleServlet";
             } else if (action.equals("viewScheduleMember")) {
@@ -134,15 +140,19 @@ public class MainController extends HttpServlet {
                 url = "ViewTransactionsController";
             } else if (action.equals("ViewAllTransactions")) {
                 url = "ViewAllTransactionsController";
-            } 
-            
+            } else if (action.equals("passwordProfile")) {
+                url = "PasswordProfileController";
+            } else if (action.equals("changePasswordProfile")) {
+                url = "AccountController";
+            }
+
             request.setAttribute("action", action);
             if ("staff".equals(action)) {
                 response.sendRedirect(url);
             } else {
                 request.getRequestDispatcher(url).forward(request, response);
             }
-            
+
         }
     }
 

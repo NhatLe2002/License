@@ -495,7 +495,7 @@
                         <div class="text-option-account">Lịch sử giao dịch</div>
                     </a>
 
-                    <a href="/change-password.html" class="link-option-account">
+                    <a href="MainController?action=passwordProfile" class="link-option-account">
                         <span class="bold-icon">
                             <i class="fa-solid fa-lock"></i>
                         </span>
@@ -521,7 +521,7 @@
                                 <img id="avatar-img" src="data:image;base64,${load_profile.avatar}"
                                      alt="Preview">
                                 </c:if>
-                                <c:if test="${empty load_profile.avatar}">
+                                <c:if test="${load_profile.avatar.equals('no')}">
                                     <img id="avatar-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png"
                                      alt="Preview">
                                 </c:if>

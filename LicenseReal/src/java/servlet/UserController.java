@@ -70,7 +70,8 @@ public class UserController extends HttpServlet {
                         if (member != null) {
                             session.setAttribute("memberID", member.getId());
                         }
-                        url = "home.jsp";
+                        session.setAttribute("ROLE", "US");
+                        url = "MainController?action=member";
                         break;
                     case 1:
                         message = "Số điện thoại sai định dạng";

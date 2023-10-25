@@ -103,11 +103,12 @@ public class PaymentDAO {
 
     public static void main(String[] args) {
 
-        ArrayList<PaymentDTO> list = getAllPayment();
-        for (PaymentDTO p : list) {
-            System.out.println(p);
-
-        }
-        System.out.println(updatePayment(18));
+//        ArrayList<PaymentDTO> list = getAllPayment();
+//        for (PaymentDTO p : list) {
+//            System.out.println(p.getPrice());
+//
+//        }
+//        System.out.println(updatePayment(18));
+        System.out.println(createPayment(6, 500, "regisLearn", false, false));
     }
 }
