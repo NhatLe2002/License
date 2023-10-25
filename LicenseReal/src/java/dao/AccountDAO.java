@@ -7,8 +7,10 @@ package dao;
 
 import utils.DBUtils;
 import dto.AccountDTO;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import utils.Util;
 
 /**
@@ -45,7 +47,49 @@ public class AccountDAO extends DBUtils {
             System.out.println(e);
         }
         return check;
-    
+
+    }
+
+    public static boolean checkBanAccount(String username, String password) throws SQLException {
+        boolean result = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = "SELECT M.[status]\n"
+                        + "FROM [License].[dbo].[Member] M\n"
+                        + "JOIN [License].[dbo].[User] U ON M.[userID] = U.[id]\n"
+                        + "JOIN [License].[dbo].[Account] A ON U.[accountID] = A.[id]\n"
+                        + "WHERE A.[username] = ? AND A.[password] = ?";
+                stm = conn.prepareStatement(sql);
+                stm.setString(1, username);
+                stm.setString(2, password);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    boolean status = rs.getBoolean("status");
+                    if (status == true) {
+                        result = true;
+                    } else {
+                        result = false;
+                    }
+                }
+            }
+        } catch (Exception e) {
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            };
+            if (conn != null) {
+                conn.close();
+            };
+
+        }
+        return result;
     }
 
     public static AccountDTO getAccount(String username, String password) {
@@ -120,7 +164,20 @@ public class AccountDAO extends DBUtils {
     }
 
     public static void main(String[] args) {
-        System.out.println(getAccountID("minhhoi"));
+
+        String username = "user1";
+        String password = "123";
+
+        try {
+            boolean isBanned = checkBanAccount(username, password);
+            if (isBanned) {
+                System.out.println("Account is banned. Cannot login.");
+            } else {
+                System.out.println("Account is not banned. Login successful.");
+            }
+        } catch (SQLException e) {
+            System.out.println("An error occurred while checking account ban status: " + e.getMessage());
+        }
 //        System.out.println(getAccount("anh123", "666").getId());
     }
 //    public static boolean changePassword(int id, String newPassword) {

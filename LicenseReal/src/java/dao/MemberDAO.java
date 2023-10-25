@@ -5,6 +5,7 @@
  */
 package dao;
 
+import static dao.AccountDAO.getAccount;
 import dto.MemberDTO;
 import dto.MentorDTO;
 import dto.UserDTO;
@@ -14,6 +15,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import utils.DBUtils;
+import static utils.DBUtils.getConnection;
+import utils.Util;
 
 /**
  *
@@ -90,6 +93,41 @@ public class MemberDAO {
         }
         return list;
     }
+        
+        // update status member
+    public boolean updateStatusMember(String memberID, String status) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        boolean result = false;
+        String sql;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                if (status.equals("1")) {
+                    sql = "UPDATE Member SET status = 0 WHERE id = " + memberID;
+                } else {
+                    sql = "UPDATE Member SET status = 1 WHERE id = " + memberID;
+                }
+                ptm = conn.prepareStatement(sql);
+                int row = ptm.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+        }
+        return result;
+    }
+        
+        
    public static ArrayList<MentorDTO> getAllMentor() throws SQLException, ClassNotFoundException {
         ArrayList<MentorDTO> list = new ArrayList<>();
         Connection conn = null;
@@ -113,8 +151,7 @@ public class MemberDAO {
                     String certificate = rs.getString("certificate");
                     String experience = rs.getString("experience");
                     boolean status = rs.getBoolean("status");
-                    UserDTO userDTO = new UserDTO(userId, name, phone, email, cccd);
-//                    MemberDTO memberDTO = new MemberDTO(memberId, userDTO,health, status);                   
+                    UserDTO userDTO = new UserDTO(userId, name, phone, email, cccd);                
                     list.add(new MentorDTO(mentorId, userDTO, certificate, experience, status));
                 }
             }
@@ -133,8 +170,71 @@ public class MemberDAO {
         }
         return list;
     }     
+   public boolean updateStatusMentor(String mentorID, String status) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        boolean result = false;
+        String sql;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                if (status.equals("1")) {
+                    sql = "UPDATE Mentor SET status = 0 WHERE id = " + mentorID;
+                } else {
+                    sql = "UPDATE Mentor SET status = 1 WHERE id = " + mentorID;
+                }
+                ptm = conn.prepareStatement(sql);
+                int row = ptm.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+        }
+        return result;
+    }
+       public static boolean createAccount(String username, String password) {
+
+        boolean check = false;
+        String hashPassword = Util.hashPassword(password);
+        try {
+            if (username.equals("")) {
+                return check = false;
+            }
+            if (!Util.validateUsername(username)) {
+                return check = false;
+            }
+            if (getAccount(username, password) == null) {
+                String sql = "INSERT INTO Account(username,password)"
+                        + "values(?,?)";
+                PreparedStatement ps = getConnection().prepareStatement(sql);
+                ps.setString(1, username);
+                ps.setString(2, hashPassword);
+                int row = ps.executeUpdate();
+                if (row > 0) {
+                    check = true;
+                }
+            } else {
+                check = false;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return check;
+    
+    }
+   
+   
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        ArrayList<MemberDTO> list = getAllMember();
+        ArrayList<MentorDTO> list = getAllMentor();
         System.out.println(list);
         
     }

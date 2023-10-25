@@ -172,29 +172,25 @@
                                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                                             </button>
                                                             <div class="dropdown-menu">
-                                                                <a
-                                                                    class="dropdown-item"
-                                                                    href="#"
-                                                                    ><i class="bx bx-edit-alt me-1"></i>Chỉnh sửa</a
-                                                                >
+                                                                
                                                                 <c:if test="${list.status eq 'true'}">
                                                                     <a  style="cursor: pointer"
                                                                         class="dropdown-item"
                                                                         data-toggle="tooltip"
                                                                         data-bs-toggle="modal" 
                                                                         data-bs-target="#modalConfirmDeactive" 
-                                                                        onclick="showDeactive('${list.memberID}')"
-                                                                        ><i class="fa-solid fa-ban me-1"></i> Hủy hồ sơ</a
+                                                                        onclick="showDeactive('${list.id}')"
+                                                                        ><i class="fa-solid fa-ban me-1"></i> Chặn người dùng</a
                                                                     >
                                                                 </c:if>
                                                                 <c:if test="${list.status eq 'false'}">
                                                                     <a style="cursor: pointer"
                                                                        class="dropdown-item"
                                                                        data-toggle="tooltip"
-                                                                       data-bs-toggle="modal" 
+                                                                       data-bs-toggle="modal"
                                                                        data-bs-target="#modalConfirmActive" 
-                                                                       onclick="showActive('${list.memberID}')"
-                                                                       ><i class="fa-solid fa-arrow-rotate-left me-1"></i> Hoàn tất hồ sơ</a
+                                                                       onclick="showActive('${list.id}')"
+                                                                       ><i class="fa-solid fa-arrow-rotate-left me-1"></i> Bỏ chặn người dùng</a
                                                                     >
                                                                 </c:if>
                                                             </div>
@@ -212,11 +208,11 @@
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="staticBackdropLabel">XÁC NHẬN HỦY HỒ SƠ NÀY</h5>
+                                        <h5 class="modal-title" id="staticBackdropLabel">XÁC NHẬN CHẶN THÀNH VIÊN</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        Bạn có chắc muốn hủy bộ hồ sơ này?
+                                        Bạn có chắc muốn chặn người dùng này?
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
@@ -231,11 +227,11 @@
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="staticBackdropLabel">XÁC NHẬN HOÀN TẤT HỒ SƠ</h5>
+                                        <h5 class="modal-title" id="staticBackdropLabel">XÁC NHẬN BỎ CHẶN THÀNH VIÊN</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        Bạn có chắc muốn nộp hồ sơ này?
+                                        Bạn có chắc muốn bỏ chặn người dùng này?
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
@@ -273,7 +269,7 @@
             function showDeactive(id) {
                 var btnToastDelete = document.querySelector('#btn-toast-deactive');
                 btnToastDelete.addEventListener('click', function () {
-                    var deleteUrl = 'drivingstaff?action=deactive&status=1&id=' + id;
+                    var deleteUrl = 'mentorStaff?action=deactive&status=1&id=' + id;
                     window.location.href = deleteUrl;
                     // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
                     document.getElementById('modalConfirmDeactive').style.display = 'none';
@@ -282,7 +278,7 @@
             function showActive(id) {
                 var btnToastDelete = document.querySelector('#btn-toast-active');
                 btnToastDelete.addEventListener('click', function () {
-                    var deleteUrl = 'drivingstaff?action=active&status=0&id=' + id;
+                    var deleteUrl = 'mentorStaff?action=active&status=0&id=' + id;
                     window.location.href = deleteUrl;
                     // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
                     document.getElementById('modalConfirmActive').style.display = 'none';

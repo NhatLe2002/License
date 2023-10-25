@@ -59,7 +59,7 @@ public class MentorDTO {
         this.address = user.getAddress();
         this.avatar = user.getAvatar();
         this.role = user.getRole();
-        this.status = true;
+        this.status = status;
         this.certificate = certificate;
         this.experience = experience;
     }
@@ -192,4 +192,11 @@ public class MentorDTO {
         this.role = role;
     }
 
+    @Override
+    public String toString() {
+        return "MentorDTO{" + "id=" + id + ", certificate=" + certificate + ", experience=" + experience + ", status=" + status + ", userID=" + userID + ", user=" + user + ", name=" + name + ", phone=" + phone + ", email=" + email + ", dob=" + dob + ", cccd=" + cccd + ", address=" + address + ", avatar=" + avatar + ", role=" + role + '}';
+    }
+
+    
+    
 }

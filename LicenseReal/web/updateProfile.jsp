@@ -478,27 +478,18 @@
             <div class="d-flex flex-column option-account-container gap-3">
                 <div class='title' id='title'></div>
                 <div class='sidebar-account'>
-                    <a href="/driving-profile.html" class="link-option-account">
+                    <a href="MainController?action=updateP&id=${sessionScope.user.getId()}" class="link-option-account">
                         <span class="bold-icon">
                             <i class="fa-regular fa-user"></i>
                         </span>
                         <div class="text-option-account">Thông tin cá nhân</div>
                     </a>
-
-                    <a class="link-option-account">
-                        <span class="bold-icon">
-                            <i class="fa-regular fa-file"></i>
-                        </span>
-                        <div class="text-option-account">Lịch sử làm bài</div>
-                    </a>
-
                     <a class="link-option-account">
                         <span class="bold-icon">
                             <i class="fa-solid fa-shekel-sign"></i>
                         </span>
                         <div class="text-option-account">Lịch sử giao dịch</div>
                     </a>
-
                     <a href="/change-password.html" class="link-option-account">
                         <span class="bold-icon">
                             <i class="fa-solid fa-lock"></i>
@@ -557,12 +548,11 @@
                                 <div class="main-top d-flex gap-4">
                                     <div class='about d-flex gap-2 active align-items-center'>
                                         <i class="fa-regular fa-address-card"></i>
-                                        <p>Bản thân</p>
+                                        <p>Thông tin</p>
                                     </div>
 
-                                    <div class='timeline d-flex gap-2 align-items-center'>
-                                        <i class="fa-solid fa-timeline"></i>
-                                        <p>Lịch sử hoạt động</p>
+                                    <div class='timeline d-flex gap-2 align-items-center'>                                       
+                                        <p>cá nhân</p>
                                     </div>
                                 </div>
                                 <div class="main-info d-flex flex-column justify-content-around">

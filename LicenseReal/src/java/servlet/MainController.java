@@ -133,6 +133,8 @@ public class MainController extends HttpServlet {
                 url = "memberStaff";
             } else if (action.equals("mentorStaff")) {
                 url = "mentorStaff";
+                } else if (action.equals("createMember")) {
+                url = "staff/createMember.jsp";
             }
 
             request.setAttribute("action", action);

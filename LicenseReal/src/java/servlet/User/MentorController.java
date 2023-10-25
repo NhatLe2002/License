@@ -61,6 +61,14 @@ public class MentorController extends HttpServlet {
     throws ServletException, IOException {
 //        processRequest(request, response);
         String message = (String) request.getAttribute("message");
+                String action = request.getParameter("action");
+        if (action.equals("deactive") || action.equals("active")) {
+            String status = request.getParameter("status");
+            String mentorID = request.getParameter("id");
+            request.setAttribute("status", status);
+            request.setAttribute("mentorID", mentorID);
+            doPost(request, response);
+        } else {
         try {
             ArrayList<MentorDTO> list = MemberDAO.getAllMentor();
             request.setAttribute("list_member", list);
@@ -69,7 +77,7 @@ public class MentorController extends HttpServlet {
         request.setAttribute("message", message);
         request.getRequestDispatcher("staff/mentorManagement.jsp").forward(request, response);
     } 
-
+    }
     /** 
      * Handles the HTTP <code>POST</code> method.
      * @param request servlet request
@@ -80,7 +88,23 @@ public class MentorController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        String status = (String) request.getAttribute("status");
+        String mentorID = (String) request.getAttribute("mentorID");
+        MemberDAO dao = new MemberDAO();
+        String message = "";
+        try {
+            boolean checkUpdate = dao.updateStatusMentor(mentorID, status);
+            if (checkUpdate) {
+                message = "success";
+            } else {
+                message = "fail";
+            }
+            ArrayList<MentorDTO> list = MemberDAO.getAllMentor();
+            request.setAttribute("list_member", list);
+        } catch (Exception e) {
+        }
+        request.setAttribute("message", message);
+        request.getRequestDispatcher("staff/mentorManagement.jsp").forward(request, response);
     }
 
     /** 

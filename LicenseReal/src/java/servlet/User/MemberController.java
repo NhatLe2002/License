@@ -65,14 +65,23 @@ public class MemberController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String message = (String) request.getAttribute("message");
-        try {
-            ArrayList<MemberDTO> list = MemberDAO.getAllMember();
-            request.setAttribute("list_member", list);
-        } catch (Exception ex) {
-        }
-        request.setAttribute("message", message);
-        request.getRequestDispatcher("staff/memberManagement.jsp").forward(request, response);
+        String action = request.getParameter("action");
+        if (action.equals("deactive") || action.equals("active")) {
+            String status = request.getParameter("status");
+            String memberID = request.getParameter("id");
+            request.setAttribute("status", status);
+            request.setAttribute("memberID", memberID);
+            doPost(request, response);
+        } else {
+            try {
+                ArrayList<MemberDTO> list = MemberDAO.getAllMember();
+                request.setAttribute("list_member", list);
+            } catch (Exception ex) {
+            }
+            request.setAttribute("message", message);
+            request.getRequestDispatcher("staff/memberManagement.jsp").forward(request, response);
 
+        }
     }
 
     /**
@@ -86,7 +95,25 @@ public class MemberController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String status = (String) request.getAttribute("status");
+        String memberID = (String) request.getAttribute("memberID");
+        MemberDAO dao = new MemberDAO();
+        String message = "";
+        try {
+            boolean checkUpdate = dao.updateStatusMember(memberID, status);
+            if (checkUpdate) {
+                message = "success";
+            } else {
+                message = "fail";
+            }
+            ArrayList<MemberDTO> list = MemberDAO.getAllMember();
+            request.setAttribute("list_member", list);
+        } catch (Exception e) {
+        }
+        request.setAttribute("message", message);
+        request.getRequestDispatcher("staff/memberManagement.jsp").forward(request, response);
+        
+        
     }
 
     /**
