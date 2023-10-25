@@ -20,6 +20,8 @@ public class ScheduleDTO {
     private Date day;
     private int time;
     private MentorDTO mentor;
+    private String mentorName;
+    private float revenue;
 
     public ScheduleDTO() {
     }
@@ -41,6 +43,11 @@ public class ScheduleDTO {
         this.day = day;
         this.time = time;
         this.mentor = mentor;
+    }
+
+    public ScheduleDTO(String mentorName, float revenue) {
+        this.mentorName = mentorName;
+        this.revenue = revenue;
     }
     
 
@@ -90,6 +97,30 @@ public class ScheduleDTO {
 
     public void setTime(int time) {
         this.time = time;
+    }
+
+    public MentorDTO getMentor() {
+        return mentor;
+    }
+
+    public void setMentor(MentorDTO mentor) {
+        this.mentor = mentor;
+    }
+
+    public String getMentorName() {
+        return mentorName;
+    }
+
+    public void setMentorName(String mentorName) {
+        this.mentorName = mentorName;
+    }
+
+    public float getRevenue() {
+        return revenue;
+    }
+
+    public void setRevenue(float revenue) {
+        this.revenue = revenue;
     }
 
     

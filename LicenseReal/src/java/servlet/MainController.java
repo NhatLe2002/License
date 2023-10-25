@@ -153,7 +153,7 @@ public class MainController extends HttpServlet {
                 url = "memberStaff";
             }
             request.setAttribute("action", action);
-            if ("staff".equals(action)) {
+            if ("staff".equals(action) || "admin".equals(action)) {
                 response.sendRedirect(url);
             } else {
                 request.getRequestDispatcher(url).forward(request, response);
