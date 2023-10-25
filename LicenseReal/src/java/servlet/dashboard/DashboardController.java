@@ -1,4 +1,3 @@
-
 package servlet.dashboard;
 
 import dao.PaymentDAO;
@@ -222,11 +221,18 @@ public class DashboardController extends HttpServlet {
             }
             request.setAttribute("totaPaymentProfilel", Math.round(totaPaymentProfilel) / M);
             request.setAttribute("dataPaymentProfileYearNow", dataPaymentProfileYearNow);
+
+            int currentMonth;
+            if (yearNow == localDate.getYear()) {
+                currentMonth = localDate.getMonthValue();
+            } else {
+                currentMonth = 13;
+            }
+            request.setAttribute("currentMonth", currentMonth);
         } catch (Exception e) {
         }
         request.getRequestDispatcher("admin/dashboard.jsp").forward(request, response);
     }
-
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
