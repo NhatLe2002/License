@@ -473,6 +473,9 @@
     </head>
 
     <body>
+        <c:if test="${empty sessionScope.user }">
+            <c:redirect url="login.jsp"></c:redirect>
+        </c:if>
         <c:import url="userHeader.jsp"/>
 
         <div class='mt-5 mb-5 d-flex gap-3 container container-driving-profile'>
@@ -507,7 +510,7 @@
                         <div class="text-option-account">Đổi mật khẩu</div>
                     </a>
 
-                    <a class="link-option-account">
+                    <a class="link-option-account" href="LogoutServlet">
                         <span class="bold-icon">
                             <i class="fa-solid fa-arrow-right-from-bracket"></i>
                         </span>
@@ -554,10 +557,9 @@
                                     </div>
                                 </div>
                                 <div class="main-info d-flex flex-column justify-content-around">
-                                    <form action="updateProfile" method="POST" enctype="multipart/form-data">
+                                    <form action="addtodrivingpro?id=${load_profile.getId()}" method="POST" enctype="multipart/form-data">
                                         <div class="contact-info">
                                             <p class='text-header-profile'>Thông tin liên lạc</p>
-                                            <input value="${load_profile.id}" type="text" name="id" id="id" hidden="" />
                                             <div class="content d-flex">
                                                 <div class="label-info">
                                                     <label for="phoneNumber">Số điện thoại:</label>
@@ -580,8 +582,7 @@
                                                     <label for="img_user">Ảnh 3x4:</label>
                                                 </div>
                                                 <div class="input-info">
-                                                    <i class="fa-solid fa-camera" id="camera-icon"></i>
-                                                    <input type="file" name="img_user" id="file-input-user" style="display: none;" onchange="previewImage(event)" accept="image/*">
+                                                    <input type="file" name="img_user" id="file-input-user" onchange="previewImage(event)" accept="image/*">
                                                 </div>
                                             </div>
                                         </div>
@@ -642,8 +643,7 @@
                                                     <label for="img_cccd">Ảnh CCCD:</label>
                                                 </div>
                                                 <div class="input-info">
-                                                    <i class="fa-solid fa-camera" id="camera-icon-cccd"></i>
-                                                    <input type="file" name="img_cccd" id="file-input-cccd" style="display: none;" onchange="previewImage(event)" accept="image/*">
+                                                    <input type="file" name="img_cccd" id="file-input-cccd"  onchange="previewImage(event)" accept="image/*">
                                                 </div>
                                             </div>
                                             <div class='left d-flex flex-column gap-3'>
@@ -675,61 +675,69 @@
                                             </div>
                                         </div>
                                         <div class="mt-5 d-flex gap-3" style="margin-left: 150px;">
-                                            <button class="btn btn-outline-secondary">Hủy</button>
-                                            <button class="btn btn-primary" type="submit" id="submit-button">Thay đổi</button>
+                                             <a style="text-decoration: none;
+                                                        color: inherit;" href="MainController?action=adddriver&id=${sessionScope.load_profile.getId()}"><button type="button" class="btn btn-primary">Hủy</button>
+                                                    </a> 
+                                            <button class="btn btn-primary" type="submit">Thay đổi</button>
+
                                         </div>
                                     </form>
 
                                 </div>
                             </div>
                         </div>
+                        <!--                                                                       <div class="modal fade" id="modalConfirmSend" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                                                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                                <div class="modal-dialog modal-dialog-centered">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="staticBackdropLabel">XÁC NHẬN THÔNG TIN</h5>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            Hãy kiểm tra đầy đủ thông tin trước khi gửi! 
+                                                                            <br/>
+                                                                            Xác nhận gửi?
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                                                            <button type="button" class="btn btn-primary" id="btn-toast-send" class="btn-close"
+                                                                                    data-bs-dismiss="modal" aria-label="Close">Xác nhận</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>-->
                     </div>
+
                 </div>
             </div>
+
+            <!-- toast thông báo thành công-->
+            <c:if test="${not empty message}">
+                <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11" >
+                    <div id="toast-notification" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-header">
+                            <c:if test="${message eq 'success'}">
+                                <strong id="toast-message" class="me-auto text-success"></strong>
+                            </c:if>
+                            <c:if test="${message eq 'fail'}">
+                                <strong id="toast-message" class="me-auto text-danger"></strong>
+                            </c:if>
+                            <c:if test="${message eq 'exist'}">
+                                <strong id="toast-message" class="me-auto text-danger"></strong>
+                            </c:if>
+                            <c:if test="${message eq 'notenough'}">
+                                <strong id="toast-message" class="me-auto text-danger"></strong>
+                            </c:if>
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            </c:if>
         </div>
 
         <!-- footer -->
-        <footer class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="footer-col">
-                        <h4>Về chúng tôi</h4>
-                        <p>Một công cụ học lái xe, mang lại cho bạn cơ hội rèn luyện và nâng cao kiến thức về quy
-                            tắc giao thông và kỹ năng lái xe một cách an toàn và hiệu quả.</p>
-                    </div>
-                    <div class="footer-col">
-                        <h4>Thông tin bên lề</h4>
-                        <ul>
-                            <li><a href="#">Quyền lợi</a></li>
-                            <li><a href="#">Dịch vụ</a></li>
-                            <li><a href="#">Đánh giá</a></li>
-                            <li><a href="#">Liên lạc</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-col">
-                        <h4>Dịch vụ cung cấp</h4>
-                        <ul>
-                            <li><a href="#">Thi thử</a></li>
-                            <li><a href="#">Học lý thuyết</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-col">
-                        <h4>Thông tin tương tác</h4>
-                        <p>Nếu bạn có bất kì thắc mắc nào vui lòng liên hệ demo@example.com</p>
-                        <ul>
-                            <li class='d-flex justify-items-center align-items-center text-black'>
-                                <i class="fa-solid fa-location-dot icon text-black"></i>
-                                <a href="#" class='pl-2'>123 Address</a>
-                            </li>
-                            <li class='d-flex justify-items-center align-items-center text-black'>
-                                <i class="fa-solid fa-phone icon text-black"></i>
-                                <a href="#" class='pl-2'> 0923456789</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </footer>
+        <c:import url="userFooter.jsp"/>
         <script>
             function validateEmail() {
                 const emailInput = document.getElementById('email');
@@ -775,20 +783,20 @@
                 // Cập nhật giá trị của ô input
                 input.value = numericValue;
             }
-// Lấy ngày sinh từ input
+            // Lấy ngày sinh từ input
             var dobInput = document.getElementById('birthdate');
             var dob = new Date(dobInput.value);
 
-// Lấy ngày hiện tại
+            // Lấy ngày hiện tại
             var currentDate = new Date();
 
-// Tính toán số tuổi
+            // Tính toán số tuổi
             var age = currentDate.getFullYear() - dob.getFullYear();
             if (currentDate.getMonth() < dob.getMonth() || (currentDate.getMonth() === dob.getMonth() && currentDate.getDate() < dob.getDate())) {
                 age--;
             }
 
-// Kiểm tra nếu tuổi không đủ 18 tuổi
+            // Kiểm tra nếu tuổi không đủ 18 tuổi
             if (age < 18) {
                 // Hiển thị thông báo yêu cầu cập nhật thông tin
                 var validationMessage = document.getElementById('age-validation-message');
@@ -801,7 +809,7 @@
                 document.getElementById('submit-button').disabled = false;
             }
 
-// Lắng nghe sự kiện thay đổi ngày sinh
+            // Lắng nghe sự kiện thay đổi ngày sinh
             dobInput.addEventListener('change', function () {
                 // Lấy lại giá trị ngày sinh
                 dob = new Date(dobInput.value);
@@ -879,63 +887,61 @@
             }
 
             setTimeGreeting();
-
-
-            //Xử lý sự kiện upload avatar
-            var cameraIconUser = document.getElementById('camera-icon');
-            var fileInputUser = document.getElementById('file-input-user');
-            var imgUser = document.getElementById('avatar-img');
-
-            cameraIconUser.addEventListener('click', function () {
-                fileInputUser.click();
-            });
-
-            fileInputUser.addEventListener('change', function () {
-                var selectedFile = fileInputUser.files[0];
-                if (selectedFile) {
-                    var reader = new FileReader();
-                    reader.onload = function (event) {
-                        var fileData = event.target.result;
-                        // Lấy link ảnh này lưu vào database
-                        console.log(fileData);
-
-                        imgUser.src = fileData;
-                    };
-                    reader.readAsDataURL(selectedFile);
-                }
-            });
-
-            var cameraIconCCCD = document.getElementById('camera-icon-cccd');
-            var fileInputCCCD = document.getElementById('file-input-cccd');
-            var imgCCCD = document.getElementById('avatar-img');
-
-            cameraIconCCCD.addEventListener('click', function () {
-                fileInputCCCD.click();
-            });
-
-            fileInputCCCD.addEventListener('change', function () {
-                var selectedFile = fileInputCCCD.files[0];
-                if (selectedFile) {
-                    var reader = new FileReader();
-                    reader.onload = function (event) {
-                        var fileData = event.target.result;
-                        // Lấy link ảnh này lưu vào database
-                        console.log(fileData);
-
-                        imgCCCD.src = fileData;
-                    };
-                    reader.readAsDataURL(selectedFile);
-                }
-            });
-// Assume `load_profile` is an object containing the loaded profile data
+            // Assume `load_profile` is an object containing the loaded profile data
             const healthCertificateValue = '${load_profile.health}';
 
-// Check if the health certificate value is "yes" or "no" and set the corresponding radio button as checked
+            // Check if the health certificate value is "yes" or "no" and set the corresponding radio button as checked
             if (healthCertificateValue === 'Đã có') {
                 document.getElementById('health-certificate-yes').checked = true;
             } else if (healthCertificateValue === 'Chưa có') {
                 document.getElementById('health-certificate-no').checked = true;
             }
+        </script>
+        <script>
+//                    function showMess(id) {
+//                        var btnToastDelete = document.querySelector('#btn-toast-send');
+//                        btnToastDelete.addEventListener('click', function () {
+//                            var deleteUrl = 'addtodrivingpro?id=' + id;
+//                            window.location.href = deleteUrl;
+//                            // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
+//                            document.getElementById('modalConfirmSend').style.display = 'none';
+//                        });
+//                    }
+
+            window.addEventListener('DOMContentLoaded', (event) => {
+                const message = '${message}'; // Lấy giá trị thông báo từ servlet
+                if (message) {
+                    showToast(message); // Gọi hàm hiển thị thông báo
+                }
+            });
+
+            function showToast(message) {
+                const toast = document.getElementById('toast-notification');
+                const toastMessage = document.getElementById('toast-message');
+                if (message === 'success') {
+                    var success = 'Gửi thông tin hồ sơ thành công!';
+                    toastMessage.textContent = success;
+                } else if (message === 'fail') {
+                    var fail = 'Không thể gửi thông tin hồ sơ!';
+                    toastMessage.textContent = fail;
+                } else {
+                    var exist = 'Bạn đã gửi hồ sơ rồi!';
+                    toastMessage.textContent = exist;
+                }
+                toast.classList.remove('hide');
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+            //            function showConfirmationPopup(id) {
+            //                var btnToastSend = document.getElementById('btn-toast-send');
+            //                btnToastSend.addEventListener('click', function () {
+            //                    var deleteUrl = 'addtodrivingpro?id=' + id;
+            //                    window.location.href = deleteUrl;
+            //                    document.getElementById('modalConfirmSend').style.display = 'none'; // Ẩn modal sau khi xác nhận
+            //                });
+            //            }
         </script>
     </body>
 

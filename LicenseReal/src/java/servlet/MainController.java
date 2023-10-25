@@ -49,7 +49,7 @@ public class MainController extends HttpServlet {
                 url = "LoadItemServlet";
             } else if (action.equals("login")) {
                 url = "AccountController";
-                } else if (action.equals("logout")) {
+            } else if (action.equals("logout")) {
                 url = "LogoutServlet";
             } else if (action.equals("register")) {
                 url = "AccountController";
@@ -90,7 +90,9 @@ public class MainController extends HttpServlet {
                 url = "AccountController";
             } else if (action.equals("detailSlot")) {
                 url = "DetailSlotServlet";
-            } else if (action.equals("ratingOfMember")) {
+            } else if (action.equals("bookingSlot")) {
+                url = "RegisScheduleByMemberServlet";
+            }else if (action.equals("ratingOfMember")) {
                 url = "DetailSlotServlet";
             } else if (action.equals("admin")) {
                 url = "DashboardController";
@@ -129,15 +131,29 @@ public class MainController extends HttpServlet {
                 String feedbackID = request.getParameter("id");
                 request.setAttribute("id", feedbackID);
                 url = "FeedbackController";
-
             } else if (action.equals("ViewTransactions")) {
                 url = "ViewTransactionsController";
             } else if (action.equals("ViewAllTransactions")) {
                 url = "ViewAllTransactionsController";
-            } 
-            
+            }else if (action.equals("detailBookingSlot")) {
+                url = "DetailBookingSlotServlet";
+            } else if (action.equals("updateP")) {
+                String id = request.getParameter("id");
+                request.setAttribute("id", id);
+                url = "updateProfile?id=" + id;
+            } else if (action.equals("adddriver")) {
+                String id = request.getParameter("id");
+                request.setAttribute("id", id);
+                url = "addtodrivingpro?id=" + id;
+            } else if (action.equals("viewdriving")) {
+                String id = request.getParameter("id");
+                request.setAttribute("id", id);
+                url = "viewdriving?id=" +id;
+                } else if (action.equals("memberStaff")) {
+                url = "memberStaff";
+            }
             request.setAttribute("action", action);
-            if ("staff".equals(action)) {
+            if ("staff".equals(action) || "admin".equals(action)) {
                 response.sendRedirect(url);
             } else {
                 request.getRequestDispatcher(url).forward(request, response);

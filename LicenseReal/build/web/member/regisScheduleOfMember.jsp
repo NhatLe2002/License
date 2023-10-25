@@ -84,6 +84,7 @@
                                                 <c:otherwise>
                                                     <td>
                                                         <input type="checkbox" name="checkBoxName" value="${c.getId()}"></br>
+                                                        <a class="menu_items" href="MainController?action=detailBookingSlot&scheduleId=${c.getId()}">Chi tiết Booking</a>
                                                     </td>
                                                 </c:otherwise>
                                             </c:choose>
