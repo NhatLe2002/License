@@ -61,6 +61,14 @@ public class UserController extends HttpServlet {
                 switch (check) {
                     case 0:
                         message = "Cập nhập thành công";
+
+                        MemberDAO.createMember(user.getId());
+                        member = DrivingProfileDAO.getMemberById(user.getId());
+                        if (member != null) {
+                            session.setAttribute("memberID", member.getId());
+                        }
+                        session.setAttribute("ROLE", "US");
+                        url = "MainController?action=member";
                         break;
                     case 1:
                         message = "Số điện thoại sai định dạng";

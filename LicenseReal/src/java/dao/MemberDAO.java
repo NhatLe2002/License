@@ -50,6 +50,27 @@ public class MemberDAO {
         }
         return member;
     }
+
+    public static boolean createMember(int userID) {
+        boolean check = false;
+        try {
+
+            String sql = "INSERT INTO Member(status,userID)"
+                    + "values(1,?)";
+            PreparedStatement ps = DBUtils.getConnection().prepareStatement(sql);
+            ps.setInt(1, userID);
+            int row = ps.executeUpdate();
+            if (row > 0) {
+                check = true;
+            } else {
+                check = false;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return check;
+    }
+
     
         public static ArrayList<MemberDTO> getAllMember() throws SQLException, ClassNotFoundException {
         ArrayList<MemberDTO> list = new ArrayList<>();
@@ -236,6 +257,5 @@ public class MemberDAO {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         ArrayList<MentorDTO> list = getAllMentor();
         System.out.println(list);
-        
     }
 }

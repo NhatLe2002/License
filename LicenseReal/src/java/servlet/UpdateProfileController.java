@@ -73,9 +73,11 @@ public class UpdateProfileController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
         String ID = request.getParameter("id");
         int id = 0; // Giá trị mặc định
 
+        String action = request.getParameter("action");
         
         if (ID != null && !ID.isEmpty()) {
             try {
@@ -87,6 +89,12 @@ public class UpdateProfileController extends HttpServlet {
 
         // Gọi hàm getMemberById từ lớp DrivingProfileDAO
         MemberDTO member = DrivingProfileDAO.getMemberById(id);
+
+        session.setAttribute("action", action);
+        session.setAttribute("load_profile", member);
+
+        // Chuyển hướng đến trang updateprofile.jsp
+//        response.sendRedirect("updateProfile.jsp");
 //        request.setAttribute("memberID", memberID);
         request.setAttribute("load_profile", member);
 

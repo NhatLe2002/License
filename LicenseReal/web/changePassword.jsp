@@ -26,6 +26,6 @@
                 <button name="action" value="changePassword" type="submit">Xác nhận</button>
                 ${message}
             </div>
-
+            <form/>
     </body>
 </html>

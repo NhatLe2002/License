@@ -33,8 +33,8 @@ public class UserDAO extends DBUtils {
             } else if (!Util.validateAge(dob.toLocalDate())) {
                 return 4; // duoi 18 t
             } else {
-                String sql = "INSERT INTO [User] (name,phone,email,dob,cccd,address,role,status,accountID)"
-                        + "values(?,?,?,?,?,?,1,1,?)";
+                String sql = "INSERT INTO [User] (name,phone,email,dob,cccd,address,role,status,accountID,avatar)"
+                        + "values(?,?,?,?,?,?,1,1,?,'no')";
                 PreparedStatement ps = getConnection().prepareStatement(sql);
                 ps.setString(1, name);
                 ps.setString(2, phone);
@@ -50,9 +50,6 @@ public class UserDAO extends DBUtils {
         }
         return 0;
     }
-
-  
-
     public static int updateUser(String name, String phone, String email, Date dob, String cccd,
             String address, int accountID) {
         try {
@@ -133,4 +130,44 @@ public class UserDAO extends DBUtils {
         }
         return email;
     }
+
+
+    public static List<UserDTO> getListByRole(int role) {
+        List<UserDTO> list = new ArrayList<>();
+        UserDTO user = new UserDTO();
+        try {
+            String sql = "select * from [User] where role = ?";
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setInt(1, role);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                user = new UserDTO(rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("phone"),
+                        rs.getString("email"),
+                        rs.getDate("dob").toLocalDate(),
+                        rs.getString("cccd"),
+                        rs.getString("address"),
+                        rs.getString("avatar"),
+                        rs.getInt("role"),
+                        rs.getBoolean("status"),
+                        rs.getInt("accountID"));
+                list.add(user);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+        return list;
+    }
+
+
+
+
+    public static void main(String[] args) {
+        System.out.println(UserDAO.getListByRole(2));
+        List<UserDTO> list = UserDAO.getListByRole(2);
+        System.out.println(list.size());
+    }
+
 }
