@@ -16,7 +16,6 @@
         <div>
             <h1 style="text-align: center">
                 Lịch dạy</br>
-                <a class="menu_items" href="MainController?action=regisSchedule" >Đăng kí lịch dạy</a>
                 <form action="ViewScheduleServlet" method="post">
                     <select name="selectMondayOfWeek">
                         <c:forEach items="${requestScope.mondays}" var="monday">

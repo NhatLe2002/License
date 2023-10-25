@@ -3,29 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servlet.DrivingProfile;
+package servlet.Booking;
 
-import dao.DrivingProfileDAO;
-import dto.MemberDTO;
-import dto.DrivingProfile;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author HOANG ANH
+ * @author Admin
  */
-@WebServlet(name = "ViewDrivingProfileController", urlPatterns = {"/viewdriving"})
-public class ViewDrivingProfileController extends HttpServlet {
+public class BookingSlotServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,15 +33,16 @@ public class ViewDrivingProfileController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ViewDrivingProfileController</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ViewDrivingProfileController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            String slotBookingId = request.getParameter("slotBookingId");
+            Cookie[] c = request.getCookies();
+            String userId = "";
+            if (c != null) {
+                for (Cookie aCookie : c) {
+                    if (aCookie.getName().equals("userId")) {
+                        userId = aCookie.getValue();
+                    }
+                }
+            }
         }
     }
 
@@ -65,23 +58,7 @@ public class ViewDrivingProfileController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            String ID = request.getParameter("id");
-            int id = 0; // Giá trị mặc định
-
-            if (ID != null && !ID.isEmpty()) {
-                id = Integer.parseInt(ID);
-                // Gọi hàm getMemberById từ lớp DrivingProfileDAO
-                DrivingProfile driving = DrivingProfileDAO.getDrivingProfileById(id);
-                
-                request.setAttribute("load_profile", driving);
-
-                // Chuyển hướng đến trang updateprofile.jsp
-                request.getRequestDispatcher("staff/drivingprofile.jsp").forward(request, response);
-            }
-
-        } catch (Exception ex) {
-        }
+        processRequest(request, response);
     }
 
     /**

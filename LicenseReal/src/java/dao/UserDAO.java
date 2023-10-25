@@ -5,7 +5,6 @@
  */
 package dao;
 
-import dto.AccountDTO;
 import dto.UserDTO;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -52,7 +51,6 @@ public class UserDAO extends DBUtils {
         }
         return 0;
     }
-    
     public static int updateUser(String name, String phone, String email, Date dob, String cccd,
             String address, int accountID) {
         try {
@@ -163,7 +161,13 @@ public class UserDAO extends DBUtils {
         return list;
     }
 
-//    public static void main(String[] args) {
-//        System.out.println(UserDAO.createUser(2));
-//    }
+
+
+
+    public static void main(String[] args) {
+        System.out.println(UserDAO.getListByRole(2));
+        List<UserDTO> list = UserDAO.getListByRole(2);
+        System.out.println(list.size());
+    }
+
 }

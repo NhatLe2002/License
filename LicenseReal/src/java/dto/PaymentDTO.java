@@ -90,4 +90,9 @@ public class PaymentDTO {
         this.cash_type = cash_type;
     }
 
+    @Override
+    public String toString() {
+        return "PaymentDTO{" + "id=" + id + ", price=" + price + ", create_date=" + create_date + ", memberID=" + memberID + ", type=" + type + ", status=" + status + ", cash_type=" + cash_type + '}';
+    }
+
 }

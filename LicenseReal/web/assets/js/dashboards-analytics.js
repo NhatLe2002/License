@@ -501,7 +501,7 @@
   const incomeChartEl = document.querySelector('#incomeChart'),
     incomeChartConfig = {
       series: [
-        {
+        { 
           data: [24, 21, 30, 22, 42, 26, 35, 29]
         }
       ],

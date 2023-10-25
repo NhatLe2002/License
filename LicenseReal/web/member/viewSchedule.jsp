@@ -10,13 +10,12 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Lịch học thực hành</title>
     </head>
     <body>
         <div>
             <h1 style="text-align: center">
                 Lịch Học</br>
-                <a class="menu_items" href="MainController?action=regisScheduleByMember" >Đăng kí lịch học</a>
                 <form action="ViewScheduleMemberServlet" method="post">
                     <select name="selectMondayOfWeek">
                         <c:forEach items="${requestScope.mondays}" var="monday">
@@ -74,9 +73,9 @@
                                         <c:choose>
                                             <c:when test="${c.getType() == 1}">
                                                 <td>
-                                                    Học thực hành
+                                                    Học thực hành</br>
                                                     <!--cho nay de xem detail vs lai voting mentor-->
-                                                    <a class="menu_items" href="MainController?action=detailSlot&scheduleId=${c.getId()}" >Detail ${c.getId()}</a>
+                                                    <a class="menu_items" href="MainController?action=detailSlot&scheduleId=${c.getId()}" >Chi tiết lớp học</a>
 
                                                 </td>
                                             </c:when>

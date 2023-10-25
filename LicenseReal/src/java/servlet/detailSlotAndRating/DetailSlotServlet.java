@@ -41,10 +41,11 @@ public class DetailSlotServlet extends HttpServlet {
             // Trích xuất thông tin từ đường dẫn URL
             String scheduleID = request.getParameter("scheduleId");
             String ratingString = request.getParameter("ratingMember");
+            String description = request.getParameter("description");
             ScheduleDTO schedule = ScheduleDAO.getScheduleById(Integer.parseInt(scheduleID));
             if (ratingString != null) {
                 float ratingMember = Float.parseFloat(ratingString);
-                RatingDTO ratingDTO = new RatingDTO(1, ratingMember, schedule.getMemberID(), schedule.getMentorID());
+                RatingDTO ratingDTO = new RatingDTO(1, schedule.getMentorID(), schedule.getMemberID(), ratingMember, description);
                 try {
                     RatingDAO.insertRating(ratingDTO);
                 } catch (Exception ex) {

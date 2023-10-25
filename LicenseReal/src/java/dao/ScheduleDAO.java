@@ -11,8 +11,11 @@ import java.sql.Date;
 import static java.sql.JDBCType.NULL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import utils.DBUtils;
 
 /**
@@ -20,6 +23,10 @@ import utils.DBUtils;
  * @author Admin
  */
 public class ScheduleDAO {
+
+    private Connection conn;
+    private PreparedStatement ptm;
+    private ResultSet rs;
 
     public static ArrayList<ScheduleDTO> getScheduleByMentorID(int id) {
         ArrayList<ScheduleDTO> list = new ArrayList<>();
@@ -50,6 +57,7 @@ public class ScheduleDAO {
         }
         return list;
     }
+
     public static ScheduleDTO getScheduleById(int id) {
         ScheduleDTO schedule = new ScheduleDTO();
         Connection cn = null;
@@ -228,13 +236,54 @@ public class ScheduleDAO {
 //        for (ScheduleDTO scheduleMemberCanRegi : scheduleMemberCanRegis) {
 //            System.out.println(scheduleMemberCanRegi.getDay());
 //        }
-
 //        if (updateMenberIDInSchedule(1, 5)) {
 //            System.out.println("oke");
 //        }else{
 //            System.out.println("chua dc");
 //        }
+//        System.out.println(getScheduleById(4).getDay());
+          ScheduleDAO dao = new ScheduleDAO();
+          ArrayList<ScheduleDTO> list;
+        try {
+            list = dao.getAllMentorRevenue(2023);
+             System.out.println(list);
+        } catch (SQLException ex) {
+            Logger.getLogger(ScheduleDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+    }
 
-        System.out.println(getScheduleById(4).getDay());
+    public ArrayList<ScheduleDTO> getAllMentorRevenue(int year) throws SQLException {
+        ArrayList<ScheduleDTO> list = new ArrayList<>();
+        try {
+            conn = null;
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = "SELECT us.name, SUM(sc.mentorID) * 0.3 AS total\n"
+                        + "FROM Mentor AS mt\n"
+                        + "JOIN [User] AS us ON us.id = mt.userID\n"
+                        + "JOIN Schedule AS sc ON sc.mentorID = mt.id\n"
+                        + "WHERE YEAR(sc.day) = '" + year + "'\n"
+                        + "GROUP BY us.name\n"
+                        + "ORDER BY total DESC;";
+                ptm = conn.prepareStatement(sql);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    list.add(new ScheduleDTO(rs.getString("name"), rs.getFloat("total")));
+                }
+            }
+        } catch (Exception e) {
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
     }
 }

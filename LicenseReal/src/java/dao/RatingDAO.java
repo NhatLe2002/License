@@ -84,7 +84,7 @@ public class RatingDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "select * from Rating where mentorID = ?";
+                String sql = "select * from Rating where mentorID = ? and status = 1";
 
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, ratingId);
@@ -107,7 +107,7 @@ public class RatingDAO {
     }
 
     public static boolean insertRating(RatingDTO rating) {
-        String sql = "insert into Rating values(?,?,?)";
+        String sql = "  insert into Rating values(?,?,?,?,?)";
         Connection cn = null;
         boolean check = false;
         try {
@@ -117,6 +117,8 @@ public class RatingDAO {
                 st.setInt(1, rating.getMemberID());
                 st.setInt(2, rating.getMentorID());
                 st.setFloat(3, rating.getStar());
+                st.setBoolean(4, false);
+                st.setString(5, rating.getDescription());
                 st.executeUpdate();
                 check = true;
             }

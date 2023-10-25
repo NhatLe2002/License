@@ -79,6 +79,8 @@ public class RegisScheduleByMemberServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+            
+            
             LocalDate currentDate = LocalDate.now();
             if (request.getParameter("selectMondayOfWeek") != null) {
                 String selectMondayOfWeek = request.getParameter("selectMondayOfWeek");

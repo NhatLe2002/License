@@ -6,6 +6,7 @@
 package servlet.DrivingProfile;
 
 import dao.DrivingProfileDAO;
+import static dao.DrivingProfileDAO.checkAge;
 import dto.MemberDTO;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,7 +30,6 @@ import org.apache.commons.io.IOUtils;
  *
  * @author HOANG ANH
  */
-
 @WebServlet(name = "AddDrivingProfileController", urlPatterns = {"/addtodrivingpro"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
         maxFileSize = 1024 * 1024 * 10, // 10MB
@@ -76,11 +76,11 @@ public class AddDrivingProfileController extends HttpServlet {
             throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         // Gọi hàm getMemberById từ lớp DrivingProfileDAO
-        MemberDTO member = DrivingProfileDAO.getMemberById(id);
+        MemberDTO member = DrivingProfileDAO.getMemberByMemberId(id);
         HttpSession session = request.getSession();
         session.setAttribute("load_profile", member);
         // Chuyển hướng đến trang adddrivingprofile.jsp
-        response.sendRedirect("adddrivingprofile.jsp");
+        request.getRequestDispatcher("adddrivingprofile.jsp").forward(request, response);
     }
 
     /**
@@ -94,11 +94,11 @@ public class AddDrivingProfileController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String id = request.getParameter("id");
         String gen = request.getParameter("gender");
         boolean gender = Boolean.parseBoolean(gen);
-        boolean flag = false;
+        boolean flag = true;
 //        boolean gender = true;
         System.out.println("ID value received: " + id);
         int memberID = Integer.parseInt(id);
@@ -133,22 +133,29 @@ public class AddDrivingProfileController extends HttpServlet {
                         img_user = data;
                     }
                 }
+
+//                MemberDTO getMB = DrivingProfileDAO.getMemberById(memberID);
+//                LocalDate date = getMB.getDob();
+//                System.out.println("");
+//                boolean check = checkAge(date);
                 
-                boolean checkInsert = DrivingProfileDAO.addtodrivingprofile(memberID, img_cccd, img_user, gender, flag);
-                if (checkInsert) {
-                    message = "success";
-                } else {
-                    message = "fail";
-                }
+                    boolean checkInsert = DrivingProfileDAO.addtodrivingprofile(memberID, img_cccd, img_user, gender, flag);
+                    if (checkInsert) {
+                        message = "success";
+                    } else {
+                        message = "fail";
+                    }
+                
+
             } else {
-                message = "duplicate";
+                message = "exist";
             }
         } catch (SQLException ex) {
             response.getWriter().println("ERROR: " + ex.getMessage());
         }
 
         request.setAttribute("message", message);
-        request.getRequestDispatcher("adddrivingprofile.jsp").forward(request, response);
+        request.getRequestDispatcher("updateProfile.jsp").forward(request, response);
     }
 
     /**
