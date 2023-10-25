@@ -3,17 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servlet.detailSlotAndRating;
+package servlet.Booking;
 
-import dao.MentorDAO;
-import dao.RatingDAO;
-import dao.ScheduleDAO;
-import dto.MentorDTO;
-import dto.RatingDTO;
-import dto.ScheduleDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-public class DetailSlotServlet extends HttpServlet {
+public class BookingSlotServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,37 +33,16 @@ public class DetailSlotServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            // Trích xuất thông tin từ đường dẫn URL
-            String scheduleID = request.getParameter("scheduleId");
-            String ratingString = request.getParameter("ratingMember");
-            String description = request.getParameter("description");
-            ScheduleDTO schedule = ScheduleDAO.getScheduleById(Integer.parseInt(scheduleID));
-            if (ratingString != null) {
-                float ratingMember = Float.parseFloat(ratingString);
-                RatingDTO ratingDTO = new RatingDTO(1, schedule.getMentorID(), schedule.getMemberID(), ratingMember, description);
-                try {
-                    RatingDAO.insertRating(ratingDTO);
-                } catch (Exception ex) {
-                    request.getRequestDispatcher("login.jsp").forward(request, response);
-                    ex.printStackTrace();
-                    throw ex;
+            String slotBookingId = request.getParameter("slotBookingId");
+            Cookie[] c = request.getCookies();
+            String userId = "";
+            if (c != null) {
+                for (Cookie aCookie : c) {
+                    if (aCookie.getName().equals("userId")) {
+                        userId = aCookie.getValue();
+                    }
                 }
             }
-            MentorDTO mentorAndUSer = MentorDAO.getMentorAndUserByMentorID(schedule.getMentorID());
-            float ratingMentor = 0;
-            for (RatingDTO object : RatingDAO.getRatingByMentorID(schedule.getMentorID())) {
-                ratingMentor += object.getStar();
-            }
-
-            ratingMentor = ratingMentor / RatingDAO.getRatingByMentorID(schedule.getMentorID()).size();
-            RatingDTO ratingCheck = RatingDAO.getRatingByMemberAndMentorID(schedule.getMemberID(), schedule.getMentorID());
-            request.setAttribute("test", ratingString);
-            request.setAttribute("ratingCheck", ratingCheck);
-            request.setAttribute("ratingMentor", ratingMentor);
-            request.setAttribute("Schedule", schedule);
-            request.setAttribute("scheduleID", scheduleID);
-            request.setAttribute("mentorAndUser", mentorAndUSer);
-            request.getRequestDispatcher("member/detailSlotAndRating.jsp").forward(request, response);
         }
     }
 

@@ -97,9 +97,9 @@
                         <!--Member-->
                         <c:if test="${sessionScope.ROLE == 'US'}">
                             <a class="menu_items " href="MainController?action=home">Home</a>
-                            <a class="menu_items " href="#">Đăng ký học thực hành</a>
+                            <a class="menu_items " href="MainController?action=regisScheduleByMember" >Đăng ký học thực hành</a>
+                            <a class="menu_items" href="MainController?action=viewScheduleMember" >Lịch Học Thực Hành</a>
                             <a class="menu_items " href="#">Nộp hồ sơ thi</a>
-                            <a class="menu_items" href="MainController?action=viewScheduleMember" >Lịch Học</a>
                             <a class="menu_items" to="/#">Lịch thi</a>
                             <a class="menu_items" href="MainController?action=PracticeTest">Thi thử trắc nghiệm</a>
                             <a onclick="openPopup()">Thanh toán</a>
@@ -120,7 +120,7 @@
                         <!--Mentor-->
                         <c:if test="${sessionScope.ROLE == 'MT'}">
                             <a class="menu_items " href="MainController?action=home">Home</a>
-                            <a class="menu_items" href="#" >Đăng ký lịch dạy</a>
+                            <a class="menu_items" href="MainController?action=regisSchedule" >Đăng kí lịch dạy</a>
                             <a class="menu_items" href="MainController?action=viewSchedule" >Lịch dạy</a>
                         </c:if>
 

@@ -32,6 +32,14 @@
         <servlet-name>DetailSlotServlet</servlet-name>
         <servlet-class>servlet.detailSlotAndRating.DetailSlotServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DetailBookingSlotServlet</servlet-name>
+        <servlet-class>servlet.Booking.DetailBookingSlotServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BookingSlotServlet</servlet-name>
+        <servlet-class>servlet.Booking.BookingSlotServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
         <url-pattern>/MainController</url-pattern>
@@ -63,6 +71,14 @@
     <servlet-mapping>
         <servlet-name>DetailSlotServlet</servlet-name>
         <url-pattern>/DetailSlotServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DetailBookingSlotServlet</servlet-name>
+        <url-pattern>/DetailBookingSlotServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BookingSlotServlet</servlet-name>
+        <url-pattern>/BookingSlotServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

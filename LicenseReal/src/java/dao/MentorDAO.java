@@ -114,7 +114,45 @@ public class MentorDAO {
         }
         return mentor;
     }
+    public static MentorDTO getMentorAndUserByMentorIDHaveStatus0(int id) {
+        MentorDTO mentor = new MentorDTO();
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "select * from [Mentor] join [User] on Mentor.userID = [User].id where [Mentor].id = ? and [Mentor].status = 1";
 
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, id);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+
+                        mentor = new MentorDTO(rs.getInt(1),
+                                rs.getString(2),
+                                rs.getString(3),
+                                rs.getBoolean(4),
+                                rs.getInt(5),
+                                new UserDTO(rs.getInt(6),
+                                        rs.getString(7),
+                                        rs.getString(8),
+                                        rs.getString(9),
+                                        rs.getDate(10).toLocalDate(),
+                                        rs.getString(11),
+                                        rs.getString(12),
+                                        rs.getString(13),
+                                        rs.getInt(14),
+                                        rs.getBoolean(15),
+                                        rs.getInt(16))
+                        );
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return mentor;
+    }
     public static void main(String[] args) {
         System.out.println(getMentorAndUserByMentorID(ScheduleDAO.getScheduleById(4).getMentorID()).getUser().getEmail());
     }
