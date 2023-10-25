@@ -12,6 +12,7 @@ import java.time.LocalDate;
  * @author Admin
  */
 public class MentorDTO {
+
     private int id;
     private String certificate;
     private String experience;
@@ -26,6 +27,7 @@ public class MentorDTO {
     private String address;
     private String avatar;
     private int role;
+
     public MentorDTO() {
     }
 
@@ -36,6 +38,7 @@ public class MentorDTO {
         this.status = status;
         this.userID = userID;
     }
+
     public MentorDTO(int id, String certificate, String experience, boolean status, int userID, UserDTO user) {
         this.id = id;
         this.certificate = certificate;
@@ -44,7 +47,8 @@ public class MentorDTO {
         this.userID = userID;
         this.user = user;
     }
-        public MentorDTO(int id, UserDTO user, String certificate, String experience) {
+
+    public MentorDTO(int id, UserDTO user, String certificate, String experience, boolean status) {
         this.id = id;
         this.userID = user.getId();
         this.name = user.getName();
@@ -59,6 +63,23 @@ public class MentorDTO {
         this.certificate = certificate;
         this.experience = experience;
     }
+
+    public MentorDTO(int id, UserDTO user, String certificate, String experience) {
+        this.id = id;
+        this.userID = user.getId();
+        this.name = user.getName();
+        this.phone = user.getPhone();
+        this.email = user.getEmail();
+        this.dob = user.getDob();
+        this.cccd = user.getCccd();
+        this.address = user.getAddress();
+        this.avatar = user.getAvatar();
+        this.role = user.getRole();
+        this.status = true;
+        this.certificate = certificate;
+        this.experience = experience;
+    }
+
     public int getId() {
         return id;
     }
@@ -98,6 +119,7 @@ public class MentorDTO {
     public void setUserID(int userID) {
         this.userID = userID;
     }
+
     public UserDTO getUser() {
         return user;
     }
@@ -105,6 +127,7 @@ public class MentorDTO {
     public void setUser(UserDTO user) {
         this.user = user;
     }
+
     public String getName() {
         return name;
     }
@@ -168,5 +191,5 @@ public class MentorDTO {
     public void setRole(int role) {
         this.role = role;
     }
-    
+
 }

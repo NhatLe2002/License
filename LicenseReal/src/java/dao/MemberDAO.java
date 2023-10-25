@@ -6,6 +6,7 @@
 package dao;
 
 import dto.MemberDTO;
+import dto.MentorDTO;
 import dto.UserDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -89,6 +90,49 @@ public class MemberDAO {
         }
         return list;
     }
+   public static ArrayList<MentorDTO> getAllMentor() throws SQLException, ClassNotFoundException {
+        ArrayList<MentorDTO> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        conn = DBUtils.getConnection();
+        try {
+            if (conn != null) {
+                String sql = "SELECT U.[id], U.[name], U.[phone], U.[email], U.[dob], U.[cccd], U.[address],M.[id] AS mentorID, M.[certificate], M.[experience], M.status\n" +
+"                        FROM [User] U \n" +
+"                        JOIN [Mentor] M ON U.id = M.userID \n";
+                ptm = conn.prepareStatement(sql);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    int mentorId = rs.getInt("mentorID");
+                    int userId = rs.getInt("id");
+                    String name = rs.getString("name");
+                    String phone = rs.getString("phone");
+                    String email = rs.getString("email");
+                    String cccd = rs.getString("cccd");
+                    String certificate = rs.getString("certificate");
+                    String experience = rs.getString("experience");
+                    boolean status = rs.getBoolean("status");
+                    UserDTO userDTO = new UserDTO(userId, name, phone, email, cccd);
+//                    MemberDTO memberDTO = new MemberDTO(memberId, userDTO,health, status);                   
+                    list.add(new MentorDTO(mentorId, userDTO, certificate, experience, status));
+                }
+            }
+        } catch (SQLException e) {
+
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
+    }     
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         ArrayList<MemberDTO> list = getAllMember();
         System.out.println(list);

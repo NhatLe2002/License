@@ -126,7 +126,7 @@ public class UpdateProfileController extends HttpServlet {
 
         // Tạo đối tượng Member
         MemberDTO member = new MemberDTO();
-        member.setId(ID);
+        member.setUserID(ID);
         member.setName(name);
         member.setPhone(phone);
         member.setEmail(email);

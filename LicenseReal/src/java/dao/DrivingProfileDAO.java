@@ -132,21 +132,21 @@ public class DrivingProfileDAO {
         return dob.isBefore(eighteenYearsAgo);
     }
 
-    public static MentorDTO getMentorById(int id) {
+    public static MentorDTO getMentorById(int userId) {
         Connection cn = null;
         MentorDTO mentor = null;
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "SELECT U.[id], U.[name], U.[phone], U.[email], U.[dob], U.[cccd], U.[address], U.[avatar], U.[role], M.[certificate],M.[experience], M.[userID]\n"
+                String sql = "SELECT U.[id], U.[name], U.[phone], U.[email], U.[dob], U.[cccd], U.[address], U.[avatar], U.[role],M.[id] AS mentorID, M.[certificate],M.[experience], M.[userID]\n"
                         + "                        FROM [User] U \n"
                         + "                        JOIN [Mentor] M ON U.id = M.userID \n"
                         + "                        WHERE M.status = 1 AND M.userID = ?";
                 PreparedStatement pst = cn.prepareStatement(sql);
-                pst.setInt(1, id);
+                pst.setInt(1, userId);
                 ResultSet rs = pst.executeQuery();
                 if (rs != null && rs.next()) {
-                    int userId = rs.getInt("userID");
+                    int id = rs.getInt("mentorID");
                     String name = rs.getString("name");
                     String phone = rs.getString("phone");
                     String email = rs.getString("email");
@@ -158,7 +158,7 @@ public class DrivingProfileDAO {
                     int role = rs.getInt("role");
                     String certificate = rs.getString("certificate");
                     String experience = rs.getString("experience");
-                    UserDTO user = new UserDTO(id, name, phone, email, localDate, cccd, address, avatar, role, true);
+                    UserDTO user = new UserDTO(userId, name, phone, email, localDate, cccd, address, avatar, role, true);
                     mentor = new MentorDTO(id, user, certificate, experience);
                 }
             }
@@ -184,29 +184,21 @@ public class DrivingProfileDAO {
             if (cn != null) {
                 // Cập nhật thông tin trong bảng User
                 String userSql = "UPDATE [User] SET [name] = N'" + member.getName() + "', [phone] = '" + member.getPhone() + "', [email] = '" + member.getEmail() + "', [dob] = '" + java.sql.Date.valueOf(member.getDob()) + "', [cccd] = '" + member.getCccd() + "',"
-                        + " [address] = '" + member.getAddress() + "', [avatar] = '" + avatar + "' WHERE id = '" + member.getId() + "'";
+                        + " [address] = '" + member.getAddress() + "', [avatar] = '" + avatar + "' WHERE id = '" + member.getUserID()+ "'";
                 PreparedStatement userPst = cn.prepareStatement(userSql);
-//                userPst.setString(1, member.getName());
-//                userPst.setString(2, member.getPhone());
-//                userPst.setString(3, member.getEmail());
-//                userPst.setDate(4, java.sql.Date.valueOf(member.getDob()));
-//                userPst.setString(5, member.getCccd());
-//                userPst.setString(6, member.getAddress());
-//                userPst.setString(7, member.getAvatar());
-//                userPst.setInt(8, member.getId());
                 userPst.executeUpdate();
 
                 // Cập nhật thông tin trong bảng Member
                 String memberSql = "UPDATE [Member] SET [health] = ? WHERE userID = ?";
                 PreparedStatement memberPst = cn.prepareStatement(memberSql);
                 String heo = "";
-                if (member.getHealth() == "yes") {
+                if ("yes".equals(member.getHealth())) {
                     heo = "Đã có";
                 } else {
                     heo = "Chưa có";
                 }
                 memberPst.setString(1, heo);
-                memberPst.setInt(2, member.getId());
+                memberPst.setInt(2, member.getUserID());
                 memberPst.executeUpdate();
 
                 return true;

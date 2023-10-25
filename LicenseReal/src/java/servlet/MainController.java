@@ -128,11 +128,12 @@ public class MainController extends HttpServlet {
             } else if (action.equals("viewdriving")) {
                 String id = request.getParameter("id");
                 request.setAttribute("id", id);
-                url = "viewdriving?id=" +id;
-                } else if (action.equals("memberStaff")) {
+                url = "viewdriving?id=" + id;
+            } else if (action.equals("memberStaff")) {
                 url = "memberStaff";
+            } else if (action.equals("mentorStaff")) {
+                url = "mentorStaff";
             }
-            
 
             request.setAttribute("action", action);
             if ("staff".equals(action)) {
