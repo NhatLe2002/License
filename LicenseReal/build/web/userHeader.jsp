@@ -147,9 +147,8 @@
                                         </c:if>
 
                                     </select>
-
+                                    <a href="MainController?action=updateP&id=${sessionScope.user.getId()}" class="fullname">Hello, ${user.getName()}</a>
                                 </c:when>
-
                                 <c:otherwise>
                                     <a class="btn_login"  href="login.jsp">Log in</a>
                                 </c:otherwise>

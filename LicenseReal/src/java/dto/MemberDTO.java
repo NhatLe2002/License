@@ -61,6 +61,20 @@ public class MemberDTO {
         this.status = true;
         this.health = health;
     }
+        public MemberDTO(int id, UserDTO user, String health, boolean status) {
+        this.id = id;
+        this.userID = user.getId();
+        this.name = user.getName();
+        this.phone = user.getPhone();
+        this.email = user.getEmail();
+        this.dob = user.getDob();
+        this.cccd = user.getCccd();
+        this.address = user.getAddress();
+        this.avatar = user.getAvatar();
+        this.role = user.getRole();
+        this.status = status;
+        this.health = health;
+    }
 
     public MemberDTO(int id, String health, boolean status, int userID) {
         this.id = id;
@@ -167,12 +181,6 @@ public class MemberDTO {
     public void setRole(int role) {
         this.role = role;
     }
-
-    @Override
-    public String toString() {
-        return "Member{" + "id=" + id + ", health=" + health + ", status=" + status + ", userID=" + userID + ", name=" + name + ", phone=" + phone + ", email=" + email + ", dob=" + dob + ", cccd=" + cccd + ", address=" + address + ", avatar=" + avatar + ", role=" + role + '}';
-    }
-
 
     
 }

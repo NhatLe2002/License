@@ -109,5 +109,11 @@ public class PaymentDAO {
 
         }
         System.out.println(updatePayment(18));
+        //ArrayList<PaymentDTO> list = new ArrayList<>();
+        list = getPaymentByID(1);
+        for (PaymentDTO payment : list) {
+            boolean status = payment.isStatus();
+            System.out.println("Status: " + status);
+        }
     }
 }

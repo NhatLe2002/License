@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servlet.DrivingProfile;
+package servlet.User;
 
-import dao.DrivingProfileDAO;
+import dao.MemberDAO;
 import dto.MemberDTO;
-import dto.DrivingProfile;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -18,14 +18,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author HOANG ANH
  */
-@WebServlet(name = "ViewDrivingProfileController", urlPatterns = {"/viewdriving"})
-public class ViewDrivingProfileController extends HttpServlet {
+@WebServlet(name = "MemberController", urlPatterns = {"/memberStaff"})
+public class MemberController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,10 +43,10 @@ public class ViewDrivingProfileController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ViewDrivingProfileController</title>");
+            out.println("<title>Servlet MemberController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ViewDrivingProfileController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet MemberController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,23 +64,15 @@ public class ViewDrivingProfileController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String message = (String) request.getAttribute("message");
         try {
-            String ID = request.getParameter("id");
-            int id = 0; // Giá trị mặc định
-
-            if (ID != null && !ID.isEmpty()) {
-                id = Integer.parseInt(ID);
-                // Gọi hàm getMemberById từ lớp DrivingProfileDAO
-                DrivingProfile driving = DrivingProfileDAO.getDrivingProfileById(id);
-                
-                request.setAttribute("load_profile", driving);
-
-                // Chuyển hướng đến trang updateprofile.jsp
-                request.getRequestDispatcher("staff/drivingprofile.jsp").forward(request, response);
-            }
-
+            ArrayList<MemberDTO> list = MemberDAO.getAllMember();
+            request.setAttribute("list_member", list);
         } catch (Exception ex) {
         }
+        request.setAttribute("message", message);
+        request.getRequestDispatcher("staff/memberManagement.jsp").forward(request, response);
+
     }
 
     /**

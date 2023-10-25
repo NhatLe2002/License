@@ -470,7 +470,7 @@
 
     <body>
 
-        <c:import url="menu.jsp"/>
+        <c:import url="../menu.jsp"/>
 
             
                 <div class="d-flex justify-content-center flex-column profile-container gap-3">
@@ -495,7 +495,6 @@
 
                                     <div class='edit-profile d-flex gap-2'>
                                         <i class="fa-regular fa-pen-to-square"></i>
-                                        <!--<a href="addtodrivingpro?id=${sessionScope.load_profile.getId()}">Nộp hồ sơ thi</a>-->  
                                     </div>
                                 </div>
 
@@ -520,13 +519,12 @@
                                     <form action="updateProfile" method="POST" enctype="multipart/form-data">
                                         <div class="contact-info">
                                             <p class='text-header-profile'>Thông tin liên lạc</p>
-                                            <input value="${load_profile.id}" type="text" name="id" id="id" hidden="" />
                                             <div class="content d-flex">
                                                 <div class="label-info">
                                                     <label for="phoneNumber">Số điện thoại:</label>
                                                 </div>
                                                 <div class="input-info">
-                                                    <input type="text" id="phoneNumber" name="phone" oninput="validatePhone()" value="${load_profile.phone}">
+                                                    <input type="text" id="phoneNumber" name="phone" oninput="validatePhone()" value="${load_profile.phone}" readonly="">
                                                 </div>
                                             </div>
 
@@ -535,16 +533,15 @@
                                                     <label for="email">Email:</label>
                                                 </div>
                                                 <div class="input-info">
-                                                    <input type="text" id="email" name="email" value="${load_profile.email}">
+                                                    <input type="text" id="email" name="email" value="${load_profile.email}" readonly="">
                                                 </div>
                                             </div>
                                             <div class="content d-flex">
                                                 <div class="label-info">
-                                                    <label for="avatar">Avatar:</label>
+                                                    <label for="img_user">Ảnh 3x4:</label>
                                                 </div>
                                                 <div class="input-info">
-                                                    <i class="fa-solid fa-camera" id="camera-icon"></i>
-                                                    <input type="file" name="avatar" id="file-input" style="display: none;" onchange="previewImage(event)" accept="image/*">
+                                                    <input type="file" name="img_user" id="file-input-user" onchange="previewImage(event)" accept="image/*">
                                                 </div>
                                             </div>
                                         </div>
@@ -556,7 +553,7 @@
                                                     <label for="full-name">Họ và tên:</label>
                                                 </div>
                                                 <div class="input-info">
-                                                    <input type="text" id="full-name" oninput="validateFullName()" id="input-fullname" name="name" value="${load_profile.name}" required=""/>
+                                                    <input type="text" id="full-name" oninput="validateFullName()" id="input-fullname" name="name" value="${load_profile.name}" readonly=""/>
                                                 </div>
                                             </div>
 
@@ -565,7 +562,22 @@
                                                     <label for="birthdate">Ngày sinh:</label>
                                                 </div>
                                                 <div class="input-info">
-                                                    <input type="date" id="birthdate" name="dob" value="${load_profile.dob}">
+                                                    <input type="date" id="birthdate" name="dob" value="${load_profile.dob}" readonly="">
+                                                </div>
+                                                <span id="age-validation-message" class="validation-message"></span>
+                                            </div>
+                                            <div class="content d-flex">
+                                                <div class="label-info">
+                                                    <label for="gender">Giới tính:</label>
+                                                </div>
+                                                <div class="input-info" style="margin-top: 20px;">
+
+                                                    <div class="radio-buttons d-flex gap-3 justify-content-center align-items-center">
+                                                        <input class="gender" type="radio" id="gender-male" name="gender" value="true">
+                                                        <label for="gender-male">Nam</label>
+                                                        <input class="gender" type="radio" id="gender-female" name="gender" value="false">
+                                                        <label for="gender-female">Nữ</label>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="content d-flex">
@@ -582,17 +594,29 @@
                                                     <label for="cccd">CCCD:</label>
                                                 </div>
                                                 <div class="input-info">
-                                                    <input type="text" id="cccd" oninput="validateCCCD()" name="cccd" value="${load_profile.cccd}">
+                                                    <input type="text" id="cccd" oninput="validateCCCD()" name="cccd" value="${load_profile.cccd}" readonly="">
                                                 </div>
                                             </div>
-
+                                            <div class="content d-flex">
+                                                <div class="label-info">
+                                                    <label for="img_cccd">Ảnh CCCD:</label>
+                                                </div>
+                                                <div class="input-info">
+                                                    <input type="file" name="img_cccd" id="file-input-cccd"  onchange="previewImage(event)" accept="image/*">
+                                                </div>
+                                            </div>
+                                            <div class='left d-flex flex-column gap-3'>
+                                                <div class='avatar-user'>
+                                                    <img id="avatar-img-cccd" src="data:image;base64," alt="Preview"></img>
+                                                </div>
+                                            </div>
                                             <div class="content d-flex">
                                                 <div class="label-info">
                                                     <label for="address">Địa chỉ thường trú:</label>
                                                 </div>
                                                 <div class="input-info">
                                                     <input type="text" id="address"
-                                                           name="address" value="${load_profile.address}">
+                                                           name="address" value="${load_profile.address}" readonly="">
                                                 </div>
                                             </div>
                                             <div class="content d-flex">

@@ -26,12 +26,63 @@ public class DrivingProfileDAO {
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
-        MemberDTO mdto = getMemberById(1);
-        System.out.println(mdto);
+        
+        MemberDTO member = getMemberById(4);
+        if (member != null) {
+            int memberIdValue = member.getId(); // Lấy giá trị memberID từ đối tượng MemberDTO
+            System.out.println("MemberID: " + memberIdValue);
+            // Tiếp tục xử lý thông tin thành viên khác
+        } else {
+            System.out.println("Không tìm thấy thành viên có ID " );
+        }
+
     }
 
     // lấy member theo userID
-    public static MemberDTO getMemberById(int id) {
+    public static MemberDTO getMemberById(int userId) {
+        Connection cn = null;
+        MemberDTO member = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "SELECT U.[id], U.[name], U.[phone], U.[email], U.[dob], U.[cccd], U.[address], U.[avatar], U.[role],M.[id] AS memberID, M.[health], M.[userID]\n"
+                        + "FROM [User] U \n"
+                        + "JOIN [Member] M ON U.id = M.userID \n"
+                        + "WHERE M.status = 1 AND M.userID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, userId);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null && rs.next()) {
+                    int id = rs.getInt("memberID");
+                    String name = rs.getString("name");
+                    String phone = rs.getString("phone");
+                    String email = rs.getString("email");
+                    java.sql.Date dob = rs.getDate("dob");
+                    LocalDate localDate = dob.toLocalDate();
+                    String cccd = rs.getString("cccd");
+                    String address = rs.getString("address");
+                    String avatar = rs.getString("avatar");
+                    int role = rs.getInt("role");
+                    String health = rs.getString("health");
+                    UserDTO user = new UserDTO(userId, name, phone, email, localDate, cccd, address, avatar, role, true);
+                    member = new MemberDTO(id, user, health);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return member;
+    }
+
+    public static MemberDTO getMemberByMemberId(int id) {
         Connection cn = null;
         MemberDTO member = null;
         try {
@@ -40,7 +91,7 @@ public class DrivingProfileDAO {
                 String sql = "SELECT U.[id], U.[name], U.[phone], U.[email], U.[dob], U.[cccd], U.[address], U.[avatar], U.[role], M.[health], M.[userID]\n"
                         + "FROM [User] U \n"
                         + "JOIN [Member] M ON U.id = M.userID \n"
-                        + "WHERE M.status = 1 AND M.userID = ?";
+                        + "WHERE M.status = 1 AND M.id = ?";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, id);
                 ResultSet rs = pst.executeQuery();
@@ -72,6 +123,13 @@ public class DrivingProfileDAO {
             }
         }
         return member;
+    }
+
+    public static boolean checkAge(LocalDate dob) {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate eighteenYearsAgo = currentDate.minusYears(18);
+
+        return dob.isBefore(eighteenYearsAgo);
     }
 
     public static MentorDTO getMentorById(int id) {
@@ -237,7 +295,7 @@ public class DrivingProfileDAO {
             String sql = "SELECT m.id AS member_id, u.id AS user_id, u.name, u.phone, u.email, u.cccd, u.dob, u.address, d.img_user, d.img_cccd, m.health,d.gender, d.flag , d.status \n"
                     + "                    FROM DrivingProfile d\n"
                     + "                    JOIN Member m ON d.memberID = m.id\n"
-                    + "                    JOIN [User] u ON u.id = m.userID\n";
+                    + "                    JOIN [User] u ON u.id = m.userID WHERE m.id = " + id;
             ptm = conn.prepareStatement(sql);
             rs = ptm.executeQuery();
             while (rs.next()) {
@@ -258,11 +316,11 @@ public class DrivingProfileDAO {
                 boolean status = rs.getBoolean("status");
                 UserDTO userDTO = new UserDTO(id, name, phone, email, localDate, cccd, address);
                 MemberDTO memberDTO = new MemberDTO(id, userDTO, health);
-                drivingProfile = new DrivingProfile(memberDTO, imgCCCD, imgUser, gender);
+                drivingProfile = new DrivingProfile(memberDTO, imgCCCD, imgUser, gender, flag, status);
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("ERROR: " + e.getMessage());
         } finally {
             if (conn != null) {
                 try {
@@ -274,8 +332,8 @@ public class DrivingProfileDAO {
         }
         return drivingProfile;
     }
-    //hàm lấy tất cả hồ sơ lấy xe để staff quản lí
 
+    //hàm lấy tất cả hồ sơ lấy xe để staff quản lí
     public static ArrayList<DrivingProfile> getAllDrivingProfile() throws SQLException, ClassNotFoundException {
         ArrayList<DrivingProfile> list = new ArrayList<>();
         Connection conn = null;
@@ -287,8 +345,7 @@ public class DrivingProfileDAO {
                 String sql = "SELECT m.id AS member_id, u.id AS user_id, u.name, u.phone, u.email, u.cccd, d.img_user,d.gender, d.flag , d.status \n"
                         + "                    FROM DrivingProfile d\n"
                         + "                    JOIN Member m ON d.memberID = m.id\n"
-                        + "                    JOIN [User] u ON u.id = m.userID\n"
-                        + "                    WHERE d.status = 0";
+                        + "                    JOIN [User] u ON u.id = m.userID\n";
                 ptm = conn.prepareStatement(sql);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
@@ -304,7 +361,7 @@ public class DrivingProfileDAO {
                     boolean status = rs.getBoolean("status");
                     UserDTO userDTO = new UserDTO(userId, name, phone, email, cccd);
                     MemberDTO memberDTO = new MemberDTO(memberId, userDTO);
-                    DrivingProfile drivingProfile = new DrivingProfile(memberDTO, imgUser, gender, flag, status);
+                    DrivingProfile drivingProfile = new DrivingProfile(memberDTO, memberId, imgUser, gender, flag, status);
                     list.add(drivingProfile);
                 }
             }
@@ -322,6 +379,39 @@ public class DrivingProfileDAO {
             }
         }
         return list;
+    }
+
+    // update status hồ sơ lái xe
+    public boolean updateStatusDriving(String memberID, String status) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        boolean result = false;
+        String sql;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                if (status.equals("1")) {
+                    sql = "UPDATE DrivingProfile SET status = 0 WHERE memberID = " + memberID;
+                } else {
+                    sql = "UPDATE DrivingProfile SET status = 1 WHERE memberID = " + memberID;
+                }
+                ptm = conn.prepareStatement(sql);
+                int row = ptm.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+        }
+        return result;
     }
 
     //hàm lấy tất cả hồ sơ lấy xe để staff quản lí
