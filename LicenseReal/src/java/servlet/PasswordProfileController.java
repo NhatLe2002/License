@@ -5,7 +5,6 @@
  */
 package servlet;
 
-import dao.PaymentDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -19,8 +18,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author emcua
  */
-@WebServlet(name = "PayCash", urlPatterns = {"/PayCashController"})
-public class PayCashController extends HttpServlet {
+@WebServlet(name = "PasswordProfileController", urlPatterns = {"/PasswordProfileController"})
+public class PasswordProfileController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,38 +34,8 @@ public class PayCashController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-        boolean check_cash_type = true;
-        String url = "";
-        String type = request.getParameter("type");
-        float price = Float.parseFloat(request.getParameter("price"));
-        String cash_type = request.getParameter("cash_type");
-        if (cash_type.equalsIgnoreCase("VNPAY")) {
-            check_cash_type = true;
-        } else {
-            check_cash_type = false;
-        }
-
-        int memberID = Integer.parseInt(session.getAttribute("memberID").toString());
-        try {
-            if (type.equals("regisLearn")) {
-                url = "learningPaying.jsp";
-            } else {
-                url = "testingPaying.jsp";           
-            }
-            if (!check_cash_type) {
-                PaymentDAO.createPayment(memberID, price, type, false, check_cash_type);
-                
-            } else {
-                session.setAttribute("cash_type", cash_type);
-                session.setAttribute("type", type);
-                session.setAttribute("amount", request.getParameter("price"));
-                url = "ajaxServlet";
-            }
-//            int amount = (Integer.parseInt(request.getParameter("amount")) / 100);
-        } catch (Exception e) {
-        }
-        request.setAttribute("message", memberID);
-        request.getRequestDispatcher(url).forward(request, response);
+        request.getRequestDispatcher("passwordProfile.jsp").forward(request, response);
+//        response.sendRedirect("passwordProfile.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

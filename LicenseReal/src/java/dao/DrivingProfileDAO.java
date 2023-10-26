@@ -24,19 +24,24 @@ import utils.DBUtils;
  */
 public class DrivingProfileDAO {
 
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-
-        
-        MemberDTO member = getMemberById(4);
-        if (member != null) {
-            int memberIdValue = member.getId(); // Lấy giá trị memberID từ đối tượng MemberDTO
-            System.out.println("MemberID: " + memberIdValue);
-            // Tiếp tục xử lý thông tin thành viên khác
-        } else {
-            System.out.println("Không tìm thấy thành viên có ID " );
-        }
-
-    }
+//    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+//
+//<<<<<<< HEAD
+//        MemberDTO mdto = getMemberById(11);
+//        System.out.println(mdto);
+//=======
+//        
+//        MemberDTO member = getMemberById(4);
+//        if (member != null) {
+//            int memberIdValue = member.getId(); // Lấy giá trị memberID từ đối tượng MemberDTO
+//            System.out.println("MemberID: " + memberIdValue);
+//            // Tiếp tục xử lý thông tin thành viên khác
+//        } else {
+//            System.out.println("Không tìm thấy thành viên có ID " );
+//        }
+//
+//>>>>>>> 6a16a5a6b925d224ee3e5740d927b808877d60b1
+//    }
 
     // lấy member theo userID
     public static MemberDTO getMemberById(int userId) {

@@ -530,49 +530,22 @@
             <div class='separate-line-layout-account'></div>
             <div class='content-option-container'>
                 <div class="d-flex justify-content-center flex-column profile-container gap-3">
-                    <div class='title'>Lịch sử giao dịch</div>
-                    <div class="table">
-                        <table>
-                            <tr>
-                                <th>Tên</th>
-                                <th>Giá</th>
-                                <th>Loại hình</th>
-                                <th>Tình trạng</th>
-                                <th>Hình thức thanh toán</th>
-                                <th>Ngày tạo</th>
-                            </tr>
-                            <c:forEach items="${listP}" var="p">
-                                <tr>
-                                    <td>${user.getName()}</td>
-                                    <c:if test="${p.getPrice() == 1200000}">
-                                        <td>1tr2</td>
-                                    </c:if>
-                                    <c:if test="${p.getPrice() == 10000000}">
-                                        <td>10tr</td>
-                                    </c:if>
-                                    <c:if test="${p.getType().equals('regisTest')}">
-                                        <td>Đăng ký nộp hồ sơ</td>
-                                    </c:if>
-                                    <c:if test="${p.getType().equals('regisLearn')}">
-                                        <td>Đăng ký học thực hành</td>
-                                    </c:if>
-                                    <c:if test="${p.isStatus() == true}">
-                                        <td style="color: green;">Đã thanh toán</td>
-                                    </c:if>
-                                    <c:if test="${p.isStatus() == false}">
-                                        <td style="color: red;">Chưa thanh toán</td>
-                                    </c:if>
-                                    <c:if test="${p.isCash_type() == true}">
-                                        <td>VN Pay</td>
-                                    </c:if>
-                                    <c:if test="${p.isCash_type() == false}">
-                                        <td>Tiền mặt</td>
-                                    </c:if>                                 
-                                    <td>${p.getCreate_date()}</td>
-                                </tr>
-                            </c:forEach>
-                        </table>
-                    </div>
+                    <div class='title'>Đổi mật khẩu</div>
+                    <form action="MainController" method ="POST">
+                        <div class="user-details">           
+                            <div class="input-box">
+                                <span class="details">Mật khẩu mới</span>
+                                <input name="password" type="password" placeholder="Vui lòng nhập mật khẩu" required>
+                            </div>
+
+                            <div class="input-box">
+                                <span class="details">Xác nhận mật khẩu</span>
+                                <input name="confirmPassword" type="password" placeholder="Xác nhận lại mật khẩu" required>
+                            </div>
+                            <button name="action" value="changePasswordProfile" type="submit">Xác nhận</button>
+                            ${message}
+                        </div>
+                        <form/>
                 </div>
             </div>
         </div>

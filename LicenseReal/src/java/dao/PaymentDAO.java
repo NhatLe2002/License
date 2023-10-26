@@ -55,7 +55,7 @@ public class PaymentDAO {
             }
 
         } catch (Exception e) {
-            System.out.println(e);
+
         }
         return check;
     }
@@ -79,6 +79,7 @@ public class PaymentDAO {
         }
         return list;
     }
+
     public static ArrayList<PaymentDTO> getAllPayment() {
         ArrayList<PaymentDTO> list = new ArrayList<>();
         try {
@@ -109,15 +110,18 @@ public class PaymentDAO {
             check = true;
 
         } catch (Exception e) {
-            System.out.println(e);
+
         }
         return check;
     }
 
-   // public static void main(String[] args) {
-
+    // public static void main(String[] args) {
 //        ArrayList<PaymentDTO> list = getAllPayment();
 //        for (PaymentDTO p : list) {
+//            System.out.println(p.getPrice());
+//
+//        }
+//        System.out.println(updatePayment(18));
 //            System.out.println(p);
 //
 //        }
@@ -129,79 +133,78 @@ public class PaymentDAO {
 //            System.out.println("Status: " + status);
 //        }
 //         == == ==
-                //    public static void main(String[] args) {
-                //        try {
-                //            PaymentDAO dao = new PaymentDAO();
-                //            float totalRevenue = 0;
-                //            float old_totalRevenue = 0;
-                //            LocalDate localDate = LocalDate.now();
-                //            int yearNow = localDate.getYear();
-                //            int lastYear = yearNow - 1;
-                //
-                //            ArrayList<PaymentDTO> list = dao.getRevenue();
-                //            ArrayList<Integer> dataYearNow = new ArrayList<>();
-                //            ArrayList<Integer> dataLastYear = new ArrayList<>();
-                //            for (PaymentDTO paymentDTO : list) {
-                //
-                //                if (paymentDTO.getCreate_date().getYear() == yearNow) {
-                //                    totalRevenue += paymentDTO.getPrice();
-                //                    dataYearNow.add(Math.round(paymentDTO.getPrice())/1000000);
-                ////                    System.out.print(paymentDTO.getCreate_date());
-                ////                    System.out.println(paymentDTO.getPrice());
-                //                }
-                //                if (paymentDTO.getCreate_date().getYear() == lastYear) {
-                //                    old_totalRevenue += paymentDTO.getPrice();
-                //                    dataLastYear.add(-Math.round(paymentDTO.getPrice())/1000000);
-                ////                    System.out.print(paymentDTO.getCreate_date());
-                ////                    System.out.println(paymentDTO.getPrice());
-                //                }
-                //            }
-                //            System.out.println(Math.round(totalRevenue));
-                //            System.out.println(Math.round(old_totalRevenue));
-                //            System.out.println("yearNow: " + yearNow);
-                //            for (Integer now : dataYearNow) {
-                //                System.out.println(now);
-                //            }
-                //            System.out.println("lastYear: " + lastYear);
-                //            for (Integer last : dataLastYear) {
-                //                System.out.println(last);
-                //            }
-                //
-                //        } catch (SQLException ex) {
-                //            System.out.println("ERROR: " + ex.getMessage());
-                //        }
-                //    }
-                //    public static void main(String[] args) {
-                //        try {
-                //            PaymentDAO dao = new PaymentDAO();
-                //            ArrayList<PaymentDTO> list = dao.getRevenue();
-                //            Set<Integer> uniqueYears = new HashSet<>();
-                //
-                //            for (PaymentDTO paymentDTO : list) {
-                //                Date date = Date.valueOf(paymentDTO.getCreate_date());
-                //                Calendar calendar = Calendar.getInstance();
-                //                calendar.setTime(date);
-                //                int year = calendar.get(Calendar.YEAR);
-                //                uniqueYears.add(year);
-                //            }
-                //
-                //            // Chuyển set uniqueYears thành một danh sách để sắp xếp
-                //            List<Integer> sortedYears = new ArrayList<>(uniqueYears);
-                //
-                //            // Sắp xếp danh sách theo thứ tự giảm dần
-                //            Collections.sort(sortedYears, Collections.reverseOrder());
-                //
-                //            System.out.println("Các năm không trùng nhau trong mảng (sắp xếp giảm dần):");
-                //            ArrayList<Integer> years = new ArrayList<>();
-                //            for (int year : sortedYears) {
-                //                years.add(year);
-                //            }
-                //            System.out.println(years);
-                //        } catch (Exception e) {
-                //        }
-                //    }
+    //    public static void main(String[] args) {
+    //        try {
+    //            PaymentDAO dao = new PaymentDAO();
+    //            float totalRevenue = 0;
+    //            float old_totalRevenue = 0;
+    //            LocalDate localDate = LocalDate.now();
+    //            int yearNow = localDate.getYear();
+    //            int lastYear = yearNow - 1;
+    //
+    //            ArrayList<PaymentDTO> list = dao.getRevenue();
+    //            ArrayList<Integer> dataYearNow = new ArrayList<>();
+    //            ArrayList<Integer> dataLastYear = new ArrayList<>();
+    //            for (PaymentDTO paymentDTO : list) {
+    //
+    //                if (paymentDTO.getCreate_date().getYear() == yearNow) {
+    //                    totalRevenue += paymentDTO.getPrice();
+    //                    dataYearNow.add(Math.round(paymentDTO.getPrice())/1000000);
+    ////                    System.out.print(paymentDTO.getCreate_date());
+    ////                    System.out.println(paymentDTO.getPrice());
+    //                }
+    //                if (paymentDTO.getCreate_date().getYear() == lastYear) {
+    //                    old_totalRevenue += paymentDTO.getPrice();
+    //                    dataLastYear.add(-Math.round(paymentDTO.getPrice())/1000000);
+    ////                    System.out.print(paymentDTO.getCreate_date());
+    ////                    System.out.println(paymentDTO.getPrice());
+    //                }
+    //            }
+    //            System.out.println(Math.round(totalRevenue));
+    //            System.out.println(Math.round(old_totalRevenue));
+    //            System.out.println("yearNow: " + yearNow);
+    //            for (Integer now : dataYearNow) {
+    //                System.out.println(now);
+    //            }
+    //            System.out.println("lastYear: " + lastYear);
+    //            for (Integer last : dataLastYear) {
+    //                System.out.println(last);
+    //            }
+    //
+    //        } catch (SQLException ex) {
+    //            System.out.println("ERROR: " + ex.getMessage());
+    //        }
+    //    }
+    //    public static void main(String[] args) {
+    //        try {
+    //            PaymentDAO dao = new PaymentDAO();
+    //            ArrayList<PaymentDTO> list = dao.getRevenue();
+    //            Set<Integer> uniqueYears = new HashSet<>();
+    //
+    //            for (PaymentDTO paymentDTO : list) {
+    //                Date date = Date.valueOf(paymentDTO.getCreate_date());
+    //                Calendar calendar = Calendar.getInstance();
+    //                calendar.setTime(date);
+    //                int year = calendar.get(Calendar.YEAR);
+    //                uniqueYears.add(year);
+    //            }
+    //
+    //            // Chuyển set uniqueYears thành một danh sách để sắp xếp
+    //            List<Integer> sortedYears = new ArrayList<>(uniqueYears);
+    //
+    //            // Sắp xếp danh sách theo thứ tự giảm dần
+    //            Collections.sort(sortedYears, Collections.reverseOrder());
+    //
+    //            System.out.println("Các năm không trùng nhau trong mảng (sắp xếp giảm dần):");
+    //            ArrayList<Integer> years = new ArrayList<>();
+    //            for (int year : sortedYears) {
+    //                years.add(year);
+    //            }
+    //            System.out.println(years);
+    //        } catch (Exception e) {
+    //        }
+    //    }
     //}
-
     public ArrayList<PaymentDTO> getRevenue() throws SQLException {
         ArrayList<PaymentDTO> list = new ArrayList<>();
         try {
@@ -228,6 +231,7 @@ public class PaymentDAO {
             }
         }
         return list;
+
     }
 
     public ArrayList<PaymentDTO> getRevenueByYear(int year) throws SQLException {

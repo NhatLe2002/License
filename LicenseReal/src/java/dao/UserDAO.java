@@ -34,8 +34,8 @@ public class UserDAO extends DBUtils {
             } else if (!Util.validateAge(dob.toLocalDate())) {
                 return 4; // duoi 18 t
             } else {
-                String sql = "INSERT INTO [User] (name,phone,email,dob,cccd,address,role,status,accountID)"
-                        + "values(?,?,?,?,?,?,1,1,?)";
+                String sql = "INSERT INTO [User] (name,phone,email,dob,cccd,address,role,status,accountID,avatar)"
+                        + "values(?,?,?,?,?,?,1,1,?,'no')";
                 PreparedStatement ps = getConnection().prepareStatement(sql);
                 ps.setString(1, name);
                 ps.setString(2, phone);
@@ -160,9 +160,14 @@ public class UserDAO extends DBUtils {
         }
         return list;
     }
+
+
+
+
     public static void main(String[] args) {
         System.out.println(UserDAO.getListByRole(2));
         List<UserDTO> list = UserDAO.getListByRole(2);
         System.out.println(list.size());
     }
+
 }

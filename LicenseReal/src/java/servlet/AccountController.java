@@ -48,21 +48,32 @@ public class AccountController extends HttpServlet {
         boolean check;
         String url = "";
         String message = "";
+        String raw_idAccount = "";
         String action = request.getParameter("action");
         HttpSession session = request.getSession();
         int idAccount = 0;
         try {
             switch (action) {
                 case "login":
+
                     username = request.getParameter("username");
                     password = request.getParameter("password");
                     account = AccountDAO.getAccount(username, password);
+
                     if (account == null) {
                         message = "Sai mật khẩu hoặc tài khoản";
                         url = "login.jsp";
                     } else {
                         user = UserDAO.getUser(account.getId());
+                        if (user == null) {
+                            url = "user-infor.jsp";
+                            message = "Bạn cần cập nhật thông tin!";
+                        } else {
+                            session.setAttribute("user", user);
+                        }
                         if (account != null) {
+                            session.setAttribute("idAccount", account.getId());
+                            session.setAttribute("account", account);
                             Cookie cookie = new Cookie("userId", Integer.toString(user.getId()));
                             cookie.setMaxAge(60 * 60);
                             response.addCookie(cookie);
@@ -71,11 +82,7 @@ public class AccountController extends HttpServlet {
                         if (member != null) {
                             session.setAttribute("memberID", member.getId());
                         }
-                        if (user == null) {
-                            url = "user-infor.jsp";
-                            message = "Bạn cần cập nhật thông tin!";
-                        }
-                        session.setAttribute("user", user);
+
                         switch (user.getRole()) {
                             case 1:
                                 session.setAttribute("ROLE", "US");
@@ -99,8 +106,6 @@ public class AccountController extends HttpServlet {
                         }
                         message = "Đăng nhập thành công";
                     }
-                    session.setAttribute("account", account);
-
                     break;
                 case "register":
                     username = request.getParameter("username");
@@ -118,7 +123,7 @@ public class AccountController extends HttpServlet {
 
                             account = AccountDAO.getAccount(username, password);
                             user = UserDAO.getUser(account.getId());
-                            
+
                             session.setAttribute("account", account);
                             session.setAttribute("user", user);
 //                            if (account != null) {
@@ -191,10 +196,11 @@ public class AccountController extends HttpServlet {
                         url = "changePassword.jsp";
                     }
                     break;
+
                 case "changePassword":
                     password = request.getParameter("password");
                     confirmPassword = request.getParameter("confirmPassword");
-                    String raw_idAccount = session.getAttribute("idAccount").toString();
+                    raw_idAccount = session.getAttribute("idAccount").toString();
                     idAccount = Integer.parseInt(raw_idAccount);
                     if (!confirmPassword.equals(password)) {
                         message = "Xác nhận mật khẩu sai";
@@ -206,6 +212,24 @@ public class AccountController extends HttpServlet {
                         } else {
                             message = "Thay đổi mật khẩu thất bại";
                             url = "changePassword.jsp";
+                        }
+                    }
+                    break;
+                case "changePasswordProfile":
+                    password = request.getParameter("password");
+                    confirmPassword = request.getParameter("confirmPassword");
+                    raw_idAccount = session.getAttribute("idAccount").toString();
+                    idAccount = Integer.parseInt(raw_idAccount);
+                    if (!confirmPassword.equals(password)) {
+                        message = "Xác nhận mật khẩu sai";
+                        url = "passwordProfile.jsp";
+                    } else {
+                        if (AccountDAO.changePassword(idAccount, password)) {
+                            url = "passwordProfile.jsp";
+                            message = "Thay đổi mật khẩu thành công";
+                        } else {
+                            message = "Thay đổi mật khẩu thất bại";
+                            url = "passwordProfile.jsp";
                         }
                     }
                     break;

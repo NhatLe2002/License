@@ -75,8 +75,8 @@
                                 <div class="pt-1 mb-4">
                                     <button type="submit" name="action" value="login"class="btn btn-info btn-lg btn-block" type="button">Đăng nhập</button>
                                 </div>
-                                <p>Chưa có tài khoản? <a href="register.jsp" class="link-info">Đăng ký ngay</a></p>
-                                <p>Quên mật khẩu? <a href="forgotPassword.jsp" class="link-info">Lấy lại mật khẩu</a></p>
+                                <p>Chưa có tài khoản? <a href="MainController?action=registerPage" class="link-info">Đăng ký ngay</a></p>
+                                <p>Quên mật khẩu? <a href="MainController?action=forgotPasswordPage" class="link-info">Lấy lại mật khẩu</a></p>
                                 ${message}
                             </form>
                         </div>
