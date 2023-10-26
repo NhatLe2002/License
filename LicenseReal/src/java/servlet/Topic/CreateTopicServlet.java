@@ -45,31 +45,9 @@ public class CreateTopicServlet extends HttpServlet {
                 } else {
                     message = "duplicate";
                     request.setAttribute("message", message);
-                    request.getRequestDispatcher("TopicController?action=").forward(request, response);
-                }
-            } else {
-                String questionID = request.getParameter("questionID");
-                check = dao.checkNormal(topicID);
-                if (!check) {
-                    check = dao.createTopicChoose(topicName, topicID, questionID);
-                    if (check) {
-                        message = "success";
-                    }
-                } else {
-                    message = "normal_full";
-                }
-
-                check = dao.checkParalyze(topicID);
-                if (!check) {
-                    check = dao.createTopicChoose(topicName, topicID, questionID);
-                    if (check) {
-                        message = "success";
-                    }
-                } else {
-                    message = "paralyze_full";
+                    request.getRequestDispatcher("TopicController?action=getAll").forward(request, response);
                 }
             }
-
             QuestionDAO qDao = new QuestionDAO();
             ArrayList<QuestionDTO> listQ = qDao.getAllQuestion("1");
             ArrayList<AnswerDTO> listA = new ArrayList<>();

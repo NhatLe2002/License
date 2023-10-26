@@ -10,7 +10,7 @@
             content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
             />
 
-        <title>Quản trị viên - Quản lí bộ đề</title>
+        <title>Quản lí bộ đề</title>
 
         <meta name="description" content="" />
 
@@ -139,66 +139,79 @@
                                             </tr>
                                         </thead>
                                         <tbody class="table-border-bottom-0" >
-                                            <c:forEach var="T" items="${topic}" varStatus="counter">
-                                                <tr>
-                                                    <td>
-                                                        <span class="fw-medium">${counter.count}</span>
-                                                    </td>
-                                                    <td style="align-content: center">
-                                                        <span class="badge bg-label-primary me-1">${T.topicName}</span>
-                                                    </td>
-                                                    <td>
-                                                        <span class="fw-medium">${T.numberOfQuestion}/35</span>
-                                                    </td>
-                                                    <td>
-                                                        <c:if test="${T.status eq 'true'}">
-                                                            <span class="fw-medium" style="color:#fba265">Đang mở</span>
-                                                        </c:if>
-                                                        <c:if test="${T.status eq 'false'}">
-                                                            <span class="fw-medium">Đã đóng</span>
-                                                        </c:if>
-                                                    </td>
-
-                                                    <td>
-                                                        <div class="dropdown">
-                                                            <button title="Tính năng"
-                                                                    type="button"
-                                                                    class="btn p-0 dropdown-toggle hide-arrow"
-                                                                    data-bs-toggle="dropdown"
-                                                                    >
-                                                                <i class="bx bx-dots-vertical-rounded"></i>
-                                                            </button>
-                                                            <div class="dropdown-menu">
-                                                                <a
-                                                                    class="dropdown-item"
-                                                                    href="MainController?action=details&id=${T.topicID}"
-                                                                    ><i class="bx bx-edit-alt me-1"></i>Xem chi tiết</a
-                                                                >
+                                            <c:choose>
+                                                <c:when test="${empty topic}">
+                                                    <tr>
+                                                        <td><span class="fw-medium">Rỗng</span></td>
+                                                        <td><span class="fw-medium">Chưa có bộ đề</span></td>
+                                                        <td><span class="fw-medium">Chưa có bộ đề</span></td>
+                                                        <td><span class="fw-medium">Chưa có bộ đề</span></td>
+                                                        <td><span class="fw-medium">Chưa có bộ đề</span></td>
+                                                    </tr>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <c:forEach var="T" items="${topic}" varStatus="counter">
+                                                        <tr>
+                                                            <td>
+                                                                <span class="fw-medium">${counter.count}</span>
+                                                            </td>
+                                                            <td style="align-content: center">
+                                                                <span class="badge bg-label-primary me-1">${T.topicName}</span>
+                                                            </td>
+                                                            <td>
+                                                                <span class="fw-medium">${T.numberOfQuestion}/35</span>
+                                                            </td>
+                                                            <td>
                                                                 <c:if test="${T.status eq 'true'}">
-                                                                    <a  style="cursor: pointer"
-                                                                        class="dropdown-item"
-                                                                        data-toggle="tooltip"
-                                                                        data-bs-toggle="modal" 
-                                                                        data-bs-target="#modalConfirmDeactive" 
-                                                                        onclick="showDeactive('${T.topicID}')"
-                                                                        ><i class="fa-solid fa-ban me-1"></i> Đóng bộ đề</a
-                                                                    >
+                                                                    <span class="fw-medium" style="color:#fba265">Đang mở</span>
                                                                 </c:if>
                                                                 <c:if test="${T.status eq 'false'}">
-                                                                    <a style="cursor: pointer"
-                                                                       class="dropdown-item"
-                                                                       data-toggle="tooltip"
-                                                                       data-bs-toggle="modal" 
-                                                                       data-bs-target="#modalConfirmActive" 
-                                                                       onclick="showActive('${T.topicID}')"
-                                                                       ><i class="fa-solid fa-arrow-rotate-left me-1"></i> Mở bộ đề</a
-                                                                    >
+                                                                    <span class="fw-medium">Đã đóng</span>
                                                                 </c:if>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </c:forEach>
+                                                            </td>
+
+                                                            <td>
+                                                                <div class="dropdown">
+                                                                    <button title="Tính năng"
+                                                                            type="button"
+                                                                            class="btn p-0 dropdown-toggle hide-arrow"
+                                                                            data-bs-toggle="dropdown"
+                                                                            >
+                                                                        <i class="bx bx-dots-vertical-rounded"></i>
+                                                                    </button>
+                                                                    <div class="dropdown-menu">
+                                                                        <a
+                                                                            class="dropdown-item"
+                                                                            href="MainController?action=details&id=${T.topicID}"
+                                                                            ><i class="bx bx-edit-alt me-1"></i>Xem chi tiết</a
+                                                                        >
+                                                                        <c:if test="${T.status eq 'true'}">
+                                                                            <a  style="cursor: pointer"
+                                                                                class="dropdown-item"
+                                                                                data-toggle="tooltip"
+                                                                                data-bs-toggle="modal" 
+                                                                                data-bs-target="#modalConfirmDeactive" 
+                                                                                onclick="showDeactive('${T.topicID}')"
+                                                                                ><i class="fa-solid fa-ban me-1"></i> Đóng bộ đề</a
+                                                                            >
+                                                                        </c:if>
+                                                                        <c:if test="${T.status eq 'false'}">
+                                                                            <a style="cursor: pointer"
+                                                                               class="dropdown-item"
+                                                                               data-toggle="tooltip"
+                                                                               data-bs-toggle="modal" 
+                                                                               data-bs-target="#modalConfirmActive" 
+                                                                               onclick="showActive('${T.topicID}')"
+                                                                               ><i class="fa-solid fa-arrow-rotate-left me-1"></i> Mở bộ đề</a
+                                                                            >
+                                                                        </c:if>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </tbody>
                                     </table>
                                 </div>
