@@ -44,29 +44,33 @@ public class CreateTopicServlet extends HttpServlet {
                     topicID = String.valueOf(numberOfTopic);
                 } else {
                     message = "duplicate";
-                    request.setAttribute("message", message);
-                    request.getRequestDispatcher("TopicController?action=getAll").forward(request, response);
                 }
             }
-            QuestionDAO qDao = new QuestionDAO();
-            ArrayList<QuestionDTO> listQ = qDao.getAllQuestion("1");
-            ArrayList<AnswerDTO> listA = new ArrayList<>();
+            if (!message.equals("duplicate")) {
+                QuestionDAO qDao = new QuestionDAO();
+                ArrayList<QuestionDTO> listQ = qDao.getAllQuestion("1");
+                ArrayList<AnswerDTO> listA = new ArrayList<>();
 
-            for (QuestionDTO question : listQ) {
-                listA.addAll(question.getAnswer());
+                for (QuestionDTO question : listQ) {
+                    listA.addAll(question.getAnswer());
+                }
+
+                request.setAttribute("listA", listA);
+                request.setAttribute("listQ", listQ);
+                request.setAttribute("totalSize", listQ.size());
+
+                ArrayList<TopicDTO> listQuestionInTopic = dao.getAllQuestionInTopic(topicID);
+                request.setAttribute("listQuestionInTopic", listQuestionInTopic);
             }
-
-            request.setAttribute("listA", listA);
-            request.setAttribute("listQ", listQ);
-            request.setAttribute("totalSize", listQ.size());
-
-            ArrayList<TopicDTO> listQuestionInTopic = dao.getAllQuestionInTopic(topicID);
-            request.setAttribute("listQuestionInTopic", listQuestionInTopic);
         } catch (Exception e) {
         }
         session.setAttribute("topicID", topicID);
         request.setAttribute("message", message);
-        request.getRequestDispatcher("staff/createTopic.jsp").forward(request, response);
+        if (!message.equals("duplicate")) {
+            request.getRequestDispatcher("staff/createTopic.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("TopicController?action=getAll").forward(request, response);
+        }
     }
 
     @Override
