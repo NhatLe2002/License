@@ -116,9 +116,9 @@ public class RatingDAO {
                 PreparedStatement st = cn.prepareStatement(sql);
                 st.setInt(1, rating.getMemberID());
                 st.setInt(2, rating.getMentorID());
-                st.setFloat(3, rating.getStar());
-                st.setBoolean(4, false);
-                st.setString(5, rating.getDescription());
+                st.setString(3, rating.getDescription());
+                st.setFloat(4, rating.getStar());
+                st.setBoolean(5, false);
                 st.executeUpdate();
                 check = true;
             }
