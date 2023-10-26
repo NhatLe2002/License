@@ -123,12 +123,108 @@ public class TopicDAO {
                 int numberOfTopic = topic.size() + 1;
                 ArrayList<QuestionDTO> listQuestion = dao.getRandomQuestionAndAnswer();
                 for (QuestionDTO questionDTO : listQuestion) {
-                    sql = "INSERT INTO Topic (questionID, topicID, status) VALUES (" + questionDTO.getId() + ", " + numberOfTopic + ",1)";
+                    sql = "INSERT INTO Topic (questionID, topicID, name, status) VALUES ("
+                            + questionDTO.getId() + ", " + numberOfTopic + ", N'Bộ đề số " + numberOfTopic + "' ,1)";
                     ptm = conn.prepareStatement(sql);
                     row = ptm.executeUpdate();
                 }
                 if (row > 0) {
                     return true;
+                }
+            }
+
+        } catch (Exception e) {
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+        }
+        return result;
+    }
+
+    public boolean createTopicChoose(String topicName, String numberOfTopic, String questionID) throws SQLException {
+        QuestionDAO dao = new QuestionDAO();
+        boolean result = false;
+        String sql;
+        int row = 0;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                sql = "INSERT INTO Topic (questionID, topicID, name, status) VALUES ("
+                        + questionID + ", " + numberOfTopic + ", N'" + topicName + "' ,1)";
+                ptm = conn.prepareStatement(sql);
+                row = ptm.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            }
+
+        } catch (Exception e) {
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+        }
+        return result;
+    }
+
+    public boolean checkParalyze(String numberOfTopic) throws SQLException {
+        boolean result = false;
+        String sql;
+        int row = 0;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                sql = "SELECT * FROM Topic AS tp\n"
+                        + "JOIN Question AS qe ON qe.id = tp.questionID\n"
+                        + "WHERE qe.question_type = 1 AND topicID = " + numberOfTopic;
+                ptm = conn.prepareStatement(sql);
+                rs = ptm.executeQuery();
+                int count = 0;
+                while (rs.next()) {                    
+                    count++;
+                }
+                if (count == 5) {
+                    result = true;
+                }
+            }
+
+        } catch (Exception e) {
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+        }
+        return result;
+    }
+    
+    public boolean checkNormal(String numberOfTopic) throws SQLException {
+        boolean result = false;
+        String sql;
+        int row = 0;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                sql = "SELECT * FROM Topic AS tp\n"
+                        + "JOIN Question AS qe ON qe.id = tp.questionID\n"
+                        + "WHERE qe.question_type = 0 AND topicID = " + numberOfTopic;
+                ptm = conn.prepareStatement(sql);
+                rs = ptm.executeQuery();
+                int count = 0;
+                while (rs.next()) {                    
+                    count++;
+                }
+                if (count == 30) {
+                    result = true;
                 }
             }
 

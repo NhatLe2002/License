@@ -31,7 +31,7 @@ public class TopicController extends HttpServlet {
             request.setAttribute("status", status);
             request.setAttribute("topicID", topicID);
             doPost(request, response);
-        } else if (action.equals("create")) {
+        } else if (action.equals("random")) {
             TopicDAO dao = new TopicDAO();
             String message = "";
             try {

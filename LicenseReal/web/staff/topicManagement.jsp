@@ -118,10 +118,10 @@
                                     <!-- Button trigger modal -->
                                     <div>
                                         <a class="dropdown-item"
-                                            data-toggle="tooltip" title="Thêm bộ đề"
-                                            data-bs-toggle="modal" 
-                                            data-bs-target="#modalConfirmCreate" 
-                                            onclick="showCreate()"> 
+                                           data-toggle="tooltip" title="Thêm bộ đề"
+                                           data-bs-toggle="modal" 
+                                           data-bs-target="#modalConfirmCreate" 
+                                           onclick="showCreate()"> 
                                             <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fas fa-plus"></i></button>
                                         </a>
                                     </div>
@@ -158,10 +158,10 @@
                                                     <td>
                                                         <div class="dropdown">
                                                             <button title="Tính năng"
-                                                                type="button"
-                                                                class="btn p-0 dropdown-toggle hide-arrow"
-                                                                data-bs-toggle="dropdown"
-                                                                >
+                                                                    type="button"
+                                                                    class="btn p-0 dropdown-toggle hide-arrow"
+                                                                    data-bs-toggle="dropdown"
+                                                                    >
                                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                                             </button>
                                                             <div class="dropdown-menu">
@@ -182,12 +182,12 @@
                                                                 </c:if>
                                                                 <c:if test="${T.status eq 'false'}">
                                                                     <a style="cursor: pointer"
-                                                                        class="dropdown-item"
-                                                                        data-toggle="tooltip"
-                                                                        data-bs-toggle="modal" 
-                                                                        data-bs-target="#modalConfirmActive" 
-                                                                        onclick="showActive('${T.topicID}')"
-                                                                        ><i class="fa-solid fa-arrow-rotate-left me-1"></i> Mở bộ đề</a
+                                                                       class="dropdown-item"
+                                                                       data-toggle="tooltip"
+                                                                       data-bs-toggle="modal" 
+                                                                       data-bs-target="#modalConfirmActive" 
+                                                                       onclick="showActive('${T.topicID}')"
+                                                                       ><i class="fa-solid fa-arrow-rotate-left me-1"></i> Mở bộ đề</a
                                                                     >
                                                                 </c:if>
                                                             </div>
@@ -238,6 +238,38 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="modal fade" id="modalConfirmCreateTopic" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                             aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">ĐẶT TÊN CHO BỘ ĐỀ</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="mb-3" >
+                                            <label for="emailBasic" class="form-label">Tên bộ đề</label>
+                                            <input
+                                                type="text"
+                                                id="emailBasic"
+                                                class="form-control"
+                                                name="topicName" placeholder="Nhập tên bộ đề..." required=""
+                                                />
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a 
+                                            data-toggle="tooltip"
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#modalConfirmCreate" >
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                        </a>
+                                        <button type="button" class="btn btn-primary" id="btn-toast-choose" class="btn-close"
+                                                data-bs-dismiss="modal" aria-label="Choose">Xác nhận</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="modal fade" id="modalConfirmCreate" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                              aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
@@ -247,13 +279,22 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        Tạo ngẫu nhiên 1 bộ đề bao gồm 35 câu hỏi (30 câu hỏi thường và 5 câu hỏi liệt).
-                                        Bạn có muốn tạo thêm bộ đề?
+                                        Tạo bộ đề bao gồm 35 câu hỏi (30 câu hỏi thường và 5 câu hỏi liệt). <br>
+                                        Chọn 1 trong 2 cách để tạo bộ đề.
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                                        <button type="button" class="btn btn-primary" id="btn-toast-create" class="btn-close"
-                                                data-bs-dismiss="modal" aria-label="Close">Xác nhận</button>
+                                        <button type="button" class="btn btn-primary" id="btn-toast-random" class="btn-close"
+                                                data-bs-dismiss="modal" aria-label="Random">Ngẫu nhiên</button>
+                                        <a 
+                                            data-toggle="tooltip"
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#modalConfirmCreateTopic"
+                                            onclick="showCreateChoose()">
+                                            <button type="button" class="btn btn-primary" id="btn-toast-create" class="btn-close"
+                                                    data-bs-dismiss="modal" aria-label="">Tự chọn
+                                            </button> 
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -301,14 +342,36 @@
                 });
             }
             function showCreate() {
-                var btnToastDelete = document.querySelector('#btn-toast-create');
+                var btnToastDelete = document.querySelector('#btn-toast-random');
                 btnToastDelete.addEventListener('click', function () {
-                    var deleteUrl = 'TopicController?action=create';
+                    var deleteUrl = 'TopicController?action=random';
                     window.location.href = deleteUrl;
                     // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
                     document.getElementById('modalConfirmCreate').style.display = 'none';
                 });
             }
+
+            function showCreateChoose() {
+                var btnToastChoose = document.querySelector('#btn-toast-choose');
+                btnToastChoose.addEventListener('click', function () {
+                    var topicNameInput = document.getElementById('emailBasic');
+                    var topicName = topicNameInput.value;
+
+                    if (topicName.trim() === '') {
+                        showToast('blank');
+                        return;
+                    }
+
+                    var encodedTopicName = encodeURI(topicName);
+                    var createUrl = 'CreateTopicServlet?id=0&topicName=' + encodedTopicName;
+                    window.location.href = createUrl;
+
+                    // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
+                    document.getElementById('modalConfirmCreate').style.display = 'none';
+                });
+            }
+
+
 
             window.addEventListener('DOMContentLoaded', (event) => {
                 const message = '${message}'; // Lấy giá trị thông báo từ servlet
@@ -323,15 +386,18 @@
                 if (message === 'success') {
                     var success = 'Cập nhật trạng thái thành công!';
                     toastMessage.textContent = success;
-                } else if (message === 'fail'){
+                } else if (message === 'fail') {
                     var fail = 'Không thể cập nhật trạng thái!';
                     toastMessage.textContent = fail;
-                } else if (message === 'success_topic'){
+                } else if (message === 'success_topic') {
                     var success_topic = 'Tạo bộ đề thành công!';
                     toastMessage.textContent = success_topic;
-                } else {
+                } else if (message === 'fail_topic') {
                     var fail_topic = 'Không thể tạo bộ đề!';
                     toastMessage.textContent = fail_topic;
+                } else {
+                    var blank = 'Tên bộ đề không được bỏ trống!';
+                    toastMessage.textContent = blank;
                 }
                 toast.classList.remove('hide');
                 toast.classList.add('show');

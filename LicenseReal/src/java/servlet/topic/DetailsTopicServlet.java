@@ -6,9 +6,7 @@ import dto.AnswerDTO;
 import dto.QuestionDTO;
 import dto.TopicDTO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collection;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,8 +28,8 @@ public class DetailsTopicServlet extends HttpServlet {
         String message = (String) request.getAttribute("message");
         try {
             TopicDAO dao = new TopicDAO();
-            ArrayList<QuestionDTO> listQ = new ArrayList<QuestionDTO>();
-            ArrayList<AnswerDTO> listA = new ArrayList<AnswerDTO>();
+            ArrayList<QuestionDTO> listQ = new ArrayList<>();
+            ArrayList<AnswerDTO> listA = new ArrayList<>();
 
             ArrayList<TopicDTO> list = dao.getAllQuestionInTopic(topicID);
             QuestionDAO questionDAO = new QuestionDAO();

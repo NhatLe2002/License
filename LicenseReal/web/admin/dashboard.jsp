@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
         <title>
-            Dashboard - Analytics | Sneat - Bootstrap 5 HTML Admin Template - Pro
+            Quản trị viên | Thống kê
         </title>
 
         <meta name="description" content="">
@@ -237,6 +237,7 @@
                                                             </div>
                                                         </div>
                                                         <div id="profileReportChart"></div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -264,7 +265,9 @@
                                             <ul class="p-0 m-0">
                                                 <li class="d-flex mb-4 pb-1">
                                                     <div class="avatar flex-shrink-0 me-3">
-                                                        <span><img src="https://cdn.haitrieu.com/wp-content/uploads/2022/10/Icon-VNPAY-QR.png"/></span>
+                                                        <span class="avatar-initial rounded bg-label-primary">
+                                                            <img style="max-height: 1.5rem; max-width: 1.5rem" src="https://cdn.haitrieu.com/wp-content/uploads/2022/10/Icon-VNPAY-QR.png"/>
+                                                        </span>
                                                     </div>
                                                     <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                                                         <div class="me-2">
@@ -318,7 +321,9 @@
                                                 <div class="tab-pane fade show active" id="navs-tabs-line-vnpay" role="tabpanel">
                                                     <div class="d-flex p-4 pt-3">
                                                         <div class="avatar flex-shrink-0 me-3">
-                                                            <img src="https://cdn.haitrieu.com/wp-content/uploads/2022/10/Icon-VNPAY-QR.png"/>
+                                                            <span class="avatar-initial rounded bg-label-primary">
+                                                                <img style="max-height: 1.5rem; max-width: 1.5rem" src="https://cdn.haitrieu.com/wp-content/uploads/2022/10/Icon-VNPAY-QR.png"/>
+                                                            </span>
                                                         </div>
                                                         <div>
                                                             <small class="text-muted d-block">Thanh toán online</small>
@@ -351,6 +356,7 @@
                                                         </div>
                                                     </div>
                                                     <div id="incomeChartMoney"></div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -377,7 +383,7 @@
                                         <div class="card-body">
                                             <ul class="p-0 m-0">
                                                 <c:forEach var="R" items="${mentorRevenue}">
-                                                    <c:if test="${R.revenue > 5}">
+                                                    <c:if test="${R.revenue > 100}">
                                                         <li class="d-flex mb-4 pb-1">
                                                             <div class="avatar flex-shrink-0 me-3">
                                                                 <span class="avatar-initial rounded bg-label-success"><i class="fa-regular fa-circle-check"></i></span>
@@ -394,7 +400,7 @@
                                                             </div>
                                                         </li>
                                                     </c:if>
-                                                    <c:if test="${R.revenue < 5 && R.revenue > 1}">
+                                                    <c:if test="${R.revenue < 100 && R.revenue > 30}">
                                                         <li class="d-flex mb-4 pb-1">
                                                             <div class="avatar flex-shrink-0 me-3">
                                                                 <span class="avatar-initial rounded bg-label-primary"><i class="fa-regular fa-thumbs-up"></i></span>
@@ -411,7 +417,7 @@
                                                             </div>
                                                         </li>
                                                     </c:if>
-                                                    <c:if test="${R.revenue < 1}">
+                                                    <c:if test="${R.revenue < 30}">
                                                         <li class="d-flex mb-4 pb-1">
                                                             <div class="avatar flex-shrink-0 me-3">
                                                                 <span class="avatar-initial rounded bg-label-danger"><i class="fa-solid fa-xmark"></i></span>
@@ -469,6 +475,7 @@
 
         <!-- Place this tag in your head or just before your close body tag. -->
         <script async="" defer="" src="https://buttons.github.io/buttons.js"></script>
+
 
     </body>
     <script>
@@ -593,7 +600,7 @@
                                     plotOptions: {
                                         bar: {
                                             borderRadius: 10,
-                                            columnWidth: '35%'
+                                            columnWidth: '45%'
                                         }
                                     }
                                 }
@@ -1009,7 +1016,7 @@
                                 {
                                     fillColor: config.colors.white,
                                     seriesIndex: 0,
-                                    dataPointIndex: currentMonth,
+                                    dataPointIndex: ${currentMonth},
                                     strokeColor: config.colors.primary,
                                     strokeWidth: 2,
                                     size: 6,
@@ -1028,7 +1035,7 @@
                                 shadeIntensity: 0.6,
                                 opacityFrom: 0.5,
                                 opacityTo: 0.25,
-                                stops: [0, 95, 100]
+                                stops: [0, 950, 1000]
                             }
                         },
                         grid: {
@@ -1061,8 +1068,8 @@
                             labels: {
                                 show: false
                             },
-                            min: 10,
-                            max: 50,
+                            min: 0,
+                            max: 200,
                             tickAmount: 4
                         }
                     };
@@ -1108,7 +1115,7 @@
                                 {
                                     fillColor: config.colors.white,
                                     seriesIndex: 0,
-                                    dataPointIndex: currentMonth,
+                                    dataPointIndex: ${currentMonth},
                                     strokeColor: config.colors.primary,
                                     strokeWidth: 2,
                                     size: 6,
@@ -1160,8 +1167,8 @@
                             labels: {
                                 show: false
                             },
-                            min: 10,
-                            max: 50,
+                            min: 0,
+                            max: 200,
                             tickAmount: 4
                         }
                     };
