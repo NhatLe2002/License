@@ -76,7 +76,6 @@ public class QuestionDAO {
         return list;
     }
 
-
     //Ham lay bo cau hoi theo ma de
     public ArrayList<QuestionDTO> getTopic(String topic) throws SQLException {
         ArrayList<QuestionDTO> list = new ArrayList<>();
@@ -88,7 +87,8 @@ public class QuestionDAO {
                         + "ans.answer_text, ans.isCorrect FROM Question AS que\n"
                         + "JOIN Topic AS tp ON que.id = tp.questionID\n"
                         + "JOIN Answer AS ans ON ans.questionID = que.id\n"
-                        + "WHERE tp.topicID = " + topic;
+                        + "WHERE tp.topicID = " + topic
+                        +"ORDER BY NEWID()";
                 //Cau sql lay tat ca cac cau hoi va dap an trong ma de duoc yeu cau
                 ptm = conn.prepareStatement(sql);
                 rs = ptm.executeQuery();
@@ -382,7 +382,7 @@ public class QuestionDAO {
         }
         return false;
     }
-    
+
     public boolean restoreQuestion(String questionID) throws SQLException {
         try {
             conn = DBUtils.getConnection();

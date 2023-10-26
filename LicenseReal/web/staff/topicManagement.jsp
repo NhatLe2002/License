@@ -133,6 +133,7 @@
                                             <tr>
                                                 <th>STT</th>
                                                 <th>Bộ đề</th>
+                                                <th>Số câu hỏi</th>
                                                 <th>Trạng thái</th>
                                                 <th>Tính năng</th>
                                             </tr>
@@ -144,7 +145,10 @@
                                                         <span class="fw-medium">${counter.count}</span>
                                                     </td>
                                                     <td style="align-content: center">
-                                                        <span class="badge bg-label-primary me-1">Bộ đề ${T.topicID}</span>
+                                                        <span class="badge bg-label-primary me-1">${T.topicName}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="fw-medium">${T.numberOfQuestion}/35</span>
                                                     </td>
                                                     <td>
                                                         <c:if test="${T.status eq 'true'}">
@@ -304,10 +308,10 @@
                             <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
                                 <div id="toast-notification" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
                                     <div class="toast-header">
-                                        <c:if test="${message eq 'success' || message eq 'success_topic'}">
+                                        <c:if test="${message eq 'success' || message eq 'success_topic' || message eq 'create_success'}">
                                             <strong id="toast-message" class="me-auto text-success"></strong>
                                         </c:if>
-                                        <c:if test="${message eq 'fail' || message eq 'fail_topic'}">
+                                        <c:if test="${message eq 'fail' || message eq 'fail_topic' || message eq 'create_fail' || message eq 'duplicate'}">
                                             <strong id="toast-message" class="me-auto text-danger"></strong>
                                         </c:if>
                                         <c:if test="${message eq 'exist'}">
@@ -395,6 +399,15 @@
                 } else if (message === 'fail_topic') {
                     var fail_topic = 'Không thể tạo bộ đề!';
                     toastMessage.textContent = fail_topic;
+                } else if (message === 'create_success') {
+                    var create_success = 'Tạo bộ đề thành công!';
+                    toastMessage.textContent = create_success;
+                } else if (message === 'duplicate') {
+                    var duplicate = 'Tên bộ đề đã tồn tại!';
+                    toastMessage.textContent = duplicate;
+                } else if (message === 'create_fail') {
+                    var create_fail = 'Không thể tạo bộ đề!';
+                    toastMessage.textContent = create_fail;
                 } else {
                     var blank = 'Tên bộ đề không được bỏ trống!';
                     toastMessage.textContent = blank;

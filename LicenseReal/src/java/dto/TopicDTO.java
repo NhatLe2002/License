@@ -17,7 +17,9 @@ public class TopicDTO {
     private int questionID;
     List<QuestionDTO> list;
     private boolean status;
-
+    private int numberOfQuestion;
+    private String topicName;
+    
     public TopicDTO() {
     }
 
@@ -27,9 +29,11 @@ public class TopicDTO {
         this.questionID = questionID;
     }
 
-    public TopicDTO(int topicID, boolean status) {
+    public TopicDTO(int topicID, String topicName, int numberOfQuestion, boolean status) {
         this.topicID = topicID;
         this.status = status;
+        this.topicName = topicName;
+        this.numberOfQuestion = numberOfQuestion;
     }
 
     public TopicDTO(int id, int questionID) {
@@ -82,5 +86,23 @@ public class TopicDTO {
     public void setStatus(boolean status) {
         this.status = status;
     }
+
+    public int getNumberOfQuestion() {
+        return numberOfQuestion;
+    }
+
+    public void setNumberOfQuestion(int numberOfQuestion) {
+        this.numberOfQuestion = numberOfQuestion;
+    }
+
+    public String getTopicName() {
+        return topicName;
+    }
+
+    public void setTopicName(String topicName) {
+        this.topicName = topicName;
+    }
+
+    
     
 }

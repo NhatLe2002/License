@@ -1,8 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page isELIgnored="false" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -66,6 +67,30 @@
         <!-- Thư viện Bootstrap JS -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     </head>
+    <style>
+        .check {
+            margin-right: 6px;
+        }
+        .check:checked {
+            accent-color: #6a6cff;
+        }
+        .check:checked ~ label{
+            color: #6a6cff;
+        }
+        /* CSS cho thanh hiển thị */
+        .status-bar {
+            position: fixed;
+            bottom: 0.25rem;
+            left: 1.5rem;
+            max-width: 50rem;
+            text-align: left;
+            font-weight: bold;
+            box-shadow: 0 -2px 2px rgba(0, 0, 0, 0.1);
+            z-index: 20;
+            border-radius: 0.5rem;
+        }
+
+    </style>
     <body>
         <!-- Layout wrapper -->
         <div class="layout-wrapper layout-content-navbar">
@@ -120,118 +145,90 @@
                                     class="card-header"
                                     style="display: flex; justify-content: space-between"
                                     >
-                                    <div>Ngân hàng câu hỏi</div>
-                                    <!-- Button trigger modal -->
-                                    <div>
-                                        <a title="Tạo câu hỏi" href="MainController?action=insertQ">
-                                            <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fas fa-plus"></i></button>
-                                        </a>
-                                        <a title="Khôi phục" href="MainController?action=restore">
-                                            <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fa-solid fa-arrows-rotate fa-spin"></i></button>
-                                        </a>
-                                    </div>
+                                    <div>Thêm câu hỏi vào bộ đề <span class="fw-bold text-primary">${sessionScope.topicName}</span></div>
                                 </h5>
-
-                                <div class="table-responsive text-nowrap">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>STT</th>
-                                                <th>Câu hỏi</th>
-                                                <th>Hình ảnh</th>
-                                                <th>Dạng câu hỏi</th>
-                                                <th>Đáp án</th>
-                                                <th>Đáp án đúng</th>
-                                                <th>Tính năng</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="table-border-bottom-0" >
-
-                                            <c:forEach var="Q" items="${listQ}" varStatus="counter">
-
-                                                <c:set var="A" value="${listA[counter.index]}"></c:set>
-                                                    <tr>
-                                                        <td>
-                                                            <span class="fw-medium">${counter.count}</span>
-                                                    </td>
-                                                    <td>
-                                                        <span style="display: inline-block; 
-                                                              max-width: 10rem; 
-                                                              word-break: break-all; 
-                                                              overflow: hidden;">
-                                                            <%-- Áp dụng cắt chuỗi ở đây --%>
-                                                            <c:set var="truncatedQuestion" value="${fn:substring(Q.question, 0, 18)}" />
-                                                            <c:choose>
-                                                                <c:when test="${fn:length(Q.question) > 18}">
-                                                                    ${truncatedQuestion}...
-                                                                </c:when>
-                                                                <c:otherwise>
-                                                                    ${truncatedQuestion}
-                                                                </c:otherwise>
-                                                            </c:choose>
-                                                        </span>
-                                                    </td>
-                                                    <td>
-                                                        <c:if test="${not empty Q.image}">
-                                                            <img src="data:image;base64,${Q.image}" style="max-height: 5rem; max-width: 10rem"/>
-                                                        </c:if>
-                                                    </td>
-                                                    <td>
-                                                        <c:if test="${Q.questionType eq '1'}">
-                                                            <span class="fw-medium" style="color:#fba265">Câu hỏi liệt</span>
-                                                        </c:if>
-                                                        <c:if test="${Q.questionType eq '0'}">
-                                                            <span class="fw-medium">Bình thường</span>
-                                                        </c:if>
-                                                    </td>
-                                                    <td>
-                                                        <c:set var="answer" value="${fn:replace(A.answer, '/', '<br>')}" />
-                                                        <div style="display: inline-block; 
-                                                             max-width: 15rem; 
-                                                             word-break: break-all; 
-                                                             overflow: hidden;">
-                                                            ${answer}
-                                                        </div>
-                                                    </td>
-                                                    <td style="align-content: center">
-                                                        <span class="badge bg-label-primary me-1">${A.isCorrect}</span>
-                                                    </td>
-                                                    <td>
-                                                        <c:forEach var="LT" items="${listQuestionInTopic}">
-                                                            <c:if test="${LT.questionID eq Q.id}">
-                                                                <a
-                                                                    class="dropdown-item"
-                                                                    style="cursor: pointer"
-                                                                    data-toggle="tooltip"
-                                                                    data-bs-toggle="modal" 
-                                                                    data-bs-target="#modalConfirmDelete" 
-                                                                    onclick="showMess('${Q.id}')"
-                                                                    ><i class="bx bx-trash me-1"></i> Xóa khỏi bộ đề</a
-                                                                >
-                                                            </c:if>
-                                                            <c:if test="${!LT.questionID eq Q.id}">
-                                                                <a
-                                                                    class="dropdown-item"
-                                                                    href="CreateTopicServlet?topicName=${topicName}&id=${topicID}&questionID=${Q.id}"
-                                                                    ><i class="bx bx-edit-alt me-1"></i>Thêm vào bộ đề</a
-                                                                >
-                                                            </c:if>
-
-                                                        </c:forEach>
-                                                        <c:if test="${empty listQuestionInTopic}">
-                                                            <a
-                                                                class="dropdown-item"
-                                                                href="CreateTopicServlet?topicName=${topicName}&id=${topicID}&questionID=${Q.id}"
-                                                                ><i class="bx bx-edit-alt me-1"></i>Thêm vào bộ đề</a
-                                                            >
-                                                        </c:if>
-                                                    </td>
+                                <form action="CreateTopicServlet" method="POST"> 
+                                    <div class="table-responsive text-nowrap">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>STT</th>
+                                                    <th>Câu hỏi</th>
+                                                    <th>Hình ảnh</th>
+                                                    <th>Dạng câu hỏi</th>
+                                                    <th>Đáp án</th>
+                                                    <th>Đáp án đúng</th>
+                                                    <th>Lựa chọn</th>
                                                 </tr>
-                                            </c:forEach>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                            </thead>
+                                            <tbody class="table-border-bottom-0" >
 
+                                                <c:forEach var="Q" items="${listQ}" varStatus="counter">
+                                                    <c:set var="A" value="${listA[counter.index]}"></c:set>
+                                                        <tr>
+                                                            <td>
+                                                                <span class="fw-medium">${counter.count}</span>
+                                                        </td>
+                                                        <td>
+                                                            <span style="display: inline-block; 
+                                                                  max-width: 10rem; 
+                                                                  word-break: break-all; 
+                                                                  overflow: hidden;">
+                                                                <%-- Áp dụng cắt chuỗi ở đây --%>
+                                                                <c:set var="truncatedQuestion" value="${fn:substring(Q.question, 0, 18)}" />
+                                                                <c:choose>
+                                                                    <c:when test="${fn:length(Q.question) > 18}">
+                                                                        ${truncatedQuestion}...
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        ${truncatedQuestion}
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <c:if test="${not empty Q.image}">
+                                                                <img src="data:image;base64,${Q.image}" style="max-height: 5rem; max-width: 10rem"/>
+                                                            </c:if>
+                                                        </td>
+                                                        <td>
+                                                            <c:if test="${Q.questionType eq '1'}">
+                                                                <span class="fw-medium" style="color:#fba265">Câu hỏi liệt</span>
+                                                            </c:if>
+                                                            <c:if test="${Q.questionType eq '0'}">
+                                                                <span class="fw-medium">Bình thường</span>
+                                                            </c:if>
+                                                        </td>
+                                                        <td>
+                                                            <c:set var="answer" value="${fn:replace(A.answer, '/', '<br>')}" />
+                                                            <div style="display: inline-block; 
+                                                                 max-width: 15rem; 
+                                                                 word-break: break-all; 
+                                                                 overflow: hidden;">
+                                                                ${answer}
+                                                            </div>
+                                                        </td>
+                                                        <td style="align-content: center">
+                                                            <span class="badge bg-label-primary me-1">${A.isCorrect}</span>
+                                                        </td>
+                                                        <td>
+                                                            <input style="cursor: pointer;" id="check${Q.id}" type="checkbox" name="checkbox" value="${Q.id}" class="check question${Q.questionType} me-1">
+                                                            <label style="cursor: pointer;" for="check${Q.id}">Chọn</label>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- Thanh hiển thị -->
+                                    <div class="status-bar bg-light p-3">
+                                        <span id="normalCount" class="me-3">Số câu bình thường: 0</span>
+                                        <span id="paralyzedCount" class="me-3">Số câu liệt: 0</span>
+                                        <span id="totalCounter" class="me-3">Tổng số câu: 0</span>
+                                        <button type="submit" class="create-button btn btn-primary">Tạo</button>
+                                        <a href="MainController?action=TopicController"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button></a>
+                                    </div>
+                                </form>
 
 
                                 <div class="modal fade" id="modalConfirmDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -261,9 +258,19 @@
                                                 <c:if test="${message eq 'success'}">
                                                     <strong id="toast-message" class="me-auto text-success"></strong>
                                                 </c:if>
-                                                <c:if test="${message eq 'fail' || message eq 'paralyze_full' || message eq 'normal_full'}">
+                                                <c:if test="${message eq 'fail'}">
                                                     <strong id="toast-message" class="me-auto text-danger"></strong>
                                                 </c:if>
+                                                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:if>
+                                <c:if test="${empty message}">
+                                    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11" >
+                                        <div id="toast-notification" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+                                            <div class="toast-header">
+                                                <strong id="toast-message" class="me-auto text-primary"></strong>
                                                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                                             </div>
                                         </div>
@@ -297,6 +304,7 @@
                                     </li>
                                 </ul>
                             </nav>
+
                         </div>
                     </div>
                 </div>
@@ -304,6 +312,119 @@
             </div>
         </div>
         <script>
+            function showMess(id) {
+                var btnToastDelete = document.querySelector('#btn-toast-delete');
+                btnToastDelete.addEventListener('click', function () {
+                    var deleteUrl = 'DeleteQuestionController?id=' + id;
+                    window.location.href = deleteUrl;
+                    // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
+                    document.getElementById('modalConfirmDelete').style.display = 'none';
+                });
+            }
+
+            window.addEventListener('DOMContentLoaded', (event) => {
+                const message = '${message}'; // Lấy giá trị thông báo từ servlet
+                if (message) {
+                    showToast(message); // Gọi hàm hiển thị thông báo
+                }
+            });
+
+            function showToast(message) {
+                const toast = document.getElementById('toast-notification');
+                const toastMessage = document.getElementById('toast-message');
+                if (message === 'success') {
+                    var success = `Thêm bộ đề thành công!`;
+                    toastMessage.textContent = success;
+                } else if (message === 'fail') {
+                    var fail = 'Không thể thêm bộ đề!';
+                    toastMessage.textContent = fail;
+                } else if (message === 'normal_full') {
+                    var normal_full = 'Đã đạt giới hạn câu hỏi bình thường!';
+                    toastMessage.textContent = normal_full;
+                } else if (message === 'paralyze_full') {
+                    var paralyze_full = 'Đã đạt giới hạn câu hỏi liệt!';
+                    toastMessage.textContent = paralyze_full;
+                }
+                toast.classList.remove('hide');
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+
+            var checkboxes = document.querySelectorAll('input[type="checkbox"].check'); // Lấy tất cả các thẻ input checkbox
+            var paralyzedQuestion = document.querySelectorAll('input[type="checkbox"].question1.check');
+            var normalQuestion = document.querySelectorAll('input[type="checkbox"].question0.check');
+
+            var totalCounter = 0; // Biến đếm tổng số lần chọn cho tất cả các checkbox
+            var paralyzedCount = 0;
+            var normalCount = 0;
+
+            checkboxes.forEach(function (checkbox) {
+                checkbox.addEventListener('change', function (event) {
+                    if (this.checked) {
+                        totalCounter++; // Tăng biến đếm tổng số lần chọn
+                    } else {
+                        totalCounter--; // Giảm biến đếm tổng số lần chọn
+                    }
+                    document.getElementById('totalCounter').textContent = 'Tổng số câu: ' + totalCounter; // Hiển thị tổng số lần chọn ra màn hình
+                });
+            });
+
+            paralyzedQuestion.forEach(function (checkbox) {
+                checkbox.addEventListener('change', function (event) {
+                    if (this.checked) {
+                        paralyzedCount++;
+                    } else {
+                        paralyzedCount--;
+                    }
+                    document.getElementById('paralyzedCount').textContent = 'Số câu liệt: ' + paralyzedCount;
+
+                    // Kiểm tra giới hạn và hiển thị thông báo
+                    if (paralyzedCount === 5) {
+                        checkboxes.forEach(function (checkbox) {
+                            if (checkbox.classList.contains('question1') && !checkbox.checked) {
+                                checkbox.disabled = true; // Ngăn chặn người dùng chọn checkbox
+                            }
+                        });
+                        showToast('paralyze_full');
+                    } else {
+                        checkboxes.forEach(function (checkbox) {
+                            if (checkbox.classList.contains('question1') && checkbox.disabled) {
+                                checkbox.disabled = false; // Cho phép người dùng chọn checkbox trở lại
+                            }
+                        });
+                    }
+                });
+            });
+
+            normalQuestion.forEach(function (checkbox) {
+                checkbox.addEventListener('change', function (event) {
+                    if (this.checked) {
+                        normalCount++;
+                    } else {
+                        normalCount--;
+                    }
+                    document.getElementById('normalCount').textContent = 'Số câu bình thường: ' + normalCount;
+
+                    // Kiểm tra giới hạn và hiển thịthông báo
+                    if (normalCount === 30) {
+                        checkboxes.forEach(function (checkbox) {
+                            if (checkbox.classList.contains('question0') && !checkbox.checked) {
+                                checkbox.disabled = true; // Ngăn chặn người dùng chọn checkbox
+                            }
+                        });
+                        showToast('normal_full');
+                    } else {
+                        checkboxes.forEach(function (checkbox) {
+                            if (checkbox.classList.contains('question0') && checkbox.disabled) {
+                                checkbox.disabled = false; // Cho phép người dùng chọn checkbox trở lại
+                            }
+                        });
+                    }
+                });
+            });
+
             $(document).ready(function () {
                 var resultsPerPage = 50; // Số lượng kết quả trên mỗi trang
 
@@ -355,6 +476,7 @@
                 }
 
             });
+
             window.addEventListener('scroll', function () {
                 var nav = document.querySelector('.pagination-container');
                 var windowHeight = window.innerHeight;
@@ -367,58 +489,6 @@
                     nav.style.bottom = (windowHeight - nav.offsetHeight + 20) + 'px';
                 }
             });
-        </script>
-        <script>
-            function showMess(id) {
-                var btnToastDelete = document.querySelector('#btn-toast-delete');
-                btnToastDelete.addEventListener('click', function () {
-                    var deleteUrl = 'DeleteQuestionController?id=' + id;
-                    window.location.href = deleteUrl;
-                    // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
-                    document.getElementById('modalConfirmDelete').style.display = 'none';
-                });
-            }
-
-            window.addEventListener('DOMContentLoaded', (event) => {
-                const message = '${message}'; // Lấy giá trị thông báo từ servlet
-                if (message) {
-                    showToast(message); // Gọi hàm hiển thị thông báo
-                }
-            });
-
-            function showToast(message) {
-                const toast = document.getElementById('toast-notification');
-                const toastMessage = document.getElementById('toast-message');
-                if (message === 'success') {
-                    var success = `Thêm câu hỏi vào bộ đề thành công!`;
-                    toastMessage.textContent = success;
-                } else if (message === 'fail') {
-                    var fail = 'Không thể thêm câu hỏi vào bộ đề!';
-                    toastMessage.textContent = fail;
-                } else if (message === 'normal_full') {
-                    var normal_full = 'Đã có 30 câu hỏi bình thường trong bộ đề!';
-                    toastMessage.textContent = normal_full;
-                } else {
-                    var paralyze_full = 'Đã có 5 câu hỏi bình liệt trong bộ đề!';
-                    toastMessage.textContent = paralyze_full;
-                }
-                toast.classList.remove('hide');
-                toast.classList.add('show');
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                }, 3000);
-            }
-            //            document.querySelector('#btn-toast-delete').addEventListener('click', function () {
-            //                window.location.href = 'DeleteQuestionController?id=' + id;
-            ////                showToast('Xóa bộ đề thành công');
-            //            });
-            //            document.querySelector('#btn-toast-add').addEventListener('click', function () {
-            //                showToast('Thêm bộ đề thành công');
-            //            });
-
-            //            document.querySelector('#btn-toast-edit').addEventListener('click', function () {
-            //                showToast('Cập nhập bộ đề thành công');
-            //            });
         </script>
         <!-- Core JS -->
         <!-- build:js assets/vendor/js/core.js -->

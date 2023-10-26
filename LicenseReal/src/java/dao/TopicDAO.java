@@ -19,24 +19,32 @@ public class TopicDAO {
 
     public static void main(String[] args) throws SQLException {
         TopicDAO tDao = new TopicDAO();
-        boolean checkInsert = tDao.createTopic();
-        if (checkInsert) {
-            System.out.println("Success");
-        } else {
-            System.out.println("Fail");
-        }
+        boolean check = tDao.checkDuplicateTopicName("Võ Thanh Tuyền");
+        System.out.println(check);
     }
 
     public ArrayList<TopicDTO> getAllTopic() throws SQLException {
         ArrayList<TopicDTO> listTopic = new ArrayList<>();
+        ResultSet rs1 = null;
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                String sql = "SELECT DISTINCT topicID, status FROM Topic";
+                String sql = "SELECT DISTINCT topicID, name, status FROM Topic";
                 ptm = conn.prepareStatement(sql);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
-                    listTopic.add(new TopicDTO(rs.getInt("topicID"), rs.getBoolean("status")));
+                    int count = 0;
+                    ArrayList<TopicDTO> listQuestion = new ArrayList<>();
+                    sql = "SELECT id, questionID FROM Topic WHERE topicID = " + rs.getInt("topicID");
+                    ptm = conn.prepareStatement(sql);
+                    rs1 = ptm.executeQuery();
+                    while (rs1.next()){
+                        listQuestion.add(new TopicDTO(rs1.getInt("id"), rs1.getInt("questionID")));
+                    }
+                    for(int i = 0; i < listQuestion.size(); i++){
+                        count++;
+                    }
+                    listTopic.add(new TopicDTO(rs.getInt("topicID"), rs.getString("name"), count, rs.getBoolean("status")));
                 }
             }
         } catch (Exception e) {
@@ -115,12 +123,14 @@ public class TopicDAO {
         TopicDAO tDao = new TopicDAO();
         boolean result = false;
         String sql;
-        int row = 0;
+        int row = 0, numberOfTopic = 1;
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 ArrayList<TopicDTO> topic = tDao.getAllTopic();
-                int numberOfTopic = topic.size() + 1;
+                if (!topic.isEmpty()) {
+                    numberOfTopic = topic.size() + 1;
+                }
                 ArrayList<QuestionDTO> listQuestion = dao.getRandomQuestionAndAnswer();
                 for (QuestionDTO questionDTO : listQuestion) {
                     sql = "INSERT INTO Topic (questionID, topicID, name, status) VALUES ("
@@ -164,11 +174,11 @@ public class TopicDAO {
 
         } catch (Exception e) {
         } finally {
-            if (rs != null) {
-                rs.close();
-            }
             if (ptm != null) {
                 ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
             }
         }
         return result;
@@ -187,7 +197,7 @@ public class TopicDAO {
                 ptm = conn.prepareStatement(sql);
                 rs = ptm.executeQuery();
                 int count = 0;
-                while (rs.next()) {                    
+                while (rs.next()) {
                     count++;
                 }
                 if (count == 5) {
@@ -203,10 +213,13 @@ public class TopicDAO {
             if (ptm != null) {
                 ptm.close();
             }
+            if (conn != null) {
+                conn.close();
+            }
         }
         return result;
     }
-    
+
     public boolean checkNormal(String numberOfTopic) throws SQLException {
         boolean result = false;
         String sql;
@@ -220,7 +233,7 @@ public class TopicDAO {
                 ptm = conn.prepareStatement(sql);
                 rs = ptm.executeQuery();
                 int count = 0;
-                while (rs.next()) {                    
+                while (rs.next()) {
                     count++;
                 }
                 if (count == 30) {
@@ -235,6 +248,38 @@ public class TopicDAO {
             }
             if (ptm != null) {
                 ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return result;
+    }
+
+    public boolean checkDuplicateTopicName(String topicName) throws SQLException {
+        boolean result = false;
+        String sql;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                sql = "SELECT * FROM Topic WHERE name = N'" + topicName +"'";
+                ptm = conn.prepareStatement(sql);
+                rs = ptm.executeQuery();
+                if (rs.next()) {
+                    result = true;
+                }
+            }
+
+        } catch (Exception e) {
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
             }
         }
         return result;
