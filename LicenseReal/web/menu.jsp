@@ -124,7 +124,7 @@
                     </li>
 
                     <li class="menu-item">
-                        <a href="#" class="menu-link">
+                        <a href="MainController?action=mentorStaff" class="menu-link">
                             <i class="menu-icon tf-icons fa-solid fa-people-pulling"></i>
                             <div data-i18n="Layouts">Người hướng dẫn</div>
                         </a>

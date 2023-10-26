@@ -7,8 +7,10 @@ package dao;
 
 import utils.DBUtils;
 import dto.AccountDTO;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import utils.Util;
 
 /**
@@ -46,6 +48,48 @@ public class AccountDAO extends DBUtils {
         }
         return check;
     
+    }
+    
+    public static boolean checkBanAccount(String username, String password) throws SQLException {
+        boolean result = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = "SELECT M.[status]\n"
+                        + "FROM [License].[dbo].[Member] M\n"
+                        + "JOIN [License].[dbo].[User] U ON M.[userID] = U.[id]\n"
+                        + "JOIN [License].[dbo].[Account] A ON U.[accountID] = A.[id]\n"
+                        + "WHERE A.[username] = ? AND A.[password] = ?";
+                stm = conn.prepareStatement(sql);
+                stm.setString(1, username);
+                stm.setString(2, password);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    boolean status = rs.getBoolean("status");
+                    if (status == true) {
+                        result = true;
+                    } else {
+                        result = false;
+                    }
+                }
+            }
+        } catch (Exception e) {
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            };
+            if (conn != null) {
+                conn.close();
+            };
+
+        }
+        return result;
     }
 
     public static AccountDTO getAccount(String username, String password) {

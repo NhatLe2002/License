@@ -120,7 +120,7 @@
                                     <div>Danh sách hồ sơ thi</div>
                                     <!-- Button trigger modal -->
                                     <div>
-                                        <a href="MainController?action=createMember">
+                                        <a href="MainController?action=insertQ">
                                             <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fas fa-plus"></i></button>
                                         </a>
                                         <a href="MainController?action=restore">
@@ -172,6 +172,7 @@
                                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                                             </button>
                                                             <div class="dropdown-menu">
+                                                                
                                                                 <c:if test="${list.status eq 'true'}">
                                                                     <a  style="cursor: pointer"
                                                                         class="dropdown-item"
@@ -186,7 +187,7 @@
                                                                     <a style="cursor: pointer"
                                                                        class="dropdown-item"
                                                                        data-toggle="tooltip"
-                                                                       data-bs-toggle="modal" 
+                                                                       data-bs-toggle="modal"
                                                                        data-bs-target="#modalConfirmActive" 
                                                                        onclick="showActive('${list.id}')"
                                                                        ><i class="fa-solid fa-arrow-rotate-left me-1"></i> Bỏ chặn người dùng</a
@@ -268,7 +269,7 @@
             function showDeactive(id) {
                 var btnToastDelete = document.querySelector('#btn-toast-deactive');
                 btnToastDelete.addEventListener('click', function () {
-                    var deleteUrl = 'memberStaff?action=deactive&status=1&id=' + id;
+                    var deleteUrl = 'mentorStaff?action=deactive&status=1&id=' + id;
                     window.location.href = deleteUrl;
                     // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
                     document.getElementById('modalConfirmDeactive').style.display = 'none';
@@ -277,7 +278,7 @@
             function showActive(id) {
                 var btnToastDelete = document.querySelector('#btn-toast-active');
                 btnToastDelete.addEventListener('click', function () {
-                    var deleteUrl = 'memberStaff?action=active&status=0&id=' + id;
+                    var deleteUrl = 'mentorStaff?action=active&status=0&id=' + id;
                     window.location.href = deleteUrl;
                     // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
                     document.getElementById('modalConfirmActive').style.display = 'none';
@@ -307,6 +308,17 @@
                     toast.classList.remove('show');
                 }, 3000);
             }
+//            document.querySelector('#btn-toast-delete').addEventListener('click', function () {
+//                window.location.href = 'DeleteQuestionController?id=' + id;
+////                showToast('Xóa bộ đề thành công');
+//            });
+//            document.querySelector('#btn-toast-add').addEventListener('click', function () {
+//                showToast('Thêm bộ đề thành công');
+//            });
+
+//            document.querySelector('#btn-toast-edit').addEventListener('click', function () {
+//                showToast('Cập nhập bộ đề thành công');
+//            });
 
         </script>
         <!-- Core JS -->

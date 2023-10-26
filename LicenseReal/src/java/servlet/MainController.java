@@ -164,6 +164,10 @@ public class MainController extends HttpServlet {
                 url = "viewdriving?id=" + id;
             } else if (action.equals("memberStaff")) {
                 url = "memberStaff";
+            } else if (action.equals("mentorStaff")) {
+                url = "mentorStaff";
+            } else if (action.equals("createMember")) {
+                url = "staff/createMember.jsp";
             }
 
             request.setAttribute("action", action);

@@ -472,7 +472,7 @@
             <c:redirect url="login.jsp"></c:redirect>
         </c:if>
         <c:import url="userHeader.jsp"/>
-        
+
 
         <div class='mt-5 mb-5 d-flex gap-3 container container-driving-profile no-select'>
             <div class="d-flex flex-column option-account-container gap-3">
@@ -569,7 +569,7 @@
                                     <form action="updateProfile" method="POST" enctype="multipart/form-data">
                                         <div class="contact-info">
                                             <p class='text-header-profile'>Thông tin liên lạc</p>
-                                            <input value="${load_profile.id}" type="text" name="id" id="id" hidden="" />
+                                            <input value="${sessionScope.user.getId()}" type="text" name="id" id="id" hidden="" />
                                             <div class="content d-flex">
                                                 <div class="label-info">
                                                     <label for="phoneNumber">Số điện thoại:</label>
@@ -661,8 +661,8 @@
 
                                         <div class="mt-5 d-flex gap-3" style="margin-left: 150px;">
                                             <a style="text-decoration: none;
-                                                        color: inherit;" href="MainController?action=updateP&id=${sessionScope.user.getId()}"><button type="button" class="btn btn-primary">Hủy</button>
-                                                    </a>
+                                               color: inherit;" href="MainController?action=updateP&id=${sessionScope.user.getId()}"><button type="button" class="btn btn-primary">Hủy</button>
+                                            </a>
                                             <button class="btn btn-primary" type="submit">Thay đổi</button>
                                         </div>
                                     </form>
@@ -673,7 +673,7 @@
                     </div>
                 </div>
             </div>
-                                                <!-- toast thông báo thành công-->
+            <!-- toast thông báo thành công-->
             <c:if test="${not empty message}">
                 <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11" >
                     <div id="toast-notification" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
@@ -687,7 +687,7 @@
                             <c:if test="${message eq 'exist'}">
                                 <strong id="toast-message" class="me-auto text-danger"></strong>
                             </c:if>
-                                <c:if test="${message eq 'notenough'}">
+                            <c:if test="${message eq 'notenough'}">
                                 <strong id="toast-message" class="me-auto text-danger"></strong>
                             </c:if>
                             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
@@ -825,7 +825,7 @@
                 document.getElementById('health-certificate-no').checked = true;
             }
         </script>
-                <script>
+        <script>
 //                    function showMess(id) {
 //                        var btnToastDelete = document.querySelector('#btn-toast-send');
 //                        btnToastDelete.addEventListener('click', function () {
@@ -837,7 +837,7 @@
 //                    }
 
             window.addEventListener('DOMContentLoaded', (event) => {
-                const message = '${message}'; // Lấy giá trị thông báo từ servlet
+                        const message = '${message}'; // Lấy giá trị thông báo từ servlet
                 if (message) {
                     showToast(message); // Gọi hàm hiển thị thông báo
                 }

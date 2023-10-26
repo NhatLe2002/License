@@ -3,16 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package servlet.User;
 
 import dao.MemberDAO;
-import dto.MemberDTO;
+import dto.MentorDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,39 +21,36 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author HOANG ANH
  */
-@WebServlet(name = "MemberController", urlPatterns = {"/memberStaff"})
-public class MemberController extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
+@WebServlet(name="MenterController", urlPatterns={"/mentorStaff"})
+public class MentorController extends HttpServlet {
+   
+    /** 
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet MemberController</title>");
+            out.println("<title>Servlet MenterController</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet MemberController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet MenterController at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    }
+    } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
+    /** 
      * Handles the HTTP <code>GET</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -63,33 +58,28 @@ public class MemberController extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
+//        processRequest(request, response);
         String message = (String) request.getAttribute("message");
-        String action = request.getParameter("action");
+                String action = request.getParameter("action");
         if (action.equals("deactive") || action.equals("active")) {
             String status = request.getParameter("status");
-            String memberID = request.getParameter("id");
+            String mentorID = request.getParameter("id");
             request.setAttribute("status", status);
-            request.setAttribute("memberID", memberID);
+            request.setAttribute("mentorID", mentorID);
             doPost(request, response);
         } else {
-            try {
-                ArrayList<MemberDTO> list = MemberDAO.getAllMember();
-                request.setAttribute("list_member", list);
-            } catch (Exception ex) {
-            }
-            request.setAttribute("message", message);
-            request.getRequestDispatcher("staff/memberManagement.jsp").forward(request, response);
-
+        try {
+            ArrayList<MentorDTO> list = MemberDAO.getAllMentor();
+            request.setAttribute("list_member", list);
+        } catch (Exception ex) {
         }
         request.setAttribute("message", message);
-        request.getRequestDispatcher("staff/memberManagement.jsp").forward(request, response);
-
+        request.getRequestDispatcher("staff/mentorManagement.jsp").forward(request, response);
+    } 
     }
-
-    /**
+    /** 
      * Handles the HTTP <code>POST</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -97,29 +87,28 @@ public class MemberController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         String status = (String) request.getAttribute("status");
-        String memberID = (String) request.getAttribute("memberID");
+        String mentorID = (String) request.getAttribute("mentorID");
         MemberDAO dao = new MemberDAO();
         String message = "";
         try {
-            boolean checkUpdate = dao.updateStatusMember(memberID, status);
+            boolean checkUpdate = dao.updateStatusMentor(mentorID, status);
             if (checkUpdate) {
                 message = "success";
             } else {
                 message = "fail";
             }
-            ArrayList<MemberDTO> list = MemberDAO.getAllMember();
+            ArrayList<MentorDTO> list = MemberDAO.getAllMentor();
             request.setAttribute("list_member", list);
         } catch (Exception e) {
         }
         request.setAttribute("message", message);
-        request.getRequestDispatcher("staff/memberManagement.jsp").forward(request, response);
+        request.getRequestDispatcher("staff/mentorManagement.jsp").forward(request, response);
     }
 
-    /**
+    /** 
      * Returns a short description of the servlet.
-     *
      * @return a String containing servlet description
      */
     @Override
