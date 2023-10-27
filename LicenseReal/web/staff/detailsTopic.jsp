@@ -10,7 +10,7 @@
             content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
             />
 
-        <title>Quản trị viên - Chi tiết bộ đề</title>
+        <title>Chi tiết bộ đề</title>
 
         <meta name="description" content="" />
 
@@ -64,7 +64,7 @@
         <div class="layout-wrapper layout-content-navbar">
             <div class="layout-container">
                 <c:import url="../menu.jsp"/>
-                
+
                 <!-- Layout container -->
                 <div class="layout-page">
                     <!-- Content wrapper -->
@@ -120,6 +120,9 @@
                                         <a title="Thoát" href="MainController?action=TopicController">
                                             <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fa-solid fa-chevron-left"></i></button>
                                         </a>
+                                        <a title="Cập nhật" href="UpdateTopicServlet?id=${topicID}">
+                                            <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fa-solid fa-pen-to-square"></i></button>
+                                        </a>
                                     </div>
                                 </h5>
 
@@ -133,7 +136,6 @@
                                                 <th>Dạng câu hỏi</th>
                                                 <th>Đáp án</th>
                                                 <th>Đáp án đúng</th>
-<!--                                                <th>Tính năng</th>-->
                                             </tr>
                                         </thead>
                                         <tbody class="table-border-bottom-0" >
@@ -142,7 +144,7 @@
                                                     <tr>
                                                         <td>
                                                             <span class="fw-medium">${counter.count}</span>
-                                                        </td>
+                                                    </td>
                                                     <td>
                                                         <span style="display: inline-block; 
                                                               max-width: 10rem; 
@@ -185,32 +187,6 @@
                                                     <td style="align-content: center">
                                                         <span class="badge bg-label-primary me-1">${A.isCorrect}</span>
                                                     </td>
-<!--                                                    <td>
-                                                        <div class="dropdown">
-                                                            <button
-                                                                type="button"
-                                                                class="btn p-0 dropdown-toggle hide-arrow"
-                                                                data-bs-toggle="dropdown"
-                                                                >
-                                                                <i class="bx bx-dots-vertical-rounded"></i>
-                                                            </button>
-                                                            <div class="dropdown-menu">
-                                                                <a
-                                                                    class="dropdown-item"
-                                                                    href="UpdateQuestionController?id=${Q.id}"
-                                                                    ><i class="bx bx-edit-alt me-1"></i>Chỉnh sửa</a
-                                                                >
-                                                                <a
-                                                                    class="dropdown-item"
-                                                                    data-toggle="tooltip" title="Xóa"
-                                                                    data-bs-toggle="modal" 
-                                                                    data-bs-target="#modalConfirmDelete" 
-                                                                    onclick="showMess('${Q.id}')"
-                                                                    ><i class="bx bx-trash me-1"></i> Xóa</a
-                                                                >
-                                                            </div>
-                                                        </div>
-                                                    </td>-->
                                                 </tr>
                                             </c:forEach>
                                         </tbody>
@@ -242,10 +218,10 @@
                             <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
                                 <div id="toast-notification" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
                                     <div class="toast-header">
-                                        <c:if test="${message eq 'success'}">
+                                        <c:if test="${message eq 'success' || message eq 'update_success'}">
                                             <strong id="toast-message" class="me-auto text-success"></strong>
                                         </c:if>
-                                        <c:if test="${message eq 'fail'}">
+                                        <c:if test="${message eq 'fail' || message eq 'update_fail'}">
                                             <strong id="toast-message" class="me-auto text-danger"></strong>
                                         </c:if>
                                         <c:if test="${message eq 'exist'}">
@@ -277,13 +253,18 @@
                     showToast(message); // Gọi hàm hiển thị thông báo
                 }
             });
-
             function showToast(message) {
                 const toast = document.getElementById('toast-notification');
                 const toastMessage = document.getElementById('toast-message');
                 if (message === 'success') {
                     var success = 'Xóa câu hỏi thành công!';
                     toastMessage.textContent = success;
+                } else if (message === 'update_success') {
+                    var update_success = 'Cập nhật bộ đề thành công!';
+                    toastMessage.textContent = update_success;
+                } else if (message === 'update_fail') {
+                    var update_fail = 'Không thể cập nhật bộ đề!';
+                    toastMessage.textContent = update_fail;
                 } else {
                     var fail = 'Không thể xóa câu hỏi!';
                     toastMessage.textContent = fail;
@@ -294,17 +275,6 @@
                     toast.classList.remove('show');
                 }, 3000);
             }
-//            document.querySelector('#btn-toast-delete').addEventListener('click', function () {
-//                window.location.href = 'DeleteQuestionController?id=' + id;
-////                showToast('Xóa bộ đề thành công');
-//            });
-//            document.querySelector('#btn-toast-add').addEventListener('click', function () {
-//                showToast('Thêm bộ đề thành công');
-//            });
-
-//            document.querySelector('#btn-toast-edit').addEventListener('click', function () {
-//                showToast('Cập nhập bộ đề thành công');
-//            });
         </script>
         <!-- Core JS -->
         <!-- build:js assets/vendor/js/core.js -->

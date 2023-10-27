@@ -45,8 +45,8 @@ a {
 }
 
 .header .main__navbar .container .menu .btn_login {
-    background-color: #d4a373;
-    border: 1px solid #d4a373;
+    background-color: #fca265;
+    border: 1px solid #fca265;
     padding: 5px 15px;
     color: white;
     border-radius: 10px;
@@ -62,8 +62,8 @@ a {
 }
 
 .header .main__navbar .container .menu .btn_login:hover {
-    background-color: #457b9d;
-    border: 1px solid #457b9d;
+    background-color: #fd7e14;
+    border: 1px solid #fd7e14;
     color: white;
     transition: all 0.5s ease-out;
 }

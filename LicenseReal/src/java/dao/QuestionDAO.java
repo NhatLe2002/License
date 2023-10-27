@@ -35,17 +35,17 @@ public class QuestionDAO {
             conn = null;
             conn = DBUtils.getConnection();
             if (conn != null) {
-                String sql = "SELECT * FROM\n"
-                        + "(\n"
-                        + "    SELECT TOP(30) qus.id AS qus_id, qus.question_text, qus.image, qus.question_type AS question_type, qus.status AS qus_status, ans.*\n"
-                        + "    FROM Question AS qus\n"
-                        + "    JOIN Answer AS ans ON ans.questionID = qus.id\n"
-                        + "    WHERE qus.question_type = 0 AND qus.status = 1 \n"
-                        + "    UNION ALL\n"
-                        + "    SELECT TOP(5) kqus.id AS kqus_id, kqus.question_text, kqus.image, kqus.question_type AS question_type, kqus.status AS kqus_status, kans.*\n"
-                        + "    FROM Question AS kqus\n"
-                        + "    JOIN Answer AS kans ON kans.questionID = kqus.id\n"
-                        + "    WHERE kqus.question_type = 1 AND kqus.status = 1\n"
+                String sql = "SELECT * FROM (\n"
+                        + "SELECT TOP(30) qus.id AS qus_id, qus.question_text, qus.image, qus.question_type AS question_type, qus.status AS qus_status, ans.*\n"
+                        + "FROM Question AS qus\n"
+                        + "JOIN Answer AS ans ON ans.questionID = qus.id\n"
+                        + "WHERE qus.question_type = 0 AND qus.status = 1 \n"
+                        + "ORDER BY NEWID()\n"
+                        + "UNION ALL\n"
+                        + "SELECT TOP(5) kqus.id AS kqus_id, kqus.question_text, kqus.image, kqus.question_type AS question_type, kqus.status AS kqus_status, kans.*\n"
+                        + "FROM Question AS kqus\n"
+                        + "JOIN Answer AS kans ON kans.questionID = kqus.id\n"
+                        + "WHERE kqus.question_type = 1 AND kqus.status = 1\n"
                         + ") AS qus_kans\n"
                         + "ORDER BY NEWID();";
                 //cau sql lay ngau nhien 30 cau hoi binh thuong + 5 cau hoi liet
@@ -88,7 +88,7 @@ public class QuestionDAO {
                         + "JOIN Topic AS tp ON que.id = tp.questionID\n"
                         + "JOIN Answer AS ans ON ans.questionID = que.id\n"
                         + "WHERE tp.topicID = " + topic
-                        +"ORDER BY NEWID()";
+                        + "ORDER BY NEWID()";
                 //Cau sql lay tat ca cac cau hoi va dap an trong ma de duoc yeu cau
                 ptm = conn.prepareStatement(sql);
                 rs = ptm.executeQuery();

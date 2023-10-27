@@ -30,6 +30,7 @@ public class QuestionDTO {
         this.questionType = questionType;
     }
 
+
     public QuestionDTO(int id, String question, String image, ArrayList<AnswerDTO> answer, String questionType, int topicID) {
         this.id = id;
         this.question = question;
@@ -90,12 +91,5 @@ public class QuestionDTO {
 
     public void setTopicID(int topicID) {
         this.topicID = topicID;
-    }
-
-    @Override
-    public String toString() {
-        return "Question{" + "id=" + id + ", question=" + question + ", image=" + image + ", answer=" + answer + ", questionType=" + questionType + ", topicID=" + topicID + '}';
-    }
-
-
+    }  
 }

@@ -12,7 +12,7 @@
             content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
             />
 
-        <title>Tạo bộ đề</title>
+        <title>Cập nhật bộ đề</title>
 
         <meta name="description" content="" />
 
@@ -147,7 +147,7 @@
                                     >
                                     <div>Thêm câu hỏi vào bộ đề <span class="fw-bold text-primary">${sessionScope.topicName}</span></div>
                                 </h5>
-                                <form action="CreateTopicServlet" method="POST"> 
+                                <form action="UpdateTopicServlet?id=${topicID}" method="POST"> 
                                     <div class="table-responsive text-nowrap">
                                         <table class="table">
                                             <thead>
@@ -212,7 +212,18 @@
                                                             <span class="badge bg-label-primary me-1">${A.isCorrect}</span>
                                                         </td>
                                                         <td>
-                                                            <input style="cursor: pointer;" id="check${Q.id}" type="checkbox" name="checkbox" value="${Q.id}" class="check question${Q.questionType} me-1">
+                                                            <c:set var="isChecked" value="false" />
+
+                                                            <c:forEach var="L" items="${listQuestionID}">
+                                                                <c:if test="${L.questionID == Q.id}">
+                                                                    <c:set var="isChecked" value="true" />
+                                                                </c:if>
+                                                            </c:forEach>
+
+                                                            <input style="cursor: pointer;" id="check${Q.id}" type="checkbox" name="checkbox" value="${Q.id}" class="check question${Q.questionType} me-1" 
+                                                                   <c:if test="${isChecked}">checked</c:if> 
+                                                                   <c:if test="${!isChecked}">disabled</c:if>
+                                                                   />
                                                             <label style="cursor: pointer;" for="check${Q.id}">Chọn</label>
                                                         </td>
                                                     </tr>
@@ -222,11 +233,11 @@
                                     </div>
                                     <!-- Thanh hiển thị -->
                                     <div class="status-bar bg-light p-3">
-                                        <span id="normalCount" class="me-3">Số câu bình thường: 0</span>
-                                        <span id="paralyzedCount" class="me-3">Số câu liệt: 0</span>
-                                        <span id="totalCounter" class="me-3">Tổng số câu: 0</span>
-                                        <button type="submit" onclick="checkTotalQuestion(event)" class="create-button btn btn-primary">Tạo</button>
-                                        <a href="MainController?action=TopicController"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button></a>
+                                        <span id="normalCount" class="me-3">Số câu bình thường: 30</span>
+                                        <span id="paralyzedCount" class="me-3">Số câu liệt: 5</span>
+                                        <span id="totalCounter" class="me-3">Tổng số câu: 35</span>
+                                        <button type="submit" onclick="checkTotalQuestion(event)" class="create-button btn btn-primary">Cập nhật</button>
+                                        <a href="MainController?action=details&id=${topicID}"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button></a>
                                     </div>
                                 </form>
 
@@ -345,7 +356,7 @@
                     var paralyze_full = 'Đã đạt giới hạn câu hỏi liệt!';
                     toastMessage.textContent = paralyze_full;
                 } else if (message === 'total_question') {
-                    var total_question = 'Không thể tạo bộ đề nếu không chọn đủ 35 câu hỏi!';
+                    var total_question = 'Không thể cập nhật bộ đề nếu không chọn đủ 35 câu hỏi!';
                     toastMessage.textContent = total_question;
                 }
                 toast.classList.remove('hide');
@@ -359,9 +370,9 @@
             var paralyzedQuestion = document.querySelectorAll('input[type="checkbox"].question1.check');
             var normalQuestion = document.querySelectorAll('input[type="checkbox"].question0.check');
 
-            var totalCounter = 0; // Biến đếm tổng số lần chọn cho tất cả các checkbox
-            var paralyzedCount = 0;
-            var normalCount = 0;
+            var totalCounter = 35; // Biến đếm tổng số lần chọn cho tất cả các checkbox
+            var paralyzedCount = 5;
+            var normalCount = 30;
 
             checkboxes.forEach(function (checkbox) {
                 checkbox.addEventListener('change', function (event) {

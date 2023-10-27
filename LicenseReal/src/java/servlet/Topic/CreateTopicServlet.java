@@ -38,10 +38,8 @@ public class CreateTopicServlet extends HttpServlet {
             if (topicID.equals("0")) {
                 check = dao.checkDuplicateTopicName(topicName);
                 if (!check) {
-                    ArrayList<TopicDTO> topic = dao.getAllTopic();
-                    int numberOfTopic = topic.size() + 1;
                     message = "";
-                    topicID = String.valueOf(numberOfTopic);
+                    topicID = String.valueOf(dao.getMaxTopic());
                 } else {
                     message = "duplicate";
                 }
@@ -92,8 +90,6 @@ public class CreateTopicServlet extends HttpServlet {
                 if (check) {
                     message = "create_success";
                 }
-            } else {
-                message = "";
             }
             ArrayList<TopicDTO> list = dao.getAllTopic();
             request.setAttribute("topic", list);

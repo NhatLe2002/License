@@ -36,6 +36,11 @@ public class TopicDTO {
         this.numberOfQuestion = numberOfQuestion;
     }
 
+    public TopicDTO(int id, int questionID, String topicName) {
+        this.id = id;
+        this.questionID = questionID;
+        this.topicName = topicName;
+    }
     public TopicDTO(int id, int questionID) {
         this.id = id;
         this.questionID = questionID;
@@ -45,7 +50,9 @@ public class TopicDTO {
         this.list = list;
     }
 
-
+    public TopicDTO(int questionID) {
+        this.questionID = questionID;
+    }
     
     public int getId() {
         return id;
