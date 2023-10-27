@@ -90,7 +90,7 @@
                         <!--Guest-->
                         <c:if test="${empty sessionScope.ROLE}">
                             <a class="menu_items " href="MainController?action=home">Home</a>
-                            <a class="menu_items " href="login.jsp">Đăng ký học thực hành</a>
+                            <a class="menu_items " href="MainController?action=loginPage">Đăng ký học thực hành</a>
                             <a class="menu_items" href="MainController?action=PracticeTest">Thi thử trắc nghiệm</a>
                         </c:if>
 
@@ -99,8 +99,7 @@
                             <a class="menu_items " href="MainController?action=home">Home</a>
                             <a class="menu_items " href="MainController?action=regisScheduleByMember" >Đăng ký học thực hành</a>
                             <a class="menu_items" href="MainController?action=viewScheduleMember" >Lịch Học Thực Hành</a>
-                            <a class="menu_items " href="#">Nộp hồ sơ thi</a>
-                            <a class="menu_items" to="/#">Lịch thi</a>
+                            <a class="menu_items " href="MainController?action=adddriver&id=${load_profile.getId()}">Nộp hồ sơ thi</a>
                             <a class="menu_items" href="MainController?action=PracticeTest">Thi thử trắc nghiệm</a>
                             <a onclick="openPopup()">Thanh toán</a>
                             <div id="popup" style="display: none;">
@@ -129,9 +128,9 @@
                                 <c:when test="${user != null}">
                                     <a  class="fullname">Hello, ${user.getName()}</a>
                                     <select id="dropdown">
-                                        <c:if test="${action == 'updatePage' || action == 'ViewTransactions'  || action == 'passwordProfile' || action =='changePasswordProfile'}">
+                                        <c:if test="${action == 'updateP' || action == 'ViewTransactions'  || action == 'passwordProfile' || action =='changePasswordProfile' || action =='adddriver'}">
                                             <option value="MainController?action=home">Home</option>
-                                            <option selected value="MainController?action=updatePage&id=${sessionScope.user.getId()}">Thông tin cá nhân</option>
+                                            <option selected value="MainController?action=updateP&id=${sessionScope.user.getId()}">Thông tin cá nhân</option>
                                             <c:if test="${sessionScope.ROLE == 'AD'}">
                                                 <option value="MainController?action=admin">Thống kê<</option>
                                             </c:if>
@@ -139,7 +138,7 @@
                                         </c:if>
                                         <c:if test="${action == 'member'|| action == 'home' || action == 'update' || action == 'PracticeTest'}">
                                             <option selected value="MainController?action=home">Home</option>
-                                            <option value="MainController?action=updatePage&id=${sessionScope.user.getId()}">Thông tin cá nhân</option>
+                                            <option value="MainController?action=updateP&id=${sessionScope.user.getId()}">Thông tin cá nhân</option>
                                             <c:if test="${sessionScope.ROLE == 'AD'}">
                                                 <option value="MainController?action=admin">Thống kê</option>
                                             </c:if>
@@ -147,7 +146,6 @@
                                         </c:if>
 
                                     </select>
-                                    <a href="MainController?action=updateP&id=${sessionScope.user.getId()}" class="fullname">Hello, ${user.getName()}</a>
                                 </c:when>
                                 <c:otherwise>
                                     <a class="btn_login"  href="MainController?action=loginPage">Đăng nhập</a>

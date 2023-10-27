@@ -123,7 +123,7 @@ public class UpdateProfileController extends HttpServlet {
         String dobString = request.getParameter("dob");
         LocalDate dob = LocalDate.parse(dobString);
         String cccd = request.getParameter("cccd");
-        String address = request.getParameter("address");
+        String address = new String(request.getParameter("address").getBytes("ISO-8859-1"), "UTF-8");
 //        String avatar = request.getParameter("avatar");
 //        int role = Integer.parseInt(request.getParameter("role"));
         String health = new String(request.getParameter("health").getBytes("ISO-8859-1"), "UTF-8");

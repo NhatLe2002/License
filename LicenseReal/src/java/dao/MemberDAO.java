@@ -70,8 +70,8 @@ public class MemberDAO {
         }
         return check;
     }
-    
-        public static ArrayList<MemberDTO> getAllMember() throws SQLException, ClassNotFoundException {
+
+    public static ArrayList<MemberDTO> getAllMember() throws SQLException, ClassNotFoundException {
         ArrayList<MemberDTO> list = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -79,9 +79,9 @@ public class MemberDAO {
         conn = DBUtils.getConnection();
         try {
             if (conn != null) {
-                String sql = "SELECT U.[id], U.[name], U.[phone], U.[email], U.[dob], U.[cccd], U.[address],M.[id] AS memberID, M.[health], M.status\n" +
-"                        FROM [User] U \n" +
-"                        JOIN [Member] M ON U.id = M.userID \n";
+                String sql = "SELECT U.[id], U.[name], U.[phone], U.[email], U.[dob], U.[cccd], U.[address],M.[id] AS memberID, M.[health],U.status\n"
+                        + "                        FROM [User] U \n"
+                        + "                        JOIN [Member] M ON U.id = M.userID \n";
                 ptm = conn.prepareStatement(sql);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
@@ -95,7 +95,7 @@ public class MemberDAO {
                     boolean status = rs.getBoolean("status");
                     UserDTO userDTO = new UserDTO(userId, name, phone, email, cccd);
 //                    MemberDTO memberDTO = new MemberDTO(memberId, userDTO,health, status);                   
-                    list.add(new MemberDTO(memberId, userDTO,health, status));
+                    list.add(new MemberDTO(memberId, userDTO, health, status));
                 }
             }
         } catch (SQLException e) {
@@ -113,7 +113,8 @@ public class MemberDAO {
         }
         return list;
     }
-                // update status member
+    // update status member
+
     public boolean updateStatusMember(String memberID, String status) throws SQLException {
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -124,9 +125,17 @@ public class MemberDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 if (status.equals("1")) {
-                    sql = "UPDATE Member SET status = 0 WHERE id = " + memberID;
+                    sql = "UPDATE [User]\n"
+                            + "SET [User].status = 0\n"
+                            + "FROM [User]\n"
+                            + "JOIN [Member] ON [User].id = [Member].userID\n"
+                            + "WHERE [Member].id = " + memberID;
                 } else {
-                    sql = "UPDATE Member SET status = 1 WHERE id = " + memberID;
+                    sql = "UPDATE [User]\n"
+                            + "SET [User].status = 1\n"
+                            + "FROM [User]\n"
+                            + "JOIN [Member] ON [User].id = [Member].userID\n"
+                            + "WHERE [Member].id = " + memberID;
                 }
                 ptm = conn.prepareStatement(sql);
                 int row = ptm.executeUpdate();
@@ -145,8 +154,8 @@ public class MemberDAO {
         }
         return result;
     }
-        
-           public static ArrayList<MentorDTO> getAllMentor() throws SQLException, ClassNotFoundException {
+
+    public static ArrayList<MentorDTO> getAllMentor() throws SQLException, ClassNotFoundException {
         ArrayList<MentorDTO> list = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -154,9 +163,9 @@ public class MemberDAO {
         conn = DBUtils.getConnection();
         try {
             if (conn != null) {
-                String sql = "SELECT U.[id], U.[name], U.[phone], U.[email], U.[dob], U.[cccd], U.[address],M.[id] AS mentorID, M.[certificate], M.[experience], M.status\n" +
-"                        FROM [User] U \n" +
-"                        JOIN [Mentor] M ON U.id = M.userID \n";
+                String sql = "SELECT U.[id], U.[name], U.[phone], U.[email], U.[dob], U.[cccd], U.[address],M.[id] AS mentorID, M.[certificate], M.[experience], U.status\n"
+                        + "                        FROM [User] U \n"
+                        + "                        JOIN [Mentor] M ON U.id = M.userID \n";
                 ptm = conn.prepareStatement(sql);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
@@ -169,7 +178,7 @@ public class MemberDAO {
                     String certificate = rs.getString("certificate");
                     String experience = rs.getString("experience");
                     boolean status = rs.getBoolean("status");
-                    UserDTO userDTO = new UserDTO(userId, name, phone, email, cccd);  
+                    UserDTO userDTO = new UserDTO(userId, name, phone, email, cccd);
 //                    MemberDTO memberDTO = new MemberDTO(memberId, userDTO,health, status);                   
                     list.add(new MentorDTO(mentorId, userDTO, certificate, experience, status));
                 }
@@ -188,8 +197,9 @@ public class MemberDAO {
             }
         }
         return list;
-    }  
-            public boolean updateStatusMentor(String mentorID, String status) throws SQLException {
+    }
+
+    public boolean updateStatusMentor(String mentorID, String status) throws SQLException {
         Connection conn = null;
         PreparedStatement ptm = null;
         ResultSet rs = null;
@@ -199,9 +209,17 @@ public class MemberDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 if (status.equals("1")) {
-                    sql = "UPDATE Mentor SET status = 0 WHERE id = " + mentorID;
+                    sql = "UPDATE [User]\n"
+                            + "SET [User].status = 0\n"
+                            + "FROM [User]\n"
+                            + "JOIN [Mentor] ON [User].id = [Mentor].userID\n"
+                            + "WHERE [Mentor].id = " + mentorID;
                 } else {
-                    sql = "UPDATE Mentor SET status = 1 WHERE id = " + mentorID;
+                    sql = "UPDATE [User]\n"
+                            + "SET [User].status = 1\n"
+                            + "FROM [User]\n"
+                            + "JOIN [Mentor] ON [User].id = [Mentor].userID\n"
+                            + "WHERE [Mentor].id = " + mentorID;
                 }
                 ptm = conn.prepareStatement(sql);
                 int row = ptm.executeUpdate();
@@ -220,7 +238,8 @@ public class MemberDAO {
         }
         return result;
     }
-       public static boolean createAccount(String username, String password) {
+
+    public static boolean createAccount(String username, String password) {
 
         boolean check = false;
         String hashPassword = Util.hashPassword(password);
@@ -248,11 +267,11 @@ public class MemberDAO {
             System.out.println(e);
         }
         return check;
-    
+
     }
-           
+
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        ArrayList<MemberDTO> list = getAllMember();
+        ArrayList<MentorDTO> list = getAllMentor();
         System.out.println(list);
     }
 

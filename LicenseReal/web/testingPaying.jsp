@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -20,14 +21,22 @@
             <br></br>
             <label   for="type">Loại hình: Phí nộp hồ sơ</label>
             <input hidden type="text" id="type" name="type" value="${type}">
-            <p>Chỗ này show ra status đã có hồ sơ hay chưa? chưa thì click vào bổ sung rồi quay lại trang này</p>
+            <c:choose>
+                <c:when test="${sessionScope.profile != null}">
+                    <p>Bạn hãy chọn phương thức thanh toán</p>
+                </c:when>
+                <c:otherwise>
+                    <div>
+                    <a href="MainController?action=adddriver&id=${load_profile.getId()}">Nộp hồ sơ thi</a> 
+                    </div>
+                </c:otherwise>
+            </c:choose>
             <br></br>
             <label for="cash_type">Hình thức thanh toán:</label>
             <select name="cash_type">
                 <option value="cash">Tiền mặt</option>
                 <option value="vnpay">VNPay</option>
             </select>
-
             <button name="action" value="payCash" type="submit">Tạo giao dịch</button>
         </form>
 

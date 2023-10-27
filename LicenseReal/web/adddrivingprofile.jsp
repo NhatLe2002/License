@@ -542,12 +542,10 @@
                                 <div class="main-top d-flex gap-4">
                                     <div class='about d-flex gap-2 active align-items-center'>
                                         <i class="fa-regular fa-address-card"></i>
-                                        <p>Bản thân</p>
+                                        Thông tin
                                     </div>
-
                                     <div class='timeline d-flex gap-2 align-items-center'>
-                                        <i class="fa-solid fa-timeline"></i>
-                                        <p>Lịch sử hoạt động</p>
+                                        cá nhân
                                     </div>
                                 </div>
                                 <div class="main-info d-flex flex-column justify-content-around">
@@ -668,6 +666,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                                <input value="regisTest" name="type" hidden="" />
                                         <div class="mt-5 d-flex gap-3" style="margin-left: 150px;">
                                              <a style="text-decoration: none;
                                                         color: inherit;" href="MainController?action=adddriver&id=${sessionScope.load_profile.getId()}"><button type="button" class="btn btn-primary">Hủy</button>

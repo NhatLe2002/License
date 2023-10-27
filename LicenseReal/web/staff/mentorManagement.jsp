@@ -156,10 +156,10 @@
                                                     </td>
                                                     <td>
                                                         <c:if test="${list.status eq 'true'}">
-                                                            <span class="fw-medium" style="color:#fba265">Đang hoạt động</span>
+                                                            <span class="text-success fw-medium" style="color:#fba265">Đang hoạt động</span>
                                                         </c:if>
                                                         <c:if test="${list.status eq 'false'}">
-                                                            <span class="fw-medium">Bị ban</span>
+                                                            <span class="text-danger fw-medium">Đã bị chặn</span>
                                                         </c:if>
                                                     </td>
                                                     <td>

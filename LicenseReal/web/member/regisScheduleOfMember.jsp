@@ -16,7 +16,7 @@
     <body>
         <div>
             <h1 style="text-align: center">
-                Đăng kí lịch dạy
+                Đăng kí lịch học
                 <form action="RegisScheduleByMemberServlet" method="post">
                     <select name="selectMondayOfWeek">
                         <c:forEach items="${mondays}" var="monday">

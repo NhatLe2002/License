@@ -5,13 +5,21 @@
  */
 package servlet;
 
+import dao.DrivingProfileDAO;
+import dto.DrivingProfile;
+import dto.MemberDTO;
+import dto.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -30,13 +38,30 @@ public class PayController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ClassNotFoundException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
+
         String url = "";
         String type = (String) request.getAttribute("type");
         request.setAttribute("type", type);
-        if(type.equals("regisLearn")) url = "learningPaying.jsp";
-        if(type.equals("regisTest")) url = "testingPaying.jsp";
+        HttpSession session = request.getSession();
+        UserDTO user = (UserDTO) session.getAttribute("user"); // Lấy đối tượng user từ session
+        int id = 0; // Giá trị mặc định
+
+        if (user != null) {
+            id = user.getId();
+        }
+
+        DrivingProfile profile = DrivingProfileDAO.getDrivingProfileByUserId(id);
+        session.setAttribute("profile", profile);
+        MemberDTO member = DrivingProfileDAO.getMemberById(id);
+        session.setAttribute("load_profile", member);
+        if (type.equals("regisLearn")) {
+            url = "learningPaying.jsp";
+        }
+        if (type.equals("regisTest")) {
+            url = "testingPaying.jsp";
+        }
         request.getRequestDispatcher(url).forward(request, response);
     }
 
@@ -52,7 +77,13 @@ public class PayController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PayController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(PayController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -66,7 +97,13 @@ public class PayController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PayController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(PayController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
