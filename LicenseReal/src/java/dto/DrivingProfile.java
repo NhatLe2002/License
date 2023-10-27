@@ -45,6 +45,9 @@ public class DrivingProfile {
         this.phone = member.getPhone();
         this.email = member.getEmail();
         this.cccd = member.getCccd();
+        this.address = member.getAddress();
+        this.dob = member.getDob();
+        this.health = member.getHealth();
         this.img_cccd = img_cccd;
         this.img_user = img_user;
         this.gender = gender;

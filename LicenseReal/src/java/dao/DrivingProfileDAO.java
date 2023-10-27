@@ -317,7 +317,7 @@ public class DrivingProfileDAO {
                 boolean gender = rs.getBoolean("gender");
                 boolean flag = rs.getBoolean("flag");
                 boolean status = rs.getBoolean("status");
-                UserDTO userDTO = new UserDTO(id, name, phone, email, localDate, cccd, address);
+                UserDTO userDTO = new UserDTO(userId, name, phone, email, localDate, cccd, address);
                 MemberDTO memberDTO = new MemberDTO(id, userDTO, health);
                 drivingProfile = new DrivingProfile(memberDTO, imgCCCD, imgUser, gender, flag, status);
             }
