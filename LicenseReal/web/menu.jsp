@@ -179,7 +179,7 @@
                 <li class="menu-item" 
                     data-toggle="tooltip"
                     data-bs-toggle="modal" 
-                    data-bs-target="#modalConfirmDelete" 
+                    data-bs-target="#modalConfirmLogout" 
                     onclick="logout()">
                     <a href="#" class="menu-link">
                         <i class="menu-icon fa-solid fa-arrow-right-from-bracket"></i>
@@ -189,7 +189,7 @@
             </ul>
         </aside>
         <!-- / Menu -->
-        <div class="modal fade" id="modalConfirmDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        <div class="modal fade" id="modalConfirmLogout" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
              aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -202,7 +202,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                        <button type="button" class="btn btn-primary" id="btn-toast-delete" class="btn-close"
+                        <button type="button" class="btn btn-primary" id="btn-toast-logout" class="btn-close"
                                 data-bs-dismiss="modal" aria-label="Close">Đăng xuất</button>
                     </div>
                 </div>
@@ -211,7 +211,7 @@
     </body>
     <script>
         function logout() {
-            var btnToastDelete = document.querySelector('#btn-toast-delete');
+            var btnToastDelete = document.querySelector('#btn-toast-logout');
             btnToastDelete.addEventListener('click', function () {
                 var deleteUrl = 'LogoutServlet';
                 window.location.href = deleteUrl;

@@ -77,7 +77,7 @@ public class ViewDrivingProfileController extends HttpServlet {
                 request.setAttribute("load_profile", driving);
 
                 // Chuyển hướng đến trang updateprofile.jsp
-                request.getRequestDispatcher("staff/drivingprofile.jsp").forward(request, response);
+                request.getRequestDispatcher("staff/detailsDrivingProfile.jsp").forward(request, response);
             }
 
         } catch (Exception ex) {

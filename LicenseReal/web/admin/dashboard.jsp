@@ -368,18 +368,12 @@
                                 <div class="col-md-6 col-lg-4 order-2 mb-4">
                                     <div class="card h-100">
                                         <div class="card-header d-flex align-items-center justify-content-between">
-                                            <h5 class="card-title m-0 me-2">Doanh số học thực hành</h5>
-                                            <div class="dropdown">
-                                                <button class="btn p-0" type="button" id="transactionID" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="bx bx-dots-vertical-rounded"></i>
-                                                </button>
-                                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="transactionID">
-                                                    <a class="dropdown-item" href="javascript:void(0);">Last 28 Days</a>
-                                                    <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
-                                                    <a class="dropdown-item" href="javascript:void(0);">Last Year</a>
-                                                </div>
+                                            <div class="card-title mb-0">
+                                                <h5 class="card-title m-0 me-2">Doanh số học thực hành</h5>
+                                                <small class="text-muted">Danh sách doanh số từng người hướng dẫn theo năm</small>
                                             </div>
                                         </div>
+
                                         <div class="card-body">
                                             <ul class="p-0 m-0">
                                                 <c:forEach var="R" items="${mentorRevenue}">

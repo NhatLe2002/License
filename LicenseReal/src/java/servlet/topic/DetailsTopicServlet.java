@@ -47,6 +47,7 @@ public class DetailsTopicServlet extends HttpServlet {
         } catch (Exception e) {
         }
         request.setAttribute("message", message);
+        request.setAttribute("topicID", topicID);
         request.getRequestDispatcher("staff/detailsTopic.jsp").forward(request, response);
     }
 
