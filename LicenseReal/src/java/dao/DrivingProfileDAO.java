@@ -281,6 +281,13 @@ public class DrivingProfileDAO {
         return result;
     }
 
+    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+        DrivingProfile list = DrivingProfileDAO.getDrivingProfileById(4);
+        System.out.println("address: " + list.getAddress());
+        System.out.println("dob: " + list.getDob());
+        System.out.println("health: " + list.getHealth());
+    }
+    
     public static DrivingProfile getDrivingProfileById(int id) throws ClassNotFoundException, SQLException {
         Connection conn = null;
         PreparedStatement ptm = null;
