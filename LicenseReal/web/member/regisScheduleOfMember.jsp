@@ -14,19 +14,29 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <div>
-            <h1 style="text-align: center">
-                Đăng kí lịch dạy
-                <form action="RegisScheduleByMemberServlet" method="post">
-                    <select name="selectMondayOfWeek">
-                        <c:forEach items="${mondays}" var="monday">
-                            <c:set var="sunday" value="${monday.plusDays(6)}" />
-                            <option ${(monday eq requestScope.currentMonday)?"selected":""} value="${monday}">${monday} to ${sunday}</option>
-                        </c:forEach>
-                    </select>
-                    <button type="submit">Search</button>
-                </form>
-            </h1>
+        <div> 
+            <div id="div-KhoaHoc">
+                <p>Số buổi còn lại của bạn là</p>
+                <span id="remainingValue">${requestScope.remaining}</span></br>
+                <c:if test="${requestScope.remaining == '0'}">
+                    <p>Bạn cần mua thêm khóa học để booking người hướng dẫn</p>
+                    <a id="muaKhoaHoc" href="MainController?action=payment&type=regisLearn" >Mua khóa học</a>
+                </c:if>
+            </div>
+            <div>
+                <h1 style="text-align: center">
+                    Đăng kí lịch dạy
+                    <form action="RegisScheduleByMemberServlet" method="post">
+                        <select name="selectMondayOfWeek">
+                            <c:forEach items="${mondays}" var="monday">
+                                <c:set var="sunday" value="${monday.plusDays(6)}" />
+                                <option ${(monday eq requestScope.currentMonday)?"selected":""} value="${monday}">${monday} to ${sunday}</option>
+                            </c:forEach>
+                        </select>
+                        <button type="submit">Search</button>
+                    </form>
+                </h1>
+            </div>
         </div>
         <div>
             <c:set var="days" value="${['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']}" />
@@ -72,46 +82,175 @@
                                 <c:set var="i" value="0"/>
                                 <c:set var="check" value="false"></c:set>
                                 <c:forEach var="day" items="${requestScope.week}">
-                                    <c:forEach items="${requestScope.mentorScheduleNotTeache}" var="c">
-                                        <c:if test="${requestScope.week[i] == c.getDay() && c.getTime() == time}">
-                                            <c:set var="check" value="true"></c:set>
-                                            <c:choose>
-                                                <c:when test="${requestScope.week[i] <= requestScope.currentDay}">
-                                                    <td>
-                                                        Ngày ĐK đã qua!
-                                                    </td>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <td>
-                                                        <input type="checkbox" name="checkBoxName" value="${c.getId()}"></br>
-                                                        <a class="menu_items" href="MainController?action=detailBookingSlot&scheduleId=${c.getId()}">Chi tiết Booking</a>
-                                                    </td>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </c:if>
-                                    </c:forEach>
-                                    <c:choose>
-                                        <c:when test="${check == true}">
-
-                                        </c:when>
-                                        <c:otherwise>
-                                            <td>
-        <!--                                        <input type="checkbox" name="checkBoxName" value="${time}/${requestScope.week[i]}">-->
-                                            </td>
-                                        </c:otherwise>
-                                    </c:choose>
-                                    <c:set var="check" value="false"></c:set>
-                                    <c:set var="i" value="${i + 1}"/>
-
-
+                                    <td>
+                                        <c:forEach items="${requestScope.mentorScheduleNotTeache}" var="c">
+                                            <c:if test="${requestScope.week[i] == c.getDay() && c.getTime() == time}">
+                                                <div id="${c.getId()}" name="room">
+                                                    <c:if test="${requestScope.remaining != '0'}">
+                                                        <input type="checkbox" name="checkBoxName" value="${c.getId()}"  onclick="hideOtherCheckboxes(event, this)"></br>
+                                                    </c:if>
+                                                    <a href="MainController?action=detailBookingSlot&scheduleId=${c.getId()}">Chi tiết Booking</a>
+                                                </div>
+                                            </c:if>
+                                        </c:forEach>
+                                        <c:set var="i" value="${i + 1}"/>
+                                    </td>
                                 </c:forEach>
                             </tr>
                         </c:forEach>
                     </tbody>
                 </table>
-                <input type="submit" name="action" value="regisScheduleMemberBtn">
+                <c:if test="${requestScope.remaining != '0'}">
+                    <input type="submit" name="action" value="regisScheduleMemberBtn">
+                </c:if>
             </form>
             <p></p>
         </div>
+        <script>
+
+            function hideOtherCheckboxes(event, checkbox) {
+                var linkElement = document.getElementById('muaKhoaHoc')
+                if (linkElement == null) {
+                    var linkElement = document.createElement('a');
+                    linkElement.setAttribute('id', 'linkElement');
+                    linkElement.setAttribute('href', 'MainController?action=payment&type=regisLearn');
+                    linkElement.innerHTML = 'Mua thêm khóa học';
+                    var parentElement = document.getElementById('div-KhoaHoc');
+                }
+                console.log(parentElement);
+                // Lấy phần tử cha (td) của checkbox hiện tại
+                var parentDiv = checkbox.parentNode;
+                var parentTd = parentDiv.parentNode;
+                // Lấy tất cả các checkbox trong cùng td
+                var divInTd = parentTd.getElementsByTagName('div');
+                // Duyệt qua tất cả các checkbox trong cùng td và ẩn chúng nếu chúng không phải là checkbox hiện tại
+                //Tru so buoi con lai
+                var remainingValueElement = document.getElementById('remainingValue');
+                if (remainingValueElement) {
+                    var currentRemainingValue = parseInt(remainingValueElement.textContent) || 0;
+
+//                    if (currentRemainingValue === 0) {
+//                        // Nếu remainingValue đã đạt 0, ẩn tất cả các checkbox chưa được click
+//                        hideUncheckedCheckboxes();
+//                    } else {
+                    // Lấy giá trị hiện tại của checkbox (được lưu trữ trong thuộc tính data-clicked-count)
+                    var clickedCount = parseInt(checkbox.getAttribute('data-clicked-count')) || 0;
+
+                    // Cập nhật giá trị và hiển thị nó
+                    if (clickedCount === 0) {
+                        clickedCount = 1;
+                    } else {
+                        clickedCount = 0;
+                    }
+
+                    // Lưu giá trị mới vào thuộc tính data-clicked-count
+                    checkbox.setAttribute('data-clicked-count', clickedCount);
+
+                    // Tính toán giá trị mới dựa trên giá trị hiện tại và cập nhật giá trị hiển thị
+                    if (remainingValueElement) {
+                        var currentRemainingValue = parseInt(remainingValueElement.textContent) || 0;
+
+                        if (clickedCount === 1) {
+                            currentRemainingValue -= 1;
+                            for (var i = 0; i < divInTd.length; i++) {
+                                //ẩn các div còn lại nếu đã tích trong cùng td
+                                if (divInTd[i].id !== event.target.value) {
+//                                    console.log(event.target);
+//                                    console.log(divInTd[i]);
+                                    divInTd[i].setAttribute('check', false);
+                                    divInTd[i].style.display = 'none'; // Ẩn checkbox khác
+                                } else {
+                                    divInTd[i].setAttribute('check', true);
+//                        console.log(divInTd[i]);
+                                }
+                            }
+                        } else {
+
+                            currentRemainingValue += 1;
+                            for (var i = 0; i < divInTd.length; i++) {
+                                //ẩn các div còn lại nếu đã tích trong cùng td
+                                if (divInTd[i].id !== event.target.value) {
+//                                    console.log(event.target);
+//                                    console.log(divInTd[i]);
+                                    divInTd[i].setAttribute('check', true);
+                                    divInTd[i].style.display = 'inline'; // Ẩn checkbox khác
+                                } else {
+                                    divInTd[i].setAttribute('check', true);
+//                        console.log(divInTd[i]);
+                                }
+                            }
+                        }
+                        remainingValueElement.textContent = currentRemainingValue;
+
+
+                    }
+                    if (currentRemainingValue === 0) {
+                        // Nếu remainingValue đã đạt 0, ẩn tất cả các checkbox chưa được click
+                        hideUncheckedCheckboxes();
+                        parentElement.appendChild(linkElement);
+                        console.log("Oke")
+                    } else {
+                        presentlyCheckboxes();
+                        var existingLinkElement = document.getElementById('linkElement');
+                        if (existingLinkElement) {
+                            // Nếu thẻ <a> đã tồn tại, loại bỏ nó khỏi phần tử cha
+                            parentElement.removeChild(existingLinkElement);
+                        }
+                    }
+
+                }
+
+
+            }
+            function presentlyCheckboxes() {
+                var checkFalse = document.querySelectorAll('div[name="room"][check="false"]');
+                var divTags = document.querySelectorAll('div[name="room"]');
+                console.log(checkFalse);
+
+                // Lặp qua danh sách divTags
+                for (var i = 0; i < divTags.length; i++) {
+                    var shouldHide = true;
+
+                    // Lặp qua danh sách checkFalse để kiểm tra xem divTags[i] có trong danh sách này hay không
+                    for (var j = 0; j < checkFalse.length; j++) {
+                        if (divTags[i] === checkFalse[j]) {
+                            shouldHide = false;
+                            break; // Không cần kiểm tra tiếp, đã tìm thấy phần tử tương ứng
+                        }
+                    }
+
+                    if (!shouldHide) {
+                        divTags[i].style.display = 'none';
+                    } else {
+                        divTags[i].style.display = ''; // Hiển thị nếu không cần ẩn
+                    }
+                }
+            }
+            function hideUncheckedCheckboxes() {
+                // Lấy tất cả các checkbox chưa được click
+                var checkfalse = document.querySelectorAll('div[name="room"][check = false]');
+                var checkTrue = document.querySelectorAll('div[name="room"][check = true]');
+                var divTags = document.querySelectorAll('div[name="room"]');
+
+                console.log(checkTrue);
+//                // Ẩn tất cả các checkbox chưa được click
+                // Lặp qua danh sách divTags
+                for (var i = 0; i < divTags.length; i++) {
+                    var shouldHide = true;
+
+                    // Lặp qua danh sách checkTrue để kiểm tra xem divTags[i] có trong danh sách này hay không
+                    for (var j = 0; j < checkTrue.length; j++) {
+                        if (divTags[i] === checkTrue[j]) {
+                            shouldHide = false;
+                            break; // Không cần kiểm tra tiếp, đã tìm thấy phần tử tương ứng
+                        }
+                    }
+
+                    if (shouldHide) {
+                        divTags[i].style.display = 'none';
+                    }
+                }
+            }
+        </script>
     </body>
 </html>

@@ -127,27 +127,30 @@
                         <div class="login_name">
                             <c:choose>
                                 <c:when test="${user != null}">
-                                    <a  class="fullname">Hello, ${user.getName()}</a>
-                                    <select id="dropdown">
-                                        <c:if test="${action == 'updatePage' || action == 'ViewTransactions'  || action == 'passwordProfile' || action =='changePasswordProfile'}">
-                                            <option value="MainController?action=home">Home</option>
-                                            <option selected value="MainController?action=updatePage&id=${sessionScope.user.getId()}">Thông tin cá nhân</option>
-                                            <c:if test="${sessionScope.ROLE == 'AD'}">
-                                                <option value="MainController?action=admin">Thống kê<</option>
-                                            </c:if>
-                                            <option value="MainController?action=logout">Đăng xuất</option>
-                                        </c:if>
-                                        <c:if test="${action == 'member'|| action == 'home' || action == 'update' || action == 'PracticeTest'}">
-                                            <option selected value="MainController?action=home">Home</option>
-                                            <option value="MainController?action=updatePage&id=${sessionScope.user.getId()}">Thông tin cá nhân</option>
-                                            <c:if test="${sessionScope.ROLE == 'AD'}">
-                                                <option value="MainController?action=admin">Thống kê</option>
-                                            </c:if>
-                                            <option value="MainController?action=logout">Đăng xuất</option>
-                                        </c:if>
-
-                                    </select>
-                                    <a href="MainController?action=updateP&id=${sessionScope.user.getId()}" class="fullname">Hello, ${user.getName()}</a>
+                                    <div class="dropdown">
+                                        <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton1"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                            Hello, ${user.getName()}
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <c:if test="${action == 'updateP' || action == 'ViewTransactions'  || action == 'passwordProfile' || action =='changePasswordProfile' || action =='adddriver'}">
+                                                <li><a class="dropdown-item" href="MainController?action=home">Home</a></li>
+                                                <li><a class="dropdown-item" href="MainController?action=updateP&id=${sessionScope.user.getId()}">Thông tin cá nhân</a></li>
+                                                    <c:if test="${sessionScope.ROLE == 'AD'}">
+                                                    <li><a class="dropdown-item" href="MainController?action=admin">Thống kê</a></li>
+                                                    </c:if>
+                                                <li><a class="dropdown-item" href="MainController?action=logout">Đăng xuất</a></li>
+                                                </c:if>
+                                                <c:if test="${action == 'member'|| action == 'home' || action == 'update' || action == 'PracticeTest'}">
+                                                <li><a class="dropdown-item" href="MainController?action=home">Home</a></li>
+                                                <li><a class="dropdown-item" href="MainController?action=updateP&id=${sessionScope.user.getId()}">Thông tin cá nhân</a></li>
+                                                    <c:if test="${sessionScope.ROLE == 'AD'}">
+                                                    <li><a class="dropdown-item" href="MainController?action=admin">Thống kê</a></li>
+                                                    </c:if>
+                                                <li><a class="dropdown-item" href="MainController?action=logout">Đăng xuất</a></li>
+                                                </c:if>
+                                        </ul>
+                                    </div>
                                 </c:when>
                                 <c:otherwise>
                                     <a class="btn_login"  href="MainController?action=loginPage">Đăng nhập</a>
@@ -158,6 +161,7 @@
                 </div>
             </div>
         </header>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
         <script>
             var dropdown = document.getElementById("dropdown");
             dropdown.addEventListener("change", function () {

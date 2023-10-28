@@ -121,6 +121,10 @@ public class RegisScheduleByMemberServlet extends HttpServlet {
             ArrayList<ScheduleDTO> mentorScheduleNotTeache = ScheduleDAO.getScheduleNotTeach();
 
             Date currentDayCheck = Date.valueOf(LocalDate.now());
+            
+            //Số buổi còn lại có thể đăng kí
+            int remaining = ScheduleDAO.getNumOfRemaining(menber.getId());
+            request.setAttribute("remaining", remaining);
             //Dung de check Date cua currentdate
             request.setAttribute("currentDay", currentDayCheck);
             request.setAttribute("mentorScheduleNotTeache", mentorScheduleNotTeache);

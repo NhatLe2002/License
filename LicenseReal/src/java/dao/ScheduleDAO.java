@@ -5,6 +5,7 @@
  */
 package dao;
 
+import dto.PaymentDTO;
 import dto.ScheduleDTO;
 import java.sql.Connection;
 import java.sql.Date;
@@ -13,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -140,6 +142,39 @@ public class ScheduleDAO {
         return list;
     }
 
+    public static ArrayList<ScheduleDTO> getScheduleByDateAndMemberId(LocalDate date, int memberId) {
+        ArrayList<ScheduleDTO> list = new ArrayList<>();
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "  SELECT * FROM Schedule \n"
+                        + "  WHERE day >= ?\n"
+                        + "  AND memberID = ?";
+
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setDate(1, java.sql.Date.valueOf(date));
+                pst.setInt(2, memberId);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        int idSche = rs.getInt("id");
+                        int type = rs.getInt("type");
+                        Date day = rs.getDate("day");
+                        int time = rs.getInt("time");
+                        int idMentor = rs.getInt("mentorID");
+                        int idMember = rs.getInt("memberID");
+                        ScheduleDTO schedule = new ScheduleDTO(idSche, idMentor, idMember, type, day, time);
+                        list.add(schedule);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
     public static boolean insertSchedule(ScheduleDTO schedule) {
         String sql = "insert into Schedule values(?,?,?,?,?)";
         Connection cn = null;
@@ -204,6 +239,15 @@ public class ScheduleDAO {
         }
         return false;
     }
+    public static int getNumOfRemaining(int memberId){
+        PaymentDAO paymentDao = new PaymentDAO();
+        //Lấy tất cả thanh toán trong 1 tháng
+        ArrayList<PaymentDTO> paymentList = paymentDao.getPaymentIn1Month(memberId);
+        int tong = paymentList.size()*4;
+        LocalDate mindate = paymentDao.getDateMin(memberId);
+        ArrayList<ScheduleDTO> schedule = getScheduleByDateAndMemberId(mindate, memberId);
+        return tong - schedule.size();
+    }
 
     public static void main(String[] args) {
 
@@ -242,15 +286,17 @@ public class ScheduleDAO {
 //            System.out.println("chua dc");
 //        }
 //        System.out.println(getScheduleById(4).getDay());
-          ScheduleDAO dao = new ScheduleDAO();
-          ArrayList<ScheduleDTO> list;
-        try {
-            list = dao.getAllMentorRevenue(2023);
-             System.out.println(list);
-        } catch (SQLException ex) {
-            Logger.getLogger(ScheduleDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         
+//        ScheduleDAO dao = new ScheduleDAO();
+//        ArrayList<ScheduleDTO> list;
+//        try {
+//            list = dao.getAllMentorRevenue(2023);
+//            System.out.println(list);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(ScheduleDAO.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        
+        System.out.println(getNumOfRemaining(4));
+
     }
 
     public ArrayList<ScheduleDTO> getAllMentorRevenue(int year) throws SQLException {

@@ -5,15 +5,19 @@
  */
 package servlet.Booking;
 
+import dao.MemberDAO;
 import dao.MentorDAO;
 import dao.RatingDAO;
 import dao.ScheduleDAO;
+import dto.MemberDTO;
 import dto.MentorDTO;
 import dto.RatingDTO;
 import dto.ScheduleDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,6 +51,23 @@ public class DetailBookingSlotServlet extends HttpServlet {
                 ratingMentor += object.getStar();
             }
             ratingMentor = ratingMentor / RatingDAO.getRatingByMentorID(schedule.getMentorID()).size();
+
+            Cookie[] c = request.getCookies();
+            String userId = "";
+            if (c != null) {
+                for (Cookie aCookie : c) {
+                    if (aCookie.getName().equals("userId")) {
+                        userId = aCookie.getValue();
+                    }
+                }
+            }
+            MemberDTO menber = new MemberDTO();
+            if (userId != "") {
+                menber = MemberDAO.getMemberByUserID(Integer.parseInt(userId));
+            }
+            int remaining = ScheduleDAO.getNumOfRemaining(menber.getId());
+            request.setAttribute("remaining", remaining);
+
             request.setAttribute("ratingMentor", ratingMentor);
             request.setAttribute("Schedule", schedule);
             request.setAttribute("mentorAndUser", mentorAndUSer);
