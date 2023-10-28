@@ -42,6 +42,7 @@ public class ViewAllTransactionsController extends HttpServlet {
         } catch (Exception e) {
         }
         request.setAttribute("listP", listP);
+        request.setAttribute("totalSize", listP.size());
         request.getRequestDispatcher("staff/Transactions.jsp").forward(request, response);
     }
 
