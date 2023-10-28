@@ -63,6 +63,9 @@
 
 
         </form>
+        <a href="MainController?action=home">Home</a>
+        <br>
+
         ${message}
     </body>
 

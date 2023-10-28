@@ -110,7 +110,7 @@ public class PaymentDAO {
 
             // Chuyển đổi từ LocalDate sang Date
             Date date = java.sql.Date.valueOf(oneMonthAgo);
-            String sql = "SELECT * FROM Payment WHERE create_date >= ? AND create_date <= GETDATE() AND memberID = ? AND status = 1 AND type = 'regisLearn'";
+            String sql = "  SELECT * FROM Payment WHERE create_date >= ? AND create_date <= GETDATE() AND memberID = ? AND status = 1 AND (type = '3regisLearn' OR type = '5regisLearn')";
             PreparedStatement ps = getConnection().prepareStatement(sql);
             ps.setDate(1, date);
             ps.setInt(2, memberId);
@@ -136,7 +136,7 @@ public class PaymentDAO {
 
             // Chuyển đổi từ LocalDate sang Date
             Date date = java.sql.Date.valueOf(oneMonthAgo);
-            String sql = "SELECT MIN(create_date) FROM Payment WHERE create_date >= ? AND create_date <= GETDATE() AND memberID = ? AND status = 1 AND type = 'regisLearn'";
+            String sql = "SELECT MIN(create_date) FROM Payment WHERE create_date >= ? AND create_date <= GETDATE() AND memberID = ? AND status = 1 AND (type = '3regisLearn' OR type = '5regisLearn')";
             PreparedStatement ps = getConnection().prepareStatement(sql);
             ps.setDate(1, date);
             ps.setInt(2, memberId);
@@ -433,10 +433,7 @@ public class PaymentDAO {
         LocalDate oneMonthAgo = LocalDate.now().minusMonths(1);
 
         // Chuyển đổi từ LocalDate sang Date
-        Date date = java.sql.Date.valueOf(oneMonthAgo);
-
-        System.out.println(date);
-        System.out.println(getDateMin(4));
+//        System.out.println(getDateMin(4));
         for (PaymentDTO integer : getPaymentIn1Month(4)) {
             System.out.println(integer.getCreate_date());
         }

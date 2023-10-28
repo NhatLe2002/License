@@ -22,6 +22,17 @@
     <body>
         <c:import url="userHeader.jsp"/>
 
+        <!--màn hình hiển thị kết quả -->
+        <div class="result-screen d-none">
+            <h1>Kết quả</h1>
+            <p>Trả lời sai câu hỏi điểm Liệt: <span id="paralysisAnswers">0</span></p>
+            <p>Số câu trả lời đúng: <span id="correctAnswers">0</span></p>
+            <p>Số câu trả lời sai: <span id="incorrectAnswers">0</span></p>
+            <p>Số câu chưa trả lời: <span id="unanswered">0</span></p>
+            <p id="resultMessageFail" class="fw-bold">Kết quả: <span class="text-danger">Không đạt</span></p>
+            <p id="resultMessageSuccess" class="fw-bold">Kết quả: <span class="text-success">Đạt</span> </p>
+        </div>
+
         <!-- màn hình thi thử -->
 
         <div class="test-exam-screen">
@@ -48,10 +59,10 @@
                                                 <input class="question-input" type="radio" name="question${counter.index + 1}" value="${fn:substring('ABCDEF', status.index, status.index + 1)}"> ${option}
                                                 <input class="correct-answer" value="${A.isCorrect}" hidden=""/>
                                                 <c:if test="${A.isCorrect eq fn:substring('ABCDEF', status.index, status.index + 1)}">
-                                                    <span class="selectAnswer" style="color: green; font-weight: bold; display: none" ><i class="fa-regular fa-circle-check"></i> Đúng</span>
+                                                    <span class="selectAnswer answer-result" style="color: green; font-weight: bold; display: none" ><i class="fa-regular fa-circle-check"></i> Đúng</span>
                                                 </c:if>
                                                 <c:if test="${A.isCorrect != fn:substring('ABCDEF', status.index, status.index + 1)}">
-                                                    <span class="selectWrongAnswer" style="color: red; font-weight: bold; display: none" ><i class="fa-regular fa-circle-xmark"></i> Sai</span>
+                                                    <span class="selectWrongAnswer answer-result" style="color: red; font-weight: bold; display: none" ><i class="fa-regular fa-circle-xmark"></i> Sai</span>
                                                 </c:if>
                                             </label>
                                         </li>
@@ -77,7 +88,7 @@
                 </div>
                 <div class="submit-button col-md-4 d-flex justify-content-center flex-column">
                     <div class="countdown-timer" id="timer">00:00</div>
-                    <button class="btn btn-primary" name="end">Kết thúc</button>
+                    <button class="btn btn-primary" name="end">Nộp bài</button>
                 </div>
             </div>
         </div>
@@ -108,17 +119,6 @@
                 <button class="btn close-button">Kết thúc</button>
             </div>
         </div>
-        <!--        <div class="popup-overlay">
-                    <div class="popup-content">
-                        <h1>Kết quả</h1>
-                        <p>Trả lời sai câu hỏi điểm Liệt: <span id="incorrectPoints"></span></p>
-                        <p>Số câu trả lời đúng: <span id="correctAnswers"></span></p>
-                        <p>Số câu trả lời sai: <span id="incorrectAnswers"></span></p>
-                        <p>Số câu chưa trả lời: <span id="unanswered"></span></p>
-                        <p id="resultMessage">Kết quả: </p>
-                        <button class="btn close-button">Xem lại bài thi</button>
-                    </div>
-                </div>-->
 
         <!-- code js -->
         <script>
@@ -169,6 +169,8 @@
                 var selectWrongAnswer = document.getElementsByClassName("selectWrongAnswer");
                 var popupOverlay = document.querySelector('.popup-overlay');
 
+
+
                 submitButton.addEventListener("click", function () {
                     popupOverlay.style.display = "flex";
                     var cancleButton = document.querySelector('.cancle-button');
@@ -184,29 +186,134 @@
                             input.disabled = true;
                         });
 
+                        //new
+                        var selectedOptions = document.querySelectorAll('.selected-answer-question');
+                        selectedOptions.forEach(function (selectedOption) {
+                            const questionContainer = selectedOption.closest('.form-container');
+                            const selectedAnswerResult = questionContainer.querySelector('.selected-answer-question .answer-result');
+
+                            if (selectedAnswerResult) {
+                                selectedAnswerResult.style.display = 'inline';
+                            }
+                        });
+
+                        const resultScreen = document.querySelector('.result-screen');
+                        resultScreen.classList.remove('d-none');
+
+                        //
+
                         popupOverlay.style.display = "none";
-                        for (var i = 0; i < selectAnswerDivs.length; i++) {
-                            selectAnswerDivs[i].style.display = "inline";
-                        }
-                        for (var i = 0; i < selectWrongAnswer.length; i++) {
-                            selectWrongAnswer[i].style.display = "inline";
-                        }
+
+//                        for (var i = 0; i < selectAnswerDivs.length; i++) {
+//                            selectAnswerDivs[i].style.display = "inline";
+//                        }
+//                        for (var i = 0; i < selectWrongAnswer.length; i++) {
+//                            selectWrongAnswer[i].style.display = "inline";
+//                        }
+
                         // Cập nhật trạng thái thành "Đã kết thúc"
                         var statusSpan = document.getElementById("statusSpan");
                         statusSpan.textContent = "Đã kết thúc";
 
+                        //Xử lý sự kiện hiển thị kết quả
+                        displayResult()
+
                         // Dừng đồng hồ đếm ngược
                         clearInterval(countdownTimer);
+
+                        window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        });
+
+                        submitButton.disabled = true;
+
+                        submitButton.style.backgroundColor = 'gray';
+                        submitButton.style.color = 'white';
+                        submitButton.style.cursor = 'not-allowed';
+
                     });
                 });
+
             });
+
+            //function xử lý hiển thị kết quả
+            function displayResult() {
+
+                var unansweredCount = 0;
+                var countCorrectAnswer = 0;
+                var countIncorrectAnswer = 0;
+                var countParalysisAnswers = 0;
+
+                var formContainers = document.querySelectorAll('.form-container');
+
+                formContainers.forEach(function (container) {
+                    var selectedAnswerQuestions = container.querySelectorAll('.selected-answer-question');
+                    var isAnyCorrect = false;
+                    var isParalysisQuestion = container.querySelector('.paralysis-question');
+
+                    selectedAnswerQuestions.forEach(function (selectedAnswer) {
+                        var questionInputValue = selectedAnswer.querySelector('.question-input').value;
+                        var correctAnswerValue = selectedAnswer.querySelector('.correct-answer').value;
+
+                        if (questionInputValue === correctAnswerValue) {
+                            countCorrectAnswer++;
+                            isAnyCorrect = true;
+                        }
+                    });
+
+                    if (!isAnyCorrect && selectedAnswerQuestions.length > 0) {
+                        countIncorrectAnswer++;
+
+                        if (isParalysisQuestion) {
+                            countParalysisAnswers++;
+                        }
+                    }
+
+                    if (!container.querySelector('.selected-answer-question')) {
+                        unansweredCount++;
+                    }
+                });
+
+                var unansweredElement = document.getElementById("unanswered");
+                unansweredElement.textContent = unansweredCount;
+
+                var correctAnswersElement = document.getElementById("correctAnswers");
+                correctAnswersElement.textContent = countCorrectAnswer;
+
+                var incorrectAnswersElement = document.getElementById("incorrectAnswers");
+                incorrectAnswersElement.textContent = countIncorrectAnswer;
+
+                var paralysisAnswersElement = document.getElementById("paralysisAnswers");
+                paralysisAnswersElement.textContent = countParalysisAnswers;
+
+                var resultMessageFail = document.getElementById("resultMessageFail");
+                var resultMessageSuccess = document.getElementById("resultMessageSuccess");
+
+
+                if (parseInt(paralysisAnswersElement.textContent) === 0 && parseInt(correctAnswersElement.textContent) >= 32) {
+                    resultMessageFail.style.display = "none";
+                    resultMessageSuccess.style.display = "inline";
+                } else {
+                    resultMessageFail.style.display = "inline";
+                    resultMessageSuccess.style.display = "none";
+                }
+
+            }
 
 
             //xử lý sự kiện khi chọn đáp án 
 
             function handleRadioSelection(event) {
-                const selectedOption = event.target.value;
+                const selectedOption = event.target;
                 const questionNumber = event.target.getAttribute('name').replace('question', '');
+                const questionOptions = document.querySelectorAll('input[name="question' + questionNumber + '"]');
+
+                questionOptions.forEach((option) => {
+                    option.parentElement.classList.remove('selected-answer-question');
+                });
+                selectedOption.parentElement.classList.add('selected-answer-question');
+
                 const selectedAnswerTab = document.querySelector(".selected-answer-tab:nth-child(" + questionNumber + ")");
                 selectedAnswerTab.classList.toggle('active', event.target.checked);
             }

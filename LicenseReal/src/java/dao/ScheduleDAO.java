@@ -243,7 +243,15 @@ public class ScheduleDAO {
         PaymentDAO paymentDao = new PaymentDAO();
         //Lấy tất cả thanh toán trong 1 tháng
         ArrayList<PaymentDTO> paymentList = paymentDao.getPaymentIn1Month(memberId);
-        int tong = paymentList.size()*4;
+        int tong = 0;
+        for (PaymentDTO paymentDTO : paymentList) {
+            int type = Character.getNumericValue(paymentDTO.getType().charAt(0));
+            if(type == 3){
+                tong += 3;
+            }else if(type == 5){
+                tong +=5;
+            }
+        }
         LocalDate mindate = paymentDao.getDateMin(memberId);
         ArrayList<ScheduleDTO> schedule = getScheduleByDateAndMemberId(mindate, memberId);
         return tong - schedule.size();

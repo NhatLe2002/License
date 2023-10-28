@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import utils.Util;
 
 /**
@@ -122,6 +123,27 @@ public class AccountDAO extends DBUtils {
         return null;
     }
 
+    public static ArrayList<AccountDTO> getAccountStaff() {
+        ArrayList<AccountDTO> list = new ArrayList<>();
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "select * from Account where id = (select accountID from [User] where [User].role = 3)";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        list.add(new AccountDTO(rs.getInt("id"), rs.getString("username"), rs.getString("password")));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
     public static boolean changePassword(int id, String newPassword) {
         boolean check = false;
         String hashPassword = Util.hashPassword(newPassword);
@@ -167,6 +189,8 @@ public class AccountDAO extends DBUtils {
         } else {
             System.out.println("Tài khoản này hợp lệ ");
         }
+        
+        System.out.println(getAccountStaff().size());
     }
 //    public static boolean changePassword(int id, String newPassword) {
 //    boolean check = false;
