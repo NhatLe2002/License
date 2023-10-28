@@ -12,7 +12,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Booking</title>
         <style>
-            
+
             .rating-mentor {
                 display: flex;
                 align-items: center;
@@ -27,6 +27,13 @@
     </head>
     <body>
         <div>
+            <p>Số buổi còn lại là: ${requestScope.remaining}</p>
+            <c:if test="${requestScope.remaining == '0'}">
+                <p>Bạn cần mua thêm khóa học để booking người hướng dẫn</p>
+                <a id="muaKhoaHoc" href="MainController?action=payment&type=regisLearn" >Mua khóa học</a>
+            </c:if>
+        </div>
+        <div>
             <c:set var="times" value="${['7h - 9h', '9h - 11h', '13h - 15h', '15h - 17h']}" />
             <h1>Chi tiết lớp học</h1>
             <p>${requestScope.Schedule.getDay()}</p>
@@ -36,23 +43,25 @@
             <p>Avatar: ${requestScope.mentorAndUser.getUser().getAvatar()}</p>
             <p>Phone: ${requestScope.mentorAndUser.getUser().getPhone()}</p>
         </div>
-         <div class="rating-mentor">
-                <p> Đánh giá của giáo viên: </p>
-                <div class="stars-mentor" id="rating-stars-mentor"></div>
+        <div class="rating-mentor">
+            <p> Đánh giá của giáo viên: </p>
+            <div class="stars-mentor" id="rating-stars-mentor"></div>
 
-                <p id="rating-value-mentor">0</p>
-         </div>
-        
+            <p id="rating-value-mentor">0</p>
+        </div>
+
         <div>
-            <form action="MainController" method="post">
+            <c:if test="${requestScope.remaining != '0'}">
+                <form action="MainController" method="post">
                 <input type="hidden" name="checkBoxName" value="${requestScope.Schedule.getId()}">
                 <input type="submit" name="action" value="bookingSlot">
             </form>
+            </c:if>
         </div>
-        
-        
-        
-         <script>
+
+
+
+        <script>
             document.addEventListener("DOMContentLoaded", function () {
                 const ratingStars = document.getElementById("rating-stars-mentor");
                 const ratingValue = document.getElementById("rating-value-mentor");

@@ -3,21 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servlet.Booking;
+package servlet.ManageAccount;
 
-import dao.MemberDAO;
-import dao.MentorDAO;
-import dao.RatingDAO;
-import dao.ScheduleDAO;
-import dto.MemberDTO;
-import dto.MentorDTO;
-import dto.RatingDTO;
-import dto.ScheduleDTO;
+import dao.AccountDAO;
+import dto.AccountDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-public class DetailBookingSlotServlet extends HttpServlet {
+public class ManageStaffAccountServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,37 +35,15 @@ public class DetailBookingSlotServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String scheduleID = request.getParameter("scheduleId");
-            ScheduleDTO schedule = ScheduleDAO.getScheduleById(Integer.parseInt(scheduleID));
+            // Lấy danh sách tài khoản từ cơ sở dữ liệu hoặc dịch vụ
+            List<AccountDTO> accountList = AccountDAO.getAccountStaff(); // AccountService là một lớp quản lý dịch vụ
 
-            MentorDTO mentorAndUSer = MentorDAO.getMentorAndUserByMentorID(schedule.getMentorID());
-            float ratingMentor = 0;
-            for (RatingDTO object : RatingDAO.getRatingByMentorID(schedule.getMentorID())) {
-                ratingMentor += object.getStar();
-            }
-            ratingMentor = ratingMentor / RatingDAO.getRatingByMentorID(schedule.getMentorID()).size();
+            // Đặt danh sách tài khoản vào thuộc tính request
+            request.setAttribute("accountList", accountList);
 
-            Cookie[] c = request.getCookies();
-            String userId = "";
-            if (c != null) {
-                for (Cookie aCookie : c) {
-                    if (aCookie.getName().equals("userId")) {
-                        userId = aCookie.getValue();
-                    }
-                }
-            }
-            MemberDTO menber = new MemberDTO();
-            if (userId != "") {
-                menber = MemberDAO.getMemberByUserID(Integer.parseInt(userId));
-            }
-            int remaining = ScheduleDAO.getNumOfRemaining(menber.getId());
-            request.setAttribute("remaining", remaining);
-
-            request.setAttribute("ratingMentor", ratingMentor);
-            request.setAttribute("Schedule", schedule);
-            request.setAttribute("mentorAndUser", mentorAndUSer);
-            request.getRequestDispatcher("member/bookingDetail.jsp").forward(request, response);
-
+            // Chuyển hướng đến trang list.jsp để hiển thị danh sách
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/list.jsp");
+            dispatcher.forward(request, response);
         }
     }
 

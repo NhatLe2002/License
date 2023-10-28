@@ -46,6 +46,9 @@
     </head>
     <body>
         <div>
+            <p>Số buổi còn lại là: ${requestScope.remaining}</p>
+        </div>
+        <div>
             <c:set var="times" value="${['7h - 9h', '9h - 11h', '13h - 15h', '15h - 17h']}" />
             <h1>Chi tiết lớp học</h1>
             <p>${requestScope.Schedule.getDay()}</p>

@@ -170,7 +170,10 @@ public class MainController extends HttpServlet {
                 url = "memberStaff";
             } else if (action.equals("createMember")) {
                 url = "staff/createMember.jsp";
+            } else if (action.equals("manageStaffAccount")) {
+                url = "ManageStaffAccountServlet";
             }
+            
 
             request.setAttribute("action", action);
             if ("staff".equals(action) || "admin".equals(action)) {
