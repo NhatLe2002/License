@@ -31,7 +31,182 @@
                 background-color: #f2f2f2;
             }
         </style>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
 
+            a {
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            .header {
+                background: #fefae0;
+                transition: all 0.5s ease-out;
+            }
+
+            .header .main__navbar .container {
+                margin: 0 auto;
+            }
+
+            .header .main__navbar .container .logo {
+                width: 80px;
+                height: auto;
+            }
+
+            .header .main__navbar .container .logo img {
+                width: 80px;
+                height: auto;
+            }
+
+            .header .main__navbar .container .logo h3 {
+                color: #000;
+                margin: 0px;
+                font-size: 25px;
+            }
+
+            .header .main__navbar .container .menu {
+                display: flex;
+                align-items: center;
+                column-gap: 2.7rem;
+            }
+
+            .header .main__navbar .container .menu .menu_items {
+                color: black;
+            }
+
+            .header .main__navbar .container .menu .btn_login {
+                background-color: #d4a373;
+                border: 1px solid #d4a373;
+                padding: 5px 15px;
+                color: white;
+                border-radius: 10px;
+                transition: all 0.5s ease-out;
+            }
+
+            .header .main__navbar .container .menu .menu_items:hover {
+                border-bottom: 2px solid #d4a373;
+            }
+
+            .header .main__navbar .container .menu .menu_items_active {
+                border-bottom: 2px solid #d4a373;
+            }
+
+            .header .main__navbar .container .menu .btn_login:hover {
+                background-color: #457b9d;
+                border: 1px solid #457b9d;
+                color: white;
+                transition: all 0.5s ease-out;
+            }
+
+            /* content */
+
+            .change-password .form-container {
+                width: 80%;
+                min-height: 50vh;
+                margin: 50px auto;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+            }
+
+            .change-password .form-container .password-content {
+                width: 80%;
+            }
+
+            .password-notification {
+                text-align: center;
+                margin: 20px 0;
+                color: red;
+            }
+
+            /* footer */
+            .footer {
+                width: 100%;
+            }
+
+            /* sidebar */
+            .option-account-container {
+                width: 25%
+            }
+
+            .option-account-container .title {
+                font-weight: 550;
+                font-size: 30px;
+            }
+
+            .option-account-container .sidebar-account {
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+            }
+
+            .option-account-container .sidebar-account .active {
+                font-weight: 550;
+                border-left: 4px solid blue;
+                border-right: 4px solid blue;
+                color: #000d6b !important;
+            }
+
+            .option-account-container .sidebar-account .active i {
+                font-weight: 700;
+                color: #000d6b;
+            }
+
+            .option-account-container .sidebar-account .link-option-account {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                padding: 16px;
+                color: black;
+                border-top: 1px solid gray;
+            }
+
+            .option-account-container .sidebar-account .link-option-account:hover {
+                font-weight: 550;
+                color: #000d6b;
+            }
+
+            .option-account-container .sidebar-account div {
+                cursor: pointer;
+            }
+
+            .link-option-account:hover .bold-icon {
+                font-weight: 700;
+                color: #000d6b;
+            }
+
+            .separate-line-layout-account {
+                border-left: 1px solid;
+                height: calc(100vh - 110px);
+            }
+
+            .content-option-container {
+                width: 75%;
+            }
+
+            @media only screen and (max-width: 1400px) {
+                .content-option-container {
+                    width: 80%;
+                }
+
+                .option-account-container {
+                    width: 20%;
+                }
+
+                .profile-container .gap-5 {
+                    gap: 1rem !important
+                }
+            }
+
+        </style>
         <style>
             /* header */
             * {
@@ -523,53 +698,97 @@
 
             <div class='separate-line-layout-account'></div>
             <div class='content-option-container'>
-                <div class="d-flex justify-content-center flex-column profile-container gap-3">
-                    <div class='title'>Đổi mật khẩu</div>
-                    <form action="MainController" method ="POST">
-                        <div class="user-details">           
-                            <div class="input-box">
-                                <span class="details">Mật khẩu mới</span>
-                                <input name="password" type="password" placeholder="Vui lòng nhập mật khẩu" required>
-                            </div>
+                <div class="change-password">
+                    <div class="form-container">
+                        <form class="current-password password-content">
+                            <fieldset>
+                                <legend>Nhập mật khẩu hiện tại của bạn </legend>
+                                <div class="mb-3">
+                                    <label for="old-password" class="form-label">Mật khẩu cũ</label>
+                                    <input type="password" id="old-password" name="old-password" class="form-control"
+                                           placeholder="*******" required>
+                                    <h1 hidden name="accountPassword" value="${sessionScope.account.getPassword().toString()}">${sessionScope.account.getPassword().toString()}</h1>
+                                </div>
+                                <!--<div class="password-notification"></div>-->
 
-                            <div class="input-box">
-                                <span class="details">Xác nhận mật khẩu</span>
-                                <input name="confirmPassword" type="password" placeholder="Xác nhận lại mật khẩu" required>
-                            </div>
-                            <button name="action" value="changePasswordProfile" type="submit">Xác nhận</button>
-                            ${message}
-                        </div>
-                        <form/>
+                                <button type="submit" class="btn btn-primary float-end submit-old-password">Gửi</button>
+                            </fieldset>
+                        </form>
+
+                        <form action="MainController" method="POST"  class="new-password password-content d-none">
+                            <fieldset>
+                                <legend>Nhập mật khẩu mới của bạn</legend>
+                                <div class="mb-3">
+                                    <label for="new-password" class="form-label">Mật khẩu mới</label>
+                                    <input type="password" id="new-password" name="new-password" class="form-control"
+                                           placeholder="*******"  required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="confirm-password" class="form-label">Xác nhận mật khẩu mới</label>
+                                    <input type="password" id="confirm-password" name="confirm-password"
+                                           class="form-control" placeholder="*******" 
+                                           required>
+                                </div>
+                            </fieldset>
+                            <button type="submit" name="action" value="changePasswordProfile" class="btn btn-primary float-end submit-new-password">Gửi</button>
+
+                        </form>
+                        <div class="password-notification"></div>
+                        ${message}
+                    </div>
                 </div>
             </div>
+
         </div>
 
         <!-- footer -->
         <c:import url="userFooter.jsp"/>
 
         <script>
-            function formatPrice(price) {
-                price = parseInt(price);
-                if (price === 500000) {
-                    return '500,000';
-                } else if (price === 15000000) {
-                    return '15tr';
+            const oldForm = document.querySelector(".current-password")
+            const newForm = document.querySelector(".new-password")
+            const oldButton = document.querySelector(".submit-old-password")
+            const newButton = document.querySelector(".submit-new-password")
+            const notifi = document.querySelector(".password-notification")
+            const oldPasswordInput = document.getElementById("old-password");
+            const newPasswordInput = document.getElementById("new-password");
+            const confirmPasswordInput = document.getElementById("confirm-password");
+
+            // regex
+
+//            const passwordPattern = /^(?=.*[a-zA-Z0-9]).{6,}$/;
+
+            var passwordElement = document.getElementsByName('accountPassword')[0].textContent;
+            // xử lý khí nhấn nhập mật khẩu cũ
+//            console.log(passwordElement);
+//            console.log(oldPassword);
+            oldButton.addEventListener("click", (e) => {
+                e.preventDefault();
+                let oldPassword = oldPasswordInput.value;
+//                console.log(oldPassword);
+                if (oldPassword === passwordElement) {
+                    oldForm.classList.add('d-none');
+                    notifi.innerText = ""
+                    newForm.classList.remove('d-none');
                 } else {
-                    return price.toString(); // Default case: return the price as is
+                    notifi.innerText = "Sai mật khẩu.";
                 }
-            }
-            var price1 = 500000;
-            var formattedPrice1 = formatPrice(price1);
-            console.log(formattedPrice1);
-            function logout() {
-                var btnToastDelete = document.querySelector('#btn-toast-delete');
-                btnToastDelete.addEventListener('click', function () {
-                    var deleteUrl = 'LogoutServlet';
-                    window.location.href = deleteUrl;
-                    // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
-                    document.getElementById('modalConfirmDelete').style.display = 'none';
-                });
-            }
+            })
+            newButton.addEventListener("click", e => {
+
+                const newPassword = newPasswordInput.value;
+                const confirmPassword = confirmPasswordInput.value;
+                if (newPassword === confirmPassword) {
+                    e.preventDefault = function () {};
+//                    notifi.innerText = "Đổi mật khẩu thành công, vui lòng đăng nhập lại."
+//                    oldForm.classList.add('d-none');
+//                    newForm.classList.add('d-none');
+//                    console.log("haha");
+                } else {
+                    e.preventDefault();
+                    notifi.innerText = "Xác nhận mật khẩu sai.";
+                }
+            })
             function previewImage(event) {
                 var reader = new FileReader();
                 reader.onload = function () {
@@ -608,38 +827,7 @@
             setTimeGreeting();
 
 
-            //Xử lý sự kiện upload avatar
-            var cameraIcon = document.getElementById('camera-icon');
-            var fileInput = document.getElementById('file-input');
-            const img = document.getElementById('avatar-img');
 
-            cameraIcon.addEventListener('click', function () {
-                fileInput.click();
-            });
-
-            fileInput.addEventListener('change', function () {
-                var selectedFile = fileInput.files[0];
-                if (selectedFile) {
-                    var reader = new FileReader();
-                    reader.onload = function (event) {
-                        var fileData = event.target.result;
-                        //lấy link ảnh này lưu vào database
-                        console.log(fileData);
-
-                        img.src = fileData;
-                    };
-                    reader.readAsDataURL(selectedFile);
-                }
-            });
-            // Assume `load_profile` is an object containing the loaded profile data
-            const healthCertificateValue = '${load_profile.health}';
-
-            // Check if the health certificate value is "yes" or "no" and set the corresponding radio button as checked
-            if (healthCertificateValue === 'yes') {
-                document.getElementById('health-certificate-yes').checked = true;
-            } else if (healthCertificateValue === 'no') {
-                document.getElementById('health-certificate-no').checked = true;
-            }
         </script>
     </body>
 

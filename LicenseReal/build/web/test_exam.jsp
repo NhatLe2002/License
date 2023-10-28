@@ -30,7 +30,7 @@
                     <c:set var="A" value="${listA[counter.index]}"></c:set>
                         <div class="form-container">
                             <div class="question-number" id="${counter.index + 1}">
-                        <span class="no-select">Câu hỏi ${counter.index + 1}</span>
+                            <span class="no-select">Câu hỏi ${counter.index + 1}</span>
                         </div>
                         <div class="question-content d-flex justify-content-between">
                             <div class="no-select">
@@ -122,6 +122,20 @@
 
         <!-- code js -->
         <script>
+            const radioInputs = document.querySelectorAll('input[type="radio"]');
+            radioInputs.forEach(input => {
+                input.addEventListener('change', function () {
+                    radioInputs.forEach(radio => {
+                        radio.removeAttribute('selected');
+                    });
+                    input.setAttribute('selected', 'selected');
+                });
+            });
+
+
+
+
+
             window.addEventListener('DOMContentLoaded', function () {
                 // Lấy thời điểm hiện tại
                 var currentTime = new Date().getTime();

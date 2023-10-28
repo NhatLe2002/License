@@ -36,6 +36,7 @@ public class PayCashController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         boolean check_cash_type = true;
+        String message = "";
         String url = "";
         String type = request.getParameter("type");
         float price = Float.parseFloat(request.getParameter("price"));
@@ -48,13 +49,14 @@ public class PayCashController extends HttpServlet {
 
         int memberID = Integer.parseInt(session.getAttribute("memberID").toString());
         try {
-            if (type.equals("regisLearn")) {
+            if (type.contains("regisLearn")) {
                 url = "learningPaying.jsp";
             } else {
                 url = "testingPaying.jsp";           
             }
             if (!check_cash_type) {
                 PaymentDAO.createPayment(memberID, price, type, false, check_cash_type);
+                message = "Đăng ký gói thành công, mời quý khách hàng tới quầy để thanh toán";
                 
             } else {
                 session.setAttribute("cash_type", cash_type);
@@ -65,7 +67,7 @@ public class PayCashController extends HttpServlet {
 //            int amount = (Integer.parseInt(request.getParameter("amount")) / 100);
         } catch (Exception e) {
         }
-        request.setAttribute("message", memberID);
+        request.setAttribute("message", message);
         request.getRequestDispatcher(url).forward(request, response);
     }
 

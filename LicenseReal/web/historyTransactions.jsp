@@ -537,16 +537,12 @@
                             <c:forEach items="${listP}" var="p">
                                 <tr>
                                     <td>${user.getName()}</td>
-                                    <c:if test="${p.getPrice() == 1200000}">
-                                        <td>1tr2</td>
-                                    </c:if>
-                                    <c:if test="${p.getPrice() == 10000000}">
-                                        <td>10tr</td>
-                                    </c:if>
-                                    <c:if test="${p.getType().equals('regisTest')}">
+                                   
+                                    <td>${Integer (p.getPrice())/1000000}tr</td>
+                                    <c:if test="${p.getType().contains('regisTest')}">
                                         <td>Đăng ký nộp hồ sơ</td>
                                     </c:if>
-                                    <c:if test="${p.getType().equals('regisLearn')}">
+                                    <c:if test="${p.getType().contains('regisLearn')}">
                                         <td>Đăng ký học thực hành</td>
                                     </c:if>
                                     <c:if test="${p.isStatus() == true}">

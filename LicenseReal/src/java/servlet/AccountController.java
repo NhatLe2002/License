@@ -223,8 +223,8 @@ public class AccountController extends HttpServlet {
                     }
                     break;
                 case "changePasswordProfile":
-                    password = request.getParameter("password");
-                    confirmPassword = request.getParameter("confirmPassword");
+                    password = request.getParameter("new-password");
+                    confirmPassword = request.getParameter("confirm-password");
                     raw_idAccount = session.getAttribute("idAccount").toString();
                     idAccount = Integer.parseInt(raw_idAccount);
                     if (!confirmPassword.equals(password)) {
@@ -233,7 +233,7 @@ public class AccountController extends HttpServlet {
                     } else {
                         if (AccountDAO.changePassword(idAccount, password)) {
                             url = "passwordProfile.jsp";
-                            message = "Thay đổi mật khẩu thành công";
+                            message = "Thay đổi mật khẩu thành công,vui lòng đăng nhập lại";
                         } else {
                             message = "Thay đổi mật khẩu thất bại";
                             url = "passwordProfile.jsp";
