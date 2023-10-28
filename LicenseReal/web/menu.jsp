@@ -131,7 +131,7 @@
                     </li>
 
                     <li class="menu-item">
-                        <a href="#" class="menu-link">
+                        <a href="MainController?action=manageStaffAccount" class="menu-link">
                             <i class="menu-icon tf-icons fa-solid fa-people-group"></i>
                             <div data-i18n="Layouts">Nhân viên</div>
                         </a>

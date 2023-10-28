@@ -117,7 +117,7 @@
                     linkElement.innerHTML = 'Mua thêm khóa học';
                     var parentElement = document.getElementById('div-KhoaHoc');
                 }
-                console.log(parentElement);
+//                console.log(parentElement);
                 // Lấy phần tử cha (td) của checkbox hiện tại
                 var parentDiv = checkbox.parentNode;
                 var parentTd = parentDiv.parentNode;
@@ -188,7 +188,6 @@
                         // Nếu remainingValue đã đạt 0, ẩn tất cả các checkbox chưa được click
                         hideUncheckedCheckboxes();
                         parentElement.appendChild(linkElement);
-                        console.log("Oke")
                     } else {
                         presentlyCheckboxes();
                         var existingLinkElement = document.getElementById('linkElement');
@@ -205,7 +204,7 @@
             function presentlyCheckboxes() {
                 var checkFalse = document.querySelectorAll('div[name="room"][check="false"]');
                 var divTags = document.querySelectorAll('div[name="room"]');
-                console.log(checkFalse);
+//                console.log(checkFalse);
 
                 // Lặp qua danh sách divTags
                 for (var i = 0; i < divTags.length; i++) {
@@ -227,29 +226,41 @@
                 }
             }
             function hideUncheckedCheckboxes() {
-                // Lấy tất cả các checkbox chưa được click
-                var checkfalse = document.querySelectorAll('div[name="room"][check = false]');
-                var checkTrue = document.querySelectorAll('div[name="room"][check = true]');
                 var divTags = document.querySelectorAll('div[name="room"]');
 
-                console.log(checkTrue);
-//                // Ẩn tất cả các checkbox chưa được click
-                // Lặp qua danh sách divTags
                 for (var i = 0; i < divTags.length; i++) {
-                    var shouldHide = true;
+                    var div = divTags[i];
+                    var checkbox = div.querySelector('input[type="checkbox"]');
 
-                    // Lặp qua danh sách checkTrue để kiểm tra xem divTags[i] có trong danh sách này hay không
-                    for (var j = 0; j < checkTrue.length; j++) {
-                        if (divTags[i] === checkTrue[j]) {
-                            shouldHide = false;
-                            break; // Không cần kiểm tra tiếp, đã tìm thấy phần tử tương ứng
-                        }
-                    }
-
-                    if (shouldHide) {
-                        divTags[i].style.display = 'none';
+                    if (checkbox && !checkbox.checked) {
+                        // Ẩn div nếu checkbox không được tích hoặc nếu không có checkbox
+                        div.style.display = 'none';
                     }
                 }
+
+
+
+//                // Lấy tất cả các checkbox chưa được click
+//                var checkfalse = document.querySelectorAll('div[name="room"][check = false]');
+//                var checkTrue = document.querySelectorAll('div[name="room"][check = true]');
+//                var divTags = document.querySelectorAll('div[name="room"]');
+////                // Ẩn tất cả các checkbox chưa được click
+//                // Lặp qua danh sách divTags
+//                for (var i = 0; i < divTags.length; i++) {
+//                    var shouldHide = true;
+//
+//                    // Lặp qua danh sách checkTrue để kiểm tra xem divTags[i] có trong danh sách này hay không
+//                    for (var j = 0; j < checkTrue.length; j++) {
+//                        if (divTags[i] === checkTrue[j]) {
+//                            shouldHide = false;
+//                            break; // Không cần kiểm tra tiếp, đã tìm thấy phần tử tương ứng
+//                        }
+//                    }
+//
+//                    if (shouldHide) {
+//                        divTags[i].style.display = 'none';
+//                    }
+//                }
             }
         </script>
     </body>
