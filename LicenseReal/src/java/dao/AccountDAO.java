@@ -47,32 +47,28 @@ public class AccountDAO extends DBUtils {
             System.out.println(e);
         }
         return check;
-    
+
     }
-    
-    public static boolean checkBanAccount(String username, String password) throws SQLException {
-        boolean result = false;
+
+    public static boolean checkBanAccount(String username) throws SQLException {
+        boolean status = false;
         Connection conn = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                String sql = "SELECT M.[status]\n"
-                        + "FROM [License].[dbo].[Member] M\n"
-                        + "JOIN [License].[dbo].[User] U ON M.[userID] = U.[id]\n"
-                        + "JOIN [License].[dbo].[Account] A ON U.[accountID] = A.[id]\n"
-                        + "WHERE A.[username] = ? AND A.[password] = ?";
+                String sql = "SELECT U.[status]\n"
+                        + " FROM [License].[dbo].[User] U\n"
+                        + " JOIN [License].[dbo].[Account] A ON U.[accountID] = A.[id]\n"
+                        + " WHERE A.[username] = ?";
                 stm = conn.prepareStatement(sql);
                 stm.setString(1, username);
-                stm.setString(2, password);
                 rs = stm.executeQuery();
                 if (rs.next()) {
-                    boolean status = rs.getBoolean("status");
+                    status = rs.getBoolean("status");
                     if (status == true) {
-                        result = true;
-                    } else {
-                        result = false;
+                        return status;
                     }
                 }
             }
@@ -89,7 +85,7 @@ public class AccountDAO extends DBUtils {
             };
 
         }
-        return result;
+        return status;
     }
 
     public static AccountDTO getAccount(String username, String password) {
@@ -163,9 +159,14 @@ public class AccountDAO extends DBUtils {
         return id;
     }
 
-    public static void main(String[] args) {
-        System.out.println(getAccountID("minhhoi"));
-//        System.out.println(getAccount("anh123", "666").getId());
+    public static void main(String[] args) throws SQLException {
+        String username = "mentor2";
+        boolean check = checkBanAccount(username);
+        if (!check) {
+            System.out.println("Tài khoản này đã bị chặn");
+        } else {
+            System.out.println("Tài khoản này hợp lệ ");
+        }
     }
 //    public static boolean changePassword(int id, String newPassword) {
 //    boolean check = false;

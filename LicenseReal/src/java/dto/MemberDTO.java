@@ -182,5 +182,10 @@ public class MemberDTO {
         this.role = role;
     }
 
+    @Override
+    public String toString() {
+        return "MemberDTO{" + "id=" + id + ", health=" + health + ", status=" + status + ", userID=" + userID + ", name=" + name + ", phone=" + phone + ", email=" + email + ", dob=" + dob + ", cccd=" + cccd + ", address=" + address + ", avatar=" + avatar + ", role=" + role + '}';
+    }
+
     
 }

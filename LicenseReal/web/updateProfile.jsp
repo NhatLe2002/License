@@ -478,18 +478,11 @@
             <div class="d-flex flex-column option-account-container gap-3">
                 <div class='title' id='title'></div>
                 <div class='sidebar-account'>
-                    <a href="MainController?action=updatePage&id=${sessionScope.user.getId()}" class="link-option-account">
+                    <a href="MainController?action=updateP&id=${sessionScope.user.getId()}" class="link-option-account">
                         <span class="bold-icon">
                             <i class="fa-regular fa-user"></i>
                         </span>
                         <div class="text-option-account">Thông tin cá nhân</div>
-                    </a>
-
-                    <a class="link-option-account">
-                        <span class="bold-icon">
-                            <i class="fa-regular fa-file"></i>
-                        </span>
-                        <div class="text-option-account">Lịch sử làm bài</div>
                     </a>
 
                     <a href="MainController?action=ViewTransactions" class="link-option-account">
@@ -521,14 +514,14 @@
                     <div class='user-profile d-flex gap-5 '>
                         <div class='left d-flex flex-column gap-3'>
                             <div class='avatar-user'>
-                                <c:if test="${not empty load_profile.avatar}">
-                                    <img id="avatar-img" src="data:image;base64,${load_profile.avatar}"
-                                         alt="Preview">
-                                </c:if>
-                                <c:if test="${load_profile.avatar.equals('no')}">
-                                    <img id="avatar-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png"
-                                         alt="Preview">
-                                </c:if>
+                                <c:choose>
+                                    <c:when test="${load_profile.avatar eq 'no'}">
+                                        <img id="avatar-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png" alt="Preview">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img id="avatar-img" src="data:image;base64,${load_profile.avatar}" alt="Preview">
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
 
 
@@ -557,12 +550,11 @@
                                 <div class="main-top d-flex gap-4">
                                     <div class='about d-flex gap-2 active align-items-center'>
                                         <i class="fa-regular fa-address-card"></i>
-                                        <p>Bản thân</p>
+                                        <p>Thông tin</p>
                                     </div>
 
                                     <div class='timeline d-flex gap-2 align-items-center'>
-                                        <i class="fa-solid fa-timeline"></i>
-                                        <p>Lịch sử hoạt động</p>
+                                        <p>cá nhân</p>
                                     </div>
                                 </div>
                                 <div class="main-info d-flex flex-column justify-content-around">
@@ -575,7 +567,7 @@
                                                     <label for="phoneNumber">Số điện thoại:</label>
                                                 </div>
                                                 <div class="input-info">
-                                                    <input type="text" id="phoneNumber" name="phone" oninput="validatePhone()" value="${load_profile.phone}">
+                                                    <input type="text" id="phoneNumber" name="phone" required oninput="validatePhone()" value="${load_profile.phone}">
                                                 </div>
                                             </div>
 
@@ -584,7 +576,7 @@
                                                     <label for="email">Email:</label>
                                                 </div>
                                                 <div class="input-info">
-                                                    <input type="text" id="email" name="email" value="${load_profile.email}">
+                                                    <input type="text" id="email" required name="email" value="${load_profile.email}">
                                                 </div>
                                             </div>
                                             <div class="content d-flex">
@@ -605,7 +597,7 @@
                                                     <label for="full-name">Họ và tên:</label>
                                                 </div>
                                                 <div class="input-info">
-                                                    <input type="text" id="full-name" oninput="validateFullName()" id="input-fullname" name="name" value="${load_profile.name}" required=""/>
+                                                    <input type="text" id="full-name" oninput="validateFullName()" id="input-fullname" name="name" value="${load_profile.name}" required/>
                                                 </div>
                                             </div>
 
@@ -631,7 +623,7 @@
                                                     <label for="cccd">CCCD:</label>
                                                 </div>
                                                 <div class="input-info">
-                                                    <input type="text" id="cccd" oninput="validateCCCD()" name="cccd" value="${load_profile.cccd}">
+                                                    <input type="text" id="cccd" oninput="validateCCCD()" required name="cccd" value="${load_profile.cccd}">
                                                 </div>
                                             </div>
 
@@ -641,7 +633,7 @@
                                                 </div>
                                                 <div class="input-info">
                                                     <input type="text" id="address"
-                                                           name="address" value="${load_profile.address}">
+                                                           name="address" required value="${load_profile.address}">
                                                 </div>
                                             </div>
                                             <div class="content d-flex">
@@ -707,8 +699,8 @@
                 // Define the regular expression pattern for email validation
                 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-                // Check if the email matches the pattern
-                if (emailPattern.test(email)) {
+                // Check if the email matches the pattern and contains "@"
+                if (emailPattern.test(email) && email.includes('@')) {
                     emailInput.classList.remove('error');
                 } else {
                     emailInput.classList.add('error');
@@ -837,7 +829,7 @@
 //                    }
 
             window.addEventListener('DOMContentLoaded', (event) => {
-                        const message = '${message}'; // Lấy giá trị thông báo từ servlet
+                const message = '${message}'; // Lấy giá trị thông báo từ servlet
                 if (message) {
                     showToast(message); // Gọi hàm hiển thị thông báo
                 }

@@ -42,7 +42,6 @@ public class DrivingProfileDAO {
 //
 //>>>>>>> 6a16a5a6b925d224ee3e5740d927b808877d60b1
 //    }
-
     // lấy member theo userID
     public static MemberDTO getMemberById(int userId) {
         Connection cn = null;
@@ -189,7 +188,7 @@ public class DrivingProfileDAO {
             if (cn != null) {
                 // Cập nhật thông tin trong bảng User
                 String userSql = "UPDATE [User] SET [name] = N'" + member.getName() + "', [phone] = '" + member.getPhone() + "', [email] = '" + member.getEmail() + "', [dob] = '" + java.sql.Date.valueOf(member.getDob()) + "', [cccd] = '" + member.getCccd() + "',"
-                         + " [address] = '" + member.getAddress() + "', [avatar] = '" + avatar + "' WHERE id = '" + member.getUserID()+ "'";
+                        + " [address] = '" + member.getAddress() + "', [avatar] = '" + avatar + "' WHERE id = '" + member.getUserID() + "'";
                 PreparedStatement userPst = cn.prepareStatement(userSql);
                 userPst.executeUpdate();
 
@@ -281,6 +280,13 @@ public class DrivingProfileDAO {
         return result;
     }
 
+    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+        DrivingProfile list = DrivingProfileDAO.getDrivingProfileById(4);
+        System.out.println("address: " + list.getAddress());
+        System.out.println("dob: " + list.getDob());
+        System.out.println("health: " + list.getHealth());
+    }
+    
     public static DrivingProfile getDrivingProfileById(int id) throws ClassNotFoundException, SQLException {
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -311,11 +317,60 @@ public class DrivingProfileDAO {
                 boolean gender = rs.getBoolean("gender");
                 boolean flag = rs.getBoolean("flag");
                 boolean status = rs.getBoolean("status");
-                UserDTO userDTO = new UserDTO(id, name, phone, email, localDate, cccd, address);
+                UserDTO userDTO = new UserDTO(userId, name, phone, email, localDate, cccd, address);
                 MemberDTO memberDTO = new MemberDTO(id, userDTO, health);
                 drivingProfile = new DrivingProfile(memberDTO, imgCCCD, imgUser, gender, flag, status);
             }
 
+        } catch (Exception e) {
+            System.out.println("ERROR: " + e.getMessage());
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return drivingProfile;
+    }
+
+    public static DrivingProfile getDrivingProfileByUserId(int userId) throws ClassNotFoundException, SQLException {
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        DrivingProfile drivingProfile = null;
+        conn = DBUtils.getConnection();
+        try {
+            String sql = "SELECT m.id AS member_id, u.id AS user_id, u.name, u.phone, u.email, u.cccd, u.dob, u.address, d.img_user, d.img_cccd, m.health,d.gender, d.flag , d.status \n"
+                    + "FROM DrivingProfile d\n"
+                    + "JOIN Member m ON d.memberID = m.id\n"
+                    + "JOIN [User] u ON u.id = m.userID\n"
+                    + "WHERE u.id = ?";
+            ptm = conn.prepareStatement(sql);
+            ptm.setInt(1, userId);
+            rs = ptm.executeQuery();
+            while (rs.next()) {
+                int memberId = rs.getInt("member_id");
+                int id = rs.getInt("user_id");
+                String name = rs.getString("name");
+                String phone = rs.getString("phone");
+                String email = rs.getString("email");
+                String cccd = rs.getString("cccd");
+                java.sql.Date dob = rs.getDate("dob");
+                LocalDate localDate = dob.toLocalDate();
+                String address = rs.getString("address");
+                String imgUser = rs.getString("img_user");
+                String imgCCCD = rs.getString("img_cccd");
+                String health = rs.getString("health");
+                boolean gender = rs.getBoolean("gender");
+                boolean flag = rs.getBoolean("flag");
+                boolean status = rs.getBoolean("status");
+                UserDTO userDTO = new UserDTO(id, name, phone, email, localDate, cccd, address);
+                MemberDTO memberDTO = new MemberDTO(memberId, userDTO, health);
+                drivingProfile = new DrivingProfile(memberDTO, imgCCCD, imgUser, gender, flag, status);
+            }
         } catch (Exception e) {
             System.out.println("ERROR: " + e.getMessage());
         } finally {

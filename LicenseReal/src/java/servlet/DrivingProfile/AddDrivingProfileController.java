@@ -94,7 +94,7 @@ public class AddDrivingProfileController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        String type = (String) request.getParameter("type");
         String id = request.getParameter("id");
         String gen = request.getParameter("gender");
         boolean gender = Boolean.parseBoolean(gen);
@@ -153,9 +153,9 @@ public class AddDrivingProfileController extends HttpServlet {
         } catch (SQLException ex) {
             response.getWriter().println("ERROR: " + ex.getMessage());
         }
-
+        request.setAttribute("type", type);
         request.setAttribute("message", message);
-        request.getRequestDispatcher("updateProfile.jsp").forward(request, response);
+        request.getRequestDispatcher("PayController").forward(request, response);
     }
 
     /**

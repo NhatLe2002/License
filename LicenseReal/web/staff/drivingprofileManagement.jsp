@@ -180,7 +180,7 @@
                                                                 <a
                                                                     class="dropdown-item"
                                                                     href="MainController?action=viewdriving&id=${list.memberID}"
-                                                                    ><i class="bx bx-edit-alt me-1"></i>Chỉnh sửa</a
+                                                                    ><i class="fa-solid fa-eye me-1"></i>Xem hồ sơ</a
                                                                 >
                                                                 <c:if test="${list.status eq 'true'}">
                                                                     <a  style="cursor: pointer"

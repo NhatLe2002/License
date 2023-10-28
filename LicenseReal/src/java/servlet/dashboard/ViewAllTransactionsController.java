@@ -38,6 +38,7 @@ public class ViewAllTransactionsController extends HttpServlet {
         ArrayList<PaymentDTO> listP = new ArrayList<>();
         try {
             listP = PaymentDAO.getAllPayment();
+            // thêm cái get member by ID để lấy tên ha 
         } catch (Exception e) {
         }
         request.setAttribute("listP", listP);

@@ -46,6 +46,7 @@ public class AccountController extends HttpServlet {
         String password;
         String confirmPassword;
         boolean check;
+        boolean checkBan;
         String url = "";
         String message = "";
         String raw_idAccount = "";
@@ -59,7 +60,13 @@ public class AccountController extends HttpServlet {
                     username = request.getParameter("username");
                     password = request.getParameter("password");
                     account = AccountDAO.getAccount(username, password);
-
+                    checkBan = AccountDAO.checkBanAccount(username);
+                    
+                   if (!checkBan) {
+                       message = "Tài khoản của bạn đã bị khóa!";
+                       request.setAttribute("message", message);
+                       request.getRequestDispatcher("MainController?action=loginPage").forward(request, response);
+                    }
                     if (account == null) {
                         message = "Sai mật khẩu hoặc tài khoản";
                         url = "login.jsp";
@@ -241,6 +248,7 @@ public class AccountController extends HttpServlet {
                     url = "home.jsp";
                     break;
             }
+            
         } catch (Exception e) {
         } finally {
             if (url.equals("MainController?action=admin")) {

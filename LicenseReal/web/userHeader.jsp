@@ -90,7 +90,7 @@
                         <!--Guest-->
                         <c:if test="${empty sessionScope.ROLE}">
                             <a class="menu_items " href="MainController?action=home">Home</a>
-                            <a class="menu_items " href="login.jsp">Đăng ký học thực hành</a>
+                            <a class="menu_items " href="MainController?action=loginPage">Đăng ký học thực hành</a>
                             <a class="menu_items" href="MainController?action=PracticeTest">Thi thử trắc nghiệm</a>
                         </c:if>
 
@@ -99,8 +99,7 @@
                             <a class="menu_items " href="MainController?action=home">Home</a>
                             <a class="menu_items " href="MainController?action=regisScheduleByMember" >Đăng ký học thực hành</a>
                             <a class="menu_items" href="MainController?action=viewScheduleMember" >Lịch Học Thực Hành</a>
-                            <a class="menu_items " href="#">Nộp hồ sơ thi</a>
-                            <a class="menu_items" to="/#">Lịch thi</a>
+                            <a class="menu_items " href="MainController?action=adddriver&id=${load_profile.getId()}">Nộp hồ sơ thi</a>
                             <a class="menu_items" href="MainController?action=PracticeTest">Thi thử trắc nghiệm</a>
                             <a onclick="openPopup()">Thanh toán</a>
                             <div id="popup" style="display: none;">
@@ -163,9 +162,9 @@
         </header>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
         <script>
-            var dropdown = document.getElementById("dropdown");
-            dropdown.addEventListener("change", function () {
-                var selectedOption = dropdown.options[dropdown.selectedIndex];
+                                        var dropdown = document.getElementById("dropdown");
+                                        dropdown.addEventListener("change", function () {
+                                            var selectedOption = dropdown.options[dropdown.selectedIndex];
 //                console.log("Selected option: " + selectedOption);
 //                dropdown.options[1].selected = true;
 //                console.log(dropdown.options[1]);
@@ -180,9 +179,9 @@
 //                if (selectedOption.value === dropdown.options[1].value)) {
 //                   console.log("hah")
 //                } 
-                window.location.href = "http://localhost:8080/LicenseReal/" + selectedOption.value;
-            }
-            );
+                                            window.location.href = "http://localhost:8080/LicenseReal/" + selectedOption.value;
+                                        }
+                                        );
         </script>
         <script>
             function openPopup() {
