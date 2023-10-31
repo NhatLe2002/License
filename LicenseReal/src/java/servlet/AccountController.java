@@ -61,11 +61,11 @@ public class AccountController extends HttpServlet {
                     password = request.getParameter("password");
                     account = AccountDAO.getAccount(username, password);
                     checkBan = AccountDAO.checkBanAccount(username);
-                    
-                   if (!checkBan) {
-                       message = "Tài khoản của bạn đã bị khóa!";
-                       request.setAttribute("message", message);
-                       request.getRequestDispatcher("MainController?action=loginPage").forward(request, response);
+
+                    if (!checkBan) {
+                        message = "Tài khoản của bạn đã bị khóa!";
+                        request.setAttribute("message", message);
+                        request.getRequestDispatcher("MainController?action=loginPage").forward(request, response);
                     }
                     if (account == null) {
                         message = "Sai mật khẩu hoặc tài khoản";
@@ -194,14 +194,9 @@ public class AccountController extends HttpServlet {
                     }
                     break;
                 case "confirmOTP":
-                    String confirmOTP = request.getParameter("confirmOTP");
-                    String OTP = session.getAttribute("OTP").toString();
-                    if (!confirmOTP.equals(OTP)) {
-                        message = "Mã OTP không đúng";
-                        url = "confirmOTP.jsp";
-                    } else {
-                        url = "changePassword.jsp";
-                    }
+
+                    url = "changePassword.jsp";
+
                     break;
 
                 case "changePassword":
@@ -248,7 +243,7 @@ public class AccountController extends HttpServlet {
                     url = "home.jsp";
                     break;
             }
-            
+
         } catch (Exception e) {
         } finally {
             if (url.equals("MainController?action=admin")) {

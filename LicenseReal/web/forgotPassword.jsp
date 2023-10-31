@@ -406,21 +406,49 @@
     </head>
     <body>
         <c:import url="userHeader.jsp"/>
-        
-        <form class="username" method="POST" action="MainController">
-            
-            <fieldset>
-                <legend>Nhập tài khoản của bạn</legend>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Tài khoản</label>
-                    <input type="text" id="email" name="username" class="form-control" placeholder="Nhập tài khoản"
-                           required>
-                </div>
-                <div class="notification email-notification"></div>
-                <button name="action" value="getOTP" type="submit" class="btn btn-primary float-end submit-email">Xác nhận</button>
-                ${message}
-            </fieldset>
-        </form>
-            
+
+      
+        <div class="container forgot-password">
+            <div class="form-container">
+
+                <form class="email">
+                    <fieldset>
+                        <legend>Nhập tài khoản của bạn</legend>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Tài khoản</label>
+                            <input type="text" id="email" name="username" class="form-control" placeholder="Nhập tài khoản"
+                                   required>
+                        </div>
+                        <div class="notification email-notification"></div>
+                        <button name="action" value="getOTP" type="submit" class="btn btn-primary float-end submit-email">Xác nhận</button>
+                        ${message}
+                    </fieldset>
+                </form>
+
+               
+
+                <form class="new-password d-none">
+                    <fieldset>
+                        <legend>Nhập mật khẩu mới của bạn</legend>
+                        <div class="mb-3">
+                            <label for="new-password" class="form-label">Mật khẩu mới</label>
+                            <input type="password" id="new-password" name="new-password" class="form-control"
+                                   placeholder="*******" pattern="^(?=.*[a-zA-Z0-9]).{6,}$" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirm-password" class="form-label">Xác nhận mật khẩu mới</label>
+                            <input type="password" id="confirm-password" name="confirm-password" class="form-control"
+                                   placeholder="*******" pattern="^(?=.*[a-zA-Z0-9]).{6,}$" required>
+                        </div>
+                        <div class="notification new-notification"></div>
+                        <button type="submit" class="btn btn-primary float-end submit-new-password">Gửi</button>
+                    </fieldset>
+                </form>
+
+                <div class="notification final-notification d-none"></div>
+
+            </div>
+        </div>
+        <c:import url="userFooter.jsp"/> 
     </body>
 </html>
