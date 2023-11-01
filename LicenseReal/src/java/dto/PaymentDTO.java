@@ -6,12 +6,13 @@
 package dto;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  *
  * @author Admin
  */
-public class PaymentDTO {
+public class PaymentDTO   {
 
     private int id;
     private float price;
@@ -20,6 +21,7 @@ public class PaymentDTO {
     private String type;
     private boolean status;
     private boolean cash_type;
+    private String memberName;
 
     public PaymentDTO() {
     }
@@ -32,6 +34,34 @@ public class PaymentDTO {
         this.type = type;
         this.status = status;
         this.cash_type = cash_type;
+    }
+
+    public PaymentDTO(String memberName, float price, LocalDate create_date, int memberID, String type, boolean status, boolean cash_type) {
+        this.memberName = memberName;
+        this.price = price;
+        this.create_date = create_date;
+        this.memberID = memberID;
+        this.type = type;
+        this.status = status;
+        this.cash_type = cash_type;
+    }
+
+    public PaymentDTO(int id,String memberName, float price, LocalDate create_date, int memberID, String type, boolean status, boolean cash_type) {
+        this.memberName = memberName;
+        this.price = price;
+        this.create_date = create_date;
+        this.memberID = memberID;
+        this.type = type;
+        this.status = status;
+        this.cash_type = cash_type;
+    }
+
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
     }
 
     public int getId() {
@@ -92,7 +122,7 @@ public class PaymentDTO {
 
     @Override
     public String toString() {
-        return "PaymentDTO{" + "id=" + id + ", price=" + price + ", create_date=" + create_date + ", memberID=" + memberID + ", type=" + type + ", status=" + status + ", cash_type=" + cash_type + '}';
+        return "PaymentDTO{" + "id=" + id + ", price=" + price + ", create_date=" + create_date + ", memberID=" + memberID + ", type=" + type + ", status=" + status + ", cash_type=" + cash_type + ", memberName=" + memberName + '}';
     }
 
 }

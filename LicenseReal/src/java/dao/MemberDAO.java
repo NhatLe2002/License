@@ -113,6 +113,58 @@ public class MemberDAO {
         }
         return list;
     }
+
+    public static MemberDTO getNameByMemberID(int id) throws SQLException, ClassNotFoundException {
+        MemberDTO member = new MemberDTO();
+//        String nameMember = "";
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        conn = DBUtils.getConnection();
+        try {
+            if (conn != null) {
+                String sql = "SELECT U.[id], U.[name], U.[phone], U.[email], U.[dob], U.[cccd], U.[address],M.[id] AS memberID, M.[health],U.status\n"
+                        + "                        FROM [User] U \n"
+                        + "                        JOIN [Member] M ON U.id = M.userID WHERE M.id = ? \n";
+                ptm = conn.prepareStatement(sql);
+                ptm.setInt(1, id);
+                rs = ptm.executeQuery();
+
+                while (rs.next()) {
+                    int memberId = rs.getInt("memberID");
+                    int userId = rs.getInt("id");
+                    String name = rs.getString("name");
+                    String phone = rs.getString("phone");
+                    String email = rs.getString("email");
+                    String cccd = rs.getString("cccd");
+                    String health = rs.getString("health");
+                    boolean status = rs.getBoolean("status");
+                    UserDTO userDTO = new UserDTO(userId, name, phone, email, cccd);
+//                    MemberDTO memberDTO = new MemberDTO(memberId, userDTO,health, status);                   
+                    member = (new MemberDTO(memberId, userDTO, health, status));
+//                    nameMember = member.getName();
+                }
+            }
+        } catch (SQLException e) {
+
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return member;
+    }
+
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+
+        System.out.println(getNameByMemberID(5));
+    }
     // update status member
 
     public boolean updateStatusMember(String memberID, String status) throws SQLException {
@@ -268,11 +320,6 @@ public class MemberDAO {
         }
         return check;
 
-    }
-
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        ArrayList<MentorDTO> list = getAllMentor();
-        System.out.println(list);
     }
 
 //    public static void main(String[] args) {

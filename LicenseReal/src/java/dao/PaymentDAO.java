@@ -17,14 +17,7 @@ import static utils.DBUtils.getConnection;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import javafx.util.converter.LocalDateStringConverter;
-import javax.mail.internet.ParseException;
+
 import utils.DBUtils;
 
 /**
@@ -66,7 +59,7 @@ public class PaymentDAO {
     public static ArrayList<PaymentDTO> getPaymentByID(int memberID) {
         ArrayList<PaymentDTO> list = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM [PAYMENT] WHERE memberID = ?";
+            String sql = "SELECT * FROM [PAYMENT] WHERE memberID = ? ";
             PreparedStatement ps = getConnection().prepareStatement(sql);
             ps.setInt(1, memberID);
             ResultSet rs = ps.executeQuery();
@@ -348,7 +341,10 @@ public class PaymentDAO {
         }
         return list;
     }
-
+//    public void main(String[] args) throws SQLException {
+//         ArrayList<PaymentDTO> list = getAllPaymentByCashType(2023, 1);
+//         System.out.println(list);
+//    }
     public ArrayList<PaymentDTO> getAllPaymentByType(int year) throws SQLException {
         ArrayList<PaymentDTO> list = new ArrayList<>();
         try {
@@ -377,65 +373,65 @@ public class PaymentDAO {
         return list;
     }
 
-    public static void main(String[] args) throws SQLException {
-//        int M = 1000000;
-//        PaymentDAO dao = new PaymentDAO();
-//        LocalDate localDate = LocalDate.now();
-//        int yearNow = localDate.getYear();
-//        int lastYear = yearNow - 1;
-//        ArrayList<PaymentDTO> getAllPaymentByMoney = dao.getAllPaymentByCashType(yearNow, 0);
-//        ArrayList<PaymentDTO> getAllPaymentByVNPay = dao.getAllPaymentByCashType(yearNow, 1);
-//        float totalMoney = 0, totalVNPay = 0;
-//        for (PaymentDTO paymentDTO : getAllPaymentByMoney) {
-//            float paymentPrice = paymentDTO.getPrice();
-//            totalMoney += paymentPrice;
-//        }
-//        for (PaymentDTO paymentDTO : getAllPaymentByVNPay) {
-//            float paymentPrice = paymentDTO.getPrice();
-//            totalVNPay += paymentPrice;
-//        }
-//        float percentVNPay = (totalVNPay / (totalMoney + totalVNPay)) * 100;
-//        float percentMoney = (totalMoney / (totalMoney + totalVNPay)) * 100;
+//    public static void main(String[] args) throws SQLException {
+////        int M = 1000000;
+////        PaymentDAO dao = new PaymentDAO();
+////        LocalDate localDate = LocalDate.now();
+////        int yearNow = localDate.getYear();
+////        int lastYear = yearNow - 1;
+////        ArrayList<PaymentDTO> getAllPaymentByMoney = dao.getAllPaymentByCashType(yearNow, 0);
+////        ArrayList<PaymentDTO> getAllPaymentByVNPay = dao.getAllPaymentByCashType(yearNow, 1);
+////        float totalMoney = 0, totalVNPay = 0;
+////        for (PaymentDTO paymentDTO : getAllPaymentByMoney) {
+////            float paymentPrice = paymentDTO.getPrice();
+////            totalMoney += paymentPrice;
+////        }
+////        for (PaymentDTO paymentDTO : getAllPaymentByVNPay) {
+////            float paymentPrice = paymentDTO.getPrice();
+////            totalVNPay += paymentPrice;
+////        }
+////        float percentVNPay = (totalVNPay / (totalMoney + totalVNPay)) * 100;
+////        float percentMoney = (totalMoney / (totalMoney + totalVNPay)) * 100;
+////
+////        HashMap<Integer, Float> dataYearVNPay = new HashMap<>();
+////        HashMap<Integer, Float> dataYearMoney = new HashMap<>();
+////        ArrayList<Integer> dataVNPayYearNow = new ArrayList<>();
+////        ArrayList<Integer> dataMoneyLastYear = new ArrayList<>();
+////        for (PaymentDTO paymentDTO : getAllPaymentByVNPay) {
+////            int paymentYear = paymentDTO.getCreate_date().getYear();
+////            int paymentMonth = paymentDTO.getCreate_date().getMonthValue();
+////            float paymentPrice = paymentDTO.getPrice();
+////
+////            if (paymentYear == yearNow) {
+////                dataYearVNPay.put(paymentMonth, dataYearVNPay.getOrDefault(paymentMonth, 0f) + paymentPrice);
+////            }
+////        }
+////        for (PaymentDTO paymentDTO : getAllPaymentByMoney) {
+////            int paymentYear = paymentDTO.getCreate_date().getYear();
+////            int paymentMonth = paymentDTO.getCreate_date().getMonthValue();
+////            float paymentPrice = paymentDTO.getPrice();
+////
+////            if (paymentYear == yearNow) {
+////                dataYearMoney.put(paymentMonth, dataYearMoney.getOrDefault(paymentMonth, 0f) + paymentPrice);
+////            }
+////        }
+////
+////        for (int month = 0; month <= 12; month++) {
+////            int dataVNPayYearNowValue = Math.round(dataYearVNPay.getOrDefault(month, 0f)) / 100000;
+////            int dataMoneyLastYearValue = Math.round(dataYearMoney.getOrDefault(month, 0f)) / 100000;
+////            dataVNPayYearNow.add(dataVNPayYearNowValue);
+////            dataMoneyLastYear.add(dataMoneyLastYearValue);
+////        }
+////        System.out.println("DataVNPay: " + dataVNPayYearNow);
+////        System.out.println("DataMoney: " + dataMoneyLastYear);
 //
-//        HashMap<Integer, Float> dataYearVNPay = new HashMap<>();
-//        HashMap<Integer, Float> dataYearMoney = new HashMap<>();
-//        ArrayList<Integer> dataVNPayYearNow = new ArrayList<>();
-//        ArrayList<Integer> dataMoneyLastYear = new ArrayList<>();
-//        for (PaymentDTO paymentDTO : getAllPaymentByVNPay) {
-//            int paymentYear = paymentDTO.getCreate_date().getYear();
-//            int paymentMonth = paymentDTO.getCreate_date().getMonthValue();
-//            float paymentPrice = paymentDTO.getPrice();
+//        // Tạo một LocalDate
+//        LocalDate oneMonthAgo = LocalDate.now().minusMonths(1);
 //
-//            if (paymentYear == yearNow) {
-//                dataYearVNPay.put(paymentMonth, dataYearVNPay.getOrDefault(paymentMonth, 0f) + paymentPrice);
-//            }
+//        // Chuyển đổi từ LocalDate sang Date
+////        System.out.println(getDateMin(4));
+//        for (PaymentDTO integer : getPaymentIn1Month(4)) {
+//            System.out.println(integer.getCreate_date());
 //        }
-//        for (PaymentDTO paymentDTO : getAllPaymentByMoney) {
-//            int paymentYear = paymentDTO.getCreate_date().getYear();
-//            int paymentMonth = paymentDTO.getCreate_date().getMonthValue();
-//            float paymentPrice = paymentDTO.getPrice();
-//
-//            if (paymentYear == yearNow) {
-//                dataYearMoney.put(paymentMonth, dataYearMoney.getOrDefault(paymentMonth, 0f) + paymentPrice);
-//            }
-//        }
-//
-//        for (int month = 0; month <= 12; month++) {
-//            int dataVNPayYearNowValue = Math.round(dataYearVNPay.getOrDefault(month, 0f)) / 100000;
-//            int dataMoneyLastYearValue = Math.round(dataYearMoney.getOrDefault(month, 0f)) / 100000;
-//            dataVNPayYearNow.add(dataVNPayYearNowValue);
-//            dataMoneyLastYear.add(dataMoneyLastYearValue);
-//        }
-//        System.out.println("DataVNPay: " + dataVNPayYearNow);
-//        System.out.println("DataMoney: " + dataMoneyLastYear);
-
-        // Tạo một LocalDate
-        LocalDate oneMonthAgo = LocalDate.now().minusMonths(1);
-
-        // Chuyển đổi từ LocalDate sang Date
-//        System.out.println(getDateMin(4));
-        for (PaymentDTO integer : getPaymentIn1Month(4)) {
-            System.out.println(integer.getCreate_date());
-        }
-    }
+//    }
 }

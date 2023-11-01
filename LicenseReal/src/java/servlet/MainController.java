@@ -88,7 +88,7 @@ public class MainController extends HttpServlet {
                 url = "staff/addNewQuestion.jsp";
             } else if (action.equals("restore")) {
                 url = "RestoreQuestionController?id=0";
-            } else if (action.equals("update")) {
+            } else if (action.equals("updateRegis")) {
                 url = "UserController";
             } else if (action.equals("getOTP")) {
                 url = "AccountController";
@@ -113,6 +113,9 @@ public class MainController extends HttpServlet {
 
             } else if (action.equals("logout")) {
                 url = "AccountController";
+            } else if (action.equals("paymentPage")) {
+                url = "learningPaying.jsp";
+
             } else if (action.equals("updatePage")) {
                 url = "updateProfile";
             } else if (action.equals("resendOTP")) {
@@ -129,6 +132,10 @@ public class MainController extends HttpServlet {
                 url = "TopicController?id=" + topicID;
             } else if (action.equals("details")) {
                 url = "DetailsTopicServlet";
+            } else if (action.equals("detailMember")) {
+                url = "MemberDetailController";
+            } else if (action.equals("acceptedPayment")) {
+                url = "AcceptedPaymentController";
             } else if (action.equals("FeedbackController")) {
                 url = "FeedbackController";
             } else if (action.equals("accept")) {
@@ -173,7 +180,6 @@ public class MainController extends HttpServlet {
             } else if (action.equals("manageStaffAccount")) {
                 url = "ManageStaffAccountServlet";
             }
-            
 
             request.setAttribute("action", action);
             if ("staff".equals(action) || "admin".equals(action)) {

@@ -6,8 +6,10 @@
 package servlet;
 
 import dao.PaymentDAO;
+import dto.PaymentDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -41,29 +43,49 @@ public class PayCashController extends HttpServlet {
         String type = request.getParameter("type");
         float price = Float.parseFloat(request.getParameter("price"));
         String cash_type = request.getParameter("cash_type");
+        int memberID = Integer.parseInt(session.getAttribute("memberID").toString());
         if (cash_type.equalsIgnoreCase("VNPAY")) {
             check_cash_type = true;
         } else {
             check_cash_type = false;
         }
 
-        int memberID = Integer.parseInt(session.getAttribute("memberID").toString());
         try {
-            if (type.contains("regisLearn")) {
-                url = "learningPaying.jsp";
+            if (type.equals("regisTest")) {
+                if (session.getAttribute("profile") == null) {
+                    message = "Bạn cần bổ sung hồ sơ thi trước khi đăng ký";
+                    url = "MainController?action=paymentPage";
+                } else {
+                    if (!check_cash_type) {
+                        PaymentDAO.createPayment(memberID, price, type, false, check_cash_type);
+                        message = "Đăng ký gói thành công, mời quý khách hàng tới quầy để thanh toán";
+                        url = "MainController?action=ViewTransactions";
+
+                    } else {
+                        session.setAttribute("cash_type", cash_type);
+                        session.setAttribute("type", type);
+                        session.setAttribute("amount", request.getParameter("price"));
+                        session.setAttribute("language", request.getParameter("language"));
+                        url = "PaymentController";
+                    }
+                }
+
             } else {
-                url = "testingPaying.jsp";           
+                if (!check_cash_type) {
+                    PaymentDAO.createPayment(memberID, price, type, false, check_cash_type);
+                    message = "Đăng ký gói thành công, mời quý khách hàng tới quầy để thanh toán";
+//              
+                    url = "MainController?action=ViewTransactions";
+
+                } else {
+                    session.setAttribute("cash_type", cash_type);
+                    session.setAttribute("type", type);
+                    session.setAttribute("amount", request.getParameter("price"));
+                    session.setAttribute("language", request.getParameter("language"));
+                    url = "PaymentController";
+                }
             }
-            if (!check_cash_type) {
-                PaymentDAO.createPayment(memberID, price, type, false, check_cash_type);
-                message = "Đăng ký gói thành công, mời quý khách hàng tới quầy để thanh toán";
-                
-            } else {
-                session.setAttribute("cash_type", cash_type);
-                session.setAttribute("type", type);
-                session.setAttribute("amount", request.getParameter("price"));
-                url = "ajaxServlet";
-            }
+
 //            int amount = (Integer.parseInt(request.getParameter("amount")) / 100);
         } catch (Exception e) {
         }

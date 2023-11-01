@@ -184,6 +184,7 @@ public class UpdateProfileController extends HttpServlet {
                 message = "fail";
             }
         }
+//        request.setAttribute("account", );
         request.setAttribute("message", message);
         request.getRequestDispatcher("updateProfile.jsp").forward(request, response);
     }

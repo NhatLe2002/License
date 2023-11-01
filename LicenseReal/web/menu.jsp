@@ -166,7 +166,7 @@
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a href="#" class="menu-link">
+                        <a href="MainController?action=ViewAllTransactions" class="menu-link">
                             <i class="menu-icon tf-icons fa-solid fa-wallet"></i>
                             <div data-i18n="Layouts">Duyệt hóa đơn</div>
                         </a>

@@ -56,7 +56,7 @@ public class PaymentController extends HttpServlet {
         String vnp_IpAddr = Config.getIpAddress(request);
         String vnp_TmnCode = Config.vnp_TmnCode;
 
-        int amount = Integer.parseInt(request.getParameter("amount")) * 100;
+        int amount = Integer.parseInt(session.getAttribute("amount").toString()) * 100;
         Map vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", vnp_Version);
         vnp_Params.put("vnp_Command", vnp_Command);
@@ -71,7 +71,7 @@ public class PaymentController extends HttpServlet {
         vnp_Params.put("vnp_OrderInfo", "Thanh toan tien dong hoc phi");
         vnp_Params.put("vnp_OrderType", "Thanh toán hóa đơn");
 
-        String locate = request.getParameter("language");
+        String locate = session.getAttribute("language").toString();
         if (locate != null && !locate.isEmpty()) {
             vnp_Params.put("vnp_Locale", locate);
         } else {

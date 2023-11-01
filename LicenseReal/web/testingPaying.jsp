@@ -27,7 +27,7 @@
                 </c:when>
                 <c:otherwise>
                     <div>
-                    <a href="MainController?action=adddriver&id=${load_profile.getId()}">Nộp hồ sơ thi</a> 
+                        <a href="MainController?action=adddriver&id=${load_profile.getId()}">Nộp hồ sơ thi</a> 
                     </div>
                 </c:otherwise>
             </c:choose>
@@ -37,8 +37,29 @@
                 <option value="cash">Tiền mặt</option>
                 <option value="vnpay">VNPay</option>
             </select>
+            <h5 class="mt-3">Chọn ngôn ngữ thanh toán</h5>
+            <div class="px-3">
+                <div class="radio-buttons-container">
+                    <div class="radio-button">
+                        <input  class="radio-button__input"
+                                type="radio" id="vietnamese-option" Checked="True" name="language" value="vn">
+                        <label for="vietnamese-option" class="radio-button__label">
+                            <span class="radio-button__custom"></span>
+                            Tiếng Việt
+                        </label>
+
+
+                        <input class="radio-button__input"
+                               type="radio" id="english-option" name="language" value="en">
+                        <label for="english-option" class="radio-button__label">
+                            <span class="radio-button__custom"></span>
+                            Tiếng Anh
+                        </label>
+                    </div>
+                </div>
+            </div>
             <button name="action" value="payCash" type="submit">Tạo giao dịch</button>
         </form>
-
+        ${message}
     </body>
 </html>

@@ -1,10 +1,10 @@
-package servlet.dashboard;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package servlet.dashboard;
+
 import dao.MemberDAO;
 import dao.PaymentDAO;
 import dto.MemberDTO;
@@ -22,8 +22,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author emcua
  */
-@WebServlet(urlPatterns = {"/ViewAllTransactionsController"})
-public class ViewAllTransactionsController extends HttpServlet {
+@WebServlet(name = "AcceptedPaymentController", urlPatterns = {"/AcceptedPaymentController"})
+public class AcceptedPaymentController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +37,13 @@ public class ViewAllTransactionsController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        int idPayment = Integer.parseInt(request.getParameter("id"));
+        PaymentDAO pay = new PaymentDAO();
         ArrayList<PaymentDTO> listP = new ArrayList<>();
         ArrayList<String> memberNames = new ArrayList<>();
 
         try {
+            pay.updatePayment(idPayment);
             listP = PaymentDAO.getAllPayment();
             String memberID = request.getParameter("id");
 
@@ -55,7 +58,6 @@ public class ViewAllTransactionsController extends HttpServlet {
 
         request.setAttribute("memberNames", memberNames);
         request.setAttribute("listP", listP);
-        request.setAttribute("totalSize", listP.size());
         request.getRequestDispatcher("staff/Transactions.jsp").forward(request, response);
     }
 

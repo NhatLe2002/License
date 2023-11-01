@@ -37,6 +37,7 @@ public class ajaxServlet extends HttpServlet {
 //     
 //        request.setAttribute("amount", session.getAttribute("amount").toString());
 //        request.getRequestDispatcher("testingPaying.jsp").forward(request, response);
+
         response.sendRedirect("vnpay_jsp/vnpay_pay.jsp");
     }
 

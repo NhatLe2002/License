@@ -101,19 +101,28 @@
                             <a class="menu_items" href="MainController?action=viewScheduleMember" >Lịch Học Thực Hành</a>
                             <a class="menu_items " href="MainController?action=adddriver&id=${load_profile.getId()}">Nộp hồ sơ thi</a>
                             <a class="menu_items" href="MainController?action=PracticeTest">Thi thử trắc nghiệm</a>
-                            <a onclick="openPopup()">Thanh toán</a>
-                            <div id="popup" style="display: none;">
-                                <form method="POST" action="MainController">
-                                    <h2>Bạn muốn :</h2>
-                                    <select name="type">
-                                        <option  value="regisLearn">Đăng ký gói học thực hành</option>
-                                        <option  value="regisTest">Đăng ký nộp hồ sơ thi</option>
-                                    </select>
-                                    <button  name="action" value="payment" type="submit">Đồng ý</button>
-                                    <button  name="action" value="home" onclick="closePopup()">Đóng</button>
+                            <!--<a onclick="openPopup()">Thanh toán</a>-->
+                            <a class="menu_items" href="MainController?action=paymentPage">Thanh toán</a>
+<!--                            <div class="modal fade" id="modalRegisterType" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content p-4">
+                                      
+                                            <h2>Bạn muốn :</h2>
+                                            <select name="type" class="form-select mb-3">
+                                                <option  value="regisLearn">Đăng ký gói học thực hành</option>
+                                                <option  value="regisTest">Đăng ký nộp hồ sơ thi</option>
+                                            </select>
 
-                                </form>
-                            </div>
+                                            <div class="flex gap-3 flex-row">
+                                                <button class="btn btn-primary" name="action" value="payment" type="submit">Đồng ý</button>
+                                                <button class="btn btn-secondary" name="action" value="home" onclick="closePopup()">Đóng</button>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>-->
+
                         </c:if>
 
                         <!--Mentor-->
@@ -140,7 +149,7 @@
                                                     </c:if>
                                                 <li><a class="dropdown-item" href="MainController?action=logout">Đăng xuất</a></li>
                                                 </c:if>
-                                                <c:if test="${action == 'member'|| action == 'home' || action == 'update' || action == 'PracticeTest'}">
+                                                <c:if test="${action == 'member'|| action == 'home' || action == 'update' || action == 'PracticeTest' || action == 'payCash' || action == 'paymentPage'}">
                                                 <li><a class="dropdown-item" href="MainController?action=home">Home</a></li>
                                                 <li><a class="dropdown-item" href="MainController?action=updateP&id=${sessionScope.user.getId()}">Thông tin cá nhân</a></li>
                                                     <c:if test="${sessionScope.ROLE == 'AD'}">
@@ -163,9 +172,9 @@
         </header>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
         <script>
-                                        var dropdown = document.getElementById("dropdown");
-                                        dropdown.addEventListener("change", function () {
-                                            var selectedOption = dropdown.options[dropdown.selectedIndex];
+                                                    var dropdown = document.getElementById("dropdown");
+                                                    dropdown.addEventListener("change", function () {
+                                                        var selectedOption = dropdown.options[dropdown.selectedIndex];
 //                console.log("Selected option: " + selectedOption);
 //                dropdown.options[1].selected = true;
 //                console.log(dropdown.options[1]);
@@ -180,9 +189,9 @@
 //                if (selectedOption.value === dropdown.options[1].value)) {
 //                   console.log("hah")
 //                } 
-                                            window.location.href = "http://localhost:8080/LicenseReal/" + selectedOption.value;
-                                        }
-                                        );
+                                                        window.location.href = "http://localhost:8080/LicenseReal/" + selectedOption.value;
+                                                    }
+                                                    );
         </script>
         <script>
             function openPopup() {
