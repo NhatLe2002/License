@@ -12,7 +12,7 @@
             content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
             />
 
-        <title>Quản trị viên - Quản lí câu hỏi</title>
+        <title>Duyệt hóa đơn</title>
 
         <meta name="description" content="" />
 
@@ -241,10 +241,7 @@
 
 
                             </div>
-                            <nav aria-label="Page navigation" 
-                                 style="position: fixed;
-                                 bottom: 0.25rem;
-                                 right: 1.5rem;">
+                            <nav aria-label="Page navigation" style="position: fixed; bottom: 0.25rem; right: 1.5rem;">
                                 <ul class="pagination">
                                     <li class="page-item">
                                         <a class="page-link" href="#" aria-label="Previous">
@@ -252,14 +249,16 @@
                                             <span class="sr-only">Previous</span>
                                         </a>
                                     </li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                        <c:set var="page" value="${totalSize / 50}" />
-                                        <c:if test="${totalSize % 50 > 0}">
-                                            <c:set var="totalPages" value="${page + 1}" />
-                                        </c:if>
-                                        <c:forEach var="i" begin="2" end="${totalPages}">
+                                    <li class="page-item active">
+                                        <a class="page-link" href="#">1</a>
+                                    </li>
+                                    <c:set var="page" value="${totalSize / 150}" />
+                                    <c:if test="${totalSize % 150 > 0}">
+                                        <c:set var="totalPages" value="${page + 1}" />
+                                    </c:if>
+                                    <c:forEach var="i" begin="2" end="${totalPages}">
                                         <li class="page-item"><a class="page-link" href="#"><c:out value="${i}" /></a></li>
-                                        </c:forEach>
+                                    </c:forEach>
                                     <li class="page-item">
                                         <a class="page-link" href="#" aria-label="Next">
                                             <span aria-hidden="true">&raquo;</span>
@@ -303,7 +302,7 @@
         </script>
        <script>
             $(document).ready(function () {
-                var resultsPerPage = 50; // Số lượng kết quả trên mỗi trang
+                var resultsPerPage = 150; // Số lượng kết quả trên mỗi trang
 
                 // Xác định số lượng trang dựa trên số lượng kết quả
                 var totalResults = ${totalSize};

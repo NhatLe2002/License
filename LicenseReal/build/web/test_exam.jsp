@@ -18,21 +18,28 @@
             href="https://cdn-icons-png.flaticon.com/512/6556/6556219.png"
             />
     </head>
+    <style>
+        .popup-overlay-result {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* Màu nền tối */
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
 
+        .popup-content-result {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+    </style>
     <body>
         <c:import url="userHeader.jsp"/>
-
-        <!--màn hình hiển thị kết quả -->
-        <div class="result-screen d-none">
-            <h1>Kết quả</h1>
-            <p>Trả lời sai câu hỏi điểm Liệt: <span id="paralysisAnswers">0</span></p>
-            <p>Số câu trả lời đúng: <span id="correctAnswers">0</span></p>
-            <p>Số câu trả lời sai: <span id="incorrectAnswers">0</span></p>
-            <p>Số câu chưa trả lời: <span id="unanswered">0</span></p>
-            <p id="resultMessageFail" class="fw-bold">Kết quả: <span class="text-danger">Không đạt</span></p>
-            <p id="resultMessageSuccess" class="fw-bold">Kết quả: <span class="text-success">Đạt</span> </p>
-        </div>
-
         <!-- màn hình thi thử -->
 
         <div class="test-exam-screen">
@@ -111,7 +118,7 @@
             </div>
         </div>
 
-        <!-- màn hình xử lý kết quả -->
+        <!-- Màn hình xử lý kết quả -->
         <div class="popup-overlay no-select">
             <div class="popup-content">
                 <h2>Bạn có muốn kết thúc bài thi?</h2>
@@ -120,6 +127,19 @@
             </div>
         </div>
 
+        <!-- Màn hình hiển thị kết quả -->
+        <div id="popup" class="result-screen popup-overlay-result d-none" style="height: auto; border-radius: 2rem; border-color: #fba265">
+            <div class="popup-content-result">
+                <h1 class="fw-bold" style="color: #fba265; font-size: 2rem">Kết quả</h1>
+                <p>Trả lời sai câu hỏi điểm liệt: <span id="paralysisAnswers">0</span></p>
+                <p>Số câu trả lời đúng: <span id="correctAnswers">0</span></p>
+                <p>Số câu trả lời sai: <span id="incorrectAnswers">0</span></p>
+                <p>Số câu chưa trả lời: <span id="unanswered">0</span></p>
+                <p id="resultMessageFail" class="fw-bold">Kết quả: <span class="text-danger">Không đạt</span></p>
+                <p id="resultMessageSuccess" class="fw-bold">Kết quả: <span class="text-success">Đạt</span> </p><br>
+                <button onclick="hidePopup()">Đóng</button>
+            </div>
+        </div>
         <!-- code js -->
         <script>
             const radioInputs = document.querySelectorAll('input[type="radio"]');
@@ -131,10 +151,6 @@
                     input.setAttribute('selected', 'selected');
                 });
             });
-
-
-
-
 
             window.addEventListener('DOMContentLoaded', function () {
                 // Lấy thời điểm hiện tại
@@ -197,13 +213,7 @@
                             }
                         });
 
-                        const resultScreen = document.querySelector('.result-screen');
-                        resultScreen.classList.remove('d-none');
-
-                        //
-
                         popupOverlay.style.display = "none";
-
 //                        for (var i = 0; i < selectAnswerDivs.length; i++) {
 //                            selectAnswerDivs[i].style.display = "inline";
 //                        }
@@ -231,11 +241,21 @@
                         submitButton.style.backgroundColor = 'gray';
                         submitButton.style.color = 'white';
                         submitButton.style.cursor = 'not-allowed';
+                        const resultScreen = document.querySelector('.popup-overlay-result');
+                        resultScreen.classList.remove('d-none');
+                        showPopup();
 
                     });
                 });
 
             });
+            function showPopup() {
+                document.getElementById('popup').style.display = 'flex';
+            }
+
+            function hidePopup() {
+                document.getElementById('popup').style.display = 'none';
+            }
 
             //function xử lý hiển thị kết quả
             function displayResult() {
