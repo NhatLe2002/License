@@ -40,7 +40,7 @@
             <p>Giờ học: ${times[requestScope.Schedule.getTime()-1]}</p>
             <p>Giáo viên: ${requestScope.mentorAndUser.getUser().getName()}</p>
             <p>Email: ${requestScope.mentorAndUser.getUser().getEmail()}</p>
-            <p>Avatar: ${requestScope.mentorAndUser.getUser().getAvatar()}</p>
+            <p>Avatar:</p> <img src="data:image;base64, ${requestScope.mentorAndUser.getUser().getAvatar()}">
             <p>Phone: ${requestScope.mentorAndUser.getUser().getPhone()}</p>
         </div>
         <div class="rating-mentor">

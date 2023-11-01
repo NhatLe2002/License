@@ -10,29 +10,52 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Lịch dạy thực hành</title>
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+              crossorigin="anonymous">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+              rel="stylesheet" />
+
+        <style>
+            .schedule-container .table th,
+            .schedule-container .table td {
+                text-align: center;
+                vertical-align: middle;
+            }
+
+        </style>
     </head>
     <body>
-        <div>
-            <h1 style="text-align: center">
-                Lịch dạy</br>
-                <form action="ViewScheduleServlet" method="post">
-                    <select name="selectMondayOfWeek">
-                        <c:forEach items="${requestScope.mondays}" var="monday">
-                            <c:set var="sunday" value="${monday.plusDays(6)}" />
-                            <option ${(monday eq requestScope.currentMonday)?"selected":""} value="${monday}">${monday} to ${sunday}</option>
-                        </c:forEach>
-                    </select>
-                    <button type="submit">Search</button>
-                </form>
-            </h1>
 
+        <c:import url="../userHeader.jsp"/>
+
+        <div class="container mt-4">
+            <div class="text-center">
+                <h1 style="text-align: center"> Lịch dạy </h1>
+
+                <form action="ViewScheduleServlet" method="post">
+                    <div  class="d-flex justify-content-center gap-3 flex-row align-items-center">
+                        <label for="selectMondayOfWeek">Chọn ngày:</label>
+
+                        <select name="selectMondayOfWeek" class="form-select" id="selectMondayOfWeek" style="width: 30%">
+                            <c:forEach items="${requestScope.mondays}" var="monday">
+                                <c:set var="sunday" value="${monday.plusDays(6)}" />
+                                <option ${(monday eq requestScope.currentMonday)?"selected":""} value="${monday}">${monday} to ${sunday}</option>
+                            </c:forEach>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div>
+
+        <div  class="container my-5 schedule-container">
             <c:set var="days" value="${['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']}" />
             <c:set var="times" value="${[1, 2, 3, 4]}" />
-            <table border="1">
-                <thead>
+            <table border="1" class="table table-bordered border-primary">
+                <thead class="thead-light table-primary">
                     <tr>
                         <th>
                         </th>
@@ -49,7 +72,7 @@
                 </thead>
                 <tbody>
                     <c:forEach items="${times}" var="time">
-                        <tr>
+                        <tr class="table-warning">
                             <td>
                                 <c:if test="${time == 1}">
                                     7h-9h
@@ -93,5 +116,8 @@
             </table>
 
         </div>
+
+        <c:import url="../userFooter.jsp"/>
+
     </body>
 </html>
