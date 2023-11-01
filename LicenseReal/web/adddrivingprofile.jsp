@@ -490,20 +490,19 @@
                     </a>
 
 
-                    <a class="link-option-account">
+                    <a href="MainController?action=ViewTransactions" class="link-option-account">
                         <span class="bold-icon">
                             <i class="fa-solid fa-shekel-sign"></i>
                         </span>
                         <div class="text-option-account">Lịch sử giao dịch</div>
                     </a>
 
-                    <a href="/change-password.html" class="link-option-account">
+                    <a href="MainController?action=passwordProfile" class="link-option-account">
                         <span class="bold-icon">
                             <i class="fa-solid fa-lock"></i>
                         </span>
                         <div class="text-option-account">Đổi mật khẩu</div>
                     </a>
-
                     <a class="link-option-account" href="LogoutServlet">
                         <span class="bold-icon">
                             <i class="fa-solid fa-arrow-right-from-bracket"></i>
@@ -666,11 +665,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                                <input value="regisTest" name="type" hidden="" />
+                                        <input value="regisTest" name="type" hidden="" />
                                         <div class="mt-5 d-flex gap-3" style="margin-left: 150px;">
-                                             <a style="text-decoration: none;
-                                                        color: inherit;" href="MainController?action=adddriver&id=${sessionScope.load_profile.getId()}"><button type="button" class="btn btn-primary">Hủy</button>
-                                                    </a> 
+                                            <a style="text-decoration: none;
+                                               color: inherit;" href="MainController?action=adddriver&id=${sessionScope.load_profile.getId()}"><button type="button" class="btn btn-primary">Hủy</button>
+                                            </a> 
                                             <button class="btn btn-primary" type="submit">Thay đổi</button>
 
                                         </div>
