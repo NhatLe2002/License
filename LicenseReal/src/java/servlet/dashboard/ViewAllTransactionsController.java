@@ -5,7 +5,9 @@ package servlet.dashboard;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import dao.MemberDAO;
 import dao.PaymentDAO;
+import dto.MemberDTO;
 import dto.PaymentDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -36,11 +38,22 @@ public class ViewAllTransactionsController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         ArrayList<PaymentDTO> listP = new ArrayList<>();
+        ArrayList<String> memberNames = new ArrayList<>();
+
         try {
             listP = PaymentDAO.getAllPayment();
-            // thêm cái get member by ID để lấy tên ha 
+            String memberID = request.getParameter("id");
+
+            for (PaymentDTO paylist : listP) {
+                int memberid = paylist.getMemberID();
+                MemberDTO member = MemberDAO.getNameByMemberID(memberid);
+                memberNames.add(member.getName()); // Thêm tên vào danh sách tên thành viên
+            }
         } catch (Exception e) {
+            // Xử lý ngoại lệ
         }
+
+        request.setAttribute("memberNames", memberNames);
         request.setAttribute("listP", listP);
         request.getRequestDispatcher("staff/Transactions.jsp").forward(request, response);
     }

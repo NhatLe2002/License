@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servlet;
+package servlet.dashboard;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,14 +12,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author emcua
  */
-@WebServlet(name = "ajaxServlet", urlPatterns = {"/ajaxServlet"})
-public class ajaxServlet extends HttpServlet {
+@WebServlet(name = "MemberDetailController", urlPatterns = {"/MemberDetailController"})
+public class MemberDetailController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,12 +32,18 @@ public class ajaxServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-//        HttpSession session = request.getSession();
-//     
-//        request.setAttribute("amount", session.getAttribute("amount").toString());
-//        request.getRequestDispatcher("testingPaying.jsp").forward(request, response);
-
-        response.sendRedirect("vnpay_jsp/vnpay_pay.jsp");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet MemberDetailController</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet MemberDetailController at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

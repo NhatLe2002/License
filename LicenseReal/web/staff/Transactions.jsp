@@ -1,3 +1,5 @@
+<%@page import="dto.MemberDTO"%>
+<%@page import="dao.MemberDAO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -121,7 +123,14 @@
                                     >
                                     <div>Xét duyệt hóa đơn</div>
                                     <!-- Button trigger modal -->
-
+                                    <div>
+                                        <button onclick="showPaidBills()" style="background-color: green; color: white; padding: 5px 10px;  cursor: pointer; border-radius: 5px;">
+                                            Đã thanh toán
+                                        </button>
+                                        <button onclick="showUnpaidBills()" style="background-color: red; color: white; padding: 5px 10px;  cursor: pointer; border-radius: 5px;">
+                                            Chưa thanh toán
+                                        </button>
+                                    </div>
                                 </h5>
 
                                 <div class="table-responsive text-nowrap">
@@ -140,36 +149,90 @@
                                         </thead>
                                         <tbody class="table-border-bottom-0" >
                                             <c:forEach items="${listP}" var="p" varStatus="loop">
-                                                <tr>
-                                                    <td>
-                                                        ${loop.index + 1}
-                                                    </td>
-                                                    <td>${p.getMemberID()}</td>
-                                                    <td>${Integer (p.getPrice())/1000000}tr</td>
-                                                    <c:if test="${p.getType().contains('regisTest')}">
-                                                        <td>Đăng ký nộp hồ sơ</td>
-                                                    </c:if>
-                                                    <c:if test="${p.getType().contains('regisLearn')}">
-                                                        <td>Đăng ký học thực hành</td>
-                                                    </c:if>
-                                                    <c:if test="${p.isStatus() == true}">
-                                                        <td style="color: green;">Đã thanh toán</td>
-                                                    </c:if>
-                                                    <c:if test="${p.isStatus() == false}">
-                                                        <td style="color: red;">Chưa thanh toán</td>
-                                                    </c:if>
-                                                    <c:if test="${p.isCash_type() == true}">
-                                                        <td>VN Pay</td>
-                                                    </c:if>
-                                                    <c:if test="${p.isCash_type() == false}">
-                                                        <td>Tiền mặt</td>
-                                                    </c:if>                                 
-                                                    <td>${p.getCreate_date()}</td>
-                                                    <c:if test="${p.isStatus() == false}">
-                                                        <td style="color: red;">Duyệt</td>
-                                                    </c:if>
 
-                                                </tr>
+
+                                                <c:choose>
+                                                    <c:when test="${p.isStatus() == false}">
+                                                        <tr class="unpaid-bill" >
+                                                            <td>
+                                                                ${loop.index + 1}
+                                                            </td>
+                                                            <td >
+                                                                ${memberNames[loop.index]}
+
+                                                            </td>
+                                                            <td>${Integer (p.getPrice())/1000000}tr</td>
+                                                            <c:if test="${p.getType().contains('regisTest')}">
+                                                                <td>Đăng ký nộp hồ sơ</td>
+                                                            </c:if>
+                                                            <c:if test="${p.getType().contains('regisLearn')}">
+                                                                <td>Đăng ký học thực hành</td>
+                                                            </c:if>
+
+                                                            <c:if test="${p.isStatus() == false}">
+                                                                <td style="color: red;">Chưa thanh toán</td>
+                                                            </c:if>
+                                                            <c:if test="${p.isCash_type() == true}">
+                                                                <td>VN Pay</td>
+                                                            </c:if>
+                                                            <c:if test="${p.isCash_type() == false}">
+                                                                <td>Tiền mặt</td>
+                                                            </c:if>                                 
+                                                            <td>${p.getCreate_date()}</td>                                                           
+                                                            <c:if test="${p.isStatus() == false}">
+                                                                <td>
+                                                                    <div class="dropdown">
+                                                                        <button title="Tính năng"
+                                                                                type="button"
+                                                                                class="btn p-0 dropdown-toggle hide-arrow"
+                                                                                data-bs-toggle="dropdown"
+                                                                                >
+                                                                            <i class="bx bx-dots-vertical-rounded"></i>
+                                                                        </button>
+                                                                        <div class="dropdown-menu">
+                                                                            <a class="dropdown-item"
+                                                                               href="MainController?action=acceptedPayment&id=${p.id}"
+                                                                               ><i class="fa-solid fa-check me-1"></i>Duyệt hóa đơn
+                                                                            </a>                                                                   
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </c:if>
+                                                        </tr>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <tr class="paid-bill" style="display: none;">
+                                                            <td>
+                                                                ${loop.index + 1}
+                                                            </td>
+                                                            <td >
+                                                                ${memberNames[loop.index]}
+
+                                                            </td>
+                                                            <td>${Integer (p.getPrice())/1000000}tr</td>
+                                                            <c:if test="${p.getType().contains('regisTest')}">
+                                                                <td>Đăng ký nộp hồ sơ</td>
+                                                            </c:if>
+                                                            <c:if test="${p.getType().contains('regisLearn')}">
+                                                                <td>Đăng ký học thực hành</td>
+                                                            </c:if>
+
+                                                            <c:if test="${p.isStatus() == true}">
+                                                                <td style="color: green;">Đã thanh toán</td>
+                                                            </c:if>
+                                                            <c:if test="${p.isCash_type() == true}">
+                                                                <td>VN Pay</td>
+                                                            </c:if>
+                                                            <c:if test="${p.isCash_type() == false}">
+                                                                <td>Tiền mặt</td>
+                                                            </c:if>                                 
+                                                            <td>${p.getCreate_date()}</td>                                                           
+                                                            <c:if test="${p.isStatus() == true}">
+                                                                <td> </td>
+                                                            </c:if>
+                                                        </tr>
+                                                    </c:otherwise>
+                                                </c:choose>
                                             </c:forEach>
                                         </tbody>
                                     </table>
@@ -212,6 +275,33 @@
             </div>
         </div>
         <script>
+            function showPaidBills() {
+                const unpaidBills = document.querySelectorAll('.unpaid-bill');
+                const paidBills = document.querySelectorAll('.paid-bill');
+
+                unpaidBills.forEach((bill) => {
+                    bill.style.display = 'none';
+                });
+
+                paidBills.forEach((bill) => {
+                    bill.style.display = 'table-row';
+                });
+            }
+
+            function showUnpaidBills() {
+                const unpaidBills = document.querySelectorAll('.unpaid-bill');
+                const paidBills = document.querySelectorAll('.paid-bill');
+
+                unpaidBills.forEach((bill) => {
+                    bill.style.display = 'table-row';
+                });
+
+                paidBills.forEach((bill) => {
+                    bill.style.display = 'none';
+                });
+            }
+        </script>
+       <script>
             $(document).ready(function () {
                 var resultsPerPage = 50; // Số lượng kết quả trên mỗi trang
 

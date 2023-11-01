@@ -3,23 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servlet;
+package servlet.dashboard;
 
+import dao.MemberDAO;
+import dao.PaymentDAO;
+import dto.MemberDTO;
+import dto.PaymentDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author emcua
  */
-@WebServlet(name = "ajaxServlet", urlPatterns = {"/ajaxServlet"})
-public class ajaxServlet extends HttpServlet {
+@WebServlet(name = "AcceptedPaymentController", urlPatterns = {"/AcceptedPaymentController"})
+public class AcceptedPaymentController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,12 +37,28 @@ public class ajaxServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-//        HttpSession session = request.getSession();
-//     
-//        request.setAttribute("amount", session.getAttribute("amount").toString());
-//        request.getRequestDispatcher("testingPaying.jsp").forward(request, response);
+        int idPayment = Integer.parseInt(request.getParameter("id"));
+        PaymentDAO pay = new PaymentDAO();
+        ArrayList<PaymentDTO> listP = new ArrayList<>();
+        ArrayList<String> memberNames = new ArrayList<>();
 
-        response.sendRedirect("vnpay_jsp/vnpay_pay.jsp");
+        try {
+            pay.updatePayment(idPayment);
+            listP = PaymentDAO.getAllPayment();
+            String memberID = request.getParameter("id");
+
+            for (PaymentDTO paylist : listP) {
+                int memberid = paylist.getMemberID();
+                MemberDTO member = MemberDAO.getNameByMemberID(memberid);
+                memberNames.add(member.getName()); // Thêm tên vào danh sách tên thành viên
+            }
+        } catch (Exception e) {
+            // Xử lý ngoại lệ
+        }
+
+        request.setAttribute("memberNames", memberNames);
+        request.setAttribute("listP", listP);
+        request.getRequestDispatcher("staff/Transactions.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

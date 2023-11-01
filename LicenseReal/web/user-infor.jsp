@@ -224,7 +224,7 @@
                 </div>
 
                 <div class="pt-1 mb-4">
-                    <button type="submit" name="action" value="update"class="btn btn-info btn-lg btn-block" type="button">Update</button>
+                    <button type="submit" name="action" value="updateRegis"class="btn btn-info btn-lg btn-block" type="button">Update</button>
                 </div>
                 ${message}
             </form>
