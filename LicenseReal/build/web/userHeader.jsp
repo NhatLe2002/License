@@ -98,10 +98,11 @@
                         <c:if test="${sessionScope.ROLE == 'US'}">
                             <a class="menu_items " href="MainController?action=home">Home</a>
                             <a class="menu_items " href="MainController?action=regisScheduleByMember" >Đăng ký học thực hành</a>
-                            <a class="menu_items" href="MainController?action=viewScheduleMember" >Lịch Học Thực Hành</a>
-                            <a class="menu_items" href="MainController?action=PracticeTest">Thi thử trắc nghiệm</a>
+
+                            <a class="menu_items " href="MainController?action=viewScheduleMember" >Lịch Học Thực Hành</a>
+                            <a class="menu_items " href="MainController?action=PracticeTest">Thi thử trắc nghiệm</a>
                             <!--<a onclick="openPopup()">Thanh toán</a>-->
-                            <a class="menu_items" href="MainController?action=paymentPage">Thanh toán</a>
+                            <a class="menu_items " href="MainController?action=paymentPage">Thanh toán</a>
                             <!--                            <div class="modal fade" id="modalRegisterType" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                                                              aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                                             <div class="modal-dialog modal-dialog-centered">
@@ -135,38 +136,22 @@
                             <c:choose>
                                 <c:when test="${user != null}">
                                     <div class="dropdown">
-                                        <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton1"
+                                        <button class="btn btn-warning dropdown-toggle" type="button" 
                                                 data-bs-toggle="dropdown" aria-expanded="false">
                                             Hello, ${user.getName()}
                                         </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                            <c:if test="${action == 'updateP' || action == 'ViewTransactions'  || action == 'passwordProfile' || action =='changePasswordProfile' || action =='adddriver'}">
-                                                <li><a class="dropdown-item" href="MainController?action=home">Home</a></li>
-                                                    <c:if test="${sessionScope.ROLE == 'US'}">
+                                        <ul class="dropdown-menu ">
+                                            <li><a class="dropdown-item" href="MainController?action=home">Home</a></li>
+                                            <c:if test="${sessionScope.ROLE == 'US'}">
                                                     <li><a class="dropdown-item" href="MainController?action=updateP&id=${sessionScope.user.getId()}">Thông tin cá nhân</a></li>
                                                     </c:if>
                                                     <c:if test="${sessionScope.ROLE == 'MT'}">
                                                     <li><a class="dropdown-item" href="MainController?action=updateMentor&id=${sessionScope.user.getId()}">Thông tin giảng viên</a></li>
                                                     </c:if>
-                                                    <c:if test="${sessionScope.ROLE == 'AD'}">
-                                                    <li><a class="dropdown-item" href="MainController?action=admin">Thống kê</a></li>
-                                                    </c:if>
-                                                <li><a class="dropdown-item" href="MainController?action=logout">Đăng xuất</a></li>
+                                                <c:if test="${sessionScope.ROLE == 'AD'}">
+                                                <li><a class="dropdown-item" href="MainController?action=admin">Thống kê</a></li>
                                                 </c:if>
-                                                <c:if test="${action == 'member'|| action == 'home' || action == 'update' || action == 'PracticeTest' || action == 'payCash' || action == 'paymentPage'}">
-                                                <li><a class="dropdown-item" href="MainController?action=home">Home</a></li>
-                                                    <c:if test="${sessionScope.ROLE == 'US'}">
-                                                    <li><a class="dropdown-item" href="MainController?action=updateP&id=${sessionScope.user.getId()}">Thông tin cá nhân</a></li>
-                                                    </c:if>
-                                                    <c:if test="${sessionScope.ROLE == 'MT'}">
-                                                    <li><a class="dropdown-item" href="MainController?action=updateMentor&id=${sessionScope.user.getId()}">Thông tin giảng viên</a></li>
-                                                    </c:if>
-                                                    <c:if test="${sessionScope.ROLE == 'AD'}">
-                                                    <li><a class="dropdown-item" href="MainController?action=admin">Thống kê</a></li>
-                                                    </c:if>
-                                                <li><a class="dropdown-item" href="MainController?action=logout">Đăng xuất</a></li>
-                                                </c:if>
-
+                                            <li><a class="dropdown-item" href="MainController?action=logout">Đăng xuất</a></li>
                                         </ul>
                                     </div>
                                 </c:when>
@@ -180,35 +165,17 @@
             </div>
         </header>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+       
         <script>
-            var dropdown = document.getElementById("dropdown");
-            dropdown.addEventListener("change", function () {
-                var selectedOption = dropdown.options[dropdown.selectedIndex];
-//                console.log("Selected option: " + selectedOption);
-//                dropdown.options[1].selected = true;
-//                console.log(dropdown.options[1]);
-//                for (var i = 0; i < dropdown.options.length; i++) {
-//                    if (dropdown.options[i].value === selectedOption) {
-//                        dropdown.options[i].setAttribute("selected", "selected");
-//                    } else {
-//                        dropdown.options[i].removeAttribute("selected");
-//                    }
-//                }
-
-//                if (selectedOption.value === dropdown.options[1].value)) {
-//                   console.log("hah")
-//                } 
-                window.location.href = "http://localhost:8080/LicenseReal/" + selectedOption.value;
-            }
-            );
-        </script>
-        <script>
+            
             function openPopup() {
                 var popup = document.getElementById("popup");
                 popup.style.display = "block";
                 popup.classList.add("highlight");
             }
-
+            function catchEvent(event) {
+               console.log(event);
+            }
             function closePopup() {
                 var popup = document.getElementById("popup");
                 popup.style.display = "none";

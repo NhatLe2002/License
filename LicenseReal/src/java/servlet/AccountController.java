@@ -51,6 +51,7 @@ public class AccountController extends HttpServlet {
         String message = "";
         String raw_idAccount = "";
         String action = request.getParameter("action");
+       
         HttpSession session = request.getSession();
         int idAccount = 0;
         try {
@@ -88,6 +89,7 @@ public class AccountController extends HttpServlet {
                         member = DrivingProfileDAO.getMemberById(user.getId());
                         if (member != null) {
                             session.setAttribute("memberID", member.getId());
+                            session.setAttribute("profile", DrivingProfileDAO.getDrivingProfileById(member.getId()));
                         }
 
                         switch (user.getRole()) {
