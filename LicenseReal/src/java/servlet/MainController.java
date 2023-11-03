@@ -34,13 +34,14 @@ public class MainController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     private String url = "errorpage.html";
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String action = request.getParameter("action");
+            String actionManage = request.getParameter("actionManage");
             String message = (String) request.getAttribute("message");
             request.setAttribute("message", message);
             if (action == null || action.equals("") || action.equals("home")) {
@@ -49,10 +50,10 @@ public class MainController extends HttpServlet {
                 url = "LoadItemServlet";
             } else if (action.equals("login")) {
                 url = "AccountController";
-
+                
             } else if (action.equals("loginPage")) {
                 url = "login.jsp";
-
+                
             } else if (action.equals("logout")) {
                 url = "LogoutServlet";
             } else if (action.equals("register")) {
@@ -110,12 +111,12 @@ public class MainController extends HttpServlet {
                 url = "home.jsp";
             } else if (action.equals("mentor")) {
                 url = "home.jsp";
-
+                
             } else if (action.equals("logout")) {
                 url = "AccountController";
             } else if (action.equals("paymentPage")) {
                 url = "learningPaying.jsp";
-
+                
             } else if (action.equals("updatePage")) {
                 url = "updateProfile";
             } else if (action.equals("resendOTP")) {
@@ -126,7 +127,7 @@ public class MainController extends HttpServlet {
                 url = "PayController";
             } else if (action.equals("payCash")) {
                 url = "PayCashController";
-
+                
             } else if (action.equals("TopicController")) {
                 String topicID = request.getParameter("id");
                 url = "TopicController?id=" + topicID;
@@ -150,7 +151,7 @@ public class MainController extends HttpServlet {
                 url = "ViewTransactionsController";
             } else if (action.equals("ViewAllTransactions")) {
                 url = "ViewAllTransactionsController";
-
+                
             } else if (action.equals("passwordProfile")) {
                 url = "PasswordProfileController";
             } else if (action.equals("changePasswordProfile")) {
@@ -170,7 +171,7 @@ public class MainController extends HttpServlet {
                 request.setAttribute("id", id);
                 url = "viewdriving?id=" + id;
             } else if (action.equals("ko co gi ")) {
-
+                
             } else if (action.equals("mentorStaff")) {
                 url = "mentorStaff";
             } else if (action.equals("memberStaff")) {
@@ -179,15 +180,23 @@ public class MainController extends HttpServlet {
                 url = "staff/createMember.jsp";
             } else if (action.equals("manageStaffAccount")) {
                 url = "ManageStaffAccountServlet";
+            } else if (action.equals("manageStaff")) {
+                if (actionManage.equals("read")) {
+                    url = "ListStaff";                    
+                } else if (actionManage.equals("create")) {
+                    url = "CreateStaffServlet";
+                }else{
+                    url = "login.jsp";
+                }
             }
-
+            
             request.setAttribute("action", action);
             if ("staff".equals(action) || "admin".equals(action)) {
                 response.sendRedirect(url);
             } else {
                 request.getRequestDispatcher(url).forward(request, response);
             }
-
+            
         }
     }
 
@@ -205,7 +214,7 @@ public class MainController extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-
+            
         } catch (SQLException ex) {
             Logger.getLogger(MainController.class
                     .getName()).log(Level.SEVERE, null, ex);
@@ -225,7 +234,7 @@ public class MainController extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-
+            
         } catch (SQLException ex) {
             Logger.getLogger(MainController.class
                     .getName()).log(Level.SEVERE, null, ex);

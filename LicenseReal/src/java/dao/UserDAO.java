@@ -9,6 +9,7 @@ import dto.UserDTO;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import utils.DBUtils;
@@ -20,10 +21,10 @@ import utils.Util;
  * @author emcua
  */
 public class UserDAO extends DBUtils {
-    
+
     public static int createUser(String name, String phone, String email, Date dob, String cccd,
             String address, int accountID) {
-        
+
         try {
             if (!Util.validateAllDigits(phone.trim())) {
                 return 1; // khong dung dinh dang phone
@@ -51,6 +52,44 @@ public class UserDAO extends DBUtils {
         }
         return 0;
     }
+
+    public static boolean createStaff(String name, String phone, String email, String dobString, String cccd,
+            String address, int accountID) {
+
+        try {
+            java.sql.Date dob = java.sql.Date.valueOf(dobString); // Giá trị ngày sinh dưới dạng java.sql.Date
+
+// Chuyển đổi sang java.time.LocalDate
+            LocalDate localDate = dob.toLocalDate();
+            Date date = java.sql.Date.valueOf(localDate);
+            
+            if (!Util.validateAllDigits(phone.trim())) {
+                return false; // khong dung dinh dang phone
+            } else if (!Util.validateEmail(email)) {
+                return false; // khong dung dinh dang email
+            } else if (!Util.validateNotFutureDate(dob.toLocalDate())) {
+                return false; // ngay o? tuong lai
+            } else if (!Util.validateAge(dob.toLocalDate())) {
+                return false; // duoi 18 t
+            } else {
+                String sql = "  INSERT INTO [User] (name,phone,email,dob,cccd,address,role,status,accountID,avatar) values(?,?,?,?,?,?,3,1,?,'no')";
+                PreparedStatement ps = getConnection().prepareStatement(sql);
+                ps.setString(1, name);
+                ps.setString(2, phone);
+                ps.setString(3, email);
+                ps.setDate(4, dob);
+                ps.setString(5, cccd);
+                ps.setString(6, address);
+                ps.setInt(7, accountID);
+                ps.executeUpdate();
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+
     public static int updateUser(String name, String phone, String email, Date dob, String cccd,
             String address, int accountID) {
         try {
@@ -71,7 +110,7 @@ public class UserDAO extends DBUtils {
                         + "cccd = ?, "
                         + "address = ? "
                         + "WHERE accountID = ?";
-                
+
                 PreparedStatement ps = getConnection().prepareStatement(sql);
                 ps.setString(1, name);
                 ps.setString(2, phone);
@@ -84,11 +123,11 @@ public class UserDAO extends DBUtils {
             }
         } catch (Exception e) {
             System.out.println(e);
-            
+
         }
         return 0;
     }
-    
+
     public static UserDTO getUser(int accountID) {
         UserDTO user = new UserDTO();
         try {
@@ -115,7 +154,7 @@ public class UserDAO extends DBUtils {
         }
         return null;
     }
-    
+
     public static String getEmailByID(int accountID) {
         String email = null;
         try {
@@ -161,13 +200,11 @@ public class UserDAO extends DBUtils {
         return list;
     }
 
-
-
-
     public static void main(String[] args) {
-        System.out.println(UserDAO.getListByRole(2));
-        List<UserDTO> list = UserDAO.getListByRole(2);
-        System.out.println(list.size());
+//        System.out.println(UserDAO.getListByRole(2));
+//        List<UserDTO> list = UserDAO.getListByRole(2);
+//        System.out.println(list.size());
+        System.out.println(createStaff("Oke", "0123456789", "Oke@gmail.com", "2001-01-01", "123456789021", "OkeNek", 24));
     }
 
 }

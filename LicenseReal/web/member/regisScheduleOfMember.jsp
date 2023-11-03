@@ -35,7 +35,7 @@
 
         <div  class="container mt-4">
             <div class="text-center">
-                <h1 style="text-align: center">Đăng kí lịch dạy</h1>
+                <h1 style="text-align: center">Đăng kí lịch học</h1>
 
                 <form action="RegisScheduleByMemberServlet" method="post">
                     <div class="d-flex justify-content-center gap-3 flex-row align-items-center">
