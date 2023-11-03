@@ -49,15 +49,7 @@ public class UpdateProfileController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UpdateProfileController</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet UpdateProfileController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+
         }
     }
 
@@ -77,7 +69,7 @@ public class UpdateProfileController extends HttpServlet {
         String ID = request.getParameter("id");
         int id = 0; // Giá trị mặc định
         String action = request.getParameter("action");
-        
+
         if (ID != null && !ID.isEmpty()) {
             try {
                 id = Integer.parseInt(ID);
@@ -91,9 +83,6 @@ public class UpdateProfileController extends HttpServlet {
         session.setAttribute("action", action);
         session.setAttribute("load_profile", member);
 
-        // Chuyển hướng đến trang updateprofile.jsp
-//        response.sendRedirect("updateProfile.jsp");
-//        request.setAttribute("memberID", memberID);
         request.setAttribute("load_profile", member);
 
         // Chuyển hướng đến trang updateprofile.jsp
@@ -112,21 +101,23 @@ public class UpdateProfileController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        int id = Integer.parseInt(request.getParameter("id"));
+        HttpSession session = request.getSession();
         String id = request.getParameter("id");
         int ID = Integer.parseInt(id);
         String message = "";
+
         // Lấy các giá trị từ request parameter
         String name = new String(request.getParameter("name").getBytes("ISO-8859-1"), "UTF-8");
         String phone = request.getParameter("phone");
         String email = request.getParameter("email");
         String dobString = request.getParameter("dob");
         LocalDate dob = LocalDate.parse(dobString);
+        LocalDate currentDate = LocalDate.now();
+        LocalDate minValidDate = currentDate.minusYears(18);
         String cccd = request.getParameter("cccd");
         String address = new String(request.getParameter("address").getBytes("ISO-8859-1"), "UTF-8");
-//        String avatar = request.getParameter("avatar");
-//        int role = Integer.parseInt(request.getParameter("role"));
         String health = new String(request.getParameter("health").getBytes("ISO-8859-1"), "UTF-8");
+
         String image = "";
         boolean success = false;
 
@@ -140,7 +131,6 @@ public class UpdateProfileController extends HttpServlet {
         member.setCccd(cccd);
         member.setAddress(address);
         member.setHealth(health);
-//        member.setAvatar(avatar);
 
         String avatar = member.getAvatar();
         List<Part> fileParts = new ArrayList<>();
@@ -164,27 +154,29 @@ public class UpdateProfileController extends HttpServlet {
                 avatar = data;
             }
             member.setAvatar(avatar);
-            if (avatar.isEmpty()) {
-                success = DrivingProfileDAO.updateMember(member, image);
+
+            if (dob.isAfter(currentDate) || dob.isAfter(minValidDate)) {
+                // Ngày sinh không hợp lệ, xử lý thông báo lỗi
+                message = "notenough";
             } else {
-                success = DrivingProfileDAO.updateMember(member, avatar);
-            }
+                if (avatar.isEmpty()) {
+                    success = DrivingProfileDAO.updateMember(member, image);
+                } else {
+                    success = DrivingProfileDAO.updateMember(member, avatar);
+                }
 
-            if (success) {
-                // Cập nhật thành công
-                // Thực hiện các thao tác khác sau khi cập nhật
-
-                // Chuyển hướng hoặc hiển thị thông báo thành công cho người dùng
-                message = "success";
-            } else {
-                // Cập nhật không thành công
-                // Xử lý lỗi hoặc hiển thị thông báo lỗi cho người dùng
-
-                // Chuyển hướng hoặc hiển thị thông báo lỗi cho người dùng
-                message = "fail";
+                if (success) {
+                    // Cập nhật thành công
+                    // Thực hiện các thao tác khác sau khi cập nhật
+                    message = "success";
+                } else {
+                    // Cập nhật không thành công
+                    // Xử lý lỗi hoặc hiển thị thông báo lỗi cho người dùng
+                    message = "fail";
+                }
             }
         }
-//        request.setAttribute("account", );
+
         request.setAttribute("message", message);
         request.getRequestDispatcher("updateProfile.jsp").forward(request, response);
     }

@@ -10,7 +10,7 @@
             content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
             />
 
-        <title>Quản trị viên - Quản lí câu hỏi</title>
+        <title>Quản trị viên - Quản lí học viên</title>
 
         <meta name="description" content="" />
 
@@ -117,7 +117,7 @@
                                     class="card-header"
                                     style="display: flex; justify-content: space-between"
                                     >
-                                    <div>Danh sách hồ sơ thi</div>
+                                    <div>Danh sách học viên</div>
                                     <!-- Button trigger modal -->
                                     <div>
                                         <a href="MainController?action=insertQ">

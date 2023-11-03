@@ -642,7 +642,7 @@
                                                 </div>
                                                 <div class="input-info" style="margin-top: 20px;">
                                                     <div class="radio-buttons d-flex gap-3 justify-content-center align-items-center">
-                                                        <input class="health-certificate" type="radio" id="health-certificate-yes" name="health" value="yes">
+                                                        <input class="health-certificate" type="radio" id="health-certificate-yes" name="health" value="yes" required checked>
                                                         <label for="health-certificate-yes">Đã có</label>
                                                         <input class="health-certificate" type="radio" id="health-certificate-no" name="health" value="no">
                                                         <label for="health-certificate-no">Chưa có</label>
@@ -844,9 +844,12 @@
                 } else if (message === 'fail') {
                     var fail = 'Cập nhật thông tin thất bại!';
                     toastMessage.textContent = fail;
-                } else {
+                } else if (message === 'exist'){
                     var exist = 'Bạn đã gửi hồ sơ rồi!';
                     toastMessage.textContent = exist;
+                } else {
+                    var notenough = 'Ngày sinh không hợp lệ. Vui lòng chọn ngày sinh trước ngày hiện tại và ít nhất là 18 tuổi!';
+                    toastMessage.textContent = notenough;
                 }
                 toast.classList.remove('hide');
                 toast.classList.add('show');
