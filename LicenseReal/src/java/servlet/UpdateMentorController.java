@@ -7,6 +7,7 @@ package servlet;
 
 import dao.DrivingProfileDAO;
 import dto.MemberDTO;
+import dto.MentorDTO;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -29,11 +30,11 @@ import org.apache.commons.io.IOUtils;
  *
  * @author HOANG ANH
  */
-@WebServlet(name = "UpdateProfileController", urlPatterns = {"/updateProfile"})
+@WebServlet(name = "UpdateMentorController", urlPatterns = {"/updateMentor"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
         maxFileSize = 1024 * 1024 * 10, // 10MB
         maxRequestSize = 1024 * 1024 * 50)   // 50MB
-public class UpdateProfileController extends HttpServlet {
+public class UpdateMentorController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -79,14 +80,14 @@ public class UpdateProfileController extends HttpServlet {
         }
 
         // Gọi hàm getMemberById từ lớp DrivingProfileDAO
-        MemberDTO member = DrivingProfileDAO.getMemberById(id);
+        MentorDTO mentor = DrivingProfileDAO.getMentorById(id);
         session.setAttribute("action", action);
-        session.setAttribute("load_profile", member);
+        session.setAttribute("load_profile", mentor);
 
-        request.setAttribute("load_profile", member);
+        request.setAttribute("load_profile", mentor);
 
         // Chuyển hướng đến trang updateprofile.jsp
-        request.getRequestDispatcher("updateProfile.jsp").forward(request, response);
+        request.getRequestDispatcher("updateProfileMentor.jsp").forward(request, response);
 
     }
 
@@ -113,26 +114,28 @@ public class UpdateProfileController extends HttpServlet {
         String dobString = request.getParameter("dob");
         LocalDate dob = LocalDate.parse(dobString);
         LocalDate currentDate = LocalDate.now();
-        LocalDate minValidDate = currentDate.minusYears(18);
+        LocalDate minValidDate = currentDate.minusYears(25);
         String cccd = request.getParameter("cccd");
         String address = new String(request.getParameter("address").getBytes("ISO-8859-1"), "UTF-8");
-        String health = new String(request.getParameter("health").getBytes("ISO-8859-1"), "UTF-8");
+        String certificate = new String(request.getParameter("certificate").getBytes("ISO-8859-1"), "UTF-8");
+        String experience = new String(request.getParameter("experience").getBytes("ISO-8859-1"), "UTF-8");
 
         String image = "";
         boolean success = false;
 
-        // Tạo đối tượng Member
-        MemberDTO member = new MemberDTO();
-        member.setUserID(ID);
-        member.setName(name);
-        member.setPhone(phone);
-        member.setEmail(email);
-        member.setDob(dob);
-        member.setCccd(cccd);
-        member.setAddress(address);
-        member.setHealth(health);
+        // Tạo đối tượng Mentor
+        MentorDTO mentor = new MentorDTO();
+        mentor.setUserID(ID);
+        mentor.setName(name);
+        mentor.setPhone(phone);
+        mentor.setEmail(email);
+        mentor.setDob(dob);
+        mentor.setCccd(cccd);
+        mentor.setAddress(address);
+        mentor.setCertificate(certificate);
+        mentor.setExperience(experience);
 
-        String avatar = member.getAvatar();
+        String avatar = mentor.getAvatar();
         List<Part> fileParts = new ArrayList<>();
         for (Part part : request.getParts()) {
             String partName = new String(part.getName().getBytes("iso-8859-1"), "UTF-8");
@@ -146,23 +149,23 @@ public class UpdateProfileController extends HttpServlet {
             byte[] imageBytes = IOUtils.toByteArray(fileContent);
             String data = Base64.getEncoder().encodeToString(imageBytes);
             if (data.isEmpty()) {
-                MemberDTO img = DrivingProfileDAO.getMemberById(ID);
+                MentorDTO img = DrivingProfileDAO.getMentorById(ID);
                 image = img.getAvatar();
             }
 
             if (filePart.getName().equals("avatar")) {
                 avatar = data;
             }
-            member.setAvatar(avatar);
+            mentor.setAvatar(avatar);
 
             if (dob.isAfter(currentDate) || dob.isAfter(minValidDate)) {
                 // Ngày sinh không hợp lệ, xử lý thông báo lỗi
                 message = "notenough";
             } else {
                 if (avatar.isEmpty()) {
-                    success = DrivingProfileDAO.updateMember(member, image);
+                    success = DrivingProfileDAO.updateMentor(mentor, image);
                 } else {
-                    success = DrivingProfileDAO.updateMember(member, avatar);
+                    success = DrivingProfileDAO.updateMentor(mentor, avatar);
                 }
 
                 if (success) {
@@ -178,7 +181,7 @@ public class UpdateProfileController extends HttpServlet {
         }
 
         request.setAttribute("message", message);
-        request.getRequestDispatcher("updateProfile.jsp").forward(request, response);
+        request.getRequestDispatcher("updateProfileMentor.jsp").forward(request, response);
     }
 
     /**

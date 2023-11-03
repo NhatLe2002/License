@@ -98,8 +98,8 @@
                         <c:if test="${sessionScope.ROLE == 'US'}">
                             <a class="menu_items " href="MainController?action=home">Home</a>
                             <a class="menu_items " href="MainController?action=regisScheduleByMember" >Đăng ký học thực hành</a>
+
                             <a class="menu_items " href="MainController?action=viewScheduleMember" >Lịch Học Thực Hành</a>
-                            <a class="menu_items " href="MainController?action=adddriver&id=${sessionScope.memberID}">Nộp hồ sơ thi</a>
                             <a class="menu_items " href="MainController?action=PracticeTest">Thi thử trắc nghiệm</a>
                             <!--<a onclick="openPopup()">Thanh toán</a>-->
                             <a class="menu_items " href="MainController?action=paymentPage">Thanh toán</a>
@@ -141,9 +141,13 @@
                                             Hello, ${user.getName()}
                                         </button>
                                         <ul class="dropdown-menu ">
-
                                             <li><a class="dropdown-item" href="MainController?action=home">Home</a></li>
-                                            <li><a class="dropdown-item" href="MainController?action=updateP&id=${sessionScope.user.getId()}">Thông tin cá nhân</a></li>
+                                            <c:if test="${sessionScope.ROLE == 'US'}">
+                                                    <li><a class="dropdown-item" href="MainController?action=updateP&id=${sessionScope.user.getId()}">Thông tin cá nhân</a></li>
+                                                    </c:if>
+                                                    <c:if test="${sessionScope.ROLE == 'MT'}">
+                                                    <li><a class="dropdown-item" href="MainController?action=updateMentor&id=${sessionScope.user.getId()}">Thông tin giảng viên</a></li>
+                                                    </c:if>
                                                 <c:if test="${sessionScope.ROLE == 'AD'}">
                                                 <li><a class="dropdown-item" href="MainController?action=admin">Thống kê</a></li>
                                                 </c:if>

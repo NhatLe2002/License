@@ -162,6 +162,10 @@ public class MainController extends HttpServlet {
                 String id = request.getParameter("id");
                 request.setAttribute("id", id);
                 url = "updateProfile?id=" + id;
+            } else if (action.equals("updateMentor")) {
+                String id = request.getParameter("id");
+                request.setAttribute("id", id);
+                url = "updateMentor?id=" + id;
             } else if (action.equals("adddriver")) {
                 String id = request.getParameter("id");
                 request.setAttribute("id", id);

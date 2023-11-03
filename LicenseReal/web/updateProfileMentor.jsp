@@ -6,7 +6,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Hồ sơ lái xe</title>
+        <title>Profile</title>
 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
               integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -464,11 +464,6 @@
                     width: 100%;
                 }
             }
-            .validation-message {
-                color: red;
-                font-size: 12px;
-                display: none;
-            }
         </style>
     </head>
 
@@ -478,23 +473,16 @@
         </c:if>
         <c:import url="userHeader.jsp"/>
 
-        <div class='mt-5 mb-5 d-flex gap-3 container container-driving-profile'>
+
+        <div class='mt-5 mb-5 d-flex gap-3 container container-driving-profile no-select'>
             <div class="d-flex flex-column option-account-container gap-3">
                 <div class='title' id='title'></div>
                 <div class='sidebar-account'>
-                    <a href="MainController?action=updateP&id=${sessionScope.user.getId()}" class="link-option-account">
+                    <a href="MainController?action=updateMentor&id=${sessionScope.user.getId()}" class="link-option-account">
                         <span class="bold-icon">
                             <i class="fa-regular fa-user"></i>
                         </span>
                         <div class="text-option-account">Thông tin cá nhân</div>
-                    </a>
-
-
-                    <a href="MainController?action=ViewTransactions" class="link-option-account">
-                        <span class="bold-icon">
-                            <i class="fa-solid fa-shekel-sign"></i>
-                        </span>
-                        <div class="text-option-account">Lịch sử giao dịch</div>
                     </a>
 
                     <a href="MainController?action=passwordProfile" class="link-option-account">
@@ -515,12 +503,21 @@
             <div class='separate-line-layout-account'></div>
             <div class='content-option-container'>
                 <div class="d-flex justify-content-center flex-column profile-container gap-3">
-                    <div class='title'>Nộp hồ sơ đăng kí lái xe</div>
+                    <div class='title'>Cập nhập trang cá nhân</div>
                     <div class='user-profile d-flex gap-5 '>
                         <div class='left d-flex flex-column gap-3'>
                             <div class='avatar-user'>
-                                <img id="avatar-img-user" src="data:image;base64," alt="Preview">
+                                <c:choose>
+                                    <c:when test="${load_profile.avatar eq 'no'}">
+                                        <img id="avatar-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png" alt="Preview">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img id="avatar-img" src="data:image;base64,${load_profile.avatar}" alt="Preview">
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
+
+
                         </div>
 
                         <div class='right d-flex flex-column'>
@@ -530,10 +527,11 @@
                                         class="left-top-header-profile d-flex justify-content-center align-items-center gap-3">
                                         <p class='user-name'>${load_profile.name}</p>
                                     </div>
+
                                 </div>
 
                                 <div class='role-name my-2'>
-                                    <p>Thí sinh </p>
+                                    <p>Giảng viên </p>
                                 </div>
                             </div>
 
@@ -541,22 +539,24 @@
                                 <div class="main-top d-flex gap-4">
                                     <div class='about d-flex gap-2 active align-items-center'>
                                         <i class="fa-regular fa-address-card"></i>
-                                        Thông tin
+                                        <p>Thông tin</p>
                                     </div>
+
                                     <div class='timeline d-flex gap-2 align-items-center'>
-                                        cá nhân
+                                        <p>cá nhân</p>
                                     </div>
                                 </div>
                                 <div class="main-info d-flex flex-column justify-content-around">
-                                    <form action="addtodrivingpro?id=${load_profile.getId()}" method="POST" enctype="multipart/form-data">
+                                    <form action="updateMentor" method="POST" enctype="multipart/form-data">
                                         <div class="contact-info">
                                             <p class='text-header-profile'>Thông tin liên lạc</p>
+                                            <input value="${sessionScope.user.getId()}" type="text" name="id" id="id" hidden="" />
                                             <div class="content d-flex">
                                                 <div class="label-info">
                                                     <label for="phoneNumber">Số điện thoại:</label>
                                                 </div>
                                                 <div class="input-info">
-                                                    <input type="text" id="phoneNumber" name="phone" oninput="validatePhone()" value="${load_profile.phone}" readonly="">
+                                                    <input type="text" id="phoneNumber" name="phone" required oninput="validatePhone()" value="${load_profile.phone}">
                                                 </div>
                                             </div>
 
@@ -565,15 +565,16 @@
                                                     <label for="email">Email:</label>
                                                 </div>
                                                 <div class="input-info">
-                                                    <input type="text" id="email" name="email" value="${load_profile.email}" readonly="">
+                                                    <input type="text" id="email" required name="email" value="${load_profile.email}">
                                                 </div>
                                             </div>
                                             <div class="content d-flex">
                                                 <div class="label-info">
-                                                    <label for="img_user">Ảnh 3x4:</label>
+                                                    <label for="avatar">Avatar:</label>
                                                 </div>
                                                 <div class="input-info">
-                                                    <input type="file" name="img_user" id="file-input-user" onchange="previewImage(event)" accept="image/*">
+                                                    <i class="fa-solid fa-camera" id="camera-icon"></i>
+                                                    <input type="file" name="avatar" id="file-input" style="display: none;" onchange="previewImage(event)" accept="image/*">
                                                 </div>
                                             </div>
                                         </div>
@@ -585,7 +586,7 @@
                                                     <label for="full-name">Họ và tên:</label>
                                                 </div>
                                                 <div class="input-info">
-                                                    <input type="text" id="full-name" oninput="validateFullName()" id="input-fullname" name="name" value="${load_profile.name}" readonly=""/>
+                                                    <input type="text" id="full-name" oninput="validateFullName()" id="input-fullname" name="name" value="${load_profile.name}" required/>
                                                 </div>
                                             </div>
 
@@ -594,22 +595,7 @@
                                                     <label for="birthdate">Ngày sinh:</label>
                                                 </div>
                                                 <div class="input-info">
-                                                    <input type="date" id="birthdate" name="dob" value="${load_profile.dob}" readonly="">
-                                                </div>
-                                                <span id="age-validation-message" class="validation-message"></span>
-                                            </div>
-                                            <div class="content d-flex">
-                                                <div class="label-info">
-                                                    <label for="gender">Giới tính:</label>
-                                                </div>
-                                                <div class="input-info" style="margin-top: 20px;">
-
-                                                    <div class="radio-buttons d-flex gap-3 justify-content-center align-items-center">
-                                                        <input class="gender" type="radio" id="gender-male" name="gender" value="true" checked>
-                                                        <label for="gender-male">Nam</label>
-                                                        <input class="gender" type="radio" id="gender-female" name="gender" value="false">
-                                                        <label for="gender-female">Nữ</label>
-                                                    </div>
+                                                    <input type="date" id="birthdate" name="dob" value="${load_profile.dob}">
                                                 </div>
                                             </div>
                                             <div class="content d-flex">
@@ -626,84 +612,53 @@
                                                     <label for="cccd">CCCD:</label>
                                                 </div>
                                                 <div class="input-info">
-                                                    <input type="text" id="cccd" oninput="validateCCCD()" name="cccd" value="${load_profile.cccd}" readonly="">
+                                                    <input type="text" id="cccd" oninput="validateCCCD()" required name="cccd" value="${load_profile.cccd}">
                                                 </div>
                                             </div>
-                                            <div class="content d-flex">
-                                                <div class="label-info">
-                                                    <label for="img_cccd">Ảnh CCCD:</label>
-                                                </div>
-                                                <div class="input-info">
-                                                    <input type="file" name="img_cccd" id="file-input-cccd"  onchange="previewImage(event)" accept="image/*">
-                                                </div>
-                                            </div>
-                                            <div class='left d-flex flex-column gap-3'>
-                                                <div class='avatar-user'>
-                                                    <img id="avatar-img-cccd" src="data:image;base64," alt="Preview"></img>
-                                                </div>
-                                            </div>
+
                                             <div class="content d-flex">
                                                 <div class="label-info">
                                                     <label for="address">Địa chỉ thường trú:</label>
                                                 </div>
                                                 <div class="input-info">
                                                     <input type="text" id="address"
-                                                           name="address" value="${load_profile.address}" readonly="">
+                                                           name="address" required value="${load_profile.address}">
                                                 </div>
                                             </div>
                                             <div class="content d-flex">
                                                 <div class="label-info">
-                                                    <label for="health-certificate">Giấy khám sức khỏe:</label>
+                                                    <label for="certificate">Chứng chỉ hành nghề:</label>
                                                 </div>
-                                                <div class="input-info" style="margin-top: 20px;">
-                                                    <div class="radio-buttons d-flex gap-3 justify-content-center align-items-center">
-                                                        <input class="health-certificate" type="radio" id="health-certificate-yes" name="health" value="yes">
-                                                        <label for="health-certificate-yes">Đã có</label>
-                                                        <input class="health-certificate" type="radio" id="health-certificate-no" name="health" value="no">
-                                                        <label for="health-certificate-no">Chưa có</label>
-                                                    </div>
+                                                <div class="input-info">
+                                                    <input type="text" id="address"
+                                                           name="certificate" required value="${load_profile.certificate}">
+                                                </div>
+                                            </div>
+                                            <div class="content d-flex">
+                                                <div class="label-info">
+                                                    <label for="experience">Kinh nghiệm:</label>
+                                                </div>
+                                                <div class="input-info">
+                                                    <input type="text" id="address"
+                                                           name="experience" required value="${load_profile.experience}">
                                                 </div>
                                             </div>
                                         </div>
-                                        <input value="regisTest" name="type" hidden="" />
+
                                         <div class="mt-5 d-flex gap-3" style="margin-left: 150px;">
                                             <a style="text-decoration: none;
-                                               color: inherit;" href="MainController?action=adddriver&id=${sessionScope.load_profile.getId()}"><button type="button" class="btn btn-primary">Hủy</button>
-                                            </a> 
+                                               color: inherit;" href="MainController?action=updateMentor&id=${sessionScope.user.getId()}"><button type="button" class="btn btn-primary">Hủy</button>
+                                            </a>
                                             <button class="btn btn-primary" type="submit">Thay đổi</button>
-
                                         </div>
                                     </form>
 
                                 </div>
                             </div>
                         </div>
-                        <!--                                                                       <div class="modal fade" id="modalConfirmSend" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-                                                                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                                                <div class="modal-dialog modal-dialog-centered">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h5 class="modal-title" id="staticBackdropLabel">XÁC NHẬN THÔNG TIN</h5>
-                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            Hãy kiểm tra đầy đủ thông tin trước khi gửi! 
-                                                                            <br/>
-                                                                            Xác nhận gửi?
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                                                                            <button type="button" class="btn btn-primary" id="btn-toast-send" class="btn-close"
-                                                                                    data-bs-dismiss="modal" aria-label="Close">Xác nhận</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>-->
                     </div>
-
                 </div>
             </div>
-
             <!-- toast thông báo thành công-->
             <c:if test="${not empty message}">
                 <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11" >
@@ -738,8 +693,8 @@
                 // Define the regular expression pattern for email validation
                 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-                // Check if the email matches the pattern
-                if (emailPattern.test(email)) {
+                // Check if the email matches the pattern and contains "@"
+                if (emailPattern.test(email) && email.includes('@')) {
                     emailInput.classList.remove('error');
                 } else {
                     emailInput.classList.add('error');
@@ -775,70 +730,22 @@
                 // Cập nhật giá trị của ô input
                 input.value = numericValue;
             }
-            // Lấy ngày sinh từ input
-            var dobInput = document.getElementById('birthdate');
-            var dob = new Date(dobInput.value);
-
-            // Lấy ngày hiện tại
-            var currentDate = new Date();
-
-            // Tính toán số tuổi
-            var age = currentDate.getFullYear() - dob.getFullYear();
-            if (currentDate.getMonth() < dob.getMonth() || (currentDate.getMonth() === dob.getMonth() && currentDate.getDate() < dob.getDate())) {
-                age--;
-            }
-
-            // Kiểm tra nếu tuổi không đủ 18 tuổi
-            if (age < 18) {
-                // Hiển thị thông báo yêu cầu cập nhật thông tin
-                var validationMessage = document.getElementById('age-validation-message');
-                validationMessage.style.display = 'block';
-                validationMessage.textContent = 'Bạn cần đủ 18 tuổi để thực hiện submit thông tin.';
-                // Vô hiệu hóa nút submit
-                document.getElementById('submit-button').disabled = true;
-            } else {
-                // Cho phép submit thông tin
-                document.getElementById('submit-button').disabled = false;
-            }
-
-            // Lắng nghe sự kiện thay đổi ngày sinh
-            dobInput.addEventListener('change', function () {
-                // Lấy lại giá trị ngày sinh
-                dob = new Date(dobInput.value);
-
-                // Tính lại tuổi
-                age = currentDate.getFullYear() - dob.getFullYear();
-                if (currentDate.getMonth() < dob.getMonth() || (currentDate.getMonth() === dob.getMonth() && currentDate.getDate() < dob.getDate())) {
-                    age--;
-                }
-
-                // Kiểm tra tuổi và hiển thị thông báo nếu cần
-                if (age < 18) {
-                    validationMessage.style.display = 'block';
-                    validationMessage.textContent = 'Bạn cần đủ 18 tuổi để thực hiện submit thông tin.';
-                    document.getElementById('submit-button').disabled = true;
-                } else {
-                    validationMessage.style.display = 'none';
-                    document.getElementById('submit-button').disabled = false;
-                }
-            });
         </script>
         <script>
+            function logout() {
+                var btnToastDelete = document.querySelector('#btn-toast-delete');
+                btnToastDelete.addEventListener('click', function () {
+                    var deleteUrl = 'LogoutServlet';
+                    window.location.href = deleteUrl;
+                    // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
+                    document.getElementById('modalConfirmDelete').style.display = 'none';
+                });
+            }
             function previewImage(event) {
                 var reader = new FileReader();
                 reader.onload = function () {
-                    var fileInput = event.target;
-                    var output;
-
-                    if (fileInput.id === "file-input-user") {
-                        output = document.getElementById("avatar-img-user");
-                    } else if (fileInput.id === "file-input-cccd") {
-                        output = document.getElementById("avatar-img-cccd");
-                    }
-
-                    if (output) {
-                        output.src = reader.result;
-                    }
+                    var output = document.getElementById("preview");
+                    output.src = reader.result;
                 };
 
                 var fileInput = event.target;
@@ -848,17 +755,8 @@
                     reader.readAsDataURL(files[0]);
                 } else {
                     // Nếu không có file được chọn, đặt lại ảnh về trạng thái ban đầu
-                    var output;
-
-                    if (fileInput.id === "file-input-user") {
-                        output = document.getElementById("avatar-img-user");
-                    } else if (fileInput.id === "file-input-cccd") {
-                        output = document.getElementById("avatar-img-cccd");
-                    }
-
-                    if (output) {
-                        output.src = "#";
-                    }
+                    var output = document.getElementById("preview");
+                    output.src = "#";
                 }
             }
             function setTimeGreeting() {
@@ -879,27 +777,33 @@
             }
 
             setTimeGreeting();
-            // Assume `load_profile` is an object containing the loaded profile data
-            const healthCertificateValue = '${load_profile.health}';
 
-            // Check if the health certificate value is "yes" or "no" and set the corresponding radio button as checked
-            if (healthCertificateValue === 'Đã có') {
-                document.getElementById('health-certificate-yes').checked = true;
-            } else if (healthCertificateValue === 'Chưa có') {
-                document.getElementById('health-certificate-no').checked = true;
-            }
+
+            //Xử lý sự kiện upload avatar
+            var cameraIcon = document.getElementById('camera-icon');
+            var fileInput = document.getElementById('file-input');
+            const img = document.getElementById('avatar-img');
+
+            cameraIcon.addEventListener('click', function () {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', function () {
+                var selectedFile = fileInput.files[0];
+                if (selectedFile) {
+                    var reader = new FileReader();
+                    reader.onload = function (event) {
+                        var fileData = event.target.result;
+                        //lấy link ảnh này lưu vào database
+                        console.log(fileData);
+
+                        img.src = fileData;
+                    };
+                    reader.readAsDataURL(selectedFile);
+                }
+            });
         </script>
         <script>
-//                    function showMess(id) {
-//                        var btnToastDelete = document.querySelector('#btn-toast-send');
-//                        btnToastDelete.addEventListener('click', function () {
-//                            var deleteUrl = 'addtodrivingpro?id=' + id;
-//                            window.location.href = deleteUrl;
-//                            // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
-//                            document.getElementById('modalConfirmSend').style.display = 'none';
-//                        });
-//                    }
-
             window.addEventListener('DOMContentLoaded', (event) => {
                 const message = '${message}'; // Lấy giá trị thông báo từ servlet
                 if (message) {
@@ -911,14 +815,14 @@
                 const toast = document.getElementById('toast-notification');
                 const toastMessage = document.getElementById('toast-message');
                 if (message === 'success') {
-                    var success = 'Gửi thông tin hồ sơ thành công!';
+                    var success = 'Cập nhật thông tin thành công! Hãy đăng nhập lại để cập nhật thông tin ';
                     toastMessage.textContent = success;
                 } else if (message === 'fail') {
-                    var fail = 'Không thể gửi thông tin hồ sơ!';
+                    var fail = 'Cập nhật thông tin thất bại!';
                     toastMessage.textContent = fail;
                 } else {
-                    var exist = 'Bạn đã gửi hồ sơ rồi!';
-                    toastMessage.textContent = exist;
+                    var notenough = 'Ngày sinh không hợp lệ. Vui lòng chọn ngày sinh trước ngày hiện tại và ít nhất là 25 tuổi!';
+                    toastMessage.textContent = notenough;
                 }
                 toast.classList.remove('hide');
                 toast.classList.add('show');
@@ -926,14 +830,6 @@
                     toast.classList.remove('show');
                 }, 3000);
             }
-            //            function showConfirmationPopup(id) {
-            //                var btnToastSend = document.getElementById('btn-toast-send');
-            //                btnToastSend.addEventListener('click', function () {
-            //                    var deleteUrl = 'addtodrivingpro?id=' + id;
-            //                    window.location.href = deleteUrl;
-            //                    document.getElementById('modalConfirmSend').style.display = 'none'; // Ẩn modal sau khi xác nhận
-            //                });
-            //            }
         </script>
     </body>
 

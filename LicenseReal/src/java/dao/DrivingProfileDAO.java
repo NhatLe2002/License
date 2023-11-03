@@ -85,6 +85,8 @@ public class DrivingProfileDAO {
         }
         return member;
     }
+    
+
 
     public static MemberDTO getMemberByMemberId(int id) {
         Connection cn = null;
@@ -218,6 +220,37 @@ public class DrivingProfileDAO {
         }
         return false;
     }
+    // cập nhật thông tin mentor
+    public static boolean updateMentor(MentorDTO mentor, String avatar) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                // Cập nhật thông tin trong bảng User
+                String userSql = "UPDATE [User] SET [name] = N'" + mentor.getName() + "', [phone] = '" + mentor.getPhone() + "', [email] = '" + mentor.getEmail() + "', [dob] = '" + java.sql.Date.valueOf(mentor.getDob()) + "', [cccd] = '" + mentor.getCccd() + "',"
+                        + " [address] = '" + mentor.getAddress() + "', [avatar] = '" + avatar + "' WHERE id = '" + mentor.getUserID() + "'";
+                PreparedStatement userPst = cn.prepareStatement(userSql);
+                userPst.executeUpdate();
+
+                // Cập nhật thông tin trong bảng Member
+                String mentorSql = "UPDATE [Mentor] SET certificate = N'" + mentor.getCertificate() +"', experience = N'"+ mentor.getExperience() +"' WHERE userID = " + mentor.getUserID();
+                PreparedStatement memberPst = cn.prepareStatement(mentorSql);
+                memberPst.executeUpdate();
+
+                return true;
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (SQLException e) {
+                }
+            }
+        }
+        return false;
+    }
+
 
     // member nộp hồ sơ để thi 
     public static boolean addtodrivingprofile(int memberID, String img_cccd, String img_user, boolean gender, boolean flag) {
@@ -280,12 +313,6 @@ public class DrivingProfileDAO {
         return result;
     }
 
-    public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        DrivingProfile list = DrivingProfileDAO.getDrivingProfileById(4);
-        System.out.println("address: " + list.getAddress());
-        System.out.println("dob: " + list.getDob());
-        System.out.println("health: " + list.getHealth());
-    }
     
     public static DrivingProfile getDrivingProfileById(int id) throws ClassNotFoundException, SQLException {
         Connection conn = null;
