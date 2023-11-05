@@ -42,7 +42,7 @@
                         <select id="exam" class="form-select" name="topic" required>
                             <option value="0">Chọn đề ngẫu nhiên</option>
                             <c:forEach var="T" items="${listTopic}">
-                                <option value="${T.topicID}">Đề thi số ${T.topicID}</option>
+                                <option value="${T.topicID}">${T.name}</option>
                             </c:forEach>
                         </select>
                     </div>
