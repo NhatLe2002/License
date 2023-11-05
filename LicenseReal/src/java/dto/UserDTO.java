@@ -28,6 +28,14 @@ public class UserDTO {
     public UserDTO() {
     }
 
+    public UserDTO(int id, int accountID) {
+        this.id = id;
+        this.accountID = accountID;
+    }
+
+    
+
+    
     public UserDTO(int id, String name, String phone, String email, String cccd) {
         this.id = id;
         this.name = name;

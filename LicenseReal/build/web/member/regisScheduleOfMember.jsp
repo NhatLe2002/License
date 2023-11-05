@@ -110,12 +110,14 @@
                                     <td>
                                         <c:forEach items="${requestScope.mentorScheduleNotTeache}" var="c">
                                             <c:if test="${requestScope.week[i] == c.getDay() && c.getTime() == time}">
-                                                <div id="${c.getId()}" name="room">
-                                                    <c:if test="${requestScope.remaining != '0'}">
-                                                        <input type="checkbox" name="checkBoxName" value="${c.getId()}"  onclick="hideOtherCheckboxes(event, this)"></br>
-                                                    </c:if>
-                                                    <a href="MainController?action=detailBookingSlot&scheduleId=${c.getId()}">Chi tiết Booking</a>
-                                                </div>
+                                                <c:if test="${requestScope.week[i] >= requestScope.currentDay}">
+                                                    <div id="${c.getId()}" name="room">
+                                                        <c:if test="${requestScope.remaining != '0'}">
+                                                            <input type="checkbox" name="checkBoxName" value="${c.getId()}"  onclick="hideOtherCheckboxes(event, this)"></br>
+                                                        </c:if>
+                                                        <a href="MainController?action=detailBookingSlot&scheduleId=${c.getId()}">Chi tiết Booking</a>
+                                                    </div>
+                                                </c:if>
                                             </c:if>
                                         </c:forEach>
                                         <c:set var="i" value="${i + 1}"/>

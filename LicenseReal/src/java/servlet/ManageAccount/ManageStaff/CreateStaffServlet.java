@@ -16,6 +16,7 @@ import java.util.Base64;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -51,12 +52,12 @@ public class CreateStaffServlet extends HttpServlet {
                 String username = request.getParameter("username");
                 String password = request.getParameter("password");
                 String confirm_password = request.getParameter("confirm_password");
-                String name = request.getParameter("name");
+                String name = new String(request.getParameter("name").getBytes("ISO-8859-1"), "UTF-8");
                 String phone = request.getParameter("phone");
                 String email = request.getParameter("email");
                 String dob = request.getParameter("dob");
-                String id_card = request.getParameter("id_card");
-                String address = request.getParameter("address");
+                String cccd = request.getParameter("cccd");
+                String address = new String(request.getParameter("address").getBytes("ISO-8859-1"), "UTF-8");
 
                 try {
                     AccountDAO.createAccount(username, password);
@@ -77,14 +78,14 @@ public class CreateStaffServlet extends HttpServlet {
                         InputStream content1 = fileContent;
                         byte[] imageBytes = IOUtils.toByteArray(content1);
                         String avatar = Base64.getEncoder().encodeToString(imageBytes);
-                        boolean success = UserDAO.createStaff(name, phone, email, dob, avatar, address, newAccount.getId());
+                        boolean success = UserDAO.createStaff(name, phone, email, dob, cccd, address, newAccount.getId(), avatar);
                     }
                     
                 } catch (Exception e) {
                 }
                 
                 request.setAttribute("actionManage", actionManage);
-                request.getRequestDispatcher("admin/manageStaff/manageStaff.jsp").forward(request, response);
+                request.getRequestDispatcher("ListStaff").forward(request, response);
             } else {
                 ArrayList<AccountDTO> listAccount = AccountDAO.getAllAccount();
                 String actionManage = request.getParameter("actionManage");
