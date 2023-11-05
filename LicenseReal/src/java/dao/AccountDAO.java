@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import utils.Util;
 
 /**
@@ -107,6 +108,23 @@ public class AccountDAO extends DBUtils {
         return null;
     }
 
+    public static ArrayList<AccountDTO> getAllAccount() {
+        ArrayList<AccountDTO> listAccount = new ArrayList<>();
+        try {
+            String sql = "select * from Account";
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs != null) {
+                while (rs.next()) {
+                    listAccount.add(new AccountDTO(rs.getInt("id"), rs.getString("username"), rs.getString("password")));
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return listAccount;
+    }
+
     public static AccountDTO getAccountById(int id) {
         AccountDTO account = new AccountDTO();
         try {
@@ -189,8 +207,10 @@ public class AccountDAO extends DBUtils {
         } else {
             System.out.println("Tài khoản này hợp lệ ");
         }
-        
+
         System.out.println(getAccountStaff().size());
+        
+        System.out.println(getAccount("OkeOke", "123").getId());
     }
 //    public static boolean changePassword(int id, String newPassword) {
 //    boolean check = false;

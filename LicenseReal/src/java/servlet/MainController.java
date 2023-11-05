@@ -41,6 +41,7 @@ public class MainController extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String action = request.getParameter("action");
+            String actionManage = request.getParameter("actionManage");
             String message = (String) request.getAttribute("message");
             request.setAttribute("message", message);
             if (action == null || action.equals("") || action.equals("home")) {
@@ -161,6 +162,10 @@ public class MainController extends HttpServlet {
                 String id = request.getParameter("id");
                 request.setAttribute("id", id);
                 url = "updateProfile?id=" + id;
+            } else if (action.equals("updateMentor")) {
+                String id = request.getParameter("id");
+                request.setAttribute("id", id);
+                url = "updateMentor?id=" + id;
             } else if (action.equals("adddriver")) {
                 String id = request.getParameter("id");
                 request.setAttribute("id", id);
@@ -179,6 +184,16 @@ public class MainController extends HttpServlet {
                 url = "staff/createMember.jsp";
             } else if (action.equals("manageStaffAccount")) {
                 url = "ManageStaffAccountServlet";
+            } else if (action.equals("manageStaff")) {
+                if (actionManage.equals("read")) {
+                    url = "ListStaff";
+                } else if (actionManage.equals("create")) {
+                    url = "CreateStaffServlet";
+                } else {
+                    url = "login.jsp";
+                }
+            } else if (action.equals("createMentor")) {
+                url = "creatementor";
             }
 
             request.setAttribute("action", action);

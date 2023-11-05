@@ -131,7 +131,7 @@
                     </li>
 
                     <li class="menu-item">
-                        <a href="MainController?action=manageStaffAccount" class="menu-link">
+                        <a href="MainController?action=manageStaff&actionManage=read" class="menu-link">
                             <i class="menu-icon tf-icons fa-solid fa-people-group"></i>
                             <div data-i18n="Layouts">Nhân viên</div>
                         </a>
@@ -216,7 +216,7 @@
                 var deleteUrl = 'LogoutServlet';
                 window.location.href = deleteUrl;
                 // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
-                document.getElementById('modalConfirmDelete').style.display = 'none';
+                document.getElementById('modalConfirmLogout').style.display = 'none';
             });
         }
 

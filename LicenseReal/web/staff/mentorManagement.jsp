@@ -10,7 +10,7 @@
             content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
             />
 
-        <title>Quản trị viên - Quản lí câu hỏi</title>
+        <title>Quản trị viên - Quản lí giảng viên</title>
 
         <meta name="description" content="" />
 
@@ -117,14 +117,11 @@
                                     class="card-header"
                                     style="display: flex; justify-content: space-between"
                                     >
-                                    <div>Danh sách hồ sơ thi</div>
+                                    <div>Danh sách giảng viên</div>
                                     <!-- Button trigger modal -->
                                     <div>
-                                        <a href="MainController?action=insertQ">
+                                        <a href="MainController?action=createMentor">
                                             <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fas fa-plus"></i></button>
-                                        </a>
-                                        <a href="MainController?action=restore">
-                                            <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fa-solid fa-arrows-rotate fa-spin"></i></button>
                                         </a>
                                     </div>
                                 </h5>

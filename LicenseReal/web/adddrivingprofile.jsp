@@ -605,7 +605,7 @@
                                                 <div class="input-info" style="margin-top: 20px;">
 
                                                     <div class="radio-buttons d-flex gap-3 justify-content-center align-items-center">
-                                                        <input class="gender" type="radio" id="gender-male" name="gender" value="true">
+                                                        <input class="gender" type="radio" id="gender-male" name="gender" value="true" checked>
                                                         <label for="gender-male">Nam</label>
                                                         <input class="gender" type="radio" id="gender-female" name="gender" value="false">
                                                         <label for="gender-female">Nữ</label>

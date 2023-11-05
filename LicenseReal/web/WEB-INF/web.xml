@@ -44,6 +44,14 @@
         <servlet-name>ManageStaffAccountServlet</servlet-name>
         <servlet-class>servlet.ManageAccount.ManageStaffAccountServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListStaff</servlet-name>
+        <servlet-class>servlet.ManageAccount.ManageStaff.ListStaff</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateStaffServlet</servlet-name>
+        <servlet-class>servlet.ManageAccount.ManageStaff.CreateStaffServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
         <url-pattern>/MainController</url-pattern>
@@ -87,6 +95,14 @@
     <servlet-mapping>
         <servlet-name>ManageStaffAccountServlet</servlet-name>
         <url-pattern>/ManageStaffAccountServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListStaff</servlet-name>
+        <url-pattern>/ListStaff</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateStaffServlet</servlet-name>
+        <url-pattern>/CreateStaffServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
