@@ -158,6 +158,22 @@ public class PaymentDAO {
         return check;
     }
 
+    public static boolean deletePayment(int id) {
+        boolean check = false;
+
+        try {
+            String sql = "DELETE FROM [Payment] WHERE id = ? ";
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+            check = true;
+
+        } catch (Exception e) {
+
+        }
+        return check;
+    }
+
     // public static void main(String[] args) {
 //        ArrayList<PaymentDTO> list = getAllPayment();
 //        for (PaymentDTO p : list) {
@@ -345,6 +361,7 @@ public class PaymentDAO {
 //         ArrayList<PaymentDTO> list = getAllPaymentByCashType(2023, 1);
 //         System.out.println(list);
 //    }
+
     public ArrayList<PaymentDTO> getAllPaymentByType(int year) throws SQLException {
         ArrayList<PaymentDTO> list = new ArrayList<>();
         try {

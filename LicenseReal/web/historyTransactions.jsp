@@ -16,6 +16,18 @@
         <!-- MDB -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css" rel="stylesheet" />
         <style>
+            .button-wrapper {
+                display: inline-block;
+                border: 2px solid red;
+                padding: 5px;
+            }
+
+            .dropdown-item {
+                text-decoration: none;
+                color: black;
+            }
+        </style>
+        <style>
             table {
                 border-collapse: collapse;
                 width: 100%;
@@ -533,11 +545,12 @@
                                 <th>Tình trạng</th>
                                 <th>Hình thức thanh toán</th>
                                 <th>Ngày tạo</th>
+                                <th>Chỉnh sửa</th>
                             </tr>
                             <c:forEach items="${listP}" var="p">
                                 <tr>
                                     <td>${user.getName()}</td>
-                                   
+
                                     <td>${Integer (p.getPrice())/1000000}tr</td>
                                     <c:if test="${p.getType().contains('regisTest')}">
                                         <td>Đăng ký nộp hồ sơ</td>
@@ -558,6 +571,17 @@
                                         <td>Tiền mặt</td>
                                     </c:if>                                 
                                     <td>${p.getCreate_date()}</td>
+                                    <c:if test="${p.isStatus() == false}">
+                                        <td>
+                                            <div class="button-wrapper">
+                                                <a class="dropdown-item" href="MainController?action=deletePayment&id=${p.id}">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i> Hủy thanh toán
+                                                </a>
+                                            </div>
+
+                                        </td>
+                                    </c:if>
+
                                 </tr>
                             </c:forEach>
                         </table>
