@@ -49,7 +49,7 @@ public class ScheduleDAO {
                         int time = rs.getInt("time");
                         int idMentor = rs.getInt("mentorID");
                         int idMember = rs.getInt("memberID");
-                        ScheduleDTO schedule = new ScheduleDTO(id, idMentor, idMember, type, day, time);
+                        ScheduleDTO schedule = new ScheduleDTO(idSche, idMentor, idMember, type, day, time);
                         list.add(schedule);
                     }
                 }
@@ -92,6 +92,40 @@ public class ScheduleDAO {
                 String sql = "SELECT * FROM Schedule WHERE memberID IS NULL";
 
                 PreparedStatement pst = cn.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        int idSche = rs.getInt("id");
+                        int type = rs.getInt("type");
+                        Date day = rs.getDate("day");
+                        int time = rs.getInt("time");
+                        int idMentor = rs.getInt("mentorID");
+                        int idMember = rs.getInt("memberID");
+                        ScheduleDTO schedule = new ScheduleDTO(idSche, idMentor, idMember, type, day, time);
+                        list.add(schedule);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
+    public static ArrayList<ScheduleDTO> getScheduleCanRegis(int userId) {
+        ArrayList<ScheduleDTO> list = new ArrayList<>();
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "SELECT * FROM Schedule \n"
+                        + "WHERE memberID IS NULL \n"
+                        + "AND CONCAT(day, '_', time) NOT IN (\n"
+                        + "    SELECT CONCAT(day, '_', time) FROM Schedule WHERE memberID = ?\n"
+                        + ")";
+
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, userId);
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {
                     while (rs.next()) {
@@ -239,17 +273,84 @@ public class ScheduleDAO {
         }
         return false;
     }
-    public static int getNumOfRemaining(int memberId){
+
+    public static boolean updateScheduleById(int ScheID) {
+        String sql = "update Schedule set memberID = NULL where id = ?";
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                PreparedStatement st = cn.prepareStatement(sql);
+                st.setInt(1, ScheID);
+                st.executeUpdate();
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean deleteSchedule(int scheduleId) {
+        boolean result = false;
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "DELETE FROM Schedule WHERE id = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, scheduleId);
+                int rowsDeleted = pst.executeUpdate(); // Sử dụng executeUpdate() thay vì executeQuery()
+
+                if (rowsDeleted > 0) {
+                    result = true;
+                } else {
+                    System.out.println("No rows were deleted for scheduleId: " + scheduleId);
+                }
+            } else {
+                System.out.println("Cannot delete order");
+            }
+        } catch (Exception e) {
+            try {
+                if (cn != null) {
+                    cn.rollback();
+                }
+            } catch (Exception a) {
+                e.printStackTrace();
+            }
+            e.printStackTrace();
+            result = false;
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    public static int getNumOfRemaining(int memberId) {
         PaymentDAO paymentDao = new PaymentDAO();
         //Lấy tất cả thanh toán trong 1 tháng
         ArrayList<PaymentDTO> paymentList = paymentDao.getPaymentIn1Month(memberId);
         int tong = 0;
         for (PaymentDTO paymentDTO : paymentList) {
             int type = Character.getNumericValue(paymentDTO.getType().charAt(0));
-            if(type == 3){
+            if (type == 3) {
                 tong += 3;
-            }else if(type == 5){
-                tong +=5;
+            } else if (type == 5) {
+                tong += 5;
             }
         }
         LocalDate mindate = paymentDao.getDateMin(memberId);
@@ -302,8 +403,7 @@ public class ScheduleDAO {
 //        } catch (SQLException ex) {
 //            Logger.getLogger(ScheduleDAO.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        
-        System.out.println(getNumOfRemaining(4));
+        System.out.println(deleteSchedule(67));
 
     }
 

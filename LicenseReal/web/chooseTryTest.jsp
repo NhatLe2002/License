@@ -6,7 +6,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>Thi thử trắc nghiệm</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
               integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
@@ -24,7 +24,7 @@
         <!-- màn hình chọn thông tin thi thử -->
         <div class="choose-exam-screen no-select">
             <div class="container">
-                <h1>Bắt đầu thi thử trắc nghiệm</h1>
+                <h1>Thi thử trắc nghiệm B2</h1>
                 <form action="UserQuestionController" method="POST">
                     <div class="form-group">
                         <label for="fullname">Họ và tên:</label>
@@ -42,7 +42,7 @@
                         <select id="exam" class="form-select" name="topic" required>
                             <option value="0">Chọn đề ngẫu nhiên</option>
                             <c:forEach var="T" items="${listTopic}">
-                                <option value="${T.topicID}">Đề thi số ${T.topicID}</option>
+                                <option value="${T.topicID}">${T.name}</option>
                             </c:forEach>
                         </select>
                     </div>

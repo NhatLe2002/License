@@ -7,7 +7,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>Bài thi</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
               integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
@@ -137,7 +137,8 @@
                 <p>Số câu chưa trả lời: <span id="unanswered">0</span></p>
                 <p id="resultMessageFail" class="fw-bold">Kết quả: <span class="text-danger">Không đạt</span></p>
                 <p id="resultMessageSuccess" class="fw-bold">Kết quả: <span class="text-success">Đạt</span> </p><br>
-                <button onclick="hidePopup()">Đóng</button>
+                <button onclick="hidePopup()">Xem kết quả</button>
+                <a href="MainController"><button onclick="hidePopup()">Đóng</button></a>
             </div>
         </div>
         <!-- code js -->

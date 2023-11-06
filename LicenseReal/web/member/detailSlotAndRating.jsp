@@ -12,7 +12,7 @@
 
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Chi tiết buổi học</title>
         <style>
             .rating-member {
                 display: inline-block;

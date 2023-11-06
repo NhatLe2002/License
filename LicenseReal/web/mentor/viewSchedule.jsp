@@ -90,22 +90,27 @@
                             <c:set var="i" value="0"/>
                             <c:set var="check" value="false"></c:set>
                             <c:forEach var="day" items="${requestScope.week}">
-                                <c:forEach items="${requestScope.scheduleOfMentor}" var="c">
-                                    <c:if test="${requestScope.week[i] == c.getDay() && c.getTime() == time}">
-                                        <c:set var="check" value="true"></c:set>
-                                    </c:if>
-                                </c:forEach>
-                                <c:choose>
-                                    <c:when test="${check == true}">
-                                        <td>${requestScope.week[i]}</br>
-                                            Chỗ này hiện lịch học giáo viên.
-                                            Muốn hiện gì thì ghi ở đây vd: time,...
-                                        </td>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <td></td>
-                                    </c:otherwise>
-                                </c:choose>
+                                <td>
+                                    <c:forEach items="${requestScope.scheduleOfMentor}" var="c">
+                                        <c:if test="${requestScope.week[i] == c.getDay() && c.getTime() == time}">
+                                            <div>Dạy Thực Hành</div>
+                                            <c:if test="${requestScope.week[i] >= requestScope.currentDay}">
+                                                <c:choose>
+                                                    <c:when test="${c.getMemberID() == 0}">
+                                                        <form action="RemoveScheduleMentorServlet" method="post">
+                                                            <input type="hidden" name="scheduleId" value="${c.getId()}">
+                                                            <button type="submit"  class="btn btn-primary">Hủy buổi dạy</button>
+                                                        </form>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <p style="color: red">Học viên đã đăng kí</br>Không thể hủy</p>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:if>
+                                        </c:if>
+                                    </c:forEach>
+                                </td>
+
                                 <c:set var="check" value="false"></c:set>
                                 <c:set var="i" value="${i + 1}"/>
                             </c:forEach>
@@ -118,6 +123,10 @@
         </div>
 
         <c:import url="../userFooter.jsp"/>
-
+        <c:if test="${not empty messageRemoveSchedule}">
+            <script>
+                alert("${messageRemoveSchedule}");
+            </script>
+        </c:if>
     </body>
 </html>

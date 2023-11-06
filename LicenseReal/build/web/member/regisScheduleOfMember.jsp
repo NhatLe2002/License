@@ -35,12 +35,12 @@
 
         <div  class="container mt-4">
             <div class="text-center">
-                <h1 style="text-align: center">Đăng kí lịch dạy</h1>
+                <h1 style="text-align: center">Đăng kí lịch học</h1>
 
                 <form action="RegisScheduleByMemberServlet" method="post">
                     <div class="d-flex justify-content-center gap-3 flex-row align-items-center">
                         <label for="selectMondayOfWeek">Chọn ngày:</label>
-                        
+
                         <select  class="form-select" name="selectMondayOfWeek" id="selectMondayOfWeek" style="width: 30%">
                             <c:forEach items="${mondays}" var="monday">
                                 <c:set var="sunday" value="${monday.plusDays(6)}" />
@@ -110,12 +110,14 @@
                                     <td>
                                         <c:forEach items="${requestScope.mentorScheduleNotTeache}" var="c">
                                             <c:if test="${requestScope.week[i] == c.getDay() && c.getTime() == time}">
-                                                <div id="${c.getId()}" name="room">
-                                                    <c:if test="${requestScope.remaining != '0'}">
-                                                        <input type="checkbox" name="checkBoxName" value="${c.getId()}"  onclick="hideOtherCheckboxes(event, this)"></br>
-                                                    </c:if>
-                                                    <a href="MainController?action=detailBookingSlot&scheduleId=${c.getId()}">Chi tiết Booking</a>
-                                                </div>
+                                                <c:if test="${requestScope.week[i] >= requestScope.currentDay}">
+                                                    <div id="${c.getId()}" name="room">
+                                                        <c:if test="${requestScope.remaining != '0'}">
+                                                            <input type="checkbox" name="checkBoxName" value="${c.getId()}"  onclick="hideOtherCheckboxes(event, this)"></br>
+                                                        </c:if>
+                                                        <a href="MainController?action=detailBookingSlot&scheduleId=${c.getId()}">Chi tiết Booking</a
+                                                    </div>
+                                                </c:if>
                                             </c:if>
                                         </c:forEach>
                                         <c:set var="i" value="${i + 1}"/>

@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Thanh toán nộp học phí</title>
     </head>
     <body>
         <h1>Gói đăng ký nộp hồ sơ thi lái xe</h1>

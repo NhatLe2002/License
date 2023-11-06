@@ -18,7 +18,7 @@
             />
 
         <title>
-            Add Question
+            Tạo học viên
         </title>
 
         <meta name="description" content="" />

@@ -10,7 +10,7 @@
             content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
             />
 
-        <title>Quản trị viên - Quản lí câu hỏi</title>
+        <title>Quản trị viên - Quản lí hồ sơ lái xe</title>
 
         <meta name="description" content="" />
 
@@ -119,14 +119,7 @@
                                     >
                                     <div>Danh sách hồ sơ thi</div>
                                     <!-- Button trigger modal -->
-                                    <div>
-                                        <a href="MainController?action=insertQ">
-                                            <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fas fa-plus"></i></button>
-                                        </a>
-                                        <a href="MainController?action=restore">
-                                            <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fa-solid fa-arrows-rotate fa-spin"></i></button>
-                                        </a>
-                                    </div>
+                                    
                                 </h5>
 
                                 <div class="table-responsive text-nowrap">
@@ -183,24 +176,14 @@
                                                                     ><i class="fa-solid fa-eye me-1"></i>Xem hồ sơ</a
                                                                 >
                                                                 <c:if test="${list.status eq 'true'}">
-                                                                    <a  style="cursor: pointer"
-                                                                        class="dropdown-item"
-                                                                        data-toggle="tooltip"
-                                                                        data-bs-toggle="modal" 
-                                                                        data-bs-target="#modalConfirmDeactive" 
-                                                                        onclick="showDeactive('${list.memberID}')"
-                                                                        ><i class="fa-solid fa-ban me-1"></i> Hủy hồ sơ</a
-                                                                    >
+                                                                    <a style="cursor: pointer" class="dropdown-item" data-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#modalConfirmDeactive" onclick="showDeactive('${list.memberID}')">
+                                                                        <i class="fa-solid fa-ban me-1"></i> Hủy hồ sơ
+                                                                    </a>
                                                                 </c:if>
                                                                 <c:if test="${list.status eq 'false'}">
-                                                                    <a style="cursor: pointer"
-                                                                       class="dropdown-item"
-                                                                       data-toggle="tooltip"
-                                                                       data-bs-toggle="modal" 
-                                                                       data-bs-target="#modalConfirmActive" 
-                                                                       onclick="showActive('${list.memberID}')"
-                                                                       ><i class="fa-solid fa-arrow-rotate-left me-1"></i> Hoàn tất hồ sơ</a
-                                                                    >
+                                                                    <a style="cursor: pointer" class="dropdown-item" data-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#modalConfirmActive" onclick="showActive('${list.memberID}')">
+                                                                        <i class="fa-solid fa-arrow-rotate-left me-1"></i> Hoàn tất hồ sơ
+                                                                    </a>
                                                                 </c:if>
                                                             </div>
                                                         </div>
@@ -289,15 +272,20 @@
                 btnToastDelete.addEventListener('click', function () {
                     var deleteUrl = 'drivingstaff?action=active&status=0&id=' + id;
                     window.location.href = deleteUrl;
-                    // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
                     document.getElementById('modalConfirmActive').style.display = 'none';
                 });
             }
 
             window.addEventListener('DOMContentLoaded', (event) => {
-                const message = '${message}'; // Lấy giá trị thông báo từ servlet
+                const message = '${message}';
                 if (message) {
-                    showToast(message); // Gọi hàm hiển thị thông báo
+                    showToast(message);
+                }
+
+                const listFlag = '${list.flag}';
+                if (listFlag === 'false') {
+                    const btnToastActive = document.querySelector('#btn-toast-active');
+                    btnToastActive.disabled = true;
                 }
             });
 
@@ -317,17 +305,6 @@
                     toast.classList.remove('show');
                 }, 3000);
             }
-//            document.querySelector('#btn-toast-delete').addEventListener('click', function () {
-//                window.location.href = 'DeleteQuestionController?id=' + id;
-////                showToast('Xóa bộ đề thành công');
-//            });
-//            document.querySelector('#btn-toast-add').addEventListener('click', function () {
-//                showToast('Thêm bộ đề thành công');
-//            });
-
-//            document.querySelector('#btn-toast-edit').addEventListener('click', function () {
-//                showToast('Cập nhập bộ đề thành công');
-//            });
         </script>
         <!-- Core JS -->
         <!-- build:js assets/vendor/js/core.js -->

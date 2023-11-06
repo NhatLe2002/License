@@ -113,11 +113,11 @@ public class QuestionDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                String sql = "SELECT DISTINCT topicID FROM Topic WHERE status = 1";
+                String sql = "SELECT DISTINCT topicID, name FROM Topic WHERE status = 1";
                 ptm = conn.prepareStatement(sql);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
-                    list.add(new QuestionDTO(rs.getInt("topicID")));
+                    list.add(new QuestionDTO(rs.getInt("topicID"), rs.getString("name")));
                 }
             }
         } catch (Exception e) {
