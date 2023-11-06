@@ -188,6 +188,10 @@ public class MainController extends HttpServlet {
                 url = "ManageStaffAccountServlet";
             } else if (action.equals("manageStaff")) {
                 if (actionManage.equals("read")) {
+                    if (message == null || message.isEmpty()) {
+                        message = "";
+                    }
+                    request.setAttribute("message", message);
                     url = "ListStaff";
                 } else if (actionManage.equals("create")) {
                     url = "CreateStaffServlet";
