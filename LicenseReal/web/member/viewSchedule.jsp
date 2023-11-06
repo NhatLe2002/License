@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        
+
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Lịch học thực hành</title>
 
@@ -25,7 +25,7 @@
                 text-align: center;
                 vertical-align: middle;
             }
-            
+
         </style>
     </head>
     <body>
@@ -100,7 +100,12 @@
                                                     Học thực hành</br>
                                                     <!--cho nay de xem detail vs lai voting mentor-->
                                                     <a class="menu_items" href="MainController?action=detailSlot&scheduleId=${c.getId()}" >Chi tiết lớp học</a>
-
+                                                    <c:if test="${requestScope.week[i] > requestScope.currentDay}">
+                                                        <form action="RemoveScheduleMember" method="post">
+                                                            <input type="hidden" name="scheduleId" value="${c.getId()}">
+                                                            <button type="submit"  class="btn btn-primary">Hủy buổi học</button>
+                                                        </form>
+                                                    </c:if>
                                                 </td>
                                             </c:when>
                                             <c:otherwise>
@@ -132,7 +137,11 @@
 
         <c:import url="../userFooter.jsp"/>
 
-      
 
+        <c:if test="${not empty messageRemoveSchedule}">
+            <script>
+            alert("${messageRemoveSchedule}");
+            </script>
+        </c:if>
     </body>
 </html>

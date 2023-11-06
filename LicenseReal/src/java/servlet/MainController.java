@@ -127,12 +127,14 @@ public class MainController extends HttpServlet {
                 url = "PayController";
             } else if (action.equals("payCash")) {
                 url = "PayCashController";
-
+                
             } else if (action.equals("TopicController")) {
                 String topicID = request.getParameter("id");
                 url = "TopicController?id=" + topicID;
             } else if (action.equals("details")) {
                 url = "DetailsTopicServlet";
+            } else if (action.equals("deletePayment")) {
+                url = "DeletePayment";
             } else if (action.equals("detailMember")) {
                 url = "MemberDetailController";
             } else if (action.equals("acceptedPayment")) {

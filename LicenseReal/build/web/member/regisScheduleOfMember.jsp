@@ -40,7 +40,7 @@
                 <form action="RegisScheduleByMemberServlet" method="post">
                     <div class="d-flex justify-content-center gap-3 flex-row align-items-center">
                         <label for="selectMondayOfWeek">Chọn ngày:</label>
-                        
+
                         <select  class="form-select" name="selectMondayOfWeek" id="selectMondayOfWeek" style="width: 30%">
                             <c:forEach items="${mondays}" var="monday">
                                 <c:set var="sunday" value="${monday.plusDays(6)}" />
@@ -115,7 +115,7 @@
                                                         <c:if test="${requestScope.remaining != '0'}">
                                                             <input type="checkbox" name="checkBoxName" value="${c.getId()}"  onclick="hideOtherCheckboxes(event, this)"></br>
                                                         </c:if>
-                                                        <a href="MainController?action=detailBookingSlot&scheduleId=${c.getId()}">Chi tiết Booking</a>
+                                                        <a href="MainController?action=detailBookingSlot&scheduleId=${c.getId()}">Chi tiết Booking</a
                                                     </div>
                                                 </c:if>
                                             </c:if>

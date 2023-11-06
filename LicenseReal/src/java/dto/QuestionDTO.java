@@ -18,6 +18,7 @@ public class QuestionDTO {
     private ArrayList<AnswerDTO> answer;
     private String questionType;
     private int topicID;
+    private String name;
 
     public QuestionDTO() {
     }
@@ -40,8 +41,9 @@ public class QuestionDTO {
         this.topicID = topicID;
     }
 
-    public QuestionDTO(int topicID) {
+    public QuestionDTO(int topicID, String name) {
         this.topicID = topicID;
+        this.name = name;
     }
 
     public int getId() {
@@ -92,4 +94,13 @@ public class QuestionDTO {
     public void setTopicID(int topicID) {
         this.topicID = topicID;
     }  
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
 }

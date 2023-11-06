@@ -24,7 +24,7 @@
         <!-- màn hình chọn thông tin thi thử -->
         <div class="choose-exam-screen no-select">
             <div class="container">
-                <h1>Bắt đầu thi thử trắc nghiệm</h1>
+                <h1>Thi thử trắc nghiệm B2</h1>
                 <form action="UserQuestionController" method="POST">
                     <div class="form-group">
                         <label for="fullname">Họ và tên:</label>
@@ -42,7 +42,7 @@
                         <select id="exam" class="form-select" name="topic" required>
                             <option value="0">Chọn đề ngẫu nhiên</option>
                             <c:forEach var="T" items="${listTopic}">
-                                <option value="${T.topicID}">Đề thi số ${T.topicID}</option>
+                                <option value="${T.topicID}">${T.name}</option>
                             </c:forEach>
                         </select>
                     </div>
