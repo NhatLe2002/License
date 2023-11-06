@@ -28,6 +28,27 @@
             }
 
         </style>
+        <script>
+            // Function để đếm số checkbox đã chọn và hiển thị/ẩn nút "Đăng ký lịch dạy"
+            function updateButton() {
+                var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                var checkedCount = 0;
+
+                for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].checked) {
+                        checkedCount++;
+                    }
+                }
+
+                var registerButton = document.getElementById("registerButton");
+
+                if (checkedCount > 0) {
+                    registerButton.style.display = "block"; // Hiển thị nút "Đăng ký lịch dạy"
+                } else {
+                    registerButton.style.display = "none"; // Ẩn nút "Đăng ký lịch dạy"
+                }
+            }
+        </script>
     </head>
     <body>
 
@@ -120,12 +141,12 @@
                                             </c:when>
                                             <c:when test="${requestScope.week[i] <= requestScope.currentDay}">
                                                 <td>
-                                                    Ngày ĐK đã qua!
+
                                                 </td>
                                             </c:when>
                                             <c:otherwise>
                                                 <td>
-                                                    <input type="checkbox" name="checkBoxName" value="${time}/${requestScope.week[i]}">
+                                                    <input type="checkbox" name="checkBoxName" value="${time}/${requestScope.week[i]}" onchange="updateButton()">
                                                 </td>
                                             </c:otherwise>
                                         </c:choose>
@@ -136,15 +157,18 @@
                             </c:forEach>
                         </tbody>
                     </table>
-                                                  
-                     <div class="d-flex justify-content-end">
-                        <button type="submit" name="action" value="regisScheduleBtn" class="btn btn-info">Đăng ký lịch dạy</button>
-                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" name="action" value="regisScheduleBtn" class="btn btn-info" id="registerButton" style="display: none">Đăng ký lịch dạy</button>
+                    </div> 
                 </form>
                 <p></p>
             </div>
 
             <c:import url="../userFooter.jsp"/>
-
+            <script>
+                window.onload = function () {
+                    updateButton();
+                };
+            </script>
     </body>
 </html>

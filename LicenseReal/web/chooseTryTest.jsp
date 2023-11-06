@@ -24,7 +24,7 @@
         <!-- màn hình chọn thông tin thi thử -->
         <div class="choose-exam-screen no-select">
             <div class="container">
-                <h1>Bắt đầu thi thử trắc nghiệm</h1>
+                <h1>Thi thử trắc nghiệm B2</h1>
                 <form action="UserQuestionController" method="POST">
                     <div class="form-group">
                         <label for="fullname">Họ và tên:</label>

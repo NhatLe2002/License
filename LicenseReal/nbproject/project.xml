@@ -15,23 +15,19 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.commons-fileupload-1.5.jar}</file>
+                    <file>${file.reference.commons-fileupload-1.5.jar-1}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.gson-2.3.1.jar-1}</file>
+                    <file>${file.reference.gson-2.3.1__1_.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.javax.mail.jar}</file>
+                    <file>${file.reference.javax.mail.jar-1}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-<<<<<<< HEAD
                     <file>${file.reference.org.apache.commons.io.jar}</file>
-=======
-                    <file>${file.reference.org.apache.commons.io.jar-2}</file>
->>>>>>> 41eb9cf686748bb162ac9c5250cb8ded5fe7d4e8
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">

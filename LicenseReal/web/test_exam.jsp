@@ -137,7 +137,8 @@
                 <p>Số câu chưa trả lời: <span id="unanswered">0</span></p>
                 <p id="resultMessageFail" class="fw-bold">Kết quả: <span class="text-danger">Không đạt</span></p>
                 <p id="resultMessageSuccess" class="fw-bold">Kết quả: <span class="text-success">Đạt</span> </p><br>
-                <button onclick="hidePopup()">Đóng</button>
+                <button onclick="hidePopup()">Xem kết quả</button>
+                <a href="MainController"><button onclick="hidePopup()">Đóng</button></a>
             </div>
         </div>
         <!-- code js -->

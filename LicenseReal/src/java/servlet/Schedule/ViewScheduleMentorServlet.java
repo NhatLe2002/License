@@ -109,7 +109,7 @@ public class ViewScheduleMentorServlet extends HttpServlet {
             //Schedule of mentor check by action
             //request.setAttribute("message", request.getParameter("action"));
             request.setAttribute("scheduleOfMentor", mentorSchedule);
-
+            request.setAttribute("currentDay", Date.valueOf(LocalDate.now()));
             request.setAttribute("currentMonday", mondayOfWeek);
             request.setAttribute("week", convertLocalDateToDate(week));
             request.setAttribute("mondays", mondays);

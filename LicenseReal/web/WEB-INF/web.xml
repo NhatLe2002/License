@@ -52,6 +52,18 @@
         <servlet-name>CreateStaffServlet</servlet-name>
         <servlet-class>servlet.ManageAccount.ManageStaff.CreateStaffServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RemoveScheduleMember</servlet-name>
+        <servlet-class>servlet.Schedule.RemoveScheduleMember</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RemoveScheduleMentor</servlet-name>
+        <servlet-class>servlet.Schedule.RemoveScheduleMentor</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RemoveScheduleMentorServlet</servlet-name>
+        <servlet-class>servlet.Schedule.RemoveScheduleMentorServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
         <url-pattern>/MainController</url-pattern>
@@ -103,6 +115,18 @@
     <servlet-mapping>
         <servlet-name>CreateStaffServlet</servlet-name>
         <url-pattern>/CreateStaffServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RemoveScheduleMember</servlet-name>
+        <url-pattern>/RemoveScheduleMember</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RemoveScheduleMentor</servlet-name>
+        <url-pattern>/RemoveScheduleMentor</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RemoveScheduleMentorServlet</servlet-name>
+        <url-pattern>/RemoveScheduleMentorServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

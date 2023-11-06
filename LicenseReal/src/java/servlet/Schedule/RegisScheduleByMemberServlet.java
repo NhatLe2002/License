@@ -118,8 +118,7 @@ public class RegisScheduleByMemberServlet extends HttpServlet {
             ArrayList<LocalDate> mondays = getAllMonday();
             LocalDate mondayOfWeek = getMondayOfWeek(currentDate);
             ArrayList<LocalDate> week = getWeek(mondayOfWeek);
-            ArrayList<ScheduleDTO> mentorScheduleNotTeache = ScheduleDAO.getScheduleNotTeach();
-
+            ArrayList<ScheduleDTO> mentorScheduleNotTeache = ScheduleDAO.getScheduleCanRegis(menber.getId());
             Date currentDayCheck = Date.valueOf(LocalDate.now());
             
             //Số buổi còn lại có thể đăng kí
