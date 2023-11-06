@@ -59,7 +59,7 @@ public class PaymentDAO {
     public static ArrayList<PaymentDTO> getPaymentByID(int memberID) {
         ArrayList<PaymentDTO> list = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM [PAYMENT] WHERE memberID = ? ";
+            String sql = "SELECT * FROM [PAYMENT] WHERE memberID = ? ORDER BY id DESC";
             PreparedStatement ps = getConnection().prepareStatement(sql);
             ps.setInt(1, memberID);
             ResultSet rs = ps.executeQuery();
@@ -79,7 +79,7 @@ public class PaymentDAO {
     public static ArrayList<PaymentDTO> getAllPayment() {
         ArrayList<PaymentDTO> list = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM [PAYMENT] ";
+            String sql = "  SELECT * FROM [PAYMENT] ORDER BY id DESC";
             PreparedStatement ps = getConnection().prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
