@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 @WebServlet(name = "MemberController", urlPatterns = {"/memberStaff"})
 public class MemberController extends HttpServlet {
 
@@ -38,29 +37,26 @@ public class MemberController extends HttpServlet {
 
     }
 
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String message = (String) request.getAttribute("message");
-        String action = request.getParameter("action");
-        if (action.equals("deactive") || action.equals("active")) {
-            String status = request.getParameter("status");
-            String memberID = request.getParameter("id");
-            request.setAttribute("status", status);
-            request.setAttribute("memberID", memberID);
-            doPost(request, response);
-        } else {
-            try {
+        try {
+            String message = (String) request.getAttribute("message");
+            String action = request.getParameter("action");
+            if (action.equals("deactive") || action.equals("active")) {
+                String status = request.getParameter("status");
+                String memberID = request.getParameter("id");
+                request.setAttribute("status", status);
+                request.setAttribute("memberID", memberID);
+                doPost(request, response);
+            } else {
                 ArrayList<MemberDTO> list = MemberDAO.getAllMember();
                 request.setAttribute("list_member", list);
-            } catch (Exception ex) {
+                request.setAttribute("message", message);
             }
             request.setAttribute("message", message);
-            request.getRequestDispatcher("staff/memberManagement.jsp").forward(request, response);
-
+        } catch (Exception e) {
         }
-        request.setAttribute("message", message);
         request.getRequestDispatcher("staff/memberManagement.jsp").forward(request, response);
 
     }

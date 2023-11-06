@@ -197,7 +197,7 @@
             function showDeactive(id) {
                 var btnToastDelete = document.querySelector('#btn-toast-deactive');
                 btnToastDelete.addEventListener('click', function () {
-                    var deleteUrl = 'mentorStaff?action=deactive&status=1&id=' + id;
+                    var deleteUrl = 'ListStaff?status=1&id=' + id;
                     window.location.href = deleteUrl;
                     // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
                     document.getElementById('modalConfirmDeactive').style.display = 'none';
@@ -206,7 +206,7 @@
             function showActive(id) {
                 var btnToastDelete = document.querySelector('#btn-toast-active');
                 btnToastDelete.addEventListener('click', function () {
-                    var deleteUrl = 'mentorStaff?action=active&status=0&id=' + id;
+                    var deleteUrl = 'ListStaff?status=0&id=' + id;
                     window.location.href = deleteUrl;
                     // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
                     document.getElementById('modalConfirmActive').style.display = 'none';

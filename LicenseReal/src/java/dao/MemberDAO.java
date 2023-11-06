@@ -162,8 +162,8 @@ public class MemberDAO {
     }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-
-        System.out.println(getNameByMemberID(5));
+        MemberDAO dao = new MemberDAO();
+        System.out.println(dao.updateStatusStaff("2", "0"));
     }
     // update status member
 
@@ -272,6 +272,38 @@ public class MemberDAO {
                             + "FROM [User]\n"
                             + "JOIN [Mentor] ON [User].id = [Mentor].userID\n"
                             + "WHERE [Mentor].id = " + mentorID;
+                }
+                ptm = conn.prepareStatement(sql);
+                int row = ptm.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+        }
+        return result;
+    }
+    
+    public boolean updateStatusStaff(String staffID, String status) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        boolean result = false;
+        String sql;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                if (status.equals("1")) {
+                    sql = "UPDATE [User] SET status = 0 WHERE id = " + staffID;
+                } else {
+                    sql = "UPDATE [User] SET status = 1 WHERE id = " + staffID;
                 }
                 ptm = conn.prepareStatement(sql);
                 int row = ptm.executeUpdate();

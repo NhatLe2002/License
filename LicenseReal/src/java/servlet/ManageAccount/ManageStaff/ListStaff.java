@@ -5,7 +5,9 @@
  */
 package servlet.ManageAccount.ManageStaff;
 
+import dao.MemberDAO;
 import dao.UserDAO;
+import dto.MentorDTO;
 import dto.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -34,8 +36,12 @@ public class ListStaff extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        String message = (String) request.getAttribute("message");
+        if (message == null || message.isEmpty()) {
+            message = "";
+        }
+        request.setAttribute("message", message);
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
             String actionManage = request.getParameter("actionManage");
             List<UserDTO> listStaff = UserDAO.getListByRole(3);
             request.setAttribute("actionManage", actionManage);
@@ -56,17 +62,30 @@ public class ListStaff extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String actionManage = request.getParameter("actionManage");
+        if (actionManage == null) {
+            String status = request.getParameter("status");
+            String staffID = request.getParameter("id");
+            MemberDAO dao = new MemberDAO();
+            String message = "";
+            try {
+                boolean checkUpdate = dao.updateStatusStaff(staffID, status);
+                if (checkUpdate) {
+                    message = "success";
+                } else {
+                    message = "fail";
+                }
+            } catch (Exception e) {
+            }
+            request.setAttribute("message", message);
+            request.getRequestDispatcher("MainController?action=manageStaff&actionManage=read").forward(request, response);
+        } else {
+            request.setAttribute("actionManage", actionManage);
+            processRequest(request, response);
+        }
+
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
