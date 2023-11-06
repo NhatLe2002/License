@@ -289,15 +289,18 @@
                 }
             });
 
-            function showToast(message) {
+           function showToast(message) {
                 const toast = document.getElementById('toast-notification');
                 const toastMessage = document.getElementById('toast-message');
                 if (message === 'success') {
                     var success = 'Cập nhật trạng thái thành công!';
                     toastMessage.textContent = success;
-                } else {
+                } else if (message === 'fail') {
                     var fail = 'Cập nhật trạng thái thất bại!';
                     toastMessage.textContent = fail;
+                } else {
+                    var exist = 'Tài khoản đã tồn tại!';
+                    toastMessage.textContent = exist;
                 }
                 toast.classList.remove('hide');
                 toast.classList.add('show');

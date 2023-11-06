@@ -13,6 +13,7 @@ import dto.RatingDTO;
 import dto.ScheduleDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -56,13 +57,15 @@ public class DetailSlotServlet extends HttpServlet {
             }
             MentorDTO mentorAndUSer = MentorDAO.getMentorAndUserByMentorID(schedule.getMentorID());
             float ratingMentor = 0;
-            for (RatingDTO object : RatingDAO.getRatingByMentorID(schedule.getMentorID())) {
+            ArrayList<RatingDTO> rating = RatingDAO.getRatingByMentorID(schedule.getMentorID());
+            for (RatingDTO object : rating) {
                 ratingMentor += object.getStar();
             }
 
             ratingMentor = ratingMentor / RatingDAO.getRatingByMentorID(schedule.getMentorID()).size();
             RatingDTO ratingCheck = RatingDAO.getRatingByMemberAndMentorID(schedule.getMemberID(), schedule.getMentorID());
             request.setAttribute("test", ratingString);
+            request.setAttribute("ratingList", rating);
             request.setAttribute("ratingCheck", ratingCheck);
             request.setAttribute("ratingMentor", ratingMentor);
             request.setAttribute("Schedule", schedule);

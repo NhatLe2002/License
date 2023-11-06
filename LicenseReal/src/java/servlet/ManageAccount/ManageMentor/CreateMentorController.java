@@ -89,33 +89,37 @@ public class CreateMentorController extends HttpServlet {
         String dob = request.getParameter("dob");
         String cccd = request.getParameter("cccd");
         String address = new String(request.getParameter("address").getBytes("ISO-8859-1"), "UTF-8");
-
+        boolean check = false;
         try {
-            AccountDAO.createAccount(username, password);
-            AccountDTO newAccount = AccountDAO.getAccount(username, password);
+            check = AccountDAO.createAccount(username, password);
+            if (check) {
+                AccountDTO newAccount = AccountDAO.getAccount(username, password);
 
-            List<Part> fileParts = new ArrayList<>();
-            for (Part part : request.getParts()) {
-                String partName = new String(part.getName().getBytes("iso-8859-1"), "UTF-8");
-                if (partName.startsWith("avatar")) {
-                    fileParts.add(part);
+                List<Part> fileParts = new ArrayList<>();
+                for (Part part : request.getParts()) {
+                    String partName = new String(part.getName().getBytes("iso-8859-1"), "UTF-8");
+                    if (partName.startsWith("avatar")) {
+                        fileParts.add(part);
+                    }
                 }
-            }
 
-            for (Part filePart : fileParts) {
-                String filename = filePart.getSubmittedFileName();
-                InputStream fileContent = filePart.getInputStream();
-                InputStream content1 = fileContent;
-                byte[] imageBytes = IOUtils.toByteArray(content1);
-                String avatar = Base64.getEncoder().encodeToString(imageBytes);
-                boolean createMentor = UserDAO.createMentor(name, phone, email, dob, cccd, address, newAccount.getId(), avatar);
-                UserDTO userMentor = UserDAO.getUserbyAccountID(newAccount.getId());
-                boolean addMentor = MentorDAO.createMentor(userMentor.getId());
-                if (addMentor) {
-                    message = "success";
-                } else {
-                    message = "fail";
+                for (Part filePart : fileParts) {
+                    String filename = filePart.getSubmittedFileName();
+                    InputStream fileContent = filePart.getInputStream();
+                    InputStream content1 = fileContent;
+                    byte[] imageBytes = IOUtils.toByteArray(content1);
+                    String avatar = Base64.getEncoder().encodeToString(imageBytes);
+                    boolean createMentor = UserDAO.createMentor(name, phone, email, dob, cccd, address, newAccount.getId(), avatar);
+                    UserDTO userMentor = UserDAO.getUserbyAccountID(newAccount.getId());
+                    boolean addMentor = MentorDAO.createMentor(userMentor.getId());
+                    if (addMentor) {
+                        message = "success";
+                    } else {
+                        message = "fail";
+                    }
                 }
+            }else {
+                message = "exist";
             }
 
         } catch (Exception e) {

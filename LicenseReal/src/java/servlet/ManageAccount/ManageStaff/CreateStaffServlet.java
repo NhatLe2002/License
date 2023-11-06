@@ -46,7 +46,7 @@ public class CreateStaffServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            
+            boolean check = false;
             if (request.getParameter("username") != null) {
                 String actionManage = request.getParameter("actionManage");
                 String username = request.getParameter("username");
@@ -58,32 +58,36 @@ public class CreateStaffServlet extends HttpServlet {
                 String dob = request.getParameter("dob");
                 String cccd = request.getParameter("cccd");
                 String address = new String(request.getParameter("address").getBytes("ISO-8859-1"), "UTF-8");
-
+                String message = "";
                 try {
-                    AccountDAO.createAccount(username, password);
-                    AccountDTO newAccount = AccountDAO.getAccount(username, password);
-                    
-                    
-                    List<Part> fileParts = new ArrayList<>();
-                    for (Part part : request.getParts()) {
-                        String partName = new String(part.getName().getBytes("iso-8859-1"), "UTF-8");
-                        if (partName.startsWith("avatar")) {
-                            fileParts.add(part);
-                        }
-                    }
 
-                    for (Part filePart : fileParts) {
-                        String filename = filePart.getSubmittedFileName();
-                        InputStream fileContent = filePart.getInputStream();
-                        InputStream content1 = fileContent;
-                        byte[] imageBytes = IOUtils.toByteArray(content1);
-                        String avatar = Base64.getEncoder().encodeToString(imageBytes);
-                        boolean success = UserDAO.createStaff(name, phone, email, dob, cccd, address, newAccount.getId(), avatar);
+                    check = AccountDAO.createAccount(username, password);
+                    if (check) {
+                        AccountDTO newAccount = AccountDAO.getAccount(username, password);
+
+                        List<Part> fileParts = new ArrayList<>();
+                        for (Part part : request.getParts()) {
+                            String partName = new String(part.getName().getBytes("iso-8859-1"), "UTF-8");
+                            if (partName.startsWith("avatar")) {
+                                fileParts.add(part);
+                            }
+                        }
+
+                        for (Part filePart : fileParts) {
+                            String filename = filePart.getSubmittedFileName();
+                            InputStream fileContent = filePart.getInputStream();
+                            InputStream content1 = fileContent;
+                            byte[] imageBytes = IOUtils.toByteArray(content1);
+                            String avatar = Base64.getEncoder().encodeToString(imageBytes);
+                            boolean success = UserDAO.createStaff(name, phone, email, dob, cccd, address, newAccount.getId(), avatar);
+                        }
+                    } else {
+                        message = "exist";
+                        request.setAttribute("message", message);
                     }
-                    
                 } catch (Exception e) {
                 }
-                
+
                 request.setAttribute("actionManage", actionManage);
                 request.getRequestDispatcher("ListStaff").forward(request, response);
             } else {
