@@ -216,7 +216,7 @@
                 var deleteUrl = 'LogoutServlet';
                 window.location.href = deleteUrl;
                 // Nếu bạn muốn ẩn modal sau khi xác nhận, bạn có thể sử dụng đoạn mã sau:
-                document.getElementById('modalConfirmDelete').style.display = 'none';
+                document.getElementById('modalConfirmLogout').style.display = 'none';
             });
         }
 

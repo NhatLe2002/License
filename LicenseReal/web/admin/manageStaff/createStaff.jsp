@@ -28,7 +28,7 @@
                             <h5 class="mb-0">Nhập các thông tin sau</h5>
                         </div>
                         <div class="card-body">
-                            <form action="MainController" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+                            <form action="CreateStaffServlet?actionManage=read" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
                                 <!-- Tên đăng nhập -->
                                 <label for="username">Tên đăng nhập:</label>
                                 <input type="text" id="username" name="username" >
@@ -64,8 +64,8 @@
                                 <span id="dob_error" class="error"></span><br><br>
 
                                 <!-- Căn Cước Công Dân -->
-                                <label for="id_card">Căn Cước Công Dân:</label>
-                                <input type="text" id="id_card" name="id_card"><br><br>
+                                <label for="cccd">Căn Cước Công Dân:</label>
+                                <input type="text" id="cccd" name="cccd"><br><br>
 
                                 <!-- Địa chỉ -->
                                 <label for="address">Địa chỉ:</label>
@@ -73,12 +73,11 @@
 
                                 <!-- Hình ảnh -->
                                 <label for="avatar">Hình ảnh:</label>
-                                <input type="file" id="avatar" name="avatar"><br><br>
+                                <input type="file" id="avatar" name="avatar" accept="image/*"><br><br>
                                 
                                 
                                 
-                                <input type="hidden" name="actionManage" value="create">
-                                <button type="submit" class="btn btn-primary" name="action" value="manageStaff">
+                                <button type="submit" class="btn btn-primary">
                                     Tạo Nhân Viên
                                 </button>
                             </form>

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package servlet.User;
+package servlet.ManageAccount.ManageMentor;
 
 import dao.MemberDAO;
 import dto.MentorDTO;
@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author HOANG ANH
  */
-@WebServlet(name="MenterController", urlPatterns={"/mentorStaff"})
+@WebServlet(name="MentorController", urlPatterns={"/mentorStaff"})
 public class MentorController extends HttpServlet {
    
     /** 

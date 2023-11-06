@@ -59,9 +59,6 @@
                         <a href="MainController?action=manageStaff&actionManage=create">
                             <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fas fa-plus"></i></button>
                         </a>
-                        <a href="#">
-                            <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fa-solid fa-arrows-rotate fa-spin"></i></button>
-                        </a>
                     </div>
                 </h5>
                 <div class="table-responsive text-nowrap">

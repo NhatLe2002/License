@@ -120,11 +120,8 @@
                                     <div>Danh sách giảng viên</div>
                                     <!-- Button trigger modal -->
                                     <div>
-                                        <a href="MainController?action=insertQ">
+                                        <a href="MainController?action=createMentor">
                                             <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fas fa-plus"></i></button>
-                                        </a>
-                                        <a href="MainController?action=restore">
-                                            <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fa-solid fa-arrows-rotate fa-spin"></i></button>
                                         </a>
                                     </div>
                                 </h5>

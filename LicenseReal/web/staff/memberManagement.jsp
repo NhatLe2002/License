@@ -118,15 +118,6 @@
                                     style="display: flex; justify-content: space-between"
                                     >
                                     <div>Danh sách học viên</div>
-                                    <!-- Button trigger modal -->
-                                    <div>
-                                        <a href="MainController?action=insertQ">
-                                            <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fas fa-plus"></i></button>
-                                        </a>
-                                        <a href="MainController?action=restore">
-                                            <button type="button" class="btn btn-primary" style="padding: 0.8rem"><i class="fa-solid fa-arrows-rotate fa-spin"></i></button>
-                                        </a>
-                                    </div>
                                 </h5>
 
                                 <div class="table-responsive text-nowrap">
@@ -308,18 +299,6 @@
                     toast.classList.remove('show');
                 }, 3000);
             }
-//            document.querySelector('#btn-toast-delete').addEventListener('click', function () {
-//                window.location.href = 'DeleteQuestionController?id=' + id;
-////                showToast('Xóa bộ đề thành công');
-//            });
-//            document.querySelector('#btn-toast-add').addEventListener('click', function () {
-//                showToast('Thêm bộ đề thành công');
-//            });
-
-//            document.querySelector('#btn-toast-edit').addEventListener('click', function () {
-//                showToast('Cập nhập bộ đề thành công');
-//            });
-
         </script>
         <!-- Core JS -->
         <!-- build:js assets/vendor/js/core.js -->
